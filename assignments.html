@@ -1,0 +1,674 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dara's Assignments</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        h1 { color: #1a73e8; text-align: center; }
+        .tabs { display: flex; justify-content: center; gap: 10px; margin: 20px auto; max-width: 1400px; }
+        .tab-button { padding: 12px 24px; background: white; border: 2px solid #1a73e8; color: #1a73e8; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .tab-button.active { background: #1a73e8; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .filters { background: white; padding: 20px; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input, select { padding: 8px; margin: 5px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; }
+        table { width: 100%; max-width: 1400px; margin: 20px auto; background: white; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        th { background: #1a73e8; color: white; padding: 12px; text-align: left; cursor: pointer; }
+        th:hover { background: #1557b0; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f8f9fa; }
+        .subject { font-weight: bold; color: #1a73e8; }
+        .status-select { padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
+        .subject-checkboxes { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
+        .subject-checkbox { padding: 8px 12px; background: #f0f0f0; border-radius: 4px; }
+        .gantt-container { background: white; margin: 20px auto; max-width: 1400px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto; }
+        .gantt-chart { min-width: 1200px; }
+        .legend { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 20px; height: 20px; border-radius: 3px; }
+        .gantt-row { display: flex; align-items: center; margin: 8px 0; min-height: 40px; }
+        .task-label { width: 400px; padding: 8px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .task-subject { font-weight: bold; font-size: 11px; }
+        .timeline { flex: 1; position: relative; height: 30px; }
+        .task-bar { position: absolute; height: 24px; border-radius: 4px; padding: 4px 8px; color: white; font-size: 11px; white-space: nowrap; overflow: hidden; }
+        .date-labels { display: flex; margin-left: 400px; margin-bottom: 5px; }
+        .date-label { flex: 1; text-align: center; font-size: 12px; color: #666; }
+        .term-labels { display: flex; margin-left: 400px; margin-bottom: 2px; font-weight: bold; }
+        .term-label { text-align: center; font-size: 12px; color: #1a73e8; border-right: 1px solid #ddd; }
+        .week-labels { display: flex; margin-left: 400px; margin-bottom: 5px; }
+        .week-label { flex: 1; text-align: center; font-size: 11px; color: #666; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>📚 Dara's Assignments</h1>
+    
+    <div class="filters">
+        <input type="text" id="searchBox" placeholder="Search assignments..." onkeyup="applyFilters()">
+        <div class="subject-checkboxes" id="subjectCheckboxes"></div>
+        <select id="weekFilter" onchange="applyFilters()">
+            <option value="">All Weeks</option>
+        </select>
+        <label style="margin-left: 20px;">
+            <input type="checkbox" id="hideCompleted" onchange="applyFilters()"> Hide Completed
+        </label>
+    </div>
+    
+    <div class="gantt-container">
+        <div id="ganttChart" class="gantt-chart"></div>
+    </div>
+    
+    <table id="assignmentTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Subject</th>
+                <th onclick="sortTable(1)">Assignment</th>
+                <th onclick="sortTable(2)">Due Date</th>
+                <th onclick="sortTable(3)">Term</th>
+                <th onclick="sortTable(4)">Week</th>
+                <th onclick="sortTable(5)">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>ILD Collaborative Story</td>
+  <td>Due 19 Mar 2024</td>
+  <td>Term 1</td>
+  <td>Week 8</td>
+  <td><select class="status-select" data-key="LLibrary Space||ILD Collaborative Story" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>BOOK TOK VIDEO COMPETITION</td>
+  <td>Due 18 Aug 2025</td>
+  <td>Term 3</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="LLibrary Space||BOOK TOK VIDEO COMPETITION" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>LIT FEST WRITING COMPETITION</td>
+  <td>Due 15 Aug 2025</td>
+  <td>Term 3</td>
+  <td>Week 5</td>
+  <td><select class="status-select" data-key="LLibrary Space||LIT FEST WRITING COMPETITION" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Library Scavenger Hunt</td>
+  <td>Due 16 Jun 2022, 13:00</td>
+  <td>Term 2</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="LLibrary Space||Library Scavenger Hunt" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Match the book cover to the passage competition</td>
+  <td>Due 20 Jun 2022, 10:00</td>
+  <td>Term 2</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="LLibrary Space||Match the book cover to the passage competition" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Guess who's reading? competition</td>
+  <td>Due 20 Jun 2022, 10:00</td>
+  <td>Term 2</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="LLibrary Space||Guess who's reading? competition" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Book Spine Poetry</td>
+  <td>Due 20 Jun 2022, 10:00</td>
+  <td>Term 2</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="LLibrary Space||Book Spine Poetry" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Question</td>
+  <td>Due 9 Feb 2022, 11:59</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="LLibrary Space||Question" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Library Lovers' Day: Tell us about a book that you LOVE! <3</td>
+  <td>Due 9 Feb 2022, 11:59</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="LLibrary Space||Library Lovers' Day: Tell us about a book that you LOVE! <3" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>What was everyone's favourite holiday read?</td>
+  <td>Due 6 Dec 2023</td>
+  <td>Term 4</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="LLibrary Space||What was everyone's favourite holiday read?" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Book Balderdash - Phase 02</td>
+  <td>Due 3 Jun 2021, 13:10</td>
+  <td>Term 2</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="LLibrary Space||Book Balderdash - Phase 02" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Book Balderdash</td>
+  <td>Due 2 Jun 2021, 11:00</td>
+  <td>Term 2</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="LLibrary Space||Book Balderdash" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>Book Week Dress Up</td>
+  <td>Due 4 Jun 2021, 12:00</td>
+  <td>Term 2</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="LLibrary Space||Book Week Dress Up" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>LIBRARY BINGO– a week-long game...</td>
+  <td>Due 28 Aug 2020</td>
+  <td>Term 3</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="LLibrary Space||LIBRARY BINGO– a week-long game..." onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">LLibrary Space</td>
+  <td>'Recreate a Book Cover in Iso' competition</td>
+  <td>Due 28 Aug 2020, 12:00</td>
+  <td>Term 3</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="LLibrary Space||'Recreate a Book Cover in Iso' competition" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77DIG1_3 (2026)</td>
+  <td>Upload your Digital Workbook here</td>
+  <td>Due 6 Feb</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="77DIG1_3 (2026)||Upload your Digital Workbook here" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77FOO1_5 (2026)</td>
+  <td>Exit Pass - Recipe</td>
+  <td>Due 4 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77FOO1_5 (2026)||Exit Pass - Recipe" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77FOO1_5 (2026)</td>
+  <td>Exit pass- Week 5 ( Brownies)</td>
+  <td>Due 25 Feb</td>
+  <td>Term 1</td>
+  <td>Week 5</td>
+  <td><select class="status-select" data-key="77FOO1_5 (2026)||Exit pass- Week 5 ( Brownies)" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77FOO1_5 (2026)</td>
+  <td>Exit Pass-</td>
+  <td>Due 11 Feb</td>
+  <td>Term 1</td>
+  <td>Week 3</td>
+  <td><select class="status-select" data-key="77FOO1_5 (2026)||Exit Pass-" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77FOO1_5 (2026)</td>
+  <td>Kitchen Measurement task</td>
+  <td>Due 4 Feb</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="77FOO1_5 (2026)||Kitchen Measurement task" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77ENG.G (2026)</td>
+  <td>Writer's Notebook</td>
+  <td>Due 4 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Writer's Notebook" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77ENG.G (2026)</td>
+  <td>Writer's Notebook Entry Term 1 Week 6</td>
+  <td>Due 4 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Writer's Notebook Entry Term 1 Week 6" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77ENG.G (2026)</td>
+  <td>Formative Fantasy Booklets</td>
+  <td>Due 8 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Formative Fantasy Booklets" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77ENG.G (2026)</td>
+  <td>Story Mountain</td>
+  <td>Due 11 Feb</td>
+  <td>Term 1</td>
+  <td>Week 3</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Story Mountain" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77ENG.G (2026)</td>
+  <td>Fantasy Planning</td>
+  <td>Due 24 Feb</td>
+  <td>Term 1</td>
+  <td>Week 5</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Fantasy Planning" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">77ENG.G (2026)</td>
+  <td>Choosing our sticker</td>
+  <td>Due 30 Jan</td>
+  <td>Term 1</td>
+  <td>Week 1</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Choosing our sticker" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+
+        </tbody>
+    </table>
+    
+    <script>
+        const subjects = ["77DIG1_3 (2026)", "77ENG.G (2026)", "77FOO1_5 (2026)", "LLibrary Space"];
+        const checkboxContainer = document.getElementById('subjectCheckboxes');
+        subjects.forEach(s => {
+            const label = document.createElement('label');
+            label.className = 'subject-checkbox';
+            label.innerHTML = `<input type="checkbox" value="${s}" checked onchange="applyFilters()"> ${s}`;
+            checkboxContainer.appendChild(label);
+        });
+        
+        // Populate week filter
+        const weeks = new Set();
+        const rows = document.querySelectorAll('#assignmentTable tbody tr');
+        rows.forEach(row => {
+            const term = row.cells[3].textContent;
+            const week = row.cells[4].textContent;
+            if (term && week) weeks.add(`${term} ${week}`);
+        });
+        const weekFilter = document.getElementById('weekFilter');
+        [...weeks].sort((a, b) => {
+            const [aTerm, aWeek] = a.split(' Week ');
+            const [bTerm, bWeek] = b.split(' Week ');
+            const termOrder = {'Term 1': 1, 'Term 2': 2, 'Term 3': 3, 'Term 4': 4};
+            if (termOrder[aTerm] !== termOrder[bTerm]) return termOrder[aTerm] - termOrder[bTerm];
+            return parseInt(aWeek) - parseInt(bWeek);
+        }).forEach(week => {
+            const opt = document.createElement('option');
+            opt.value = week;
+            opt.textContent = week;
+            weekFilter.appendChild(opt);
+        });
+        
+        function saveStatus(selectElement) {
+            const key = selectElement.getAttribute('data-key');
+            const status = selectElement.value;
+            
+            let statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
+            statuses[key] = status;
+            localStorage.setItem('assignmentStatuses', JSON.stringify(statuses));
+            filterTable();
+        }
+        
+        window.onload = function() {
+            const statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
+            document.querySelectorAll('.status-select').forEach(select => {
+                const key = select.getAttribute('data-key');
+                if (statuses[key]) {
+                    select.value = statuses[key];
+                }
+            });
+        };
+        
+        function applyFilters() {
+            filterTable();
+            updateGantt();
+        }
+        
+        function filterTable() {
+            const search = document.getElementById('searchBox').value.toLowerCase();
+            const selectedSubjects = Array.from(document.querySelectorAll('.subject-checkbox input:checked')).map(cb => cb.value);
+            const week = document.getElementById('weekFilter').value;
+            const hideCompleted = document.getElementById('hideCompleted').checked;
+            const table = document.getElementById('assignmentTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const subjectCell = cells[0].textContent;
+                const assignmentCell = cells[1].textContent.toLowerCase();
+                const termCell = cells[3].textContent;
+                const weekCell = cells[4].textContent;
+                const statusSelect = cells[5].querySelector('select');
+                const status = statusSelect.value;
+                
+                const matchesSearch = assignmentCell.includes(search) || subjectCell.toLowerCase().includes(search);
+                const matchesSubject = selectedSubjects.includes(subjectCell);
+                const matchesWeek = !week || `${termCell} ${weekCell}` === week;
+                const matchesStatus = !hideCompleted || status !== 'Completed';
+                
+                rows[i].style.display = (matchesSearch && matchesSubject && matchesWeek && matchesStatus) ? '' : 'none';
+            }
+        }
+        
+        function sortTable(col) {
+            const table = document.getElementById('assignmentTable');
+            const rows = Array.from(table.rows).slice(1);
+            const sorted = rows.sort((a, b) => {
+                const aVal = a.cells[col].textContent;
+                const bVal = b.cells[col].textContent;
+                return aVal.localeCompare(bVal);
+            });
+            sorted.forEach(row => table.tBodies[0].appendChild(row));
+        }
+        
+        // Gantt chart code
+        const allData = [{"course": {"id": "23794907980", "name": "77VOLB_2 (2026)"}, "assignments": []}, {"course": {"id": "53723945291", "name": "LLibrary Space"}, "assignments": [{"due": "Due 19 Mar 2024", "title": "ILD Collaborative Story"}, {"due": "Due 18 Aug 2025", "title": "BOOK TOK VIDEO COMPETITION"}, {"due": "Due 15 Aug 2025", "title": "LIT FEST WRITING COMPETITION"}, {"due": "Due 16 Jun 2022, 13:00", "title": "Library Scavenger Hunt"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Match the book cover to the passage competition"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Guess who's reading? competition"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Book Spine Poetry"}, {"due": "Due 9 Feb 2022, 11:59", "title": "Question"}, {"due": "Due 9 Feb 2022, 11:59", "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"}, {"due": "Due 6 Dec 2023", "title": "What was everyone's favourite holiday read?"}, {"due": "Due 3 Jun 2021, 13:10", "title": "Book Balderdash - Phase 02"}, {"due": "Due 2 Jun 2021, 11:00", "title": "Book Balderdash"}, {"due": "Due 4 Jun 2021, 12:00", "title": "Book Week Dress Up"}, {"due": "Due 28 Aug 2020", "title": "LIBRARY BINGO\u2013 a week-long game..."}, {"due": "Due 28 Aug 2020, 12:00", "title": "'Recreate a Book Cover in Iso' competition"}]}, {"course": {"id": "23779715060", "name": "77RUNN_2 (2026)"}, "assignments": []}, {"course": {"id": "841419559911", "name": "77DIG1_3 (2026)"}, "assignments": [{"due": "Due 6 Feb", "title": "Upload your Digital Workbook here"}]}, {"course": {"id": "841419702477", "name": "77PHI1_1 (2026)"}, "assignments": []}, {"course": {"id": "841417529860", "name": "77FOO1_5 (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Exit Pass - Recipe"}, {"due": "Due 25 Feb", "title": "Exit pass- Week 5 ( Brownies)"}, {"due": "Due 11 Feb", "title": "Exit Pass-"}, {"due": "Due 4 Feb", "title": "Kitchen Measurement task"}]}, {"course": {"id": "841406872851", "name": "77POS.G (2026)"}, "assignments": []}, {"course": {"id": "841406435795", "name": "77LEA.G (2026)"}, "assignments": []}, {"course": {"id": "841407725944", "name": "77FRE.G (2026)"}, "assignments": []}, {"course": {"id": "841405411064", "name": "77ENG.G (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Writer's Notebook"}, {"due": "Due 4 Mar", "title": "Writer's Notebook Entry Term 1 Week 6"}, {"due": "Due 8 Mar", "title": "Formative Fantasy Booklets"}, {"due": "Due 11 Feb", "title": "Story Mountain"}, {"due": "Due 24 Feb", "title": "Fantasy Planning"}, {"due": "Due 30 Jan", "title": "Choosing our sticker"}]}, {"course": {"id": "841405411062", "name": "77HUM.G (2026)"}, "assignments": []}, {"course": {"id": "841406439175", "name": "77MAT.G (2026)"}, "assignments": []}, {"course": {"id": "21930194539", "name": "77SCI.G (2026)"}, "assignments": []}];
+        const colors = ['#1a73e8', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#00bcd4', '#009688', '#4caf50', '#ff9800', '#ff5722', '#795548', '#607d8b'];
+        const subjectColors = {};
+        
+        function parseDueDate(dueStr) {
+            const match = dueStr.match(/(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+            if (match) {
+                const day = parseInt(match[1]);
+                const monthMap = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
+                const month = monthMap[match[2]];
+                return new Date(2026, month, day);
+            }
+            return null;
+        }
+        
+        const ganttSubjects = new Set();
+        allData.forEach(course => {
+            if (course.assignments.length > 0) {
+                ganttSubjects.add(course.course.name);
+            }
+        });
+        
+        Array.from(ganttSubjects).sort().forEach((subject, index) => {
+            subjectColors[subject] = colors[index % colors.length];
+        });
+        
+        function updateGantt() {
+            const selectedWeek = document.getElementById('weekFilter').value;
+            const selectedSubjects = Array.from(document.querySelectorAll('.subject-checkbox input:checked')).map(cb => cb.value);
+            const hideCompleted = document.getElementById('hideCompleted').checked;
+            
+            const tasks = [];
+            const statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
+            const termDates = {"Term 1": [["2026-01-27", "2026-02-02", 1], ["2026-02-02", "2026-02-09", 2], ["2026-02-09", "2026-02-16", 3], ["2026-02-16", "2026-02-23", 4], ["2026-02-23", "2026-03-02", 5], ["2026-03-02", "2026-03-09", 6], ["2026-03-09", "2026-03-16", 7], ["2026-03-16", "2026-03-23", 8], ["2026-03-23", "2026-03-30", 9], ["2026-03-30", "2026-04-02", 10]], "Term 2": [["2026-04-20", "2026-04-26", 1], ["2026-04-26", "2026-05-03", 2], ["2026-05-03", "2026-05-10", 3], ["2026-05-10", "2026-05-17", 4], ["2026-05-17", "2026-05-24", 5], ["2026-05-24", "2026-05-31", 6], ["2026-05-31", "2026-06-07", 7], ["2026-06-07", "2026-06-14", 8], ["2026-06-14", "2026-06-21", 9], ["2026-06-21", "2026-06-26", 10]], "Term 3": [["2026-07-13", "2026-07-19", 1], ["2026-07-19", "2026-07-26", 2], ["2026-07-26", "2026-08-02", 3], ["2026-08-02", "2026-08-09", 4], ["2026-08-09", "2026-08-16", 5], ["2026-08-16", "2026-08-23", 6], ["2026-08-23", "2026-08-30", 7], ["2026-08-30", "2026-09-06", 8], ["2026-09-06", "2026-09-13", 9], ["2026-09-13", "2026-09-18", 10]], "Term 4": [["2026-10-05", "2026-10-11", 1], ["2026-10-11", "2026-10-18", 2], ["2026-10-18", "2026-10-25", 3], ["2026-10-25", "2026-11-01", 4], ["2026-11-01", "2026-11-08", 5], ["2026-11-08", "2026-11-15", 6], ["2026-11-15", "2026-11-22", 7], ["2026-11-22", "2026-11-29", 8], ["2026-11-29", "2026-12-06", 9], ["2026-12-06", "2026-12-13", 10], ["2026-12-13", "2026-12-18", 11]]};
+            
+            allData.forEach(course => {
+                if (selectedSubjects.includes(course.course.name)) {
+                    course.assignments.forEach(assignment => {
+                        const dueDate = parseDueDate(assignment.due);
+                        if (dueDate) {
+                            const taskKey = `${course.course.name}||${assignment.title}`;
+                            const status = statuses[taskKey] || 'Not Started';
+                            
+                            if (hideCompleted && status === 'Completed') return;
+                            
+                            let termWeek = '';
+                            const dueStr = assignment.due.replace('Due ', '').trim();
+                            const parts = dueStr.split(' ');
+                            if (parts.length >= 2) {
+                                const day = parseInt(parts[0]);
+                                const monthMap = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
+                                const month = monthMap[parts[1]];
+                                if (month !== undefined) {
+                                    const assignDate = new Date(2026, month, day);
+                                    for (const [term, weeks] of Object.entries(termDates)) {
+                                        for (const [start, end, weekNum] of weeks) {
+                                            const startDate = new Date(start);
+                                            const endDate = new Date(end);
+                                            if (assignDate >= startDate && assignDate <= endDate) {
+                                                termWeek = `${term} Week ${weekNum}`;
+                                                break;
+                                            }
+                                        }
+                                        if (termWeek) break;
+                                    }
+                                }
+                            }
+                            
+                            if (!selectedWeek || termWeek === selectedWeek) {
+                                tasks.push({
+                                    subject: course.course.name,
+                                    title: assignment.title,
+                                    due: dueDate,
+                                    dueStr: assignment.due,
+                                    status: status,
+                                    termWeek: termWeek
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+            
+            if (tasks.length === 0) {
+                document.getElementById('ganttChart').innerHTML = '<p style="text-align:center;color:#999;">No tasks with valid dates found for selected subjects.</p>';
+                return;
+            }
+            
+            tasks.sort((a, b) => a.due - b.due);
+            
+            const minDate = new Date(Math.min(...tasks.map(t => t.due)));
+            const maxDate = new Date(Math.max(...tasks.map(t => t.due)));
+            const daysDiff = Math.ceil((maxDate - minDate) / (1000 * 60 * 60 * 24)) + 1;
+            
+            const termDates2 = {"Term 1": [["2026-01-27", "2026-02-02", 1], ["2026-02-02", "2026-02-09", 2], ["2026-02-09", "2026-02-16", 3], ["2026-02-16", "2026-02-23", 4], ["2026-02-23", "2026-03-02", 5], ["2026-03-02", "2026-03-09", 6], ["2026-03-09", "2026-03-16", 7], ["2026-03-16", "2026-03-23", 8], ["2026-03-23", "2026-03-30", 9], ["2026-03-30", "2026-04-02", 10]], "Term 2": [["2026-04-20", "2026-04-26", 1], ["2026-04-26", "2026-05-03", 2], ["2026-05-03", "2026-05-10", 3], ["2026-05-10", "2026-05-17", 4], ["2026-05-17", "2026-05-24", 5], ["2026-05-24", "2026-05-31", 6], ["2026-05-31", "2026-06-07", 7], ["2026-06-07", "2026-06-14", 8], ["2026-06-14", "2026-06-21", 9], ["2026-06-21", "2026-06-26", 10]], "Term 3": [["2026-07-13", "2026-07-19", 1], ["2026-07-19", "2026-07-26", 2], ["2026-07-26", "2026-08-02", 3], ["2026-08-02", "2026-08-09", 4], ["2026-08-09", "2026-08-16", 5], ["2026-08-16", "2026-08-23", 6], ["2026-08-23", "2026-08-30", 7], ["2026-08-30", "2026-09-06", 8], ["2026-09-06", "2026-09-13", 9], ["2026-09-13", "2026-09-18", 10]], "Term 4": [["2026-10-05", "2026-10-11", 1], ["2026-10-11", "2026-10-18", 2], ["2026-10-18", "2026-10-25", 3], ["2026-10-25", "2026-11-01", 4], ["2026-11-01", "2026-11-08", 5], ["2026-11-08", "2026-11-15", 6], ["2026-11-15", "2026-11-22", 7], ["2026-11-22", "2026-11-29", 8], ["2026-11-29", "2026-12-06", 9], ["2026-12-06", "2026-12-13", 10], ["2026-12-13", "2026-12-18", 11]]};
+            const labelData = [];
+            const numLabels = Math.min(10, daysDiff);
+            
+            for (let i = 0; i < numLabels; i++) {
+                const date = new Date(minDate);
+                date.setDate(date.getDate() + Math.floor(i * daysDiff / numLabels));
+                
+                let term = '';
+                let week = '';
+                for (const [termName, weeks] of Object.entries(termDates2)) {
+                    for (const [start, end, weekNum] of weeks) {
+                        const startDate = new Date(start);
+                        const endDate = new Date(end);
+                        if (date >= startDate && date <= endDate) {
+                            term = termName;
+                            week = `W${weekNum}`;
+                            break;
+                        }
+                    }
+                    if (term) break;
+                }
+                labelData.push({ date, term, week });
+            }
+            
+            // Build term row (merge consecutive same terms)
+            let termLabelsHtml = '<div class="term-labels">';
+            let currentTerm = '';
+            let termSpan = 0;
+            
+            for (let i = 0; i < labelData.length; i++) {
+                if (labelData[i].term !== currentTerm) {
+                    if (currentTerm) {
+                        const width = (termSpan / numLabels) * 100;
+                        termLabelsHtml += `<div class="term-label" style="width: ${width}%; flex: none;">${currentTerm}</div>`;
+                    }
+                    currentTerm = labelData[i].term;
+                    termSpan = 1;
+                } else {
+                    termSpan++;
+                }
+            }
+            if (currentTerm) {
+                const width = (termSpan / numLabels) * 100;
+                termLabelsHtml += `<div class="term-label" style="width: ${width}%; flex: none;">${currentTerm}</div>`;
+            }
+            termLabelsHtml += '</div>';
+            
+            // Build week row
+            let weekLabelsHtml = '<div class="week-labels">';
+            labelData.forEach(item => {
+                weekLabelsHtml += `<div class="week-label">${item.week}</div>`;
+            });
+            weekLabelsHtml += '</div>';
+            
+            // Build date row
+            let dateLabelsHtml = '<div class="date-labels">';
+            labelData.forEach(item => {
+                dateLabelsHtml += `<div class="date-label">${item.date.getDate()} ${item.date.toLocaleString('default', {month: 'short'})}</div>`;
+            });
+            dateLabelsHtml += '</div>';
+            
+            let legendHtml = '<div class="legend">';
+            const displayedSubjects = [...new Set(tasks.map(t => t.subject))];
+            displayedSubjects.forEach(subject => {
+                legendHtml += `<div class="legend-item"><div class="legend-color" style="background: ${subjectColors[subject]}"></div><span>${subject}</span></div>`;
+            });
+            legendHtml += '</div>';
+            
+            let ganttHtml = legendHtml + termLabelsHtml + weekLabelsHtml + dateLabelsHtml;
+            tasks.forEach(task => {
+                const position = ((task.due - minDate) / (maxDate - minDate)) * 100;
+                const color = task.status === 'Completed' ? '#999' : subjectColors[task.subject];
+                const opacity = task.status === 'Completed' ? '0.5' : '1';
+                
+                ganttHtml += `
+                    <div class="gantt-row">
+                        <div class="task-label">
+                            <div class="task-subject" style="color: ${color}">${task.subject}</div>
+                            <div>${task.title}</div>
+                        </div>
+                        <div class="timeline">
+                            <div class="task-bar" style="left: ${position}%; width: 3%; background: ${color}; opacity: ${opacity};" title="${task.dueStr} - ${task.termWeek}">
+                                ${task.due.getDate()} ${task.due.toLocaleString('default', {month: 'short'})}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('ganttChart').innerHTML = ganttHtml;
+        }
+        
+        updateGantt();
+    </script>
+</body>
+</html>

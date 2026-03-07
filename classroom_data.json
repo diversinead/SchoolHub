@@ -1,0 +1,201 @@
+[
+  {
+    "course": {
+      "id": "23794907980",
+      "name": "77VOLB_2 (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "53723945291",
+      "name": "LLibrary Space"
+    },
+    "assignments": [
+      {
+        "due": "Due 19 Mar 2024",
+        "title": "ILD Collaborative Story"
+      },
+      {
+        "due": "Due 18 Aug 2025",
+        "title": "BOOK TOK VIDEO COMPETITION"
+      },
+      {
+        "due": "Due 15 Aug 2025",
+        "title": "LIT FEST WRITING COMPETITION"
+      },
+      {
+        "due": "Due 16 Jun 2022, 13:00",
+        "title": "Library Scavenger Hunt"
+      },
+      {
+        "due": "Due 20 Jun 2022, 10:00",
+        "title": "Match the book cover to the passage competition"
+      },
+      {
+        "due": "Due 20 Jun 2022, 10:00",
+        "title": "Guess who's reading? competition"
+      },
+      {
+        "due": "Due 20 Jun 2022, 10:00",
+        "title": "Book Spine Poetry"
+      },
+      {
+        "due": "Due 9 Feb 2022, 11:59",
+        "title": "Question"
+      },
+      {
+        "due": "Due 9 Feb 2022, 11:59",
+        "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"
+      },
+      {
+        "due": "Due 6 Dec 2023",
+        "title": "What was everyone's favourite holiday read?"
+      },
+      {
+        "due": "Due 3 Jun 2021, 13:10",
+        "title": "Book Balderdash - Phase 02"
+      },
+      {
+        "due": "Due 2 Jun 2021, 11:00",
+        "title": "Book Balderdash"
+      },
+      {
+        "due": "Due 4 Jun 2021, 12:00",
+        "title": "Book Week Dress Up"
+      },
+      {
+        "due": "Due 28 Aug 2020",
+        "title": "LIBRARY BINGO\u2013 a week-long game..."
+      },
+      {
+        "due": "Due 28 Aug 2020, 12:00",
+        "title": "'Recreate a Book Cover in Iso' competition"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "23779715060",
+      "name": "77RUNN_2 (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841419559911",
+      "name": "77DIG1_3 (2026)"
+    },
+    "assignments": [
+      {
+        "due": "Due 6 Feb",
+        "title": "Upload your Digital Workbook here"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "841419702477",
+      "name": "77PHI1_1 (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841417529860",
+      "name": "77FOO1_5 (2026)"
+    },
+    "assignments": [
+      {
+        "due": "Due 4 Mar",
+        "title": "Exit Pass - Recipe"
+      },
+      {
+        "due": "Due 25 Feb",
+        "title": "Exit pass- Week 5 ( Brownies)"
+      },
+      {
+        "due": "Due 11 Feb",
+        "title": "Exit Pass-"
+      },
+      {
+        "due": "Due 4 Feb",
+        "title": "Kitchen Measurement task"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "841406872851",
+      "name": "77POS.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841406435795",
+      "name": "77LEA.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841407725944",
+      "name": "77FRE.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841405411064",
+      "name": "77ENG.G (2026)"
+    },
+    "assignments": [
+      {
+        "due": "Due 4 Mar",
+        "title": "Writer's Notebook"
+      },
+      {
+        "due": "Due 4 Mar",
+        "title": "Writer's Notebook Entry Term 1 Week 6"
+      },
+      {
+        "due": "Due 8 Mar",
+        "title": "Formative Fantasy Booklets"
+      },
+      {
+        "due": "Due 11 Feb",
+        "title": "Story Mountain"
+      },
+      {
+        "due": "Due 24 Feb",
+        "title": "Fantasy Planning"
+      },
+      {
+        "due": "Due 30 Jan",
+        "title": "Choosing our sticker"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "841405411062",
+      "name": "77HUM.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841406439175",
+      "name": "77MAT.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "21930194539",
+      "name": "77SCI.G (2026)"
+    },
+    "assignments": []
+  }
+]
