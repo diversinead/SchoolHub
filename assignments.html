@@ -11,17 +11,29 @@
         .tab-button.active { background: #1a73e8; color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .filters { background: white; padding: 20px; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input, select { padding: 8px; margin: 5px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; }
-        table { width: 100%; max-width: 1400px; margin: 20px auto; background: white; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        th { background: #1a73e8; color: white; padding: 12px; text-align: left; cursor: pointer; }
-        th:hover { background: #1557b0; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f8f9fa; }
+        .filters { background: white; padding: 20px; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .subject-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; }
+        .subject-checkbox { padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 13px; }
+        .timetable-section { background: white; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .timetable-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; border-radius: 8px; }
+        .timetable-header:hover { background: #e9ecef; }
+        .timetable-header h3 { color: #1a73e8; margin: 0; font-size: 18px; }
+        .timetable-toggle { font-size: 20px; color: #1a73e8; }
+        .timetable-content { padding: 20px; display: none; }
+        .timetable-content.show { display: block; }
+        .timetable { border-collapse: collapse; margin: 0 auto; }
+        .timetable th, .timetable td { padding: 10px 15px; border: 1px solid #ddd; text-align: center; }
+        .timetable th { background: #1a73e8; color: white; }
+        .timetable td { background: #f8f9fa; }
+        input, select { padding: 8px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; }
+        #assignmentTable { width: 100%; max-width: 1400px; margin: 20px auto; background: white; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #assignmentTable th { background: #1a73e8; color: white; padding: 12px; text-align: left; cursor: pointer; }
+        #assignmentTable th:hover { background: #1557b0; }
+        #assignmentTable td { padding: 12px; border-bottom: 1px solid #eee; }
+        #assignmentTable tr:hover { background: #f8f9fa; }
         .subject { font-weight: bold; color: #1a73e8; }
         .status-select { padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
-        .subject-checkboxes { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
-        .subject-checkbox { padding: 8px 12px; background: #f0f0f0; border-radius: 4px; }
+        .status-select { padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
         .gantt-container { background: white; margin: 20px auto; max-width: 1400px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto; }
         .gantt-chart { min-width: 1200px; }
         .legend { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px; }
@@ -38,11 +50,76 @@
         .term-label { text-align: center; font-size: 12px; color: #1a73e8; border-right: 1px solid #ddd; }
         .week-labels { display: flex; margin-left: 400px; margin-bottom: 5px; }
         .week-label { flex: 1; text-align: center; font-size: 11px; color: #666; font-weight: bold; }
+        .timetable-container { background: white; margin: 20px auto; max-width: 1400px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .timetable { width: 100%; border-collapse: collapse; }
+        .timetable th, .timetable td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        .timetable th { background: #1a73e8; color: white; }
+        .timetable td { background: #f8f9fa; }
     </style>
 </head>
 <body>
     <h1>📚 Dara's Assignments</h1>
     
+    <div class="timetable-section">
+        <div class="timetable-header" onclick="toggleTimetable()">
+            <h3>📅 Term 1 Timetable</h3>
+            <span class="timetable-toggle" id="timetableToggle">▼</span>
+        </div>
+        <div class="timetable-content" id="timetableContent">
+            <table class="timetable">
+                <tr>
+                    <th>Day</th>
+                    <th>P1</th>
+                    <th>P2</th>
+                    <th>P3</th>
+                    <th>P4</th>
+                    <th>P5</th>
+                </tr>
+                <tr>
+                    <td><strong>MON</strong></td>
+                    <td>Digital Art</td>
+                    <td>Digital Art</td>
+                    <td>French</td>
+                    <td>Philosophy</td>
+                    <td>Philosophy</td>
+                </tr>
+                <tr>
+                    <td><strong>TUE</strong></td>
+                    <td>French</td>
+                    <td>English</td>
+                    <td>Maths</td>
+                    <td>Humanities</td>
+                    <td>Pos Ed</td>
+                </tr>
+                <tr>
+                    <td><strong>WED</strong></td>
+                    <td>Food</td>
+                    <td>Food</td>
+                    <td>Maths</td>
+                    <td>English</td>
+                    <td>English</td>
+                </tr>
+                <tr>
+                    <td><strong>THUR</strong></td>
+                    <td>Leadership</td>
+                    <td>Leadership</td>
+                    <td>English</td>
+                    <td>Science</td>
+                    <td>Science</td>
+                </tr>
+                <tr>
+                    <td><strong>FRI</strong></td>
+                    <td>Volleyball</td>
+                    <td>Volleyball</td>
+                    <td>Humanities</td>
+                    <td>Maths</td>
+                    <td>Maths</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="filters">
     <div class="filters">
         <input type="text" id="searchBox" placeholder="Search assignments..." onkeyup="applyFilters()">
         <div class="subject-checkboxes" id="subjectCheckboxes"></div>
@@ -71,7 +148,7 @@
         </thead>
         <tbody>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>ILD Collaborative Story</td>
   <td>Due 19 Mar 2024</td>
   <td>Term 1</td>
@@ -83,7 +160,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>BOOK TOK VIDEO COMPETITION</td>
   <td>Due 18 Aug 2025</td>
   <td>Term 3</td>
@@ -95,7 +172,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>LIT FEST WRITING COMPETITION</td>
   <td>Due 15 Aug 2025</td>
   <td>Term 3</td>
@@ -107,7 +184,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Library Scavenger Hunt</td>
   <td>Due 16 Jun 2022, 13:00</td>
   <td>Term 2</td>
@@ -119,7 +196,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Match the book cover to the passage competition</td>
   <td>Due 20 Jun 2022, 10:00</td>
   <td>Term 2</td>
@@ -131,7 +208,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Guess who's reading? competition</td>
   <td>Due 20 Jun 2022, 10:00</td>
   <td>Term 2</td>
@@ -143,7 +220,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Book Spine Poetry</td>
   <td>Due 20 Jun 2022, 10:00</td>
   <td>Term 2</td>
@@ -155,7 +232,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Question</td>
   <td>Due 9 Feb 2022, 11:59</td>
   <td>Term 1</td>
@@ -167,7 +244,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Library Lovers' Day: Tell us about a book that you LOVE! <3</td>
   <td>Due 9 Feb 2022, 11:59</td>
   <td>Term 1</td>
@@ -179,7 +256,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>What was everyone's favourite holiday read?</td>
   <td>Due 6 Dec 2023</td>
   <td>Term 4</td>
@@ -191,7 +268,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Book Balderdash - Phase 02</td>
   <td>Due 3 Jun 2021, 13:10</td>
   <td>Term 2</td>
@@ -203,7 +280,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Book Balderdash</td>
   <td>Due 2 Jun 2021, 11:00</td>
   <td>Term 2</td>
@@ -215,7 +292,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>Book Week Dress Up</td>
   <td>Due 4 Jun 2021, 12:00</td>
   <td>Term 2</td>
@@ -227,7 +304,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>LIBRARY BINGO– a week-long game...</td>
   <td>Due 28 Aug 2020</td>
   <td>Term 3</td>
@@ -239,7 +316,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">LLibrary Space</td>
+  <td class="subject">Library</td>
   <td>'Recreate a Book Cover in Iso' competition</td>
   <td>Due 28 Aug 2020, 12:00</td>
   <td>Term 3</td>
@@ -251,7 +328,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77DIG1_3 (2026)</td>
+  <td class="subject">Digital Art</td>
   <td>Upload your Digital Workbook here</td>
   <td>Due 6 Feb</td>
   <td>Term 1</td>
@@ -263,7 +340,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77FOO1_5 (2026)</td>
+  <td class="subject">Food</td>
   <td>Exit Pass - Recipe</td>
   <td>Due 4 Mar</td>
   <td>Term 1</td>
@@ -275,7 +352,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77FOO1_5 (2026)</td>
+  <td class="subject">Food</td>
   <td>Exit pass- Week 5 ( Brownies)</td>
   <td>Due 25 Feb</td>
   <td>Term 1</td>
@@ -287,7 +364,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77FOO1_5 (2026)</td>
+  <td class="subject">Food</td>
   <td>Exit Pass-</td>
   <td>Due 11 Feb</td>
   <td>Term 1</td>
@@ -299,7 +376,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77FOO1_5 (2026)</td>
+  <td class="subject">Food</td>
   <td>Kitchen Measurement task</td>
   <td>Due 4 Feb</td>
   <td>Term 1</td>
@@ -311,7 +388,127 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77ENG.G (2026)</td>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 31 Jan</td>
+  <td>Term 1</td>
+  <td>Week 1</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 7 Feb</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 14 Feb</td>
+  <td>Term 1</td>
+  <td>Week 3</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 21 Feb</td>
+  <td>Term 1</td>
+  <td>Week 4</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 28 Feb</td>
+  <td>Term 1</td>
+  <td>Week 5</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 7 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 14 Mar</td>
+  <td>Term 1</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 21 Mar</td>
+  <td>Term 1</td>
+  <td>Week 8</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 28 Mar</td>
+  <td>Term 1</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">French</td>
+  <td>Education Perfect</td>
+  <td>Due 4 Apr</td>
+  <td></td>
+  <td>Week </td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
   <td>Writer's Notebook</td>
   <td>Due 4 Mar</td>
   <td>Term 1</td>
@@ -323,7 +520,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77ENG.G (2026)</td>
+  <td class="subject">English</td>
   <td>Writer's Notebook Entry Term 1 Week 6</td>
   <td>Due 4 Mar</td>
   <td>Term 1</td>
@@ -335,7 +532,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77ENG.G (2026)</td>
+  <td class="subject">English</td>
   <td>Formative Fantasy Booklets</td>
   <td>Due 8 Mar</td>
   <td>Term 1</td>
@@ -347,7 +544,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77ENG.G (2026)</td>
+  <td class="subject">English</td>
   <td>Story Mountain</td>
   <td>Due 11 Feb</td>
   <td>Term 1</td>
@@ -359,7 +556,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77ENG.G (2026)</td>
+  <td class="subject">English</td>
   <td>Fantasy Planning</td>
   <td>Due 24 Feb</td>
   <td>Term 1</td>
@@ -371,7 +568,7 @@
   </select></td>
 </tr>
 <tr>
-  <td class="subject">77ENG.G (2026)</td>
+  <td class="subject">English</td>
   <td>Choosing our sticker</td>
   <td>Due 30 Jan</td>
   <td>Term 1</td>
@@ -382,12 +579,259 @@
     <option value="Completed" >Completed</option>
   </select></td>
 </tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 31 Jan</td>
+  <td>Term 1</td>
+  <td>Week 1</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 7 Feb</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 14 Feb</td>
+  <td>Term 1</td>
+  <td>Week 3</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 21 Feb</td>
+  <td>Term 1</td>
+  <td>Week 4</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 28 Feb</td>
+  <td>Term 1</td>
+  <td>Week 5</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 7 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 14 Mar</td>
+  <td>Term 1</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 21 Mar</td>
+  <td>Term 1</td>
+  <td>Week 8</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 28 Mar</td>
+  <td>Term 1</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Education Perfect</td>
+  <td>Due 4 Apr</td>
+  <td></td>
+  <td>Week </td>
+  <td><select class="status-select" data-key="77ENG.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 31 Jan</td>
+  <td>Term 1</td>
+  <td>Week 1</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 7 Feb</td>
+  <td>Term 1</td>
+  <td>Week 2</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 14 Feb</td>
+  <td>Term 1</td>
+  <td>Week 3</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 21 Feb</td>
+  <td>Term 1</td>
+  <td>Week 4</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 28 Feb</td>
+  <td>Term 1</td>
+  <td>Week 5</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 7 Mar</td>
+  <td>Term 1</td>
+  <td>Week 6</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 14 Mar</td>
+  <td>Term 1</td>
+  <td>Week 7</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 21 Mar</td>
+  <td>Term 1</td>
+  <td>Week 8</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 28 Mar</td>
+  <td>Term 1</td>
+  <td>Week 9</td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Maths</td>
+  <td>Education Perfect</td>
+  <td>Due 4 Apr</td>
+  <td></td>
+  <td>Week </td>
+  <td><select class="status-select" data-key="77MAT.G (2026)||Education Perfect" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
 
         </tbody>
     </table>
     
     <script>
-        const subjects = ["77DIG1_3 (2026)", "77ENG.G (2026)", "77FOO1_5 (2026)", "LLibrary Space"];
+        function toggleTimetable() {
+            const content = document.getElementById('timetableContent');
+            const toggle = document.getElementById('timetableToggle');
+            content.classList.toggle('show');
+            toggle.textContent = content.classList.contains('show') ? '▲' : '▼';
+        }
+        
+        const subjects = ["Digital Art", "English", "Food", "French", "Library", "Maths"];
         const checkboxContainer = document.getElementById('subjectCheckboxes');
         subjects.forEach(s => {
             const label = document.createElement('label');
@@ -481,7 +925,7 @@
         }
         
         // Gantt chart code
-        const allData = [{"course": {"id": "23794907980", "name": "77VOLB_2 (2026)"}, "assignments": []}, {"course": {"id": "53723945291", "name": "LLibrary Space"}, "assignments": [{"due": "Due 19 Mar 2024", "title": "ILD Collaborative Story"}, {"due": "Due 18 Aug 2025", "title": "BOOK TOK VIDEO COMPETITION"}, {"due": "Due 15 Aug 2025", "title": "LIT FEST WRITING COMPETITION"}, {"due": "Due 16 Jun 2022, 13:00", "title": "Library Scavenger Hunt"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Match the book cover to the passage competition"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Guess who's reading? competition"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Book Spine Poetry"}, {"due": "Due 9 Feb 2022, 11:59", "title": "Question"}, {"due": "Due 9 Feb 2022, 11:59", "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"}, {"due": "Due 6 Dec 2023", "title": "What was everyone's favourite holiday read?"}, {"due": "Due 3 Jun 2021, 13:10", "title": "Book Balderdash - Phase 02"}, {"due": "Due 2 Jun 2021, 11:00", "title": "Book Balderdash"}, {"due": "Due 4 Jun 2021, 12:00", "title": "Book Week Dress Up"}, {"due": "Due 28 Aug 2020", "title": "LIBRARY BINGO\u2013 a week-long game..."}, {"due": "Due 28 Aug 2020, 12:00", "title": "'Recreate a Book Cover in Iso' competition"}]}, {"course": {"id": "23779715060", "name": "77RUNN_2 (2026)"}, "assignments": []}, {"course": {"id": "841419559911", "name": "77DIG1_3 (2026)"}, "assignments": [{"due": "Due 6 Feb", "title": "Upload your Digital Workbook here"}]}, {"course": {"id": "841419702477", "name": "77PHI1_1 (2026)"}, "assignments": []}, {"course": {"id": "841417529860", "name": "77FOO1_5 (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Exit Pass - Recipe"}, {"due": "Due 25 Feb", "title": "Exit pass- Week 5 ( Brownies)"}, {"due": "Due 11 Feb", "title": "Exit Pass-"}, {"due": "Due 4 Feb", "title": "Kitchen Measurement task"}]}, {"course": {"id": "841406872851", "name": "77POS.G (2026)"}, "assignments": []}, {"course": {"id": "841406435795", "name": "77LEA.G (2026)"}, "assignments": []}, {"course": {"id": "841407725944", "name": "77FRE.G (2026)"}, "assignments": []}, {"course": {"id": "841405411064", "name": "77ENG.G (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Writer's Notebook"}, {"due": "Due 4 Mar", "title": "Writer's Notebook Entry Term 1 Week 6"}, {"due": "Due 8 Mar", "title": "Formative Fantasy Booklets"}, {"due": "Due 11 Feb", "title": "Story Mountain"}, {"due": "Due 24 Feb", "title": "Fantasy Planning"}, {"due": "Due 30 Jan", "title": "Choosing our sticker"}]}, {"course": {"id": "841405411062", "name": "77HUM.G (2026)"}, "assignments": []}, {"course": {"id": "841406439175", "name": "77MAT.G (2026)"}, "assignments": []}, {"course": {"id": "21930194539", "name": "77SCI.G (2026)"}, "assignments": []}];
+        const allData = [{"course": {"id": "23794907980", "name": "77VOLB_2 (2026)"}, "assignments": []}, {"course": {"id": "53723945291", "name": "LLibrary Space"}, "assignments": [{"due": "Due 19 Mar 2024", "title": "ILD Collaborative Story"}, {"due": "Due 18 Aug 2025", "title": "BOOK TOK VIDEO COMPETITION"}, {"due": "Due 15 Aug 2025", "title": "LIT FEST WRITING COMPETITION"}, {"due": "Due 16 Jun 2022, 13:00", "title": "Library Scavenger Hunt"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Match the book cover to the passage competition"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Guess who's reading? competition"}, {"due": "Due 20 Jun 2022, 10:00", "title": "Book Spine Poetry"}, {"due": "Due 9 Feb 2022, 11:59", "title": "Question"}, {"due": "Due 9 Feb 2022, 11:59", "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"}, {"due": "Due 6 Dec 2023", "title": "What was everyone's favourite holiday read?"}, {"due": "Due 3 Jun 2021, 13:10", "title": "Book Balderdash - Phase 02"}, {"due": "Due 2 Jun 2021, 11:00", "title": "Book Balderdash"}, {"due": "Due 4 Jun 2021, 12:00", "title": "Book Week Dress Up"}, {"due": "Due 28 Aug 2020", "title": "LIBRARY BINGO\u2013 a week-long game..."}, {"due": "Due 28 Aug 2020, 12:00", "title": "'Recreate a Book Cover in Iso' competition"}]}, {"course": {"id": "23779715060", "name": "77RUNN_2 (2026)"}, "assignments": []}, {"course": {"id": "841419559911", "name": "77DIG1_3 (2026)"}, "assignments": [{"due": "Due 6 Feb", "title": "Upload your Digital Workbook here"}]}, {"course": {"id": "841419702477", "name": "77PHI1_1 (2026)"}, "assignments": []}, {"course": {"id": "841417529860", "name": "77FOO1_5 (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Exit Pass - Recipe"}, {"due": "Due 25 Feb", "title": "Exit pass- Week 5 ( Brownies)"}, {"due": "Due 11 Feb", "title": "Exit Pass-"}, {"due": "Due 4 Feb", "title": "Kitchen Measurement task"}]}, {"course": {"id": "841406872851", "name": "77POS.G (2026)"}, "assignments": []}, {"course": {"id": "841406435795", "name": "77LEA.G (2026)"}, "assignments": []}, {"course": {"id": "841407725944", "name": "77FRE.G (2026)"}, "assignments": [{"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}, {"due": "Due 4 Apr", "title": "Education Perfect"}]}, {"course": {"id": "841405411064", "name": "77ENG.G (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Writer's Notebook"}, {"due": "Due 4 Mar", "title": "Writer's Notebook Entry Term 1 Week 6"}, {"due": "Due 8 Mar", "title": "Formative Fantasy Booklets"}, {"due": "Due 11 Feb", "title": "Story Mountain"}, {"due": "Due 24 Feb", "title": "Fantasy Planning"}, {"due": "Due 30 Jan", "title": "Choosing our sticker"}, {"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}, {"due": "Due 4 Apr", "title": "Education Perfect"}]}, {"course": {"id": "841405411062", "name": "77HUM.G (2026)"}, "assignments": []}, {"course": {"id": "841406439175", "name": "77MAT.G (2026)"}, "assignments": [{"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}, {"due": "Due 4 Apr", "title": "Education Perfect"}]}, {"course": {"id": "21930194539", "name": "77SCI.G (2026)"}, "assignments": []}];
         const colors = ['#1a73e8', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#00bcd4', '#009688', '#4caf50', '#ff9800', '#ff5722', '#795548', '#607d8b'];
         const subjectColors = {};
         
@@ -503,8 +947,14 @@
             }
         });
         
+        const subjectNames = {"77ENG.G (2026)": "English", "77DIG1_3 (2026)": "Digital Art", "77FRE.G (2026)": "French", "77PHI1_1 (2026)": "Philosophy", "77MAT.G (2026)": "Maths", "77HUM.G (2026)": "Humanities", "77POS.G (2026)": "Pos Ed", "77FOO1_5 (2026)": "Food", "77LEA.G (2026)": "Leadership", "77SCI.G (2026)": "Science", "77VOLB_2 (2026)": "Volleyball", "LLibrary Space": "Library"};
+        function getDisplayName(courseName) {
+            return subjectNames[courseName] || courseName;
+        }
+        
         Array.from(ganttSubjects).sort().forEach((subject, index) => {
-            subjectColors[subject] = colors[index % colors.length];
+            const displayName = getDisplayName(subject);
+            subjectColors[displayName] = colors[index % colors.length];
         });
         
         function updateGantt() {
@@ -517,7 +967,7 @@
             const termDates = {"Term 1": [["2026-01-27", "2026-02-02", 1], ["2026-02-02", "2026-02-09", 2], ["2026-02-09", "2026-02-16", 3], ["2026-02-16", "2026-02-23", 4], ["2026-02-23", "2026-03-02", 5], ["2026-03-02", "2026-03-09", 6], ["2026-03-09", "2026-03-16", 7], ["2026-03-16", "2026-03-23", 8], ["2026-03-23", "2026-03-30", 9], ["2026-03-30", "2026-04-02", 10]], "Term 2": [["2026-04-20", "2026-04-26", 1], ["2026-04-26", "2026-05-03", 2], ["2026-05-03", "2026-05-10", 3], ["2026-05-10", "2026-05-17", 4], ["2026-05-17", "2026-05-24", 5], ["2026-05-24", "2026-05-31", 6], ["2026-05-31", "2026-06-07", 7], ["2026-06-07", "2026-06-14", 8], ["2026-06-14", "2026-06-21", 9], ["2026-06-21", "2026-06-26", 10]], "Term 3": [["2026-07-13", "2026-07-19", 1], ["2026-07-19", "2026-07-26", 2], ["2026-07-26", "2026-08-02", 3], ["2026-08-02", "2026-08-09", 4], ["2026-08-09", "2026-08-16", 5], ["2026-08-16", "2026-08-23", 6], ["2026-08-23", "2026-08-30", 7], ["2026-08-30", "2026-09-06", 8], ["2026-09-06", "2026-09-13", 9], ["2026-09-13", "2026-09-18", 10]], "Term 4": [["2026-10-05", "2026-10-11", 1], ["2026-10-11", "2026-10-18", 2], ["2026-10-18", "2026-10-25", 3], ["2026-10-25", "2026-11-01", 4], ["2026-11-01", "2026-11-08", 5], ["2026-11-08", "2026-11-15", 6], ["2026-11-15", "2026-11-22", 7], ["2026-11-22", "2026-11-29", 8], ["2026-11-29", "2026-12-06", 9], ["2026-12-06", "2026-12-13", 10], ["2026-12-13", "2026-12-18", 11]]};
             
             allData.forEach(course => {
-                if (selectedSubjects.includes(course.course.name)) {
+                if (selectedSubjects.includes(getDisplayName(course.course.name))) {
                     course.assignments.forEach(assignment => {
                         const dueDate = parseDueDate(assignment.due);
                         if (dueDate) {
@@ -551,7 +1001,7 @@
                             
                             if (!selectedWeek || termWeek === selectedWeek) {
                                 tasks.push({
-                                    subject: course.course.name,
+                                    subject: getDisplayName(course.course.name),
                                     title: assignment.title,
                                     due: dueDate,
                                     dueStr: assignment.due,
@@ -638,7 +1088,7 @@
             dateLabelsHtml += '</div>';
             
             let legendHtml = '<div class="legend">';
-            const displayedSubjects = [...new Set(tasks.map(t => t.subject))];
+            const displayedSubjects = [...new Set(tasks.map(t => t.subject))].sort();
             displayedSubjects.forEach(subject => {
                 legendHtml += `<div class="legend-item"><div class="legend-color" style="background: ${subjectColors[subject]}"></div><span>${subject}</span></div>`;
             });

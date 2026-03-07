@@ -66,6 +66,43 @@ except FileNotFoundError:
 with open('classroom_data.json', 'r') as f:
     data = json.load(f)
 
+# Load manual tasks
+try:
+    with open('manual_tasks.json', 'r') as f:
+        manual_tasks = json.load(f)
+except FileNotFoundError:
+    manual_tasks = []
+
+# Merge manual tasks with scraped data
+for manual_course in manual_tasks:
+    found = False
+    for course_data in data:
+        if course_data['course']['name'] == manual_course['course']['name']:
+            course_data['assignments'].extend(manual_course['assignments'])
+            found = True
+            break
+    if not found:
+        data.append(manual_course)
+
+# Subject name mapping
+subject_names = {
+    '77ENG.G (2026)': 'English',
+    '77DIG1_3 (2026)': 'Digital Art',
+    '77FRE.G (2026)': 'French',
+    '77PHI1_1 (2026)': 'Philosophy',
+    '77MAT.G (2026)': 'Maths',
+    '77HUM.G (2026)': 'Humanities',
+    '77POS.G (2026)': 'Pos Ed',
+    '77FOO1_5 (2026)': 'Food',
+    '77LEA.G (2026)': 'Leadership',
+    '77SCI.G (2026)': 'Science',
+    '77VOLB_2 (2026)': 'Volleyball',
+    'LLibrary Space': 'Library'
+}
+
+def get_display_name(course_name):
+    return subject_names.get(course_name, course_name)
+
 # Build table rows
 subjects = set()
 table_rows = ""
@@ -74,13 +111,14 @@ for course_data in data:
     assignments = course_data['assignments']
     
     if assignments:
-        subjects.add(course['name'])
+        display_name = get_display_name(course['name'])
+        subjects.add(display_name)
         for assignment in assignments:
             task_key = f"{course['name']}||{assignment['title']}"
             current_status = status_data.get(task_key, 'Not Started')
             
             table_rows += f'<tr>\n'
-            table_rows += f'  <td class="subject">{course["name"]}</td>\n'
+            table_rows += f'  <td class="subject">{display_name}</td>\n'
             table_rows += f'  <td>{assignment["title"]}</td>\n'
             table_rows += f'  <td>{assignment["due"]}</td>\n'
             term, week = get_term_week(assignment["due"])
@@ -106,17 +144,29 @@ html = """
         .tab-button.active { background: #1a73e8; color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .filters { background: white; padding: 20px; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input, select { padding: 8px; margin: 5px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; }
-        table { width: 100%; max-width: 1400px; margin: 20px auto; background: white; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        th { background: #1a73e8; color: white; padding: 12px; text-align: left; cursor: pointer; }
-        th:hover { background: #1557b0; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f8f9fa; }
+        .filters { background: white; padding: 20px; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .subject-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; }
+        .subject-checkbox { padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 13px; }
+        .timetable-section { background: white; margin: 20px auto; max-width: 1400px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .timetable-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; border-radius: 8px; }
+        .timetable-header:hover { background: #e9ecef; }
+        .timetable-header h3 { color: #1a73e8; margin: 0; font-size: 18px; }
+        .timetable-toggle { font-size: 20px; color: #1a73e8; }
+        .timetable-content { padding: 20px; display: none; }
+        .timetable-content.show { display: block; }
+        .timetable { border-collapse: collapse; margin: 0 auto; }
+        .timetable th, .timetable td { padding: 10px 15px; border: 1px solid #ddd; text-align: center; }
+        .timetable th { background: #1a73e8; color: white; }
+        .timetable td { background: #f8f9fa; }
+        input, select { padding: 8px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; }
+        #assignmentTable { width: 100%; max-width: 1400px; margin: 20px auto; background: white; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #assignmentTable th { background: #1a73e8; color: white; padding: 12px; text-align: left; cursor: pointer; }
+        #assignmentTable th:hover { background: #1557b0; }
+        #assignmentTable td { padding: 12px; border-bottom: 1px solid #eee; }
+        #assignmentTable tr:hover { background: #f8f9fa; }
         .subject { font-weight: bold; color: #1a73e8; }
         .status-select { padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
-        .subject-checkboxes { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
-        .subject-checkbox { padding: 8px 12px; background: #f0f0f0; border-radius: 4px; }
+        .status-select { padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
         .gantt-container { background: white; margin: 20px auto; max-width: 1400px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto; }
         .gantt-chart { min-width: 1200px; }
         .legend { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px; }
@@ -133,11 +183,76 @@ html = """
         .term-label { text-align: center; font-size: 12px; color: #1a73e8; border-right: 1px solid #ddd; }
         .week-labels { display: flex; margin-left: 400px; margin-bottom: 5px; }
         .week-label { flex: 1; text-align: center; font-size: 11px; color: #666; font-weight: bold; }
+        .timetable-container { background: white; margin: 20px auto; max-width: 1400px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .timetable { width: 100%; border-collapse: collapse; }
+        .timetable th, .timetable td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        .timetable th { background: #1a73e8; color: white; }
+        .timetable td { background: #f8f9fa; }
     </style>
 </head>
 <body>
     <h1>📚 Dara's Assignments</h1>
     
+    <div class="timetable-section">
+        <div class="timetable-header" onclick="toggleTimetable()">
+            <h3>📅 Term 1 Timetable</h3>
+            <span class="timetable-toggle" id="timetableToggle">▼</span>
+        </div>
+        <div class="timetable-content" id="timetableContent">
+            <table class="timetable">
+                <tr>
+                    <th>Day</th>
+                    <th>P1</th>
+                    <th>P2</th>
+                    <th>P3</th>
+                    <th>P4</th>
+                    <th>P5</th>
+                </tr>
+                <tr>
+                    <td><strong>MON</strong></td>
+                    <td>Digital Art</td>
+                    <td>Digital Art</td>
+                    <td>French</td>
+                    <td>Philosophy</td>
+                    <td>Philosophy</td>
+                </tr>
+                <tr>
+                    <td><strong>TUE</strong></td>
+                    <td>French</td>
+                    <td>English</td>
+                    <td>Maths</td>
+                    <td>Humanities</td>
+                    <td>Pos Ed</td>
+                </tr>
+                <tr>
+                    <td><strong>WED</strong></td>
+                    <td>Food</td>
+                    <td>Food</td>
+                    <td>Maths</td>
+                    <td>English</td>
+                    <td>English</td>
+                </tr>
+                <tr>
+                    <td><strong>THUR</strong></td>
+                    <td>Leadership</td>
+                    <td>Leadership</td>
+                    <td>English</td>
+                    <td>Science</td>
+                    <td>Science</td>
+                </tr>
+                <tr>
+                    <td><strong>FRI</strong></td>
+                    <td>Volleyball</td>
+                    <td>Volleyball</td>
+                    <td>Humanities</td>
+                    <td>Maths</td>
+                    <td>Maths</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="filters">
     <div class="filters">
         <input type="text" id="searchBox" placeholder="Search assignments..." onkeyup="applyFilters()">
         <div class="subject-checkboxes" id="subjectCheckboxes"></div>
@@ -170,6 +285,13 @@ html = """
     </table>
     
     <script>
+        function toggleTimetable() {
+            const content = document.getElementById('timetableContent');
+            const toggle = document.getElementById('timetableToggle');
+            content.classList.toggle('show');
+            toggle.textContent = content.classList.contains('show') ? '▲' : '▼';
+        }
+        
         const subjects = """ + json.dumps(sorted(list(subjects))) + """;
         const checkboxContainer = document.getElementById('subjectCheckboxes');
         subjects.forEach(s => {
@@ -286,8 +408,14 @@ html = """
             }
         });
         
+        const subjectNames = """ + json.dumps(subject_names) + """;
+        function getDisplayName(courseName) {
+            return subjectNames[courseName] || courseName;
+        }
+        
         Array.from(ganttSubjects).sort().forEach((subject, index) => {
-            subjectColors[subject] = colors[index % colors.length];
+            const displayName = getDisplayName(subject);
+            subjectColors[displayName] = colors[index % colors.length];
         });
         
         function updateGantt() {
@@ -300,7 +428,7 @@ html = """
             const termDates = """ + json.dumps(term_dates) + """;
             
             allData.forEach(course => {
-                if (selectedSubjects.includes(course.course.name)) {
+                if (selectedSubjects.includes(getDisplayName(course.course.name))) {
                     course.assignments.forEach(assignment => {
                         const dueDate = parseDueDate(assignment.due);
                         if (dueDate) {
@@ -334,7 +462,7 @@ html = """
                             
                             if (!selectedWeek || termWeek === selectedWeek) {
                                 tasks.push({
-                                    subject: course.course.name,
+                                    subject: getDisplayName(course.course.name),
                                     title: assignment.title,
                                     due: dueDate,
                                     dueStr: assignment.due,
@@ -421,7 +549,7 @@ html = """
             dateLabelsHtml += '</div>';
             
             let legendHtml = '<div class="legend">';
-            const displayedSubjects = [...new Set(tasks.map(t => t.subject))];
+            const displayedSubjects = [...new Set(tasks.map(t => t.subject))].sort();
             displayedSubjects.forEach(subject => {
                 legendHtml += `<div class="legend-item"><div class="legend-color" style="background: ${subjectColors[subject]}"></div><span>${subject}</span></div>`;
             });
