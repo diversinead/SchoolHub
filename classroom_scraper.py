@@ -8,10 +8,32 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import json
 import base64
+import sys
 
-# Configuration
-EMAIL = "daracullinan@albertparkcollege.vic.edu.au"
-PASSWORD = "APc34583"  # Consider using getpass or environment variable
+from jproperties import Properties
+
+# Load properties file
+configs = Properties()
+with open('config/config.properties', 'rb') as config_file:
+    configs.load(config_file)
+
+eddie_password = configs.get("eddie_password").data
+dara_password = configs.get("dara_password").data
+
+# Get student name from command line argument
+if len(sys.argv) > 1:
+    student_name = sys.argv[1]
+else:
+    student_name = input("Enter student name (e.g., 'dara' or 'eddie'): ").lower()
+
+print(f"\nScraping assignments for {student_name}...")
+
+if student_name == 'dara':
+    email = "daracullinan@albertparkcollege.vic.edu.au"
+    password = dara_password
+else:
+    email = "eddiecullinan@albertparkcollege.vic.edu.au"
+    password = eddie_password
 
 def setup_driver():
     options = Options()
@@ -190,14 +212,15 @@ def main():
     driver = setup_driver()
     
     try:
-        login_google(driver, EMAIL, PASSWORD)
+        login_google(driver, email, password)
         
         courses = get_courses(driver)
         print(f"\nFound {len(courses)} courses\n")
         
         # Load existing data to preserve statuses
+        output_file = f'classroom_data_{student_name}.json'
         try:
-            with open('classroom_data.json', 'r') as f:
+            with open(output_file, 'r') as f:
                 existing_data = {item['course']['id']: item for item in json.load(f)}
         except FileNotFoundError:
             existing_data = {}
@@ -222,10 +245,10 @@ def main():
             
             all_data.append({"course": course, "assignments": coursework})
         
-        with open('classroom_data.json', 'w') as f:
+        with open(output_file, 'w') as f:
             json.dump(all_data, f, indent=2)
         
-        print("Data saved to classroom_data.json")
+        print(f"Data saved to {output_file}")
         print("\nGenerating HTML...")
         
     finally:
@@ -233,7 +256,7 @@ def main():
     
     # Auto-run create_html after scraping
     import subprocess
-    subprocess.run(['python', 'create_html.py'])
+    subprocess.run(['python', 'create_html.py', student_name])
 
 if __name__ == "__main__":
     main()

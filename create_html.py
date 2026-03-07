@@ -1,7 +1,16 @@
 import json
 import webbrowser
 import os
+import sys
 from datetime import datetime
+
+# Get student name from command line argument
+if len(sys.argv) > 1:
+    student_name = sys.argv[1]
+else:
+    student_name = 'dara'  # Default to dara
+
+print(f"Generating HTML for {student_name}...")
 
 # School term dates
 term_dates = {
@@ -63,12 +72,12 @@ try:
 except FileNotFoundError:
     status_data = {}
 
-with open('classroom_data.json', 'r') as f:
+with open(f'classroom_data_{student_name}.json', 'r') as f:
     data = json.load(f)
 
 # Load manual tasks
 try:
-    with open('manual_tasks.json', 'r') as f:
+    with open(f'manual_tasks_{student_name}.json', 'r') as f:
         manual_tasks = json.load(f)
 except FileNotFoundError:
     manual_tasks = []
@@ -135,7 +144,7 @@ html = """
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dara's Assignments</title>
+    <title>""" + student_name.title() + """'s Assignments</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
         h1 { color: #1a73e8; text-align: center; }
@@ -191,7 +200,7 @@ html = """
     </style>
 </head>
 <body>
-    <h1>📚 Dara's Assignments</h1>
+    <h1>📚 """ + student_name.title() + """'s Assignments</h1>
     
     <div class="timetable-section">
         <div class="timetable-header" onclick="toggleTimetable()">
@@ -585,8 +594,8 @@ html = """
 </html>
 """
 
-with open('assignments.html', 'w', encoding='utf-8') as f:
+with open(f'assignments_{student_name}.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
-print("Opening assignments.html in browser...")
-webbrowser.open('file://' + os.path.abspath('assignments.html'))
+print(f"Opening assignments_{student_name}.html in browser...")
+webbrowser.open('file://' + os.path.abspath(f'assignments_{student_name}.html'))
