@@ -218,7 +218,7 @@ def main():
         print(f"\nFound {len(courses)} courses\n")
         
         # Load existing data to preserve statuses
-        output_file = f'classroom_data_{student_name}.json'
+        output_file = f'data/classroom_data_{student_name}.json'
         try:
             with open(output_file, 'r') as f:
                 existing_data = {item['course']['id']: item for item in json.load(f)}

@@ -1,258 +1,8 @@
-import json
-import webbrowser
-import os
-import sys
-import re
-from datetime import datetime, timedelta
 
-# Get student name from command line argument
-if len(sys.argv) > 1:
-    student_name = sys.argv[1]
-else:
-    student_name = 'dara'  # Default to dara
-
-print(f"Generating HTML for {student_name}...")
-
-# School term dates
-term_dates = {
-    'Term 1': [
-        ('2026-01-27', '2026-02-02', 1), ('2026-02-02', '2026-02-09', 2), ('2026-02-09', '2026-02-16', 3),
-        ('2026-02-16', '2026-02-23', 4), ('2026-02-23', '2026-03-02', 5), ('2026-03-02', '2026-03-09', 6),
-        ('2026-03-09', '2026-03-16', 7), ('2026-03-16', '2026-03-23', 8), ('2026-03-23', '2026-03-30', 9),
-        ('2026-03-30', '2026-04-02', 10)
-    ],
-    'Term 2': [
-        ('2026-04-20', '2026-04-26', 1), ('2026-04-26', '2026-05-03', 2), ('2026-05-03', '2026-05-10', 3),
-        ('2026-05-10', '2026-05-17', 4), ('2026-05-17', '2026-05-24', 5), ('2026-05-24', '2026-05-31', 6),
-        ('2026-05-31', '2026-06-07', 7), ('2026-06-07', '2026-06-14', 8), ('2026-06-14', '2026-06-21', 9),
-        ('2026-06-21', '2026-06-26', 10)
-    ],
-    'Term 3': [
-        ('2026-07-13', '2026-07-19', 1), ('2026-07-19', '2026-07-26', 2), ('2026-07-26', '2026-08-02', 3),
-        ('2026-08-02', '2026-08-09', 4), ('2026-08-09', '2026-08-16', 5), ('2026-08-16', '2026-08-23', 6),
-        ('2026-08-23', '2026-08-30', 7), ('2026-08-30', '2026-09-06', 8), ('2026-09-06', '2026-09-13', 9),
-        ('2026-09-13', '2026-09-18', 10)
-    ],
-    'Term 4': [
-        ('2026-10-05', '2026-10-11', 1), ('2026-10-11', '2026-10-18', 2), ('2026-10-18', '2026-10-25', 3),
-        ('2026-10-25', '2026-11-01', 4), ('2026-11-01', '2026-11-08', 5), ('2026-11-08', '2026-11-15', 6),
-        ('2026-11-15', '2026-11-22', 7), ('2026-11-22', '2026-11-29', 8), ('2026-11-29', '2026-12-06', 9),
-        ('2026-12-06', '2026-12-13', 10), ('2026-12-13', '2026-12-18', 11)
-    ]
-}
-
-timetable_student1 = """
-<tr>
-    <td><strong>MON</strong></td>
-    <td>Digital Art</td>
-    <td>Digital Art</td>
-    <td>French</td>
-    <td>Philosophy</td>
-    <td>Philosophy</td>
-</tr>
-<tr>
-    <td><strong>TUE</strong></td>
-    <td>French</td>
-    <td>English</td>
-    <td>Maths</td>
-    <td>Humanities</td>
-    <td>Pos Ed</td>
-</tr>
-<tr>
-    <td><strong>WED</strong></td>
-    <td>Food</td>
-    <td>Food</td>
-    <td>Maths</td>
-    <td>English</td>
-    <td>English</td>
-</tr>
-<tr>
-    <td><strong>THUR</strong></td>
-    <td>Leadership</td>
-    <td>Leadership</td>
-    <td>English</td>
-    <td>Science</td>
-    <td>Science</td>
-</tr>
-<tr>
-    <td><strong>FRI</strong></td>
-    <td>Volleyball</td>
-    <td>Volleyball</td>
-    <td>Humanities</td>
-    <td>Maths</td>
-    <td>Maths</td>
-</tr>
-"""
-
-timetable_student2 = """
-<tr>
-    <td><strong>MON</strong></td>
-    <td>Phys Ed</td>
-    <td>Phys Ed</td>
-    <td>Bus Man</td>
-    <td>Maths</td>
-    <td>Accounting</td>
-</tr>
-<tr>
-    <td><strong>TUE</strong></td>
-    <td>Phys Ed</td>
-    <td>Maths</td>
-    <td>Pos Ed</td>
-    <td>Sociology</td>
-    <td>English</td>
-</tr>
-<tr>
-    <td><strong>WED</strong></td>
-    <td>Bus Man</td>
-    <td>Bus Man</td>
-    <td>Phys Ed</td>
-    <td>Maths</td>
-    <td>Maths</td>
-</tr>
-<tr>
-    <td><strong>THUR</strong></td>
-    <td>Accounting</td>
-    <td>Accounting</td>
-    <td>English</td>
-    <td>Sociology</td>
-    <td>Sociology</td>
-</tr>
-<tr>
-    <td><strong>FRI</strong></td>
-    <td>English</td>
-    <td>English</td>
-    <td>Sociology</td>
-    <td>Accounting</td>
-    <td>Bus Man</td>
-</tr>
-"""
-
-if student_name.lower() == "dara":
-    timetable_rows = timetable_student1
-else:
-    timetable_rows = timetable_student2
-
-def get_term_week(date_str):
-    try:
-        clean = date_str.replace('Due ', '').strip()
-        month_map = {'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
-
-        if re.search(r'yesterday', clean, re.I):
-            assign_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
-        else:
-            year_match = re.search(r'\b(\d{4})\b', clean)
-            year = int(year_match.group(1)) if year_match else 2026
-            # "DD Mon" e.g. "19 Mar"
-            m = re.search(r'(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)', clean, re.I)
-            if m:
-                day, month = int(m.group(1)), month_map.get(m.group(2).capitalize(), 0)
-            else:
-                # "Mon DD" e.g. "Mar 11" or "Mar 11, 9:00 AM"
-                m = re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})', clean, re.I)
-                if m:
-                    month, day = month_map.get(m.group(1).capitalize(), 0), int(m.group(2))
-                else:
-                    return '', ''
-            if not month:
-                return '', ''
-            assign_date = datetime(year, month, day)
-
-        for term_name, weeks in term_dates.items():
-            for start, end, week_num in weeks:
-                if datetime.strptime(start, '%Y-%m-%d') <= assign_date <= datetime.strptime(end, '%Y-%m-%d'):
-                    return term_name, week_num
-    except:
-        pass
-    return '', ''
-
-# Load existing status data if it exists
-try:
-    with open(f'data/assignment_status_{student_name}.json', 'r') as f:
-        status_data = json.load(f)
-except FileNotFoundError:
-    status_data = {}
-
-with open(f'data/classroom_data_{student_name}.json', 'r') as f:
-    data = json.load(f)
-
-# Load manual tasks
-try:
-    with open(f'data/manual_tasks_{student_name}.json', 'r') as f:
-        manual_tasks = json.load(f)
-except FileNotFoundError:
-    manual_tasks = []
-
-# Merge manual tasks with scraped data
-for manual_course in manual_tasks:
-    found = False
-    for course_data in data:
-        if course_data['course']['name'] == manual_course['course']['name']:
-            course_data['assignments'].extend(manual_course['assignments'])
-            found = True
-            break
-    if not found:
-        data.append(manual_course)
-
-# Subject name mapping
-subject_names = {
-    '77ENG.G (2026)': 'English',
-    '77DIG1_3 (2026)': 'Digital Art',
-    '77FRE.G (2026)': 'French',
-    '77PHI1_1 (2026)': 'Philosophy',
-    '77MAT.G (2026)': 'Maths',
-    '77HUM.G (2026)': 'Humanities',
-    '77POS.G (2026)': 'Pos Ed 7',
-    '77FOO1_5 (2026)': 'Food',
-    '77LEA.G (2026)': 'Leadership',
-    '77SCI.G (2026)': 'Science',
-    '77VOLB_2 (2026)': 'Volleyball',
-    '111SOC_2 (2026)': 'Sociology',
-    '111POS.G (2026)': 'Pos Ed',
-    '112BMA_5 (2026)': 'Business Mgt',
-    '111ENG_3 (2026)': 'English',
-    '111ACC_1 (2026)': 'Accounting',
-    '111PED_2 (2026) DBA': 'PE',
-    '111GMA_3 (2026)': 'Maths',
-    'LLibrary Space': 'Library'
-}
-
-def get_display_name(course_name):
-    return subject_names.get(course_name, course_name)
-
-# Build table rows
-subjects = set()
-table_rows = ""
-EXCLUDED_SUBJECTS = {'Library'}
-for course_data in data:
-    course = course_data['course']
-    assignments = course_data['assignments']
-
-    if assignments and get_display_name(course['name']) not in EXCLUDED_SUBJECTS:
-        display_name = get_display_name(course['name'])
-        subjects.add(display_name)
-        for assignment in assignments:
-            task_key = f"{course['name']}||{assignment['title']}||{assignment['due']}"
-            current_status = status_data.get(task_key, 'Not Started')
-            
-            table_rows += f'<tr>\n'
-            table_rows += f'  <td class="subject">{display_name}</td>\n'
-            table_rows += f'  <td>{assignment["title"]}</td>\n'
-            table_rows += f'  <td>{assignment["due"].replace("Due ", "", 1)}</td>\n'
-            term, week = get_term_week(assignment["due"])
-            table_rows += f'  <td>{str(term).replace("Term ", "", 1)}</td>\n'
-            table_rows += f'  <td>{week}</td>\n'
-            table_rows += f'  <td><select class="status-select" data-key="{task_key}" onchange="saveStatus(this)">\n'
-            for status in ['Not Started', 'In Progress', 'Completed']:
-                selected = 'selected' if status == current_status else ''
-                table_rows += f'    <option value="{status}" {selected}>{status}</option>\n'
-            table_rows += f'  </select></td>\n'
-            table_rows += f'</tr>\n'
-
-html = """
 <!DOCTYPE html>
 <html>
 <head>
-    <title>""" + student_name.title() + """'s Assignments</title>
+    <title>Eddie's Assignments</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
         h1 { color: #1a73e8; text-align: center; }
@@ -308,7 +58,7 @@ html = """
     </style>
 </head>
 <body>
-    <h1>📚 """ + student_name.title() + """'s Assignments</h1>
+    <h1>📚 Eddie's Assignments</h1>
     
     <div class="timetable-section">
         <div class="timetable-header" onclick="toggleTimetable()">
@@ -325,7 +75,48 @@ html = """
                     <th>P4</th>
                     <th>P5</th>
                 </tr>
-                 """ + timetable_rows + """
+                 
+<tr>
+    <td><strong>MON</strong></td>
+    <td>Phys Ed</td>
+    <td>Phys Ed</td>
+    <td>Bus Man</td>
+    <td>Maths</td>
+    <td>Accounting</td>
+</tr>
+<tr>
+    <td><strong>TUE</strong></td>
+    <td>Phys Ed</td>
+    <td>Maths</td>
+    <td>Pos Ed</td>
+    <td>Sociology</td>
+    <td>English</td>
+</tr>
+<tr>
+    <td><strong>WED</strong></td>
+    <td>Bus Man</td>
+    <td>Bus Man</td>
+    <td>Phys Ed</td>
+    <td>Maths</td>
+    <td>Maths</td>
+</tr>
+<tr>
+    <td><strong>THUR</strong></td>
+    <td>Accounting</td>
+    <td>Accounting</td>
+    <td>English</td>
+    <td>Sociology</td>
+    <td>Sociology</td>
+</tr>
+<tr>
+    <td><strong>FRI</strong></td>
+    <td>English</td>
+    <td>English</td>
+    <td>Sociology</td>
+    <td>Accounting</td>
+    <td>Bus Man</td>
+</tr>
+
             </table>
         </div>
     </div>
@@ -358,7 +149,235 @@ html = """
             </tr>
         </thead>
         <tbody>
-""" + table_rows + """
+<tr>
+  <td class="subject">Sociology</td>
+  <td>Holiday Homework</td>
+  <td>Jan 27, 2027</td>
+  <td></td>
+  <td></td>
+  <td><select class="status-select" data-key="111SOC_2 (2026)||Holiday Homework||Due Jan 27, 2027" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Pos Ed</td>
+  <td>Semester One</td>
+  <td>Feb 3</td>
+  <td>1</td>
+  <td>2</td>
+  <td><select class="status-select" data-key="111POS.G (2026)||Semester One||Due Feb 3" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Pos Ed</td>
+  <td>Design A Class Flag</td>
+  <td>Feb 3</td>
+  <td>1</td>
+  <td>2</td>
+  <td><select class="status-select" data-key="111POS.G (2026)||Design A Class Flag||Due Feb 3" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Pos Ed</td>
+  <td>Due Feb 3</td>
+  <td>Feb 3</td>
+  <td>1</td>
+  <td>2</td>
+  <td><select class="status-select" data-key="111POS.G (2026)||Due Feb 3||Due Feb 3" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Note taking: Motivational strategies</td>
+  <td>Mar 11, 9:00 AM</td>
+  <td>1</td>
+  <td>7</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Note taking: Motivational strategies||Due Mar 11, 9:00 AM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Motivational theories similarities and differences</td>
+  <td>Yesterday, 2:02 PM</td>
+  <td>1</td>
+  <td>6</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Motivational theories similarities and differences||Due Yesterday, 2:02 PM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Lawrence and Noria's four drive theory</td>
+  <td>Mar 4, 9:00 AM</td>
+  <td>1</td>
+  <td>6</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Lawrence and Noria's four drive theory||Due Mar 4, 9:00 AM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Locke and Latham's goal setting theory</td>
+  <td>Mar 2, 11:16 AM</td>
+  <td>1</td>
+  <td>5</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Locke and Latham's goal setting theory||Due Mar 2, 11:16 AM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Maslow's hierarchy of needs</td>
+  <td>Feb 27, 2:02 PM</td>
+  <td>1</td>
+  <td>5</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Maslow's hierarchy of needs||Due Feb 27, 2:02 PM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Homework: Corporate Culture</td>
+  <td>Feb 11, 9:00 AM</td>
+  <td>1</td>
+  <td>3</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Homework: Corporate Culture||Due Feb 11, 9:00 AM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Business Management U3 AOS 2</td>
+  <td>27 Mar</td>
+  <td>1</td>
+  <td>9</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Business Management U3 AOS 2||Due 27 Mar" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Business Mgt</td>
+  <td>Business Management U3 AOS 3</td>
+  <td>1 Jun</td>
+  <td>2</td>
+  <td>7</td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Business Management U3 AOS 3||Due 1 Jun" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Homework Week 6 - Paragraph Prompt 4</td>
+  <td>Mar 10, 4:30 PM</td>
+  <td>1</td>
+  <td>7</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Homework Week 6 - Paragraph Prompt 4||Due Mar 10, 4:30 PM" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Homework Week 3 - Quote Bank</td>
+  <td>Feb 17, 4:30 PM</td>
+  <td>1</td>
+  <td>4</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Homework Week 3 - Quote Bank||Due Feb 17, 4:30 PM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Klaus Renft Analysis Questions</td>
+  <td>Feb 27, 11:00 AM</td>
+  <td>1</td>
+  <td>5</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Klaus Renft Analysis Questions||Due Feb 27, 11:00 AM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Reading Task Thursday 26th Feb - The Socialist Man</td>
+  <td>Feb 26, 12:15 PM</td>
+  <td>1</td>
+  <td>5</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Reading Task Thursday 26th Feb - The Socialist Man||Due Feb 26, 12:15 PM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Tuesday 17.02 Lesson - Reading Task</td>
+  <td>Feb 17</td>
+  <td>1</td>
+  <td>4</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Tuesday 17.02 Lesson - Reading Task||Due Feb 17" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Venn Diagram - Stasi Museum and Bunjilaka</td>
+  <td>Feb 12, 12:14 PM</td>
+  <td>1</td>
+  <td>3</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Venn Diagram - Stasi Museum and Bunjilaka||Due Feb 12, 12:14 PM" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Accounting</td>
+  <td>Orientation and Holiday homework</td>
+  <td>Jan 30</td>
+  <td>1</td>
+  <td>1</td>
+  <td><select class="status-select" data-key="111ACC_1 (2026)||Orientation and Holiday homework||Due Jan 30" onchange="saveStatus(this)">
+    <option value="Not Started" >Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
+  </select></td>
+</tr>
+
         </tbody>
     </table>
     
@@ -370,7 +389,7 @@ html = """
             toggle.textContent = content.classList.contains('show') ? '▲' : '▼';
         }
         
-        const subjects = """ + json.dumps(sorted(list(subjects))) + """;
+        const subjects = ["Accounting", "Business Mgt", "English", "Pos Ed", "Sociology"];
         const checkboxContainer = document.getElementById('subjectCheckboxes');
         subjects.forEach(s => {
             const label = document.createElement('label');
@@ -478,7 +497,7 @@ html = """
         }
         
         // Gantt chart code
-        const allData = """ + json.dumps(data) + """;
+        const allData = [{"course": {"id": "21811099722", "name": "111SOC_2 (2026)"}, "assignments": [{"due": "Due Jan 27, 2027", "title": "Holiday Homework"}]}, {"course": {"id": "841423453638", "name": "111POS.G (2026)"}, "assignments": [{"due": "Due Feb 3", "title": "Semester One"}, {"due": "Due Feb 3", "title": "Design A Class Flag"}, {"due": "Due Feb 3", "title": "Due Feb 3"}]}, {"course": {"id": "23779713213", "name": "112BMA_5 (2026)"}, "assignments": [{"due": "Due Mar 11, 9:00\u202fAM", "title": "Note taking: Motivational strategies"}, {"due": "Due Yesterday, 2:02\u202fPM", "title": "Motivational theories similarities and differences"}, {"due": "Due Mar 4, 9:00\u202fAM", "title": "Lawrence and Noria's four drive theory"}, {"due": "Due Mar 2, 11:16\u202fAM", "title": "Locke and Latham's goal setting theory"}, {"due": "Due Feb 27, 2:02\u202fPM", "title": "Maslow's hierarchy of needs"}, {"due": "Due Feb 11, 9:00\u202fAM", "title": "Homework: Corporate Culture"}, {"due": "Due 27 Mar", "title": "Business Management U3 AOS 2"}, {"due": "Due 1 Jun", "title": "Business Management U3 AOS 3"}]}, {"course": {"id": "21848906235", "name": "YYear 11 2026"}, "assignments": []}, {"course": {"id": "21811022008", "name": "111PED_2 (2026) DBA"}, "assignments": []}, {"course": {"id": "21810755252", "name": "111GMA_3 (2026)"}, "assignments": []}, {"course": {"id": "23667903582", "name": "111ENG_3 (2026)"}, "assignments": [{"due": "Due Mar 10, 4:30\u202fPM", "title": "Homework Week 6 - Paragraph Prompt 4"}, {"due": "Due Feb 17, 4:30\u202fPM", "title": "Homework Week 3 - Quote Bank"}, {"due": "Due Feb 27, 11:00\u202fAM", "title": "Klaus Renft Analysis Questions"}, {"due": "Due Feb 26, 12:15\u202fPM", "title": "Reading Task Thursday 26th Feb - The Socialist Man"}, {"due": "Due Feb 17", "title": "Tuesday 17.02 Lesson - Reading Task"}, {"due": "Due Feb 12, 12:14\u202fPM", "title": "Venn Diagram - Stasi Museum and Bunjilaka"}]}, {"course": {"id": "21810517330", "name": "111ACC_1 (2026)"}, "assignments": [{"due": "Due Jan 30", "title": "Orientation and Holiday homework"}]}, {"course": {"id": "53723945291", "name": "LLibrary Space"}, "assignments": [{"due": "Due Mar 19, 2024", "title": "ILD Collaborative Story"}, {"due": "Due Aug 18, 2025", "title": "BOOK TOK VIDEO COMPETITION"}, {"due": "Due Aug 15, 2025", "title": "LIT FEST WRITING COMPETITION"}, {"due": "Due Jun 16, 2022, 1:00\u202fPM", "title": "Library Scavenger Hunt"}, {"due": "Due Jun 20, 2022, 10:00\u202fAM", "title": "Match the book cover to the passage competition"}, {"due": "Due Jun 20, 2022, 10:00\u202fAM", "title": "Guess who's reading? competition"}, {"due": "Due Jun 20, 2022, 10:00\u202fAM", "title": "Book Spine Poetry"}, {"due": "Due Feb 9, 2022, 11:59\u202fAM", "title": "Question"}, {"due": "Due Feb 9, 2022, 11:59\u202fAM", "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"}, {"due": "Due Dec 6, 2023", "title": "What was everyone's favourite holiday read?"}, {"due": "Due Jun 3, 2021, 1:10\u202fPM", "title": "Book Balderdash - Phase 02"}, {"due": "Due Jun 2, 2021, 11:00\u202fAM", "title": "Book Balderdash"}, {"due": "Due Jun 4, 2021, 12:00\u202fPM", "title": "Book Week Dress Up"}, {"due": "Due Aug 28, 2020", "title": "LIBRARY BINGO\u2013 a week-long game..."}, {"due": "Due Aug 28, 2020, 12:00\u202fPM", "title": "'Recreate a Book Cover in Iso' competition"}]}];
         const colors = ['#1a73e8', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#00bcd4', '#009688', '#4caf50', '#ff9800', '#ff5722', '#795548', '#607d8b'];
         const subjectColors = {};
         
@@ -489,16 +508,16 @@ html = """
                 return d;
             }
             const monthMap = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
-            const yearMatch = dueStr.match(/\\b(\\d{4})\\b/);
+            const yearMatch = dueStr.match(/\b(\d{4})\b/);
             const year = yearMatch ? parseInt(yearMatch[1]) : 2026;
             // Format: "DD Mon" e.g. "19 Mar"
-            let match = dueStr.match(/(\\d{1,2})\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+            let match = dueStr.match(/(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
             if (match) {
                 const monthKey = match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase();
                 return new Date(year, monthMap[monthKey], parseInt(match[1]));
             }
             // Format: "Mon DD" e.g. "Mar 11" or "Mar 11, 9:00 AM"
-            match = dueStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{1,2})/i);
+            match = dueStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})/i);
             if (match) {
                 const monthKey = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
                 return new Date(year, monthMap[monthKey], parseInt(match[2]));
@@ -513,7 +532,7 @@ html = """
             }
         });
         
-        const subjectNames = """ + json.dumps(subject_names) + """;
+        const subjectNames = {"77ENG.G (2026)": "English", "77DIG1_3 (2026)": "Digital Art", "77FRE.G (2026)": "French", "77PHI1_1 (2026)": "Philosophy", "77MAT.G (2026)": "Maths", "77HUM.G (2026)": "Humanities", "77POS.G (2026)": "Pos Ed 7", "77FOO1_5 (2026)": "Food", "77LEA.G (2026)": "Leadership", "77SCI.G (2026)": "Science", "77VOLB_2 (2026)": "Volleyball", "111SOC_2 (2026)": "Sociology", "111POS.G (2026)": "Pos Ed", "112BMA_5 (2026)": "Business Mgt", "111ENG_3 (2026)": "English", "111ACC_1 (2026)": "Accounting", "111PED_2 (2026) DBA": "PE", "111GMA_3 (2026)": "Maths", "LLibrary Space": "Library"};
         function getDisplayName(courseName) {
             return subjectNames[courseName] || courseName;
         }
@@ -531,7 +550,7 @@ html = """
             const tasks = [];
             const statuses = {};
             document.querySelectorAll('.status-select').forEach(s => { statuses[s.getAttribute('data-key')] = s.value; });
-            const termDates =""" + json.dumps(term_dates) + """;
+            const termDates ={"Term 1": [["2026-01-27", "2026-02-02", 1], ["2026-02-02", "2026-02-09", 2], ["2026-02-09", "2026-02-16", 3], ["2026-02-16", "2026-02-23", 4], ["2026-02-23", "2026-03-02", 5], ["2026-03-02", "2026-03-09", 6], ["2026-03-09", "2026-03-16", 7], ["2026-03-16", "2026-03-23", 8], ["2026-03-23", "2026-03-30", 9], ["2026-03-30", "2026-04-02", 10]], "Term 2": [["2026-04-20", "2026-04-26", 1], ["2026-04-26", "2026-05-03", 2], ["2026-05-03", "2026-05-10", 3], ["2026-05-10", "2026-05-17", 4], ["2026-05-17", "2026-05-24", 5], ["2026-05-24", "2026-05-31", 6], ["2026-05-31", "2026-06-07", 7], ["2026-06-07", "2026-06-14", 8], ["2026-06-14", "2026-06-21", 9], ["2026-06-21", "2026-06-26", 10]], "Term 3": [["2026-07-13", "2026-07-19", 1], ["2026-07-19", "2026-07-26", 2], ["2026-07-26", "2026-08-02", 3], ["2026-08-02", "2026-08-09", 4], ["2026-08-09", "2026-08-16", 5], ["2026-08-16", "2026-08-23", 6], ["2026-08-23", "2026-08-30", 7], ["2026-08-30", "2026-09-06", 8], ["2026-09-06", "2026-09-13", 9], ["2026-09-13", "2026-09-18", 10]], "Term 4": [["2026-10-05", "2026-10-11", 1], ["2026-10-11", "2026-10-18", 2], ["2026-10-18", "2026-10-25", 3], ["2026-10-25", "2026-11-01", 4], ["2026-11-01", "2026-11-08", 5], ["2026-11-08", "2026-11-15", 6], ["2026-11-15", "2026-11-22", 7], ["2026-11-22", "2026-11-29", 8], ["2026-11-29", "2026-12-06", 9], ["2026-12-06", "2026-12-13", 10], ["2026-12-13", "2026-12-18", 11]]};
             
             allData.forEach(course => {
                 if (selectedSubjects.includes(getDisplayName(course.course.name))) {
@@ -592,7 +611,7 @@ html = """
             const maxDate = new Date(Math.max(...tasks.map(t => t.due)));
             const daysDiff = Math.ceil((maxDate - minDate) / (1000 * 60 * 60 * 24)) + 1;
             
-            const termDates2 = """ + json.dumps(term_dates) + """;
+            const termDates2 = {"Term 1": [["2026-01-27", "2026-02-02", 1], ["2026-02-02", "2026-02-09", 2], ["2026-02-09", "2026-02-16", 3], ["2026-02-16", "2026-02-23", 4], ["2026-02-23", "2026-03-02", 5], ["2026-03-02", "2026-03-09", 6], ["2026-03-09", "2026-03-16", 7], ["2026-03-16", "2026-03-23", 8], ["2026-03-23", "2026-03-30", 9], ["2026-03-30", "2026-04-02", 10]], "Term 2": [["2026-04-20", "2026-04-26", 1], ["2026-04-26", "2026-05-03", 2], ["2026-05-03", "2026-05-10", 3], ["2026-05-10", "2026-05-17", 4], ["2026-05-17", "2026-05-24", 5], ["2026-05-24", "2026-05-31", 6], ["2026-05-31", "2026-06-07", 7], ["2026-06-07", "2026-06-14", 8], ["2026-06-14", "2026-06-21", 9], ["2026-06-21", "2026-06-26", 10]], "Term 3": [["2026-07-13", "2026-07-19", 1], ["2026-07-19", "2026-07-26", 2], ["2026-07-26", "2026-08-02", 3], ["2026-08-02", "2026-08-09", 4], ["2026-08-09", "2026-08-16", 5], ["2026-08-16", "2026-08-23", 6], ["2026-08-23", "2026-08-30", 7], ["2026-08-30", "2026-09-06", 8], ["2026-09-06", "2026-09-13", 9], ["2026-09-13", "2026-09-18", 10]], "Term 4": [["2026-10-05", "2026-10-11", 1], ["2026-10-11", "2026-10-18", 2], ["2026-10-18", "2026-10-25", 3], ["2026-10-25", "2026-11-01", 4], ["2026-11-01", "2026-11-08", 5], ["2026-11-08", "2026-11-15", 6], ["2026-11-15", "2026-11-22", 7], ["2026-11-22", "2026-11-29", 8], ["2026-11-29", "2026-12-06", 9], ["2026-12-06", "2026-12-13", 10], ["2026-12-13", "2026-12-18", 11]]};
             const labelData = [];
             const numLabels = Math.min(10, daysDiff);
             
@@ -687,11 +706,3 @@ html = """
     </script>
 </body>
 </html>
-"""
-
-with open(f'assignments_{student_name}.html', 'w', encoding='utf-8') as f:
-    f.write(html)
-
-if '--no-browser' not in sys.argv:
-    print(f"Opening assignments_{student_name}.html in browser...")
-    webbrowser.open('file://' + os.path.abspath(f'assignments_{student_name}.html'))

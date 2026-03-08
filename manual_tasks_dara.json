@@ -1,0 +1,36 @@
+[
+  {
+    "course": {
+      "id": "manual_math",
+      "name": "77MAT.G (2026)"
+    },
+    "assignments": [
+      {"due": "Due 31 Jan", "title": "Education Perfect"},
+      {"due": "Due 7 Feb", "title": "Education Perfect"},
+      {"due": "Due 14 Feb", "title": "Education Perfect"},
+      {"due": "Due 21 Feb", "title": "Education Perfect"},
+      {"due": "Due 28 Feb", "title": "Education Perfect"},
+      {"due": "Due 7 Mar", "title": "Education Perfect"},
+      {"due": "Due 14 Mar", "title": "Education Perfect"},
+      {"due": "Due 21 Mar", "title": "Education Perfect"},
+      {"due": "Due 28 Mar", "title": "Education Perfect"}
+    ]
+  },
+  {
+    "course": {
+      "id": "manual_french",
+      "name": "77FRE.G (2026)"
+    },
+    "assignments": [
+      {"due": "Due 31 Jan", "title": "Education Perfect"},
+      {"due": "Due 7 Feb", "title": "Education Perfect"},
+      {"due": "Due 14 Feb", "title": "Education Perfect"},
+      {"due": "Due 21 Feb", "title": "Education Perfect"},
+      {"due": "Due 28 Feb", "title": "Education Perfect"},
+      {"due": "Due 7 Mar", "title": "Education Perfect"},
+      {"due": "Due 14 Mar", "title": "Education Perfect"},
+      {"due": "Due 21 Mar", "title": "Education Perfect"},
+      {"due": "Due 28 Mar", "title": "Education Perfect"}
+    ]
+  }
+]
