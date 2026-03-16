@@ -318,6 +318,18 @@
   </select></td>
 </tr>
 <tr>
+  <td class="subject">French</td>
+  <td>Assessment - ID summary paragraph</td>
+  <td>30 Mar</td>
+  <td>1</td>
+  <td>9</td>
+  <td><select class="status-select" data-key="77FRE.G (2026)||Assessment - ID summary paragraph||Due 30 Mar" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
   <td class="subject">English</td>
   <td>Writer's Notebook</td>
   <td>4 Mar</td>
@@ -325,8 +337,8 @@
   <td>6</td>
   <td><select class="status-select" data-key="77ENG.G (2026)||Writer's Notebook||Due 4 Mar" onchange="saveStatus(this)">
     <option value="Not Started" >Not Started</option>
-    <option value="In Progress" selected>In Progress</option>
-    <option value="Completed" >Completed</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
   </select></td>
 </tr>
 <tr>
@@ -337,8 +349,8 @@
   <td>6</td>
   <td><select class="status-select" data-key="77ENG.G (2026)||Writer's Notebook Entry Term 1 Week 6||Due 4 Mar" onchange="saveStatus(this)">
     <option value="Not Started" >Not Started</option>
-    <option value="In Progress" selected>In Progress</option>
-    <option value="Completed" >Completed</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" selected>Completed</option>
   </select></td>
 </tr>
 <tr>
@@ -348,9 +360,9 @@
   <td>1</td>
   <td>6</td>
   <td><select class="status-select" data-key="77ENG.G (2026)||Formative Fantasy Booklets||Due 8 Mar" onchange="saveStatus(this)">
-    <option value="Not Started" selected>Not Started</option>
+    <option value="Not Started" >Not Started</option>
     <option value="In Progress" >In Progress</option>
-    <option value="Completed" >Completed</option>
+    <option value="Completed" selected>Completed</option>
   </select></td>
 </tr>
 <tr>
@@ -396,6 +408,18 @@
   <td>1</td>
   <td>7</td>
   <td><select class="status-select" data-key="77ENG.G (2026)||Summative Assessment - Write Fantasy Story||Due 12 Mar" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">Humanities</td>
+  <td>Assessment - Aboriginal and Torres Strait Islander history</td>
+  <td>17 Mar</td>
+  <td>1</td>
+  <td>8</td>
+  <td><select class="status-select" data-key="77HUM.G (2026)||Assessment - Aboriginal and Torres Strait Islander history||Due 17 Mar" onchange="saveStatus(this)">
     <option value="Not Started" selected>Not Started</option>
     <option value="In Progress" >In Progress</option>
     <option value="Completed" >Completed</option>
@@ -545,7 +569,7 @@
             toggle.textContent = content.classList.contains('show') ? '▲' : '▼';
         }
         
-        const subjects = ["Digital Art", "English", "Food", "French", "Maths"];
+        const subjects = ["Digital Art", "English", "Food", "French", "Humanities", "Maths"];
         const checkboxContainer = document.getElementById('subjectCheckboxes');
         subjects.forEach(s => {
             const label = document.createElement('label');
@@ -664,7 +688,7 @@
         }
         
         // Gantt chart code
-        const allData = [{"course": {"id": "23794907980", "name": "77VOLB_2 (2026)"}, "assignments": []}, {"course": {"id": "23779715060", "name": "77RUNN_2 (2026)"}, "assignments": []}, {"course": {"id": "841419559911", "name": "77DIG1_3 (2026)"}, "assignments": [{"due": "Due 6 Feb", "title": "Upload your Digital Workbook here"}]}, {"course": {"id": "841419702477", "name": "77PHI1_1 (2026)"}, "assignments": []}, {"course": {"id": "841417529860", "name": "77FOO1_5 (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Exit Pass - Recipe"}, {"due": "Due 25 Feb", "title": "Exit pass- Week 5 ( Brownies)"}, {"due": "Due 11 Feb", "title": "Exit Pass-"}, {"due": "Due 4 Feb", "title": "Kitchen Measurement task"}]}, {"course": {"id": "841406872851", "name": "77POS.G (2026)"}, "assignments": []}, {"course": {"id": "841406435795", "name": "77LEA.G (2026)"}, "assignments": []}, {"course": {"id": "841407725944", "name": "77FRE.G (2026)"}, "assignments": [{"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}]}, {"course": {"id": "841405411064", "name": "77ENG.G (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Writer's Notebook"}, {"due": "Due 4 Mar", "title": "Writer's Notebook Entry Term 1 Week 6"}, {"due": "Due 8 Mar", "title": "Formative Fantasy Booklets"}, {"due": "Due 11 Feb", "title": "Story Mountain"}, {"due": "Due 24 Feb", "title": "Fantasy Planning"}, {"due": "Due 30 Jan", "title": "Choosing our sticker"}, {"due": "Due 12 Mar", "title": "Summative Assessment - Write Fantasy Story"}]}, {"course": {"id": "841405411062", "name": "77HUM.G (2026)"}, "assignments": []}, {"course": {"id": "841406439175", "name": "77MAT.G (2026)"}, "assignments": [{"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}]}, {"course": {"id": "21930194539", "name": "77SCI.G (2026)"}, "assignments": []}, {"course": {"id": "manual_food", "name": "Food"}, "assignments": [{"due": "Due 25 Mar", "title": "Practical Cook"}, {"due": "Due 1 Apr", "title": "Poster"}]}];
+        const allData = [{"course": {"id": "23794907980", "name": "77VOLB_2 (2026)"}, "assignments": []}, {"course": {"id": "23779715060", "name": "77RUNN_2 (2026)"}, "assignments": []}, {"course": {"id": "841419559911", "name": "77DIG1_3 (2026)"}, "assignments": [{"due": "Due 6 Feb", "title": "Upload your Digital Workbook here"}]}, {"course": {"id": "841419702477", "name": "77PHI1_1 (2026)"}, "assignments": []}, {"course": {"id": "841417529860", "name": "77FOO1_5 (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Exit Pass - Recipe"}, {"due": "Due 25 Feb", "title": "Exit pass- Week 5 ( Brownies)"}, {"due": "Due 11 Feb", "title": "Exit Pass-"}, {"due": "Due 4 Feb", "title": "Kitchen Measurement task"}]}, {"course": {"id": "841406872851", "name": "77POS.G (2026)"}, "assignments": []}, {"course": {"id": "841406435795", "name": "77LEA.G (2026)"}, "assignments": []}, {"course": {"id": "841407725944", "name": "77FRE.G (2026)"}, "assignments": [{"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}, {"due": "Due 30 Mar", "title": "Assessment - ID summary paragraph"}]}, {"course": {"id": "841405411064", "name": "77ENG.G (2026)"}, "assignments": [{"due": "Due 4 Mar", "title": "Writer's Notebook"}, {"due": "Due 4 Mar", "title": "Writer's Notebook Entry Term 1 Week 6"}, {"due": "Due 8 Mar", "title": "Formative Fantasy Booklets"}, {"due": "Due 11 Feb", "title": "Story Mountain"}, {"due": "Due 24 Feb", "title": "Fantasy Planning"}, {"due": "Due 30 Jan", "title": "Choosing our sticker"}, {"due": "Due 12 Mar", "title": "Summative Assessment - Write Fantasy Story"}]}, {"course": {"id": "841405411062", "name": "77HUM.G (2026)"}, "assignments": [{"due": "Due 17 Mar", "title": "Assessment - Aboriginal and Torres Strait Islander history"}]}, {"course": {"id": "841406439175", "name": "77MAT.G (2026)"}, "assignments": [{"due": "Due 31 Jan", "title": "Education Perfect"}, {"due": "Due 7 Feb", "title": "Education Perfect"}, {"due": "Due 14 Feb", "title": "Education Perfect"}, {"due": "Due 21 Feb", "title": "Education Perfect"}, {"due": "Due 28 Feb", "title": "Education Perfect"}, {"due": "Due 7 Mar", "title": "Education Perfect"}, {"due": "Due 14 Mar", "title": "Education Perfect"}, {"due": "Due 21 Mar", "title": "Education Perfect"}, {"due": "Due 28 Mar", "title": "Education Perfect"}]}, {"course": {"id": "21930194539", "name": "77SCI.G (2026)"}, "assignments": []}, {"course": {"id": "manual_food", "name": "Food"}, "assignments": [{"due": "Due 25 Mar", "title": "Practical Cook"}, {"due": "Due 1 Apr", "title": "Poster"}]}];
         const colors = ['#1a73e8', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#00bcd4', '#009688', '#4caf50', '#ff9800', '#ff5722', '#795548', '#607d8b'];
         const subjectColors = {};
         

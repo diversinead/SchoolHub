@@ -18,6 +18,8 @@ configs = Properties()
 with open('config/config.properties', 'rb') as config_file:
     configs.load(config_file)
 
+eddie_email = configs.get("eddie_email").data
+dara_email = configs.get("dara_email").data
 eddie_password = configs.get("eddie_password").data
 dara_password = configs.get("dara_password").data
 
@@ -30,10 +32,10 @@ else:
 print(f"\nScraping assignments for {student_name}...")
 
 if student_name == 'dara':
-    email = "daracullinan@albertparkcollege.vic.edu.au"
+    email = dara_email
     password = dara_password
 else:
-    email = "eddiecullinan@albertparkcollege.vic.edu.au"
+    email = eddie_email
     password = eddie_password
 
 def setup_driver():
