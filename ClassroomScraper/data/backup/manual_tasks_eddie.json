@@ -8,5 +8,15 @@
       {"due": "Due 27 Mar", "title": "Business Management U3 AOS 2"},
       {"due": "Due 1 Jun", "title": "Business Management U3 AOS 3"}
     ]
+  },
+  {
+    "course": {
+      "id": "manual_english",
+      "name": "111ENG_3 (2026)"
+    },
+    "assignments": [
+      {"due": "Due 13 Mar", "title": "Practice Assessment - Stasiland"},
+      {"due": "Due 27 Mar", "title": "Assessment - Stasiland"}
+    ]
   }
 ]

@@ -1,0 +1,24 @@
+{
+  "next_id": 3,
+  "eddie": [],
+  "dara": [
+    {
+      "id": 1,
+      "subject": "Maths",
+      "title": "Education Perfect - Homework",
+      "due": "Mar 20",
+      "term": 1,
+      "week": 8,
+      "status": "Not Started"
+    },
+    {
+      "id": 2,
+      "subject": "Science",
+      "title": "Education Perfect - Homework",
+      "due": "Mar 27",
+      "term": 1,
+      "week": 9,
+      "status": "Not Started"
+    }
+  ]
+}

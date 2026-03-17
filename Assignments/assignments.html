@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignments 2026 – Albert Park College</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; padding: 20px; font-size: 13px; background: #f4f4f4; }
+  h2 { color: #2a7a7a; margin: 0 0 4px; }
+  .subtitle { color: #666; margin: 0 0 16px; font-size: 12px; }
+
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .toggle-group { display: flex; gap: 6px; }
+  .toggle-btn { padding: 7px 16px; border-radius: 6px; border: 2px solid #ccc; background: #fff;
+                cursor: pointer; font-size: 13px; font-weight: 600; color: #555; }
+  .toggle-btn.t-eddie.active { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .toggle-btn.t-dara.active  { background: #1a5fb4; color: #fff; border-color: #1a5fb4; }
+  .toggle-btn.t-all.active   { background: #555;    color: #fff; border-color: #555; }
+
+  select.filter { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;
+                  background: #fff; cursor: pointer; }
+  select.filter:focus { outline: none; border-color: #2a7a7a; }
+
+  .spacer { flex: 1; }
+  a.admin-link { font-size: 12px; font-weight: 600; color: #2a7a7a; text-decoration: none; }
+  a.admin-link:hover { text-decoration: underline; }
+
+  table { border-collapse: collapse; width: 100%; background: #fff; border-radius: 8px;
+          overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  thead tr { background: #2a7a7a; color: #fff; }
+  th { padding: 10px 14px; text-align: left; cursor: pointer; user-select: none; white-space: nowrap; }
+  th:hover { background: #1f5c5c; }
+  td { padding: 7px 14px; border-bottom: 1px solid #e8e8e8; }
+  tr:last-child td { border-bottom: none; }
+  tr.odd  { background: #f9f9f9; }
+  tr.even { background: #fff; }
+  tr:hover { background: #f0f7f7 !important; }
+
+  td.subject-eddie { font-weight: 700; color: #2a7a7a; }
+  td.subject-dara  { font-weight: 700; color: #1a5fb4; }
+  td.dim { color: #aaa; }
+
+  .status-sel { padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;
+                cursor: pointer; background: #fafafa; }
+  .status-sel.s-done  { color: #888; }
+  .status-sel.s-prog  { color: #e67e22; font-weight: 600; }
+  .status-sel.s-start { color: #c0392b; }
+  .status-sel:focus { outline: none; }
+
+  .empty { text-align: center; padding: 30px; color: #aaa; font-style: italic; }
+  .count { color: #888; font-size: 12px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<h2>📚 Assignments 2026</h2>
+<p class="subtitle">Albert Park College</p>
+
+<div class="controls">
+  <div class="toggle-group">
+    <button class="toggle-btn t-all active"  id="s-all"   onclick="setStudent('all')">All</button>
+    <button class="toggle-btn t-eddie"       id="s-eddie" onclick="setStudent('eddie')">Eddie</button>
+    <button class="toggle-btn t-dara"        id="s-dara"  onclick="setStudent('dara')">Dara</button>
+  </div>
+
+  <select class="filter" id="termFilter"    onchange="renderTable()"><option value="">All Terms</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+  <select class="filter" id="weekFilter"    onchange="renderTable()"><option value="">All Weeks</option></select>
+  <select class="filter" id="subjectFilter" onchange="renderTable()"><option value="">All Subjects</option></select>
+  <select class="filter" id="statusFilter"  onchange="renderTable()">
+    <option value="">All Statuses</option>
+    <option>Not Started</option>
+    <option>In Progress</option>
+    <option>Completed</option>
+  </select>
+
+  <span class="spacer"></span>
+  <a class="admin-link" href="/admin" target="_blank">+ Admin ↗</a>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th onclick="sortBy('subject')">Subject</th>
+      <th onclick="sortBy('title')">Title</th>
+      <th onclick="sortBy('due')">Due</th>
+      <th onclick="sortBy('term')">Term</th>
+      <th onclick="sortBy('week')">Week</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+<p class="count" id="countLabel"></p>
+
+<script>
+  let data = { eddie: [], dara: [] };
+  let currentStudent = 'all';
+  let sortCol = 'term';
+  let sortAsc = true;
+
+  async function loadData() {
+    try {
+      const resp = await fetch('/api/data');
+      const json = await resp.json();
+      data = json;
+    } catch (e) {}
+    populateFilters();
+    renderTable();
+  }
+
+  function setStudent(s) {
+    currentStudent = s;
+    ['all','eddie','dara'].forEach(id => {
+      document.getElementById('s-' + id).classList.toggle('active', id === s);
+    });
+    populateFilters();
+    renderTable();
+  }
+
+  function getRows() {
+    const students = currentStudent === 'all' ? ['eddie','dara'] : [currentStudent];
+    return students.flatMap(s => data[s].map(a => ({ ...a, student: s })));
+  }
+
+  function populateFilters() {
+    const rows = getRows();
+    const subjects = [...new Set(rows.map(r => r.subject))].sort();
+    const weeks    = [...new Set(rows.map(r => r.week))].sort((a,b) => a - b);
+
+    const subjSel = document.getElementById('subjectFilter');
+    const prevSubj = subjSel.value;
+    subjSel.innerHTML = '<option value="">All Subjects</option>';
+    subjects.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; subjSel.appendChild(o); });
+    subjSel.value = prevSubj;
+
+    const weekSel = document.getElementById('weekFilter');
+    const prevWeek = weekSel.value;
+    weekSel.innerHTML = '<option value="">All Weeks</option>';
+    weeks.forEach(w => { const o = document.createElement('option'); o.value = w; o.textContent = 'Week ' + w; weekSel.appendChild(o); });
+    weekSel.value = prevWeek;
+  }
+
+  function sortBy(col) {
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = true; }
+    renderTable();
+  }
+
+  function renderTable() {
+    const term    = document.getElementById('termFilter').value;
+    const week    = document.getElementById('weekFilter').value;
+    const subject = document.getElementById('subjectFilter').value;
+    const status  = document.getElementById('statusFilter').value;
+
+    let rows = getRows().filter(r =>
+      (!term    || String(r.term)    === term) &&
+      (!week    || String(r.week)    === week) &&
+      (!subject || r.subject         === subject) &&
+      (!status  || r.status          === status)
+    );
+
+    rows.sort((a, b) => {
+      const av = a[sortCol] ?? '';
+      const bv = b[sortCol] ?? '';
+      const n  = typeof av === 'number' ? av - bv : String(av).localeCompare(String(bv));
+      return sortAsc ? n : -n;
+    });
+
+    const tbody = document.getElementById('tableBody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty">No assignments found.</td></tr>';
+      document.getElementById('countLabel').textContent = '';
+      return;
+    }
+
+    tbody.innerHTML = rows.map((r, i) => {
+      const subjClass = r.student === 'eddie' ? 'subject-eddie' : 'subject-dara';
+      const sSel = r.status === 'Completed' ? 's-done' : r.status === 'In Progress' ? 's-prog' : 's-start';
+      return `<tr class="${i % 2 === 0 ? 'odd' : 'even'}">
+        <td class="${subjClass}">${r.subject}</td>
+        <td>${r.title}</td>
+        <td>${r.due || ''}</td>
+        <td class="dim">${r.term || ''}</td>
+        <td class="dim">${r.week || ''}</td>
+        <td><select class="status-sel ${sSel}" onchange="updateStatus(${r.id},'${r.student}',this)">
+          <option ${r.status==='Not Started'?'selected':''}>Not Started</option>
+          <option ${r.status==='In Progress'?'selected':''}>In Progress</option>
+          <option ${r.status==='Completed'?'selected':''}>Completed</option>
+        </select></td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('countLabel').textContent = `${rows.length} assignment${rows.length !== 1 ? 's' : ''}`;
+  }
+
+  async function updateStatus(id, student, sel) {
+    sel.className = 'status-sel ' + (sel.value==='Completed' ? 's-done' : sel.value==='In Progress' ? 's-prog' : 's-start');
+    const entry = data[student].find(e => e.id === id);
+    if (entry) entry.status = sel.value;
+    await fetch('/api/update_status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status: sel.value })
+    });
+  }
+
+  loadData();
+</script>
+</body>
+</html>

@@ -38,11 +38,15 @@
     },
     "assignments": [
       {
-        "due": "Due Mar 11, 9:00\u202fAM",
+        "due": "Due Mar 13, 2:02\u202fPM",
+        "title": "Comparing motivational strategies"
+      },
+      {
+        "due": "Due 9:00\u202fAM",
         "title": "Note taking: Motivational strategies"
       },
       {
-        "due": "Due Yesterday, 2:02\u202fPM",
+        "due": "Due Mar 6, 2:02\u202fPM",
         "title": "Motivational theories similarities and differences"
       },
       {
@@ -91,7 +95,11 @@
     },
     "assignments": [
       {
-        "due": "Due Mar 10, 4:30\u202fPM",
+        "due": "Due Mar 17, 4:30\u202fPM",
+        "title": "Homework Week 7 - Paragraph Prompt 5"
+      },
+      {
+        "due": "Due Yesterday, 4:30\u202fPM",
         "title": "Homework Week 6 - Paragraph Prompt 4"
       },
       {
@@ -125,74 +133,6 @@
       {
         "due": "Due Jan 30",
         "title": "Orientation and Holiday homework"
-      }
-    ]
-  },
-  {
-    "course": {
-      "id": "53723945291",
-      "name": "LLibrary Space"
-    },
-    "assignments": [
-      {
-        "due": "Due Mar 19, 2024",
-        "title": "ILD Collaborative Story"
-      },
-      {
-        "due": "Due Aug 18, 2025",
-        "title": "BOOK TOK VIDEO COMPETITION"
-      },
-      {
-        "due": "Due Aug 15, 2025",
-        "title": "LIT FEST WRITING COMPETITION"
-      },
-      {
-        "due": "Due Jun 16, 2022, 1:00\u202fPM",
-        "title": "Library Scavenger Hunt"
-      },
-      {
-        "due": "Due Jun 20, 2022, 10:00\u202fAM",
-        "title": "Match the book cover to the passage competition"
-      },
-      {
-        "due": "Due Jun 20, 2022, 10:00\u202fAM",
-        "title": "Guess who's reading? competition"
-      },
-      {
-        "due": "Due Jun 20, 2022, 10:00\u202fAM",
-        "title": "Book Spine Poetry"
-      },
-      {
-        "due": "Due Feb 9, 2022, 11:59\u202fAM",
-        "title": "Question"
-      },
-      {
-        "due": "Due Feb 9, 2022, 11:59\u202fAM",
-        "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"
-      },
-      {
-        "due": "Due Dec 6, 2023",
-        "title": "What was everyone's favourite holiday read?"
-      },
-      {
-        "due": "Due Jun 3, 2021, 1:10\u202fPM",
-        "title": "Book Balderdash - Phase 02"
-      },
-      {
-        "due": "Due Jun 2, 2021, 11:00\u202fAM",
-        "title": "Book Balderdash"
-      },
-      {
-        "due": "Due Jun 4, 2021, 12:00\u202fPM",
-        "title": "Book Week Dress Up"
-      },
-      {
-        "due": "Due Aug 28, 2020",
-        "title": "LIBRARY BINGO\u2013 a week-long game..."
-      },
-      {
-        "due": "Due Aug 28, 2020, 12:00\u202fPM",
-        "title": "'Recreate a Book Cover in Iso' competition"
       }
     ]
   }

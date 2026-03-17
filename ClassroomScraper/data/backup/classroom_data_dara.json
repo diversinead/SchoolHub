@@ -1,0 +1,133 @@
+[
+  {
+    "course": {
+      "id": "23794907980",
+      "name": "77VOLB_2 (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "23779715060",
+      "name": "77RUNN_2 (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841419559911",
+      "name": "77DIG1_3 (2026)"
+    },
+    "assignments": [
+      {
+        "due": "Due 6 Feb",
+        "title": "Upload your Digital Workbook here"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "841419702477",
+      "name": "77PHI1_1 (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841417529860",
+      "name": "77FOO1_5 (2026)"
+    },
+    "assignments": [
+      {
+        "due": "Due 4 Mar",
+        "title": "Exit Pass - Recipe"
+      },
+      {
+        "due": "Due 25 Feb",
+        "title": "Exit pass- Week 5 ( Brownies)"
+      },
+      {
+        "due": "Due 11 Feb",
+        "title": "Exit Pass-"
+      },
+      {
+        "due": "Due 4 Feb",
+        "title": "Kitchen Measurement task"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "841406872851",
+      "name": "77POS.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841406435795",
+      "name": "77LEA.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841407725944",
+      "name": "77FRE.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841405411064",
+      "name": "77ENG.G (2026)"
+    },
+    "assignments": [
+      {
+        "due": "Due 4 Mar",
+        "title": "Writer's Notebook"
+      },
+      {
+        "due": "Due 4 Mar",
+        "title": "Writer's Notebook Entry Term 1 Week 6"
+      },
+      {
+        "due": "Due 8 Mar",
+        "title": "Formative Fantasy Booklets"
+      },
+      {
+        "due": "Due 11 Feb",
+        "title": "Story Mountain"
+      },
+      {
+        "due": "Due 24 Feb",
+        "title": "Fantasy Planning"
+      },
+      {
+        "due": "Due 30 Jan",
+        "title": "Choosing our sticker"
+      }
+    ]
+  },
+  {
+    "course": {
+      "id": "841405411062",
+      "name": "77HUM.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "841406439175",
+      "name": "77MAT.G (2026)"
+    },
+    "assignments": []
+  },
+  {
+    "course": {
+      "id": "21930194539",
+      "name": "77SCI.G (2026)"
+    },
+    "assignments": []
+  }
+]

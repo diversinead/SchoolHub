@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessment Dates 2026 – Albert Park College</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; padding: 20px; font-size: 13px; background: #f4f4f4; }
+  h2 { color: #2a7a7a; margin: 0 0 4px; }
+  .subtitle { color: #666; margin: 0 0 16px; font-size: 12px; }
+
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .toggle-group { display: flex; gap: 6px; }
+  .toggle-btn { padding: 7px 16px; border-radius: 6px; border: 2px solid #ccc; background: #fff;
+                cursor: pointer; font-size: 13px; font-weight: 600; color: #555; }
+  .toggle-btn.t-eddie.active { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .toggle-btn.t-dara.active  { background: #1a5fb4; color: #fff; border-color: #1a5fb4; }
+  .toggle-btn.t-all.active   { background: #555;    color: #fff; border-color: #555; }
+
+  select.filter { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;
+                  background: #fff; cursor: pointer; }
+  select.filter:focus { outline: none; border-color: #2a7a7a; }
+
+  .spacer { flex: 1; }
+  a.admin-link { font-size: 12px; font-weight: 600; color: #2a7a7a; text-decoration: none; }
+  a.admin-link:hover { text-decoration: underline; }
+
+  table { border-collapse: collapse; width: 100%; background: #fff; border-radius: 8px;
+          overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  thead tr { background: #2a7a7a; color: #fff; }
+  th { padding: 10px 14px; text-align: left; cursor: pointer; user-select: none; white-space: nowrap; }
+  th:hover { background: #1f5c5c; }
+  td { padding: 7px 14px; border-bottom: 1px solid #e8e8e8; }
+  tr:last-child td { border-bottom: none; }
+  tr.odd  { background: #f9f9f9; }
+  tr.even { background: #fff; }
+  tr:hover { background: #f0f7f7 !important; }
+
+  td.dim { color: #aaa; }
+  td.assessment-eddie { font-weight: 700; color: #2a7a7a; }
+  td.assessment-dara  { font-weight: 700; color: #1a5fb4; }
+
+  .empty { text-align: center; padding: 30px; color: #aaa; font-style: italic; }
+  .count { color: #888; font-size: 12px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<h2>📅 Assessment Dates 2026</h2>
+<p class="subtitle">Albert Park College</p>
+
+<div class="controls">
+  <div class="toggle-group">
+    <button class="toggle-btn t-all active"  id="s-all"   onclick="setStudent('all')">All</button>
+    <button class="toggle-btn t-eddie"       id="s-eddie" onclick="setStudent('eddie')">Eddie</button>
+    <button class="toggle-btn t-dara"        id="s-dara"  onclick="setStudent('dara')">Dara</button>
+  </div>
+
+  <select class="filter" id="termFilter" onchange="renderTable()"><option value="">All Terms</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+  <select class="filter" id="weekFilter" onchange="renderTable()"><option value="">All Weeks</option></select>
+
+  <span class="spacer"></span>
+  <a class="admin-link" href="/admin" target="_blank">+ Admin ↗</a>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th onclick="sortBy('term')">Term</th>
+      <th onclick="sortBy('week')">Week</th>
+      <th onclick="sortBy('date')">Date</th>
+      <th onclick="sortBy('text')">Assessment</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+<p class="count" id="countLabel"></p>
+
+<script>
+  let data = null;
+  let currentStudent = 'all';
+  let sortCol = 'term';
+  let sortAsc = true;
+
+  async function loadData() {
+    try {
+      const resp = await fetch('/api/data');
+      data = await resp.json();
+    } catch (e) {}
+    populateFilters();
+    renderTable();
+  }
+
+  function setStudent(s) {
+    currentStudent = s;
+    ['all','eddie','dara'].forEach(id => {
+      document.getElementById('s-' + id).classList.toggle('active', id === s);
+    });
+    populateFilters();
+    renderTable();
+  }
+
+  function getRows() {
+    if (!data) return [];
+    const students = currentStudent === 'all' ? ['eddie','dara'] : [currentStudent];
+    const rows = [];
+    for (const s of students) {
+      for (const term of [1, 2, 3, 4]) {
+        const weeks = data[s][String(term)] || [];
+        for (const w of weeks) {
+          w.assessments.forEach(a => {
+            rows.push({ student: s, term, week: w.week, date: w.date, text: a });
+          });
+        }
+      }
+    }
+    return rows;
+  }
+
+  function populateFilters() {
+    const rows = getRows();
+    const weeks = [...new Set(rows.map(r => r.week))].sort((a, b) => a - b);
+
+    const weekSel = document.getElementById('weekFilter');
+    const prevWeek = weekSel.value;
+    weekSel.innerHTML = '<option value="">All Weeks</option>';
+    weeks.forEach(w => { const o = document.createElement('option'); o.value = w; o.textContent = 'Week ' + w; weekSel.appendChild(o); });
+    weekSel.value = prevWeek;
+  }
+
+  function sortBy(col) {
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = true; }
+    renderTable();
+  }
+
+  function renderTable() {
+    const term = document.getElementById('termFilter').value;
+    const week = document.getElementById('weekFilter').value;
+
+    let rows = getRows().filter(r =>
+      (!term || String(r.term) === term) &&
+      (!week || String(r.week) === week)
+    );
+
+    rows.sort((a, b) => {
+      const av = a[sortCol] ?? '';
+      const bv = b[sortCol] ?? '';
+      const n = typeof av === 'number' ? av - bv : String(av).localeCompare(String(bv));
+      return sortAsc ? n : -n;
+    });
+
+    const tbody = document.getElementById('tableBody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="empty">No assessments found.</td></tr>';
+      document.getElementById('countLabel').textContent = '';
+      return;
+    }
+
+    tbody.innerHTML = rows.map((r, i) => {
+      const aClass = r.student === 'eddie' ? 'assessment-eddie' : 'assessment-dara';
+      return `<tr class="${i % 2 === 0 ? 'odd' : 'even'}">
+        <td class="dim">${r.term}</td>
+        <td class="dim">${r.week}</td>
+        <td>${r.date}</td>
+        <td class="${aClass}">${r.text}</td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('countLabel').textContent = `${rows.length} assessment${rows.length !== 1 ? 's' : ''}`;
+  }
+
+  loadData();
+</script>
+</body>
+</html>

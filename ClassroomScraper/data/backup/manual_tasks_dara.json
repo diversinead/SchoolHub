@@ -32,5 +32,33 @@
       {"due": "Due 21 Mar", "title": "Education Perfect"},
       {"due": "Due 28 Mar", "title": "Education Perfect"}
     ]
+  },
+  {
+    "course": {
+      "id": "manual_food",
+      "name": "Food"
+    },
+    "assignments": [
+      {"due": "Due 25 Mar", "title": "Practical Cook"},
+      {"due": "Due 1 Apr", "title": "Poster"}
+    ]
+  },
+  {
+    "course": {
+      "id": "manual_english",
+      "name": "77ENG.G (2026)"
+    },
+    "assignments": [
+      {"due": "Due 12 Mar", "title": "Summative Assessment - Write Fantasy Story"}
+    ]
+  },
+  {
+    "course": {
+      "id": "manual_humanities",
+      "name": "77HUM.G (2026)"
+    },
+    "assignments": [
+      {"due": "Due 17 Mar", "title": "Assessment - Aboriginal and Torres Strait Islander history"}
+    ]
   }
 ]

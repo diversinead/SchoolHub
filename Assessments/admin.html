@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessment Admin</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0f4f4; margin: 0; padding: 24px; font-size: 13px; }
+  h2 { color: #2a7a7a; margin: 0 0 4px; }
+  .subtitle { color: #888; margin: 0 0 24px; font-size: 12px; }
+
+  .layout { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 24px; min-width: 320px; }
+  .card h3 { margin: 0 0 18px; color: #333; font-size: 14px; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-weight: 600; color: #555; margin-bottom: 5px; }
+
+  .toggle-group { display: flex; gap: 6px; }
+  .toggle-btn { padding: 7px 18px; border-radius: 6px; border: 2px solid #ccc; background: #fff;
+                cursor: pointer; font-size: 13px; font-weight: 600; color: #555; transition: 0.1s; }
+  .toggle-btn:hover { opacity: 0.8; }
+  .toggle-btn.t-eddie.active { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .toggle-btn.t-dara.active  { background: #1a5fb4; color: #fff; border-color: #1a5fb4; }
+  .toggle-btn.t-term.active  { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+
+  select, input[type=text] {
+    width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px;
+    font-size: 13px; background: #fafafa;
+  }
+  select:focus, input[type=text]:focus { outline: none; border-color: #2a7a7a; background: #fff; }
+
+  .row2 { display: flex; gap: 10px; }
+  .row2 .field { flex: 1; }
+
+  .btn-add { width: 100%; padding: 10px; border-radius: 8px; border: none; background: #2a7a7a;
+             color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 4px; }
+  .btn-add:hover { background: #1f5c5c; }
+  .btn-add:active { transform: scale(0.98); }
+
+  .toast { margin-top: 12px; padding: 8px 12px; border-radius: 6px; font-weight: 600;
+           font-size: 12px; display: none; }
+  .toast.success { background: #d4edda; color: #155724; display: block; }
+  .toast.error   { background: #f8d7da; color: #721c24; display: block; }
+
+  /* Data card */
+  .data-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+               padding: 24px; flex: 1; min-width: 420px; }
+  .data-card h3 { margin: 0 0 14px; color: #333; font-size: 14px; }
+
+  .data-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+  .data-tab { padding: 6px 14px; border-radius: 6px; border: 2px solid #ccc; background: #fff;
+              cursor: pointer; font-size: 12px; font-weight: 600; color: #555; }
+  .data-tab.active-eddie { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .data-tab.active-dara  { background: #1a5fb4; color: #fff; border-color: #1a5fb4; }
+
+  table.list { border-collapse: collapse; width: 100%; }
+  table.list th { background: #f4f4f4; padding: 7px 10px; text-align: left; font-size: 11px;
+                  color: #666; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #e0e0e0;
+                  cursor: pointer; user-select: none; white-space: nowrap; }
+  table.list th:hover { background: #eaeaea; }
+  table.list th:last-child { cursor: default; }
+  table.list th:last-child:hover { background: #f4f4f4; }
+  table.list th .sort-arrow { font-size: 10px; margin-left: 3px; color: #999; }
+  table.list td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+  table.list tr:last-child td { border-bottom: none; }
+  table.list tr:hover td { background: #f9f9f9; }
+
+  .btn-edit { background: none; border: none; cursor: pointer; color: #bbb; font-size: 13px; padding: 0 4px; }
+  .btn-edit:hover { color: #2a7a7a; }
+  .btn-del { background: none; border: none; cursor: pointer; color: #bbb; font-size: 13px; padding: 0 4px; }
+  .btn-del:hover { color: #c0392b; }
+  .btn-cancel-edit { width: 100%; padding: 8px; border-radius: 8px; border: 2px solid #ccc; background: #fff;
+                     color: #555; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 6px; }
+  .btn-cancel-edit:hover { background: #f5f5f5; }
+
+  .empty { color: #aaa; font-style: italic; font-size: 12px; padding: 12px 0; }
+
+  a.view-link { display: inline-block; margin-top: 16px; color: #2a7a7a; font-size: 12px; font-weight: 600; text-decoration: none; }
+  a.view-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h2>📋 Assessment Admin</h2>
+<p class="subtitle">Albert Park College – Add &amp; manage assessments</p>
+
+<div class="layout">
+
+  <!-- Add form -->
+  <div class="card">
+    <h3 id="formTitle">Add Assessment</h3>
+
+    <div class="field">
+      <label>Student</label>
+      <div class="toggle-group">
+        <button class="toggle-btn t-eddie active" id="s-eddie" onclick="setStudent('eddie')">Eddie</button>
+        <button class="toggle-btn t-dara"         id="s-dara"  onclick="setStudent('dara')">Dara</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Term</label>
+      <div class="toggle-group">
+        <button class="toggle-btn t-term active" id="t-1" onclick="setTerm(1)">Term 1</button>
+        <button class="toggle-btn t-term"        id="t-2" onclick="setTerm(2)">Term 2</button>
+        <button class="toggle-btn t-term"        id="t-3" onclick="setTerm(3)">Term 3</button>
+        <button class="toggle-btn t-term"        id="t-4" onclick="setTerm(4)">Term 4</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Week</label>
+      <select id="weekSelect" onchange="onWeekChange()"></select>
+    </div>
+
+    <div class="field">
+      <label>Date range <span style="color:#aaa;font-weight:400">(auto-filled if week exists)</span></label>
+      <input type="text" id="dateInput" placeholder="e.g. 23–27 Feb">
+    </div>
+
+    <div class="field">
+      <label>Assessment</label>
+      <input type="text" id="assessmentInput" placeholder="e.g. 11 General Maths: GA 5"
+             onkeydown="if(event.key==='Enter') submitForm()">
+    </div>
+
+    <button class="btn-add" id="submitBtn" onclick="submitForm()">Add Assessment</button>
+    <button class="btn-cancel-edit" id="cancelBtn" style="display:none" onclick="cancelEdit()">Cancel Edit</button>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <!-- Current assessments -->
+  <div class="data-card">
+    <h3>Current Assessments</h3>
+    <div class="data-tabs">
+      <button class="data-tab active-eddie" id="tab-eddie" onclick="setViewStudent('eddie')">Eddie</button>
+      <button class="data-tab"              id="tab-dara"  onclick="setViewStudent('dara')">Dara</button>
+    </div>
+    <div id="dataView"></div>
+    <a class="view-link" href="/" target="_blank">Open assessments page ↗</a>
+  </div>
+
+</div>
+
+<script>
+  // ── Known week dates ──────────────────────────────────────────────────────────
+  const KNOWN_DATES = {
+    1: { 1:"27–30 Jan", 2:"2–6 Feb", 3:"9–13 Feb", 4:"16–20 Feb", 5:"23–27 Feb",
+         6:"2–6 Mar", 7:"9–13 Mar", 8:"16–20 Mar", 9:"23–27 Mar", 10:"30 Mar–2 Apr" },
+    2: { 1:"20–24 Apr", 2:"27 Apr–1 May", 3:"4–8 May", 4:"11–15 May", 5:"18–22 May",
+         6:"25–29 May", 7:"1–5 Jun", 8:"8–12 Jun", 9:"15–19 Jun", 10:"22–26 Jun" },
+    3: { 1:"13–17 Jul", 2:"20–24 Jul", 3:"27–31 Jul", 4:"3–7 Aug", 5:"10–14 Aug",
+         6:"17–21 Aug", 7:"24–28 Aug", 8:"31 Aug–4 Sep", 9:"7–11 Sep", 10:"14–18 Sep" },
+    4: { 1:"5–9 Oct", 2:"12–16 Oct" }
+  };
+
+  // ── State ───────────────────────────────────────────────────────────────────
+  let formStudent = 'eddie';
+  let formTerm    = 1;
+  let viewStudent = 'eddie';
+  let data        = null;
+  let editingKey  = null;  // { student, term, week, index }
+  let sortCol     = 'term';
+  let sortAsc     = true;
+
+  // ── Init ────────────────────────────────────────────────────────────────────
+  async function loadData() {
+    const resp = await fetch('/api/data');
+    data = await resp.json();
+    populateWeekDropdown();
+    renderDataView();
+  }
+
+  function populateWeekDropdown() {
+    const sel = document.getElementById('weekSelect');
+    sel.innerHTML = '';
+    for (let w = 1; w <= 10; w++) {
+      const date = getDateForWeek(w);
+      const opt = document.createElement('option');
+      opt.value = w;
+      opt.textContent = `Week ${w}  (${date})`;
+      sel.appendChild(opt);
+    }
+    onWeekChange();
+  }
+
+  function getDateForWeek(w) {
+    if (data) {
+      const weeks = data[formStudent][String(formTerm)] || [];
+      const entry = weeks.find(e => e.week === w);
+      if (entry) return entry.date;
+    }
+    return KNOWN_DATES[formTerm][w] || '';
+  }
+
+  function onWeekChange() {
+    const w = parseInt(document.getElementById('weekSelect').value);
+    document.getElementById('dateInput').value = getDateForWeek(w);
+  }
+
+  // ── Form controls ────────────────────────────────────────────────────────────
+  function setStudent(s) {
+    formStudent = s;
+    document.getElementById('s-eddie').classList.toggle('active', s === 'eddie');
+    document.getElementById('s-dara').classList.toggle('active', s === 'dara');
+    populateWeekDropdown();
+  }
+
+  function setTerm(t) {
+    formTerm = t;
+    for (const i of [1, 2, 3, 4]) {
+      document.getElementById(`t-${i}`).classList.toggle('active', t === i);
+    }
+    populateWeekDropdown();
+  }
+
+  // ── Submit (Add or Edit) ─────────────────────────────────────────────────────
+  async function submitForm() {
+    const week       = parseInt(document.getElementById('weekSelect').value);
+    const date       = document.getElementById('dateInput').value.trim();
+    const assessment = document.getElementById('assessmentInput').value.trim();
+
+    if (!assessment) { showToast('Please enter an assessment.', false); return; }
+    if (!date)       { showToast('Please enter a date range.', false); return; }
+
+    if (editingKey) {
+      const resp = await fetch('/api/edit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          student: editingKey.student, term: editingKey.term,
+          week: editingKey.week, index: editingKey.index, assessment
+        })
+      });
+      const result = await resp.json();
+      if (result.ok) {
+        cancelEdit();
+        showToast('Assessment updated!', true);
+        await loadData();
+      } else {
+        showToast(result.error || 'Error saving.', false);
+      }
+      return;
+    }
+
+    const resp = await fetch('/api/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ student: formStudent, term: formTerm, week, date, assessment })
+    });
+    const result = await resp.json();
+
+    if (result.ok) {
+      document.getElementById('assessmentInput').value = '';
+      showToast('Assessment added!', true);
+      await loadData();
+    } else {
+      showToast(result.error || 'Error saving.', false);
+    }
+  }
+
+  function showToast(msg, ok) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + (ok ? 'success' : 'error');
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // ── Edit ──────────────────────────────────────────────────────────────────────
+  function startEdit(student, term, week, index, text) {
+    editingKey = { student, term, week, index };
+
+    setStudent(student);
+    setTerm(term);
+    document.getElementById('weekSelect').value = week;
+    onWeekChange();
+    document.getElementById('assessmentInput').value = text;
+
+    document.getElementById('formTitle').textContent = 'Edit Assessment';
+    document.getElementById('submitBtn').textContent = 'Save Changes';
+    document.getElementById('cancelBtn').style.display = 'block';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function cancelEdit() {
+    editingKey = null;
+    document.getElementById('assessmentInput').value = '';
+    document.getElementById('formTitle').textContent = 'Add Assessment';
+    document.getElementById('submitBtn').textContent = 'Add Assessment';
+    document.getElementById('cancelBtn').style.display = 'none';
+  }
+
+  // ── Delete ────────────────────────────────────────────────────────────────────
+  async function deleteAssessment(student, term, week, index) {
+    if (!confirm('Remove this assessment?')) return;
+    const resp = await fetch('/api/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ student, term, week, index })
+    });
+    const result = await resp.json();
+    if (result.ok) await loadData();
+  }
+
+  // ── View ──────────────────────────────────────────────────────────────────────
+  function setViewStudent(s) {
+    viewStudent = s;
+    document.getElementById('tab-eddie').className = 'data-tab' + (s==='eddie' ? ' active-eddie' : '');
+    document.getElementById('tab-dara').className  = 'data-tab' + (s==='dara'  ? ' active-dara'  : '');
+    renderDataView();
+  }
+
+  function sortBy(col) {
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = true; }
+    renderDataView();
+  }
+
+  function sortArrow(col) {
+    if (sortCol !== col) return '';
+    return `<span class="sort-arrow">${sortAsc ? '▲' : '▼'}</span>`;
+  }
+
+  function renderDataView() {
+    if (!data) return;
+    const view = document.getElementById('dataView');
+
+    // Flatten all assessments for this student into table rows
+    const rows = [];
+    for (const term of [1, 2, 3, 4]) {
+      const weeks = data[viewStudent][String(term)] || [];
+      for (const w of weeks) {
+        w.assessments.forEach((a, i) => {
+          rows.push({ term, week: w.week, date: w.date, text: a, index: i });
+        });
+      }
+    }
+
+    // Sort
+    rows.sort((a, b) => {
+      const av = a[sortCol] ?? '';
+      const bv = b[sortCol] ?? '';
+      const n = typeof av === 'number' ? av - bv : String(av).localeCompare(String(bv));
+      return sortAsc ? n : -n;
+    });
+
+    if (!rows.length) {
+      view.innerHTML = '<p class="empty">No assessments yet.</p>';
+      return;
+    }
+
+    const color = viewStudent === 'eddie' ? '#2a7a7a' : '#1a5fb4';
+    let html = `<table class="list">
+      <thead><tr>
+        <th onclick="sortBy('term')">T ${sortArrow('term')}</th>
+        <th onclick="sortBy('week')">W ${sortArrow('week')}</th>
+        <th onclick="sortBy('date')">Date ${sortArrow('date')}</th>
+        <th onclick="sortBy('text')">Assessment ${sortArrow('text')}</th>
+        <th></th>
+      </tr></thead>
+      <tbody>`;
+
+    rows.forEach(r => {
+      const escaped = r.text.replace(/'/g, "\\'").replace(/\\/g, "\\\\");
+      html += `<tr>
+        <td style="color:#aaa">${r.term}</td>
+        <td style="color:#aaa">${r.week}</td>
+        <td style="white-space:nowrap;color:#666">${r.date}</td>
+        <td style="font-weight:700;color:${color}">${r.text}</td>
+        <td>
+          <button class="btn-edit" title="Edit" onclick="startEdit('${viewStudent}',${r.term},${r.week},${r.index},'${escaped}')">✎</button>
+          <button class="btn-del" title="Delete" onclick="deleteAssessment('${viewStudent}',${r.term},${r.week},${r.index})">✕</button>
+        </td>
+      </tr>`;
+    });
+
+    html += '</tbody></table>';
+    view.innerHTML = html;
+  }
+
+  loadData();
+</script>
+</body>
+</html>
