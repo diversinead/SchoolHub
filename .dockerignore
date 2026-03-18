@@ -1,0 +1,7 @@
+.git
+.idea
+.venv
+.claude
+ClassroomScraper
+__pycache__
+*.pyc

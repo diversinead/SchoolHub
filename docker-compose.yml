@@ -1,0 +1,10 @@
+services:
+  schoolhub:
+    build: .
+    container_name: schoolhub
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Assessments:/app/Assessments
+      - ./Homework:/app/Homework
+    restart: unless-stopped

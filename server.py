@@ -294,5 +294,6 @@ if __name__ == '__main__':
     normalize_assessments(data)
     write_json(ASSESSMENTS_FILE, data)
 
-    print(f"Server running at http://localhost:{PORT}/")
-    HTTPServer(('localhost', PORT), Handler).serve_forever()
+    print(f"Server running at http://0.0.0.0:{PORT}/")
+    print(f"Local: http://localhost:{PORT}/")
+    HTTPServer(('0.0.0.0', PORT), Handler).serve_forever()
