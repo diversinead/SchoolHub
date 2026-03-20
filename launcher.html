@@ -7,15 +7,15 @@
 <style>
   * { box-sizing: border-box; }
   body { font-family: Arial, sans-serif; background: #f0f4f4; margin: 0;
-         display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 24px; }
-  .wrapper { width: 100%; max-width: 700px; }
+         display: flex; justify-content: center; padding: 24px 24px 48px; }
+  .wrapper { width: 100%; max-width: 900px; }
   h1 { color: #2a7a7a; text-align: center; margin: 0 0 6px; font-size: 26px; }
   .subtitle { text-align: center; color: #888; font-size: 13px; margin: 0 0 36px; }
 
   .sections { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
 
   .section { background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.09);
-             padding: 28px 32px; flex: 1; min-width: 280px; }
+             padding: 28px 32px; flex: 1; min-width: 320px; max-width: 440px; }
   .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .section-icon { font-size: 28px; }
   .section-title { font-size: 18px; font-weight: 700; }
@@ -34,6 +34,51 @@
 
   .divider { border: none; border-top: 1px solid #eee; margin: 12px 0; }
 
+  /* ── Todo checklists ─────────────────────────────────────── */
+  .todo-block { margin-top: 8px; }
+
+  .todo-section { border-top: 1px solid #eee; }
+  .todo-section:first-child { border-top: none; }
+
+  .todo-header { display: flex; align-items: center; justify-content: space-between;
+                 cursor: pointer; padding: 10px 0; user-select: none; }
+  .todo-header:hover { opacity: 0.8; }
+  .todo-header-left { display: flex; align-items: center; gap: 8px; }
+  .todo-period-icon { font-size: 16px; }
+  .todo-period-label { font-size: 13px; font-weight: 700; color: #444; }
+  .todo-progress { font-size: 11px; color: #999; margin-left: 4px; }
+  .todo-progress.all-done { color: #27ae60; font-weight: 600; }
+  .todo-chevron { font-size: 12px; color: #aaa; transition: transform 0.2s; }
+  .todo-section.open .todo-chevron { transform: rotate(90deg); }
+
+  .todo-list { list-style: none; padding: 0; margin: 0 0 6px; display: none; }
+  .todo-section.open .todo-list { display: block; }
+
+  .todo-item { display: flex; align-items: center; gap: 8px; padding: 5px 0 5px 4px;
+               border-radius: 6px; }
+  .todo-item:hover { background: #f8f9fa; }
+  .todo-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer;
+                                       accent-color: #2a7a7a; flex-shrink: 0; }
+  .section:nth-child(2) .todo-item input[type="checkbox"] { accent-color: #1a5fb4; }
+  .todo-item label { font-size: 13px; cursor: pointer; flex: 1; color: #333;
+                     transition: color 0.15s; }
+  .todo-item.checked label { text-decoration: line-through; color: #bbb; }
+  .todo-delete { background: none; border: none; color: #ddd; font-size: 14px;
+                 cursor: pointer; padding: 0 4px; line-height: 1; opacity: 0;
+                 transition: opacity 0.15s; }
+  .todo-item:hover .todo-delete { opacity: 1; }
+  .todo-delete:hover { color: #e74c3c; }
+
+  .todo-add-row { display: none; align-items: center; gap: 6px; padding: 4px 0 8px 4px; }
+  .todo-section.open .todo-add-row { display: flex; }
+  .todo-add-input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 5px 8px;
+                    font-size: 12px; font-family: Arial, sans-serif; outline: none; }
+  .todo-add-input:focus { border-color: #2a7a7a; }
+  .section:nth-child(2) .todo-add-input:focus { border-color: #1a5fb4; }
+  .todo-add-btn { background: none; border: 1px solid #ddd; border-radius: 6px;
+                  padding: 4px 10px; font-size: 12px; cursor: pointer; color: #666; }
+  .todo-add-btn:hover { background: #f0f4f4; border-color: #aaa; }
+
   .port-hint { font-size: 11px; color: #bbb; text-align: center; margin-top: 24px; }
   .port-hint code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; font-family: monospace; }
 </style>
@@ -41,13 +86,13 @@
 <body>
 <div class="wrapper">
 
-  <h1>🎓 School Hub</h1>
+  <h1>School Hub</h1>
   <p class="subtitle">Albert Park College – 2026</p>
 
   <div class="sections">
 
     <!-- Eddie -->
-    <div class="section">
+    <div class="section" data-student="eddie">
       <div class="section-header">
         <span class="section-icon">👦</span>
         <span class="section-title teal">Eddie</span>
@@ -57,10 +102,12 @@
           Eddie's Tasks <span class="arrow">↗</span>
         </a>
       </div>
+      <hr class="divider">
+      <div class="todo-block" id="todo-eddie"></div>
     </div>
 
     <!-- Dara -->
-    <div class="section">
+    <div class="section" data-student="dara">
       <div class="section-header">
         <span class="section-icon">👦</span>
         <span class="section-title blue">Dara</span>
@@ -70,6 +117,8 @@
           Dara's Tasks <span class="arrow">↗</span>
         </a>
       </div>
+      <hr class="divider">
+      <div class="todo-block" id="todo-dara"></div>
     </div>
 
   </div>
@@ -79,5 +128,133 @@
   </p>
 
 </div>
+
+<script>
+const PERIODS = [
+  { key: 'morning',     icon: '🌅', label: 'Morning – Before School' },
+  { key: 'afterschool', icon: '🏠', label: 'After School' },
+  { key: 'bedtime',     icon: '🌙', label: 'Before Bedtime' }
+];
+
+let todoData = {};
+
+async function loadTodos() {
+  const resp = await fetch('/api/todos/data');
+  todoData = await resp.json();
+  renderTodos('eddie');
+  renderTodos('dara');
+}
+
+function renderTodos(student) {
+  const container = document.getElementById('todo-' + student);
+  container.innerHTML = '';
+
+  PERIODS.forEach(period => {
+    const items = (todoData[student] && todoData[student][period.key]) || [];
+    const doneCount = items.filter(i => i.checked).length;
+    const total = items.length;
+    const allDone = total > 0 && doneCount === total;
+
+    const section = document.createElement('div');
+    section.className = 'todo-section open';
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'todo-header';
+    header.innerHTML =
+      '<div class="todo-header-left">' +
+        '<span class="todo-period-icon">' + period.icon + '</span>' +
+        '<span class="todo-period-label">' + period.label + '</span>' +
+        '<span class="todo-progress ' + (allDone ? 'all-done' : '') + '">' +
+          doneCount + '/' + total +
+        '</span>' +
+      '</div>' +
+      '<span class="todo-chevron">▶</span>';
+    header.onclick = function() { section.classList.toggle('open'); };
+    section.appendChild(header);
+
+    // List
+    const list = document.createElement('ul');
+    list.className = 'todo-list';
+    items.forEach((item, idx) => {
+      const li = document.createElement('li');
+      li.className = 'todo-item' + (item.checked ? ' checked' : '');
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = item.checked;
+      cb.id = 'cb-' + student + '-' + period.key + '-' + idx;
+      cb.onchange = function() { toggleItem(student, period.key, idx); };
+
+      const lbl = document.createElement('label');
+      lbl.htmlFor = cb.id;
+      lbl.textContent = item.text;
+
+      const del = document.createElement('button');
+      del.className = 'todo-delete';
+      del.title = 'Remove';
+      del.textContent = '\u00d7';
+      del.onclick = function() { deleteItem(student, period.key, idx); };
+
+      li.appendChild(cb);
+      li.appendChild(lbl);
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+    section.appendChild(list);
+
+    // Add row
+    const addRow = document.createElement('div');
+    addRow.className = 'todo-add-row';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'todo-add-input';
+    input.placeholder = 'Add item\u2026';
+    input.onkeydown = function(e) {
+      if (e.key === 'Enter' && input.value.trim()) addItem(student, period.key, input.value.trim());
+    };
+    const addBtn = document.createElement('button');
+    addBtn.className = 'todo-add-btn';
+    addBtn.textContent = '+ Add';
+    addBtn.onclick = function() {
+      if (input.value.trim()) addItem(student, period.key, input.value.trim());
+    };
+    addRow.appendChild(input);
+    addRow.appendChild(addBtn);
+    section.appendChild(addRow);
+
+    container.appendChild(section);
+  });
+}
+
+async function toggleItem(student, period, idx) {
+  await fetch('/api/todos/toggle', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ student, period, index: idx })
+  });
+  await loadTodos();
+}
+
+async function addItem(student, period, text) {
+  await fetch('/api/todos/add', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ student, period, text })
+  });
+  await loadTodos();
+}
+
+async function deleteItem(student, period, idx) {
+  await fetch('/api/todos/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ student, period, index: idx })
+  });
+  await loadTodos();
+}
+
+loadTodos();
+</script>
 </body>
 </html>

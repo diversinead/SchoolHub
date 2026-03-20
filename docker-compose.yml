@@ -7,4 +7,5 @@ services:
     volumes:
       - ./Assessments:/app/Assessments
       - ./Homework:/app/Homework
+      - ./TodoLists:/app/TodoLists
     restart: unless-stopped

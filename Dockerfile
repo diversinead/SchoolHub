@@ -7,6 +7,7 @@ COPY launcher.html .
 COPY student.html .
 COPY Assessments/ Assessments/
 COPY Homework/ Homework/
+COPY TodoLists/ TodoLists/
 
 EXPOSE 8080
 

@@ -3,10 +3,13 @@ import json
 import os
 import re
 
+from datetime import date
+
 PORT = 8080
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSESSMENTS_FILE = os.path.join(BASE_DIR, 'Assessments', 'assessments_data.json')
 HOMEWORK_FILE = os.path.join(BASE_DIR, 'Homework', 'homework_data.json')
+TODOS_FILE = os.path.join(BASE_DIR, 'TodoLists', 'todo_data.json')
 
 
 def read_json(path):
@@ -30,6 +33,18 @@ def singular_date(date_str):
     if m and months:
         return f"{m.group(1)} {months[0]}"
     return date_str
+
+
+def reset_todos_if_new_day(data):
+    """Reset all checked states when the date changes."""
+    today = date.today().isoformat()
+    if data.get('last_reset') != today:
+        for student in ('eddie', 'dara'):
+            for period in ('morning', 'afterschool', 'bedtime'):
+                for item in data.get(student, {}).get(period, []):
+                    item['checked'] = False
+        data['last_reset'] = today
+    return data
 
 
 def normalize_assessments(data):
@@ -63,6 +78,11 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(json.dumps(normalize_assessments(data), ensure_ascii=False))
         elif self.path == '/api/homework/data':
             data = read_json(HOMEWORK_FILE)
+            self.send_json(json.dumps(data, ensure_ascii=False))
+        elif self.path == '/api/todos/data':
+            data = read_json(TODOS_FILE)
+            reset_todos_if_new_day(data)
+            write_json(TODOS_FILE, data)
             self.send_json(json.dumps(data, ensure_ascii=False))
         else:
             self.send_response(404)
@@ -257,6 +277,53 @@ class Handler(BaseHTTPRequestHandler):
             data[student] = [e for e in data[student] if e['id'] != homework_id]
 
             write_json(HOMEWORK_FILE, data)
+            self.send_json('{"ok": true}')
+
+        # ── Todo routes ──────────────────────────────────────────────────
+        elif self.path == '/api/todos/toggle':
+            data = read_json(TODOS_FILE)
+            reset_todos_if_new_day(data)
+
+            student = body['student']
+            period = body['period']
+            idx = int(body['index'])
+
+            items = data.get(student, {}).get(period, [])
+            if 0 <= idx < len(items):
+                items[idx]['checked'] = not items[idx]['checked']
+
+            write_json(TODOS_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/todos/add':
+            data = read_json(TODOS_FILE)
+            reset_todos_if_new_day(data)
+
+            student = body['student']
+            period = body['period']
+            text = body['text'].strip()
+
+            if not text:
+                self.send_json('{"ok": false, "error": "Empty item"}')
+                return
+
+            data[student][period].append({'text': text, 'checked': False})
+
+            write_json(TODOS_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/todos/delete':
+            data = read_json(TODOS_FILE)
+
+            student = body['student']
+            period = body['period']
+            idx = int(body['index'])
+
+            items = data.get(student, {}).get(period, [])
+            if 0 <= idx < len(items):
+                items.pop(idx)
+
+            write_json(TODOS_FILE, data)
             self.send_json('{"ok": true}')
 
         else:
