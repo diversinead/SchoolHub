@@ -109,7 +109,7 @@ class Handler(BaseHTTPRequestHandler):
 
             weeks = data[student][term]
             entry = next((w for w in weeks if w['week'] == week_n), None)
-            item = {'text': text, 'status': body.get('status', 'Not Started'), 'due': body.get('date', '').strip(), 'notes': ''}
+            item = {'text': text, 'status': body.get('status', 'Not Started'), 'due': body.get('date', '').strip(), 'notes': '', 'grade': body.get('grade', '')}
             if entry:
                 entry['assessments'].append(item)
             else:
@@ -139,6 +139,26 @@ class Handler(BaseHTTPRequestHandler):
                 entry['assessments'][idx]['text'] = text
                 if 'due' in body:
                     entry['assessments'][idx]['due'] = body['due'].strip()
+                if 'grade' in body:
+                    entry['assessments'][idx]['grade'] = body['grade']
+
+            write_json(ASSESSMENTS_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/assessments/update_grade':
+            data = read_json(ASSESSMENTS_FILE)
+            normalize_assessments(data)
+
+            student = body['student']
+            term = str(body['term'])
+            week_n = int(body['week'])
+            idx = int(body['index'])
+            grade = body.get('grade', '')
+
+            weeks = data[student][term]
+            entry = next((w for w in weeks if w['week'] == week_n), None)
+            if entry and 0 <= idx < len(entry['assessments']):
+                entry['assessments'][idx]['grade'] = grade
 
             write_json(ASSESSMENTS_FILE, data)
             self.send_json('{"ok": true}')

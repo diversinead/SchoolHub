@@ -102,6 +102,11 @@
   .note-close { border: 1px solid #ccc; background: #fff; color: #555; }
   .note-close:hover { background: #f5f5f5; }
 
+  /* Grade input */
+  .grade-input { padding: 4px 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;
+                 background: #fff; width: 60px; text-align: center; }
+  .grade-input:focus { outline: none; border-color: #2a7a7a; }
+
   /* Inline editing */
   .ie-sel { padding: 4px 6px; border: 1px solid #2a7a7a; border-radius: 4px; font-size: 12px;
             background: #fff; cursor: pointer; max-width: 130px; }
@@ -229,6 +234,7 @@
       <th onclick="sortBy('detail')">Detail</th>
       <th>Notes</th>
       <th>Status</th>
+      <th onclick="sortBy('grade')">Grade</th>
       <th></th>
     </tr>
   </thead>
@@ -255,6 +261,17 @@
     return new Date(starts[week - 1] + 'T00:00:00');
   }
   function fmtDate(d) { return d.getDate() + ' ' + MONTHS[d.getMonth()]; }
+  function fmtDueWithDay(due) {
+    if (!due) return '';
+    const parts = due.trim().split(' ');
+    if (parts.length < 2) return due;
+    const day = parseInt(parts[0]);
+    const monthIdx = MONTHS.indexOf(parts[1]);
+    if (isNaN(day) || monthIdx < 0) return due;
+    const d = new Date(2026, monthIdx, day);
+    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    return dayNames[d.getDay()] + ',' + ' ' + due;
+  }
   function getDateRange(term, week) {
     const mon = getWeekStart(term, week);
     if (!mon) return '';
@@ -320,10 +337,11 @@
             const subj = colonIdx > 0 ? txt.substring(0, colonIdx) : '';
             const detail = colonIdx > 0 ? txt.substring(colonIdx + 2) : txt;
             const notes = typeof a === 'string' ? '' : (a.notes || '');
+            const grade = typeof a === 'string' ? '' : (a.grade || '');
             rows.push({
               type: 'Assessment', term, week: w.week,
               dateRange: getDateRange(term, w.week), due: (typeof a === 'string' ? w.date : (a.due || w.date)),
-              subject: subj, detail, status, text: txt, notes,
+              subject: subj, detail, status, text: txt, notes, grade,
               _aTerm: term, _aWeek: w.week, _aIndex: idx
             });
           });
@@ -338,7 +356,7 @@
           type: 'Homework', term: entry.term, week: entry.week,
           dateRange: getDateRange(entry.term, entry.week), due: entry.due,
           subject: entry.subject, detail: entry.title, status: entry.status,
-          notes: entry.notes || '', _hId: entry.id
+          notes: entry.notes || '', grade: '', _hId: entry.id
         });
       }
     }
@@ -401,7 +419,7 @@
 
     const tbody = document.getElementById('tableBody');
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="10" class="empty">No tasks found.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="11" class="empty">No tasks found.</td></tr>';
       document.getElementById('countLabel').textContent = '';
       return;
     }
@@ -426,7 +444,7 @@
         <td class="dim">${r.term || ''}</td>
         <td class="dim">${r.week || ''}</td>
         <td style="white-space:nowrap">${r.dateRange || ''}</td>
-        <td>${r.due || ''}</td>
+        <td>${fmtDueWithDay(r.due)}</td>
         <td class="${subjClass}">${r.subject}</td>
         <td>${r.detail}</td>
         <td class="note-cell" onclick="toggleNotePopover(${i}, event)" title="${r.notes ? r.notes.replace(/"/g, '&quot;') : 'Click to add note'}">
@@ -437,6 +455,7 @@
           <option ${r.status==='In Progress'?'selected':''}>In Progress</option>
           <option ${r.status==='Completed'?'selected':''}>Completed</option>
         </select></td>
+        <td>${r.type === 'Assessment' ? `<input type="text" class="grade-input" value="${(r.grade||'').replace(/"/g,'&quot;')}" onchange="updateGrade(${r._aTerm},${r._aWeek},${r._aIndex},this.value)">` : ''}</td>
         <td>
           <button class="btn-edit" title="Edit" onclick="startInlineEdit(${i})">&#x270E;</button>
           <button class="btn-del" title="Delete" onclick="deleteItem('${r.type === 'Assessment' ? 'assessment' : 'homework'}',${r.type === 'Assessment' ? `${r._aTerm},${r._aWeek},${r._aIndex}` : r._hId})">&#x2715;</button>
@@ -457,6 +476,11 @@
       await fetch('/api/homework/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: a1, status: sel.value }) });
     }
+  }
+
+  async function updateGrade(term, week, index, grade) {
+    await fetch('/api/assessments/update_grade', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ student, term, week, index, grade }) });
   }
 
   // ── Form controls ───────────────────────────────────────────────────────
@@ -600,8 +624,16 @@
       <option ${r.status==='In Progress'?'selected':''}>In Progress</option>
       <option ${r.status==='Completed'?'selected':''}>Completed</option></select>`;
 
+    // Grade input
+    if (r.type === 'Assessment') {
+      cells[9].innerHTML = `<input type="text" class="ie-input ie-grade" value="${(r.grade || '').replace(/"/g, '&quot;')}" style="width:60px;text-align:center"
+        onkeydown="if(event.key==='Enter') saveInlineEdit(); if(event.key==='Escape') cancelInlineEdit();">`;
+    } else {
+      cells[9].innerHTML = '';
+    }
+
     // Actions: Save / Cancel
-    cells[9].innerHTML = `<button class="btn-edit" title="Save" onclick="saveInlineEdit()" style="color:#27ae60">&#x2713;</button>
+    cells[10].innerHTML = `<button class="btn-edit" title="Save" onclick="saveInlineEdit()" style="color:#27ae60">&#x2713;</button>
       <button class="btn-del" title="Cancel" onclick="cancelInlineEdit()">&#x2715;</button>`;
 
     tr.querySelector('.ie-detail').focus();
@@ -657,6 +689,8 @@
     const subject = tr.querySelector('.ie-subject').value;
     const detail = tr.querySelector('.ie-detail').value.trim();
     const status = tr.querySelector('.ie-status').value;
+    const gradeEl = tr.querySelector('.ie-grade');
+    const grade = gradeEl ? gradeEl.value.trim() : '';
     const orig = inlineEdit.data;
 
     if (inlineEdit.type === 'Assessment') {
@@ -668,10 +702,10 @@
         await fetch('/api/assessments/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ student, term: orig._aTerm, week: orig._aWeek, index: orig._aIndex }) });
         await fetch('/api/assessments/add', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ student, term, week, date: due, assessment, status }) });
+          body: JSON.stringify({ student, term, week, date: due, assessment, status, grade }) });
       } else {
         await fetch('/api/assessments/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ student, term, week, index: orig._aIndex, assessment, due }) });
+          body: JSON.stringify({ student, term, week, index: orig._aIndex, assessment, due, grade }) });
         await fetch('/api/assessments/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ student, term, week, index: orig._aIndex, status }) });
       }
