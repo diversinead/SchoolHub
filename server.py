@@ -75,7 +75,7 @@ class Handler(BaseHTTPRequestHandler):
             self.serve_file('student.html', 'text/html')
         elif self.path == '/favicon.svg':
             self.serve_file('favicon.svg', 'image/svg+xml')
-        elif self.path == '/apple-touch-icon.png':
+        elif self.path in ('/apple-touch-icon.png', '/apple-touch-icon-precomposed.png'):
             self.serve_file('apple-touch-icon.png', 'image/png')
         elif self.path == '/api/assessments/data':
             data = read_json(ASSESSMENTS_FILE)
@@ -361,7 +361,8 @@ class Handler(BaseHTTPRequestHandler):
             with open(path, 'rb') as f:
                 content = f.read()
             self.send_response(200)
-            self.send_header('Content-Type', content_type + '; charset=utf-8')
+            ct = content_type if content_type.startswith('image/') else content_type + '; charset=utf-8'
+            self.send_header('Content-Type', ct)
             self.end_headers()
             self.wfile.write(content)
         except FileNotFoundError:
