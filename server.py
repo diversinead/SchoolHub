@@ -73,6 +73,10 @@ class Handler(BaseHTTPRequestHandler):
             self.serve_file('launcher.html', 'text/html')
         elif self.path in ('/eddie', '/dara'):
             self.serve_file('student.html', 'text/html')
+        elif self.path == '/favicon.svg':
+            self.serve_file('favicon.svg', 'image/svg+xml')
+        elif self.path == '/apple-touch-icon.png':
+            self.serve_file('apple-touch-icon.png', 'image/png')
         elif self.path == '/api/assessments/data':
             data = read_json(ASSESSMENTS_FILE)
             self.send_json(json.dumps(normalize_assessments(data), ensure_ascii=False))
