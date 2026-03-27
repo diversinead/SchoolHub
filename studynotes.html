@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Study Notes 2026</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; padding: 20px; font-size: 13px; background: #f4f4f4; }
+  h2 { color: #2a7a7a; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+  .home-link { font-size: 14px; text-decoration: none; color: #fff; background: #2a7a7a;
+               padding: 4px 12px; border-radius: 6px; font-weight: 600; white-space: nowrap; }
+  .home-link:hover { background: #1f5c5c; }
+  .subtitle { color: #666; margin: 0 0 20px; font-size: 12px; }
+
+  .subject { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+             margin-bottom: 10px; overflow: hidden; }
+  .subject-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between;
+                    align-items: center; user-select: none; }
+  .subject-header:hover { opacity: 0.85; }
+  .subject-header h3 { margin: 0; font-size: 15px; color: #fff; }
+  .subject-chevron { font-size: 13px; color: rgba(255,255,255,0.7); transition: transform 0.2s; }
+  .subject.open .subject-chevron { transform: rotate(90deg); }
+  .subject-body { display: none; padding: 0; }
+  .subject.open .subject-body { display: block; }
+
+  .aos-section { border-top: 1px solid #eee; }
+  .aos-header { padding: 10px 16px 10px 24px; cursor: pointer; display: flex; justify-content: space-between;
+                align-items: center; user-select: none; }
+  .aos-header:hover { background: #f8f9fa; }
+  .aos-header span { font-size: 13px; font-weight: 700; }
+  .aos-chevron { font-size: 11px; color: #aaa; transition: transform 0.2s; }
+  .aos-section.open .aos-chevron { transform: rotate(90deg); }
+  .aos-chapters { display: none; }
+  .aos-section.open .aos-chapters { display: block; }
+
+  .chapter-list { list-style: none; padding: 0; margin: 0; }
+  .chapter-item { border-top: 1px solid #f0f0f0; }
+  .chapter-link { display: flex; justify-content: space-between; align-items: center;
+                  padding: 9px 16px 9px 40px; text-decoration: none; color: #333; font-size: 13px; }
+  .chapter-link:hover { background: #f0f7f7; }
+  .chapter-arrow { opacity: 0.4; font-size: 14px; }
+  .chapter-link:hover .chapter-arrow { opacity: 1; }
+
+  .empty-note { padding: 10px 16px 10px 40px; color: #aaa; font-style: italic; font-size: 12px;
+                border-top: 1px solid #f0f0f0; }
+  .empty-subject { padding: 12px 16px; color: #aaa; font-style: italic; font-size: 12px;
+                   border-top: 1px solid #eee; }
+
+  /* Add buttons */
+  .add-row { border-top: 1px solid #eee; padding: 8px 16px; display: flex; gap: 6px; }
+  .add-row.indent { padding-left: 40px; border-top: 1px solid #f0f0f0; }
+  .add-btn { background: none; border: 1px solid #ddd; border-radius: 6px; padding: 5px 12px;
+             font-size: 12px; cursor: pointer; color: #666; font-weight: 600; }
+  .add-btn:hover { background: #f0f4f4; border-color: #aaa; }
+
+  /* Inline form */
+  .inline-form { border-top: 1px solid #eee; padding: 10px 16px; display: flex; gap: 8px;
+                 align-items: center; flex-wrap: wrap; }
+  .inline-form.indent { padding-left: 40px; border-top: 1px solid #f0f0f0; }
+  .inline-form input { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px;
+                       outline: none; }
+  .inline-form input:focus { border-color: #2a7a7a; }
+  .inline-form input.title-input { flex: 1; min-width: 140px; }
+  .inline-form input.file-input { flex: 1; min-width: 200px; }
+  .inline-form .save-btn { padding: 6px 14px; border: none; border-radius: 6px; font-size: 12px;
+                           font-weight: 700; cursor: pointer; color: #fff; }
+  .inline-form .save-btn:hover { opacity: 0.85; }
+  .inline-form .cancel-btn { padding: 6px 12px; border: 1px solid #ccc; border-radius: 6px;
+                              font-size: 12px; cursor: pointer; background: #fff; color: #555; }
+  .inline-form .cancel-btn:hover { background: #f5f5f5; }
+
+  /* Delete button */
+  .chapter-row { display: flex; align-items: center; border-top: 1px solid #f0f0f0; }
+  .chapter-row .chapter-link { flex: 1; border-top: none; }
+  .del-btn { background: none; border: none; color: #ddd; font-size: 14px; cursor: pointer;
+             padding: 0 12px 0 0; }
+  .del-btn:hover { color: #c0392b; }
+</style>
+</head>
+<body>
+
+<h2><a href="/" class="home-link">&#x2190; Home</a> <span id="pageTitle"></span></h2>
+<p class="subtitle">Albert Park College</p>
+
+<div id="notesContainer"></div>
+
+<script>
+  const student = window.location.pathname.split('/')[1];
+  const isEddie = student === 'eddie';
+  const themeColor = isEddie ? '#2a7a7a' : '#1a5fb4';
+  let notesData = null;
+
+  document.getElementById('pageTitle').textContent =
+    (isEddie ? "Eddie's" : "Dara's") + ' Study Notes 2026';
+  document.querySelector('h2').style.color = themeColor;
+  document.querySelector('.home-link').style.background = themeColor;
+
+  async function loadNotes() {
+    const resp = await fetch('/api/studynotes/data');
+    const data = await resp.json();
+    notesData = data[student];
+    renderNotes(notesData);
+  }
+
+  async function apiPost(url, body) {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    return resp.json();
+  }
+
+  let activeForm = null;
+
+  function showAddChapterForm(btn, subjectName, aosName) {
+    if (activeForm) { activeForm.remove(); activeForm = null; }
+    const form = document.createElement('div');
+    form.className = 'inline-form' + (aosName ? ' indent' : '');
+    const titleInput = document.createElement('input');
+    titleInput.className = 'title-input';
+    titleInput.placeholder = 'Chapter title, e.g. Ch 2 — Revenue';
+    const fileInput = document.createElement('input');
+    fileInput.className = 'file-input';
+    fileInput.placeholder = 'File path, e.g. eddie/accounting/aos1_ch2.html';
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.style.background = themeColor;
+    saveBtn.textContent = 'Add';
+    saveBtn.onclick = async function() {
+      const title = titleInput.value.trim();
+      const file = fileInput.value.trim();
+      if (!title) return;
+      await apiPost('/api/studynotes/add_chapter', {
+        student, subject: subjectName, aos: aosName || '', title, file
+      });
+      loadNotes();
+    };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function() { form.remove(); activeForm = null; };
+    titleInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    fileInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(titleInput, fileInput, saveBtn, cancelBtn);
+    btn.closest('.add-row').after(form);
+    activeForm = form;
+    titleInput.focus();
+  }
+
+  function showAddAosForm(btn, subjectName) {
+    if (activeForm) { activeForm.remove(); activeForm = null; }
+    const form = document.createElement('div');
+    form.className = 'inline-form';
+    const nameInput = document.createElement('input');
+    nameInput.className = 'title-input';
+    nameInput.placeholder = 'AOS name, e.g. AOS 3';
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.style.background = themeColor;
+    saveBtn.textContent = 'Add';
+    saveBtn.onclick = async function() {
+      const name = nameInput.value.trim();
+      if (!name) return;
+      await apiPost('/api/studynotes/add_aos', {
+        student, subject: subjectName, name
+      });
+      loadNotes();
+    };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function() { form.remove(); activeForm = null; };
+    nameInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(nameInput, saveBtn, cancelBtn);
+    btn.closest('.add-row').after(form);
+    activeForm = form;
+    nameInput.focus();
+  }
+
+  async function deleteChapter(subjectName, aosName, index) {
+    if (!confirm('Delete this chapter?')) return;
+    await apiPost('/api/studynotes/delete_chapter', {
+      student, subject: subjectName, aos: aosName, index
+    });
+    loadNotes();
+  }
+
+  function renderNotes(studentData) {
+    const container = document.getElementById('notesContainer');
+    if (!studentData || !studentData.subjects || !studentData.subjects.length) {
+      container.innerHTML = '<p class="empty-subject">No subjects yet.</p>';
+      return;
+    }
+
+    container.innerHTML = '';
+    for (const subject of studentData.subjects) {
+      const section = document.createElement('div');
+      section.className = 'subject';
+
+      const hasAos = Array.isArray(subject.aos);
+      const chapters = subject.chapters || [];
+      const hasContent = hasAos
+        ? subject.aos.length > 0 && subject.aos.some(a => a.chapters && a.chapters.length > 0)
+        : chapters.length > 0;
+
+      let bodyHtml = '';
+      const sn = subject.name.replace(/'/g, "\\'");
+
+      if (hasAos) {
+        for (const aos of subject.aos) {
+          const an = aos.name.replace(/'/g, "\\'");
+          let chaptersHtml = '';
+          if (aos.chapters && aos.chapters.length > 0) {
+            chaptersHtml = '<ul class="chapter-list">' + aos.chapters.map((ch, i) =>
+              `<li class="chapter-row"><a class="chapter-link" href="/studynotes/${ch.file}" target="_blank">${ch.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteChapter('${sn}','${an}',${i})">&#x2715;</button></li>`
+            ).join('') + '</ul>';
+          } else {
+            chaptersHtml = '<div class="empty-note">No chapters yet</div>';
+          }
+
+          bodyHtml += `
+            <div class="aos-section${aos.chapters && aos.chapters.length > 0 ? ' open' : ''}">
+              <div class="aos-header" onclick="this.parentElement.classList.toggle('open')">
+                <span style="color:${themeColor}">${aos.name}</span>
+                <span class="aos-chevron">&#x25B6;</span>
+              </div>
+              <div class="aos-chapters">
+                ${chaptersHtml}
+                <div class="add-row indent"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}')">+ Chapter</button></div>
+              </div>
+            </div>`;
+        }
+        bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddAosForm(this,'${sn}')">+ AOS</button></div>`;
+      } else {
+        if (chapters.length > 0) {
+          bodyHtml = '<ul class="chapter-list">' + chapters.map((ch, i) =>
+            `<li class="chapter-row"><a class="chapter-link" href="/studynotes/${ch.file}" target="_blank">${ch.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteChapter('${sn}','',${i})">&#x2715;</button></li>`
+          ).join('') + '</ul>';
+        } else {
+          bodyHtml = '<div class="empty-subject">No notes yet</div>';
+        }
+        bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','')">+ Chapter</button></div>`;
+      }
+
+      section.innerHTML = `
+        <div class="subject-header" style="background:${themeColor}" onclick="this.parentElement.classList.toggle('open')">
+          <h3>${subject.name}</h3>
+          <span class="subject-chevron">&#x25B6;</span>
+        </div>
+        <div class="subject-body">${bodyHtml}</div>`;
+
+      if (hasContent) section.classList.add('open');
+      container.appendChild(section);
+    }
+  }
+
+  loadNotes();
+</script>
+</body>
+</html>
