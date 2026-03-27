@@ -72,6 +72,14 @@
                               font-size: 12px; cursor: pointer; background: #fff; color: #555; }
   .inline-form .cancel-btn:hover { background: #f5f5f5; }
 
+  /* Links section */
+  .links-section { border-top: 1px solid #eee; padding: 8px 16px; }
+  .links-section:first-child { border-top: none; }
+  .link-row { display: flex; align-items: center; padding: 5px 0; }
+  .link-icon { margin-right: 8px; font-size: 13px; opacity: 0.5; }
+  .link-row a { color: #1a5fb4; text-decoration: none; font-size: 13px; flex: 1; }
+  .link-row a:hover { text-decoration: underline; }
+
   /* Delete button */
   .chapter-row { display: flex; align-items: center; border-top: 1px solid #f0f0f0; }
   .chapter-row .chapter-link { flex: 1; border-top: none; }
@@ -115,6 +123,45 @@
   }
 
   let activeForm = null;
+
+  function showAddLinkForm(btn, subjectName) {
+    if (activeForm) { activeForm.remove(); activeForm = null; }
+    const form = document.createElement('div');
+    form.className = 'inline-form';
+    const titleInput = document.createElement('input');
+    titleInput.className = 'title-input';
+    titleInput.placeholder = 'Link title, e.g. VCAA Past Exams';
+    const urlInput = document.createElement('input');
+    urlInput.className = 'file-input';
+    urlInput.placeholder = 'URL, e.g. https://...';
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.style.background = themeColor;
+    saveBtn.textContent = 'Add';
+    saveBtn.onclick = async function() {
+      const title = titleInput.value.trim();
+      const url = urlInput.value.trim();
+      if (!title || !url) return;
+      await apiPost('/api/studynotes/add_link', { student, subject: subjectName, title, url });
+      loadNotes();
+    };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function() { form.remove(); activeForm = null; };
+    titleInput.onkeydown = function(e) { if (e.key === 'Enter') urlInput.focus(); };
+    urlInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(titleInput, urlInput, saveBtn, cancelBtn);
+    btn.closest('.add-row').after(form);
+    activeForm = form;
+    titleInput.focus();
+  }
+
+  async function deleteLink(subjectName, index) {
+    if (!confirm('Delete this link?')) return;
+    await apiPost('/api/studynotes/delete_link', { student, subject: subjectName, index });
+    loadNotes();
+  }
 
   function showAddChapterForm(btn, subjectName, aosName) {
     if (activeForm) { activeForm.remove(); activeForm = null; }
@@ -203,12 +250,22 @@
 
       const hasAos = Array.isArray(subject.aos);
       const chapters = subject.chapters || [];
-      const hasContent = hasAos
+      const hasLinks = Array.isArray(subject.links) && subject.links.length > 0;
+      const hasContent = hasLinks || (hasAos
         ? subject.aos.length > 0 && subject.aos.some(a => a.chapters && a.chapters.length > 0)
-        : chapters.length > 0;
+        : chapters.length > 0);
 
       let bodyHtml = '';
       const sn = subject.name.replace(/'/g, "\\'");
+      const links = subject.links || [];
+
+      // Links section
+      if (links.length > 0) {
+        bodyHtml += '<div class="links-section">' + links.map((lnk, i) =>
+          `<div class="link-row"><span class="link-icon">&#x1F517;</span><a href="${lnk.url}" target="_blank">${lnk.title}</a><button class="del-btn" onclick="deleteLink('${sn}',${i})">&#x2715;</button></div>`
+        ).join('') + '</div>';
+      }
+      bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddLinkForm(this,'${sn}')">+ Link</button></div>`;
 
       if (hasAos) {
         for (const aos of subject.aos) {

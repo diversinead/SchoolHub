@@ -365,6 +365,38 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json('{"ok": true}')
 
         # ── Study Notes routes ─────────────────────────────────────
+        elif self.path == '/api/studynotes/add_link':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            title = body['title'].strip()
+            url = body['url'].strip()
+            if not title or not url:
+                self.send_json('{"ok": false, "error": "Title and URL required"}')
+                return
+            for subj in data[student]['subjects']:
+                if subj['name'] == subject_name:
+                    if 'links' not in subj:
+                        subj['links'] = []
+                    subj['links'].append({'title': title, 'url': url})
+                    break
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/delete_link':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            idx = int(body['index'])
+            for subj in data[student]['subjects']:
+                if subj['name'] == subject_name:
+                    links = subj.get('links', [])
+                    if 0 <= idx < len(links):
+                        links.pop(idx)
+                    break
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
         elif self.path == '/api/studynotes/add_aos':
             data = read_json(STUDYNOTES_FILE)
             student = body['student']
