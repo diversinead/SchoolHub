@@ -419,19 +419,15 @@ class Handler(BaseHTTPRequestHandler):
             title = body['title'].strip()
             file_path = body.get('file', '').strip()
             aos_name = body.get('aos', '')
+            sub_name = body.get('subsection', '')
             if not title:
                 self.send_json('{"ok": false, "error": "Empty title"}')
                 return
-            for subj in data[student]['subjects']:
-                if subj['name'] == subject_name:
-                    if 'aos' in subj and aos_name:
-                        for aos in subj['aos']:
-                            if aos['name'] == aos_name:
-                                aos['chapters'].append({'title': title, 'file': file_path})
-                                break
-                    elif 'chapters' in subj:
-                        subj['chapters'].append({'title': title, 'file': file_path})
-                    break
+            target = self._find_target(data, student, subject_name, aos_name, sub_name)
+            if target is not None:
+                if 'chapters' not in target:
+                    target['chapters'] = []
+                target['chapters'].append({'title': title, 'file': file_path})
             write_json(STUDYNOTES_FILE, data)
             self.send_json('{"ok": true}')
 
@@ -440,18 +436,67 @@ class Handler(BaseHTTPRequestHandler):
             student = body['student']
             subject_name = body['subject']
             aos_name = body.get('aos', '')
+            sub_name = body.get('subsection', '')
             idx = int(body['index'])
+            target = self._find_target(data, student, subject_name, aos_name, sub_name)
+            if target is not None:
+                chapters = target.get('chapters', [])
+                if 0 <= idx < len(chapters):
+                    chapters.pop(idx)
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/add_quiz':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body['aos']
+            sub_name = body.get('subsection', '')
+            title = body['title'].strip()
+            file_path = body.get('file', '').strip()
+            if not title:
+                self.send_json('{"ok": false, "error": "Empty title"}')
+                return
+            target = self._find_target(data, student, subject_name, aos_name, sub_name)
+            if target is not None:
+                if 'quizzes' not in target:
+                    target['quizzes'] = []
+                target['quizzes'].append({'title': title, 'file': file_path})
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/delete_quiz':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body['aos']
+            sub_name = body.get('subsection', '')
+            idx = int(body['index'])
+            target = self._find_target(data, student, subject_name, aos_name, sub_name)
+            if target is not None:
+                quizzes = target.get('quizzes', [])
+                if 0 <= idx < len(quizzes):
+                    quizzes.pop(idx)
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/add_subsection':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body['aos']
+            name = body['name'].strip()
+            if not name:
+                self.send_json('{"ok": false, "error": "Empty name"}')
+                return
             for subj in data[student]['subjects']:
-                if subj['name'] == subject_name:
-                    if 'aos' in subj and aos_name:
-                        for aos in subj['aos']:
-                            if aos['name'] == aos_name:
-                                if 0 <= idx < len(aos['chapters']):
-                                    aos['chapters'].pop(idx)
-                                break
-                    elif 'chapters' in subj:
-                        if 0 <= idx < len(subj['chapters']):
-                            subj['chapters'].pop(idx)
+                if subj['name'] == subject_name and 'aos' in subj:
+                    for aos in subj['aos']:
+                        if aos['name'] == aos_name:
+                            if 'subsections' not in aos:
+                                aos['subsections'] = []
+                            aos['subsections'].append({'name': name, 'chapters': [], 'quizzes': []})
+                            break
                     break
             write_json(STUDYNOTES_FILE, data)
             self.send_json('{"ok": true}')
@@ -459,6 +504,22 @@ class Handler(BaseHTTPRequestHandler):
         else:
             self.send_response(404)
             self.end_headers()
+
+    def _find_target(self, data, student, subject_name, aos_name, sub_name):
+        """Find the target dict (aos or subsection) to add/remove chapters/quizzes."""
+        for subj in data[student]['subjects']:
+            if subj['name'] == subject_name:
+                if 'aos' in subj and aos_name:
+                    for aos in subj['aos']:
+                        if aos['name'] == aos_name:
+                            if sub_name and 'subsections' in aos:
+                                for sub in aos['subsections']:
+                                    if sub['name'] == sub_name:
+                                        return sub
+                                return None
+                            return aos
+                return subj
+        return None
 
     def serve_file(self, filename, content_type):
         path = os.path.join(BASE_DIR, filename)

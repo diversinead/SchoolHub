@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 1 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#26215C;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+
+/* Progress bar */
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#7F77DD;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+
+/* Score banner */
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}
+.score-great h2{color:#085041}
+.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}
+.score-ok h2{color:#412402}
+.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}
+.score-low h2{color:#4A1B0C}
+.score-low p{color:#712B13}
+
+/* Question card */
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}
+.q-card.incorrect{border-color:#D85A30}
+.q-card.revealed{border-color:#AFA9EC}
+
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}
+.type-sa{background:#EEEDFE;color:#26215C}
+.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#7F77DD;background:#F8F7FF}
+.mc-opt.selected{border-color:#7F77DD;background:#EEEDFE;color:#26215C}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}
+.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#7F77DD;background:#EEEDFE}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}
+.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}
+.mc-opt.selected .opt-letter{color:#26215C}
+
+/* Written answer area */
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#7F77DD}
+.write-area.er-area{min-height:140px}
+
+/* Buttons */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#7F77DD;color:#fff}
+.btn-check:hover{background:#534AB7}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}
+.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+
+/* Answer reveal */
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+
+/* Result icon */
+.result-icon{font-size:15px;margin-left:6px}
+
+/* Reset button */
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#26215C;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#3C3489}
+
+/* Sticky score tracker */
+.score-tracker{position:sticky;top:8px;z-index:10;background:#26215C;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 1 Quiz</h1>
+<p class="subtitle">Business Foundations &middot; 15 questions &middot; Mixed format &middot; Hot topics focus</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / <span id="live-total">0</span> answered</span>
+  <span id="live-correct">0 correct</span>
+</div>
+
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+
+<div id="score-banner"></div>
+
+<!-- ==================== Q1 ==================== -->
+<div class="q-card" id="qc1">
+  <div class="q-meta">
+    <span class="q-num">Question 1</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which management style is most appropriate when a business is facing a financial crisis and needs to make immediate cost-cutting decisions?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>Laissez-faire, because staff can determine cost-cutting measures independently</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Participative, because group consensus produces the best financial decisions</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>Autocratic, because quick decisions are needed without time for consultation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Consultative, because the manager should seek input before deciding</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk1" onclick="checkMC(1,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: C &mdash; Autocratic</strong>
+    The autocratic style allows the manager to make immediate decisions without consultation. In a crisis where speed is critical, this avoids the delays of seeking staff input. The other styles all involve degrees of consultation or delegation that would slow down the decision-making process.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q2 ==================== -->
+<div class="q-card" id="qc2">
+  <div class="q-meta">
+    <span class="q-num">Question 2</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Corporate culture can be described as formal or informal. Which of the following is an example of INFORMAL corporate culture?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>A written code of conduct displayed on the staff noticeboard</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>An HR policy requiring managers to hold monthly one-on-one meetings</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>The unwritten expectation that junior staff do not question senior managers in meetings</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>A mission statement published on the company website</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk2" onclick="checkMC(2,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: C</strong>
+    Informal culture refers to the actual, unwritten norms and behaviours that develop naturally within the workplace. An unwritten expectation is never stated officially but shapes behaviour every day. Options A, B and D are all examples of formal culture &mdash; they are written, documented and officially communicated.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q3 ==================== -->
+<div class="q-card" id="qc3">
+  <div class="q-meta">
+    <span class="q-num">Question 3</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A manager at a software company asks all team members for their opinions on a new project management process, considers their feedback carefully, and then makes the final decision alone. Which management style is this?</p>
+  <div class="mc-options" id="mc3">
+    <div class="mc-opt" onclick="selectMC(this,'mc3','A')"><span class="opt-letter">A</span>Persuasive</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','B')"><span class="opt-letter">B</span>Participative</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','C')"><span class="opt-letter">C</span>Autocratic</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','D')"><span class="opt-letter">D</span>Consultative</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk3" onclick="checkMC(3,'D')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans3">
+    <strong>&#10003; Correct answer: D &mdash; Consultative</strong>
+    The key feature of the consultative style is that the manager seeks staff input but retains the final decision-making authority. This is different from participative (where the group decides together) and persuasive (where the manager decides first and then explains the reasoning). Autocratic involves no staff input at all.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q4 ==================== -->
+<div class="q-card" id="qc4">
+  <div class="q-meta">
+    <span class="q-num">Question 4</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following best describes a STAKEHOLDER?</p>
+  <div class="mc-options" id="mc4">
+    <div class="mc-opt" onclick="selectMC(this,'mc4','A')"><span class="opt-letter">A</span>A person who owns shares in a public company listed on the stock exchange</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','B')"><span class="opt-letter">B</span>Any individual or group that has an interest in or is affected by the decisions of a business</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','C')"><span class="opt-letter">C</span>Only the employees and managers who work inside the business</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','D')"><span class="opt-letter">D</span>Any person who has purchased a product or service from the business</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk4" onclick="checkMC(4,'B')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans4">
+    <strong>&#10003; Correct answer: B</strong>
+    A stakeholder is any individual or group with an interest in or affected by the business &mdash; this is broader than shareholders (option A), employees only (option C) or just customers (option D). Stakeholders include internal groups (staff, managers) and external groups (customers, suppliers, government, community).
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q5 ==================== -->
+<div class="q-card" id="qc5">
+  <div class="q-meta">
+    <span class="q-num">Question 5</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Define the term <em>management style</em> and identify ONE situation where a persuasive style would be appropriate.</p>
+  <textarea class="write-area" id="wa5" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(5)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans5">
+    <strong>&#128221; Model answer</strong>
+    <strong>Definition (1 mark):</strong> A management style is the approach or manner in which a manager makes decisions, communicates with staff and exercises authority in the workplace.<br><br>
+    <strong>Appropriate situation (1 mark):</strong> A persuasive style is appropriate when a manager needs to implement a change that staff may initially resist &mdash; for example, introducing a new rostering system. By explaining the reasons and benefits, the manager can motivate staff to accept the decision without opening it up to debate.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct definition that includes decision-making and authority. 1 mark for a logical situation that matches the key feature of persuasive style (manager decides, then explains why).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q6 ==================== -->
+<div class="q-card" id="qc6">
+  <div class="q-meta">
+    <span class="q-num">Question 6</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Anika is the manager of a busy veterinary clinic with a team of six experienced, highly qualified veterinarians. Each vet has a specialist area and the team rarely needs direction on clinical decisions. Anika spends most of her time on administration rather than supervising the team&apos;s work.</p>
+  <p class="q-text">Identify the management style Anika is most likely using and explain why it is appropriate for this situation. (3 marks)</p>
+  <textarea class="write-area" id="wa6" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(6)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans6">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify (1 mark):</strong> Anika is most likely using a <strong>laissez-faire</strong> management style.<br><br>
+    <strong>Explain why appropriate (2 marks):</strong> The laissez-faire style grants staff full autonomy to make decisions independently, with minimal direction from the manager. This is appropriate at the veterinary clinic because the team consists of highly qualified, experienced specialists who have the expertise to manage their own clinical work without supervision. Anika trusts the vets to operate independently, freeing her to focus on administration. This style would be inappropriate with unskilled or new staff, but suits this team because they have both the capability and the professional motivation to self-direct.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly identifying laissez-faire. 1 mark for explaining what the style involves. 1 mark for linking the style to the specific features of the scenario (highly qualified, experienced, specialist team).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q7 ==================== -->
+<div class="q-card" id="qc7">
+  <div class="q-meta">
+    <span class="q-num">Question 7</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain the difference between formal and informal corporate culture. Use an example for each.</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Formal culture (1 mark):</strong> Formal culture is the intended culture deliberately created by management through official documents such as policies, mission statements and codes of conduct. For example, Woolworths publishes a formal code of conduct requiring staff to treat customers with respect as part of its official customer-first culture.<br><br>
+    <strong>Informal culture (1 mark):</strong> Informal culture is the actual culture that develops naturally through shared experiences, unwritten norms and the behaviour of influential people within the business. For example, despite a formal open-door policy, the informal culture at a law firm may be that junior staff never approach senior partners directly without going through a supervisor first.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct explanation of formal culture with a relevant example. 1 mark for a correct explanation of informal culture with a relevant example. Examples must be clearly linked to the correct type of culture to earn the mark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q8 ==================== -->
+<div class="q-card" id="qc8">
+  <div class="q-meta">
+    <span class="q-num">Question 8</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-text">Identify and explain THREE management skills. For each skill, provide an example of a manager demonstrating it.</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer (any three of the following)</strong>
+    <strong>Communication:</strong> The ability to clearly convey information verbally and in writing, and to listen actively. Eg: A Bunnings store manager holds a Monday briefing to ensure all staff understand their weekly targets and any safety updates.<br><br>
+    <strong>Delegation:</strong> Assigning tasks and responsibility to staff while retaining overall accountability. Eg: A cafe owner delegates weekly stock ordering to a trusted senior employee, freeing the owner to focus on menu development.<br><br>
+    <strong>Decision-making:</strong> Identifying problems, evaluating options and selecting the best course of action. Eg: The CEO of Linfox decides to invest in electric trucks after analysing cost, emissions data and long-term fuel projections.<br><br>
+    <strong>Planning:</strong> Setting goals and determining the actions, timelines and resources needed to achieve them. Eg: A retail manager prepares a staffing and promotions plan for the Christmas trading period three months in advance.<br><br>
+    <strong>Leadership:</strong> Inspiring and influencing others toward achieving business objectives. Eg: A manager holds a team meeting during a difficult restructure to explain the vision and address staff concerns.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark per skill for a correct name + explanation + example, up to 3 marks. A name alone without explanation earns no mark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q9 ==================== -->
+<div class="q-card" id="qc9">
+  <div class="q-meta">
+    <span class="q-num">Question 9</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-scenario">Westfield Industries is a private company (Pty Ltd) with 12 shareholders. One of the shareholders is concerned about a recent business decision and threatens to take personal legal action against the shareholders for the company&apos;s debts.</p>
+  <p class="q-text">Explain why this legal action is unlikely to succeed. Refer to a relevant legal concept in your answer. (2 marks)</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    The legal action is unlikely to succeed because Westfield Industries is a private company (Pty Ltd), which provides its shareholders with <strong>limited liability</strong> (1 mark). Limited liability means that shareholders can only lose the amount they invested in the company and cannot be personally sued for the company&apos;s debts &mdash; their personal assets such as their home or savings are fully protected (1 mark). This is one of the key advantages of operating as a company rather than as a sole trader or partnership, both of which carry unlimited personal liability.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for identifying limited liability. 1 mark for correctly explaining what limited liability means in the context of this scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q10 ==================== -->
+<div class="q-card" id="qc10">
+  <div class="q-meta">
+    <span class="q-num">Question 10</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">The shareholders of Platinum Retail Ltd want to maximise short-term profit by cutting staff hours. However, the employees argue that reduced hours will make it impossible to provide the level of customer service that has built the company&apos;s reputation.</p>
+  <p class="q-text">Identify TWO stakeholder groups involved in this conflict and explain the nature of the conflict between their interests. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Stakeholder 1 &mdash; Shareholders (1 mark):</strong> Shareholders are an internal stakeholder group whose primary interest is maximising financial returns. They want Platinum Retail to cut staff hours to reduce labour costs and increase short-term profit, directly benefiting their dividend payments and share value.<br><br>
+    <strong>Stakeholder 2 &mdash; Employees (1 mark):</strong> Employees are an internal stakeholder group whose primary interest is job security, fair working conditions and adequate hours. Cutting their hours reduces their income and makes it harder for them to deliver quality service.<br><br>
+    <strong>Nature of the conflict (1 mark):</strong> The conflict arises because the shareholders&apos; goal of maximising profit through cost reduction directly clashes with the employees&apos; need for adequate hours. Ironically, the employees also argue that cutting service quality will damage customer loyalty and ultimately harm the long-term profitability that shareholders value &mdash; meaning the conflict also pits short-term shareholder interests against the business&apos;s long-term objectives.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for each correctly identified and described stakeholder group. 1 mark for a clear explanation of the conflict between their interests that goes beyond simply restating the scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q11 ==================== -->
+<div class="q-card" id="qc11">
+  <div class="q-meta">
+    <span class="q-num">Question 11</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following management skills is being demonstrated when a store manager assigns the task of training new staff to an experienced team leader?</p>
+  <div class="mc-options" id="mc11">
+    <div class="mc-opt" onclick="selectMC(this,'mc11','A')"><span class="opt-letter">A</span>Planning</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc11','B')"><span class="opt-letter">B</span>Delegation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc11','C')"><span class="opt-letter">C</span>Communication</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc11','D')"><span class="opt-letter">D</span>Leadership</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk11" onclick="checkMC(11,'B')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans11">
+    <strong>&#10003; Correct answer: B &mdash; Delegation</strong>
+    Delegation is the skill of assigning tasks and responsibility to others while retaining overall accountability. Assigning the training task to an experienced team leader is a textbook example of delegation. Planning involves setting goals and timelines, communication involves conveying information, and leadership involves inspiring others &mdash; none of these match the specific act of assigning a task to another person.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q12 ==================== -->
+<div class="q-card" id="qc12">
+  <div class="q-meta">
+    <span class="q-num">Question 12</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A social enterprise differs from a traditional private company primarily because a social enterprise:</p>
+  <div class="mc-options" id="mc12">
+    <div class="mc-opt" onclick="selectMC(this,'mc12','A')"><span class="opt-letter">A</span>Is owned by the government and funded through taxation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc12','B')"><span class="opt-letter">B</span>Cannot employ paid staff and must rely on volunteers</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc12','C')"><span class="opt-letter">C</span>Operates primarily to achieve a social or community purpose, reinvesting profits into that mission</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc12','D')"><span class="opt-letter">D</span>Is exempt from all Australian taxation obligations</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk12" onclick="checkMC(12,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans12">
+    <strong>&#10003; Correct answer: C</strong>
+    A social enterprise is defined by its primary purpose of achieving a social, environmental or community outcome, with profits reinvested into that mission rather than distributed to shareholders. It is not government-owned (A), can employ paid staff (B), and does not have blanket tax exemption (D).
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q13 ==================== -->
+<div class="q-card" id="qc13">
+  <div class="q-meta">
+    <span class="q-num">Question 13</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">4 marks</span>
+  </div>
+  <p class="q-scenario">Jordan is the owner-manager of Nova Fitness, a boutique gym with 14 staff. Recently, Nova Fitness has experienced a sharp rise in staff turnover and a growing number of member complaints about inconsistent class quality. Jordan tends to make all decisions without consulting staff and rarely explains the reasons behind changes.</p>
+  <p class="q-text">Discuss the management style Jordan is currently using and explain whether it is appropriate for Nova Fitness in this situation. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify and define (1 mark):</strong> Jordan is currently using an <strong>autocratic</strong> management style, in which the manager makes all decisions independently without consulting or involving staff.<br><br>
+    <strong>Advantage in context (1 mark):</strong> In some respects this style has value for Nova Fitness &mdash; it allows Jordan to make quick decisions about class schedules, pricing and staffing without the delay of consultation, which can be useful in the fast-moving fitness industry where responsiveness matters.<br><br>
+    <strong>Disadvantage + link to evidence (1 mark):</strong> However, the autocratic style is contributing to Nova Fitness&apos;s problems. The sharp rise in staff turnover suggests that instructors feel undervalued and unheard &mdash; a common outcome of autocratic management, where employees have no voice in decisions that affect their work. The growing complaints about inconsistent class quality may also reflect low staff morale and disengagement caused by this approach.<br><br>
+    <strong>Recommendation (1 mark):</strong> Given the evidence of rising turnover and quality issues, the autocratic style is inappropriate for Nova Fitness in its current situation. Jordan should consider shifting to a <strong>consultative</strong> style &mdash; seeking input from experienced instructors on class standards and rostering decisions while retaining final authority. This would improve staff morale, reduce turnover and allow Jordan to draw on the team&apos;s expertise to address quality inconsistencies.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly identifying and defining autocratic. 1 mark for one advantage linked to the scenario. 1 mark for one disadvantage linked to the scenario evidence (turnover, complaints). 1 mark for a justified recommendation that references the specific business context.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q14 ==================== -->
+<div class="q-card" id="qc14">
+  <div class="q-meta">
+    <span class="q-num">Question 14</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">4 marks</span>
+  </div>
+  <p class="q-scenario">Apex Engineering Pty Ltd has recently promoted several engineers into management roles. Surveys show that staff are increasingly dissatisfied, and the business has noticed that day-to-day decisions are often delayed because new managers are unsure how to handle situations without escalating them upward.</p>
+  <p class="q-text">Explain how TWO management skills could help Apex Engineering&apos;s new managers improve business performance. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Skill 1 &mdash; Decision-making (2 marks):</strong> Decision-making is the ability to identify problems, evaluate options and select the best course of action. At Apex Engineering, new managers are frequently escalating routine decisions upward, suggesting they lack the confidence or skills to resolve issues independently. Developing their decision-making skills through structured training and mentoring would enable them to assess situations, weigh options and act decisively at their own level &mdash; reducing delays and freeing senior management to focus on strategic priorities. This would directly improve operational efficiency and business performance.<br><br>
+    <strong>Skill 2 &mdash; Interpersonal skills (2 marks):</strong> Interpersonal skills involve the ability to build positive working relationships, manage team dynamics and communicate effectively with individuals. The staff satisfaction surveys indicate that Apex&apos;s new managers are struggling to connect with and motivate their teams. Stronger interpersonal skills would help these managers build trust with engineers, handle conflict constructively and create a more positive team environment. Improved staff morale would reduce turnover risk and increase productivity, directly benefiting Apex&apos;s overall performance.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> Up to 2 marks per skill: 1 mark for identifying and explaining the skill, 1 mark for linking it clearly to the Apex Engineering scenario and explaining the performance improvement. Generic answers not linked to the scenario earn a maximum of 1 mark per skill.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q15 ==================== -->
+<div class="q-card" id="qc15">
+  <div class="q-meta">
+    <span class="q-num">Question 15</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">6 marks</span>
+  </div>
+  <p class="q-scenario">Harlow&apos;s Bakery is a well-established family business that has operated for 22 years. Its formal culture emphasises quality and customer care, but staff surveys reveal that the informal culture is one of complacency &mdash; employees believe &quot;we&apos;ve always done it this way&quot; and resist new ideas. Three new cafes have recently opened nearby, and Harlow&apos;s has noticed a 12% decline in weekly sales over the past two months.</p>
+  <p class="q-text">Evaluate the role of corporate culture in either helping or hindering Harlow&apos;s Bakery&apos;s ability to respond to the competitive threat it now faces. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for at least 3 well-developed paragraphs."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define corporate culture and introduce (1 mark):</strong> Corporate culture refers to the shared values, beliefs, norms and behaviours that characterise how people act within an organisation. At Harlow&apos;s Bakery, there is a notable gap between the formal culture (emphasising quality and customer care) and the informal culture (complacency and resistance to change), and it is this gap that is central to understanding the business&apos;s current vulnerability.<br><br>
+    <strong>How culture HELPS (1 mark):</strong> Harlow&apos;s formal culture of quality and customer care is a genuine competitive strength. Long-standing customers associate the bakery with reliable quality and personal service &mdash; attributes that new competitors cannot replicate immediately. This cultural foundation provides a degree of protection against the new cafes and gives Harlow&apos;s a platform from which to respond.<br><br>
+    <strong>How culture HINDERS &mdash; point 1 (1 mark):</strong> However, the dominant informal culture of complacency is a serious obstacle to responding effectively. When staff believe that existing practices are sufficient because &quot;we&apos;ve always done it this way&quot;, the business loses the agility needed to adapt quickly. New menu items, extended trading hours or a loyalty program &mdash; all plausible responses to the competitive threat &mdash; are likely to face significant internal resistance from staff who are comfortable with the status quo.<br><br>
+    <strong>How culture HINDERS &mdash; point 2 (1 mark):</strong> The 12% sales decline suggests customers are already being drawn to the new cafes, possibly because they offer something fresh that Harlow&apos;s informal culture prevents the business from matching. If management does not address the cultural resistance quickly, the competitive gap will widen and the sales decline will accelerate.<br><br>
+    <strong>Link to culture change strategy (1 mark):</strong> To address this, Harlow&apos;s management needs to actively reshape the informal culture by celebrating employees who suggest and trial new ideas, communicating the urgency of the competitive threat, and modelling the adaptability they want to see. Without deliberate cultural change, structural or strategic responses will be undermined by a workforce that does not believe change is necessary.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> Overall, Harlow&apos;s Bakery&apos;s corporate culture is currently more of a hindrance than a help in responding to the competitive threat. While the formal values of quality and care provide a useful foundation, the complacent informal culture is the greater risk &mdash; it will prevent the business from implementing the changes needed to retain customers and close the performance gap. Addressing the informal culture must be the first priority before any operational or marketing responses are introduced.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark &mdash; definition and introduction of key concepts. 1 mark &mdash; at least one way culture helps, linked to scenario. 2 marks &mdash; at least two ways culture hinders, linked to scenario. 1 mark &mdash; discussion of what Harlow&apos;s should do to address the culture gap. 1 mark &mdash; a justified overall conclusion that makes a clear judgement and is supported by evidence from the scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FINISH BUTTON ===== -->
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#26215C;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 1 Quiz &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers = {};
+var mcCorrect = {};
+var revealedCount = 0;
+var mcCount = 0;
+var mcCorrectCount = 0;
+var totalAnswered = 0;
+
+function selectMC(el, groupId, letter) {
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  var opts = document.getElementById(groupId).querySelectorAll(".mc-opt");
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.remove("selected");
+  }
+  el.classList.add("selected");
+  if (!mcAnswers[groupId]) mcAnswers[groupId] = {};
+  mcAnswers[groupId].selected = letter;
+}
+
+function checkMC(qNum, correctLetter) {
+  var groupId = "mc" + qNum;
+  var group = document.getElementById(groupId);
+  if (!group) return;
+  var selected = mcAnswers[groupId] ? mcAnswers[groupId].selected : null;
+  if (!selected) {
+    alert("Please select an answer first.");
+    return;
+  }
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  mcAnswers[groupId].locked = true;
+
+  var opts = group.querySelectorAll(".mc-opt");
+  var letters = ["A","B","C","D"];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("disabled");
+    if (letters[i] === correctLetter) {
+      opts[i].classList.add("opt-correct");
+    } else if (letters[i] === selected) {
+      opts[i].classList.add("opt-wrong");
+    }
+  }
+
+  var ansBox = document.getElementById("ans" + qNum);
+  ansBox.classList.add("open");
+  var isCorrect = (selected === correctLetter);
+  if (isCorrect) {
+    ansBox.classList.add("ans-correct");
+    mcCorrectCount++;
+  } else {
+    ansBox.classList.add("ans-wrong");
+  }
+
+  var card = document.getElementById("qc" + qNum);
+  card.classList.add(isCorrect ? "correct" : "incorrect");
+
+  var chkBtn = document.getElementById("chk" + qNum);
+  chkBtn.classList.add("btn-disabled");
+  chkBtn.disabled = true;
+
+  totalAnswered++;
+  updateProgress();
+
+  document.getElementById("chk" + qNum).innerHTML = isCorrect ? "&#10003; Correct!" : "&#10007; Incorrect";
+}
+
+function revealAnswer(qNum) {
+  var ansBox = document.getElementById("ans" + qNum);
+  if (ansBox.classList.contains("open")) return;
+  ansBox.classList.add("open");
+  var card = document.getElementById("qc" + qNum);
+  card.classList.add("revealed");
+  totalAnswered++;
+  updateProgress();
+  var btns = card.querySelectorAll(".btn-reveal");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].innerHTML = "&#10003; Answer revealed";
+    btns[i].classList.add("btn-disabled");
+    btns[i].disabled = true;
+  }
+}
+
+function updateProgress() {
+  var total = 15;
+  var pct = Math.round((totalAnswered / total) * 100);
+  document.getElementById("prog-bar").style.width = pct + "%";
+  document.getElementById("prog-label").textContent = totalAnswered + " of " + total + " questions attempted";
+  document.getElementById("live-score").textContent = totalAnswered;
+  document.getElementById("live-total").textContent = total;
+  document.getElementById("live-correct").textContent = mcCorrectCount + " MC correct";
+}
+
+function finishQuiz() {
+  var banner = document.getElementById("score-banner");
+  var mcTotal = 6;
+  var pct = Math.round((mcCorrectCount / mcTotal) * 100);
+  var cls, msg, sub;
+  if (pct >= 80) {
+    cls = "score-great";
+    msg = "&#127942; Excellent work!";
+    sub = "You scored " + mcCorrectCount + "/" + mcTotal + " on multiple choice (" + pct + "%). Review your written responses against the model answers above.";
+  } else if (pct >= 50) {
+    cls = "score-ok";
+    msg = "&#128218; Good effort &mdash; keep reviewing!";
+    sub = "You scored " + mcCorrectCount + "/" + mcTotal + " on multiple choice (" + pct + "%). Focus on the questions you missed and compare your written answers carefully with the model answers.";
+  } else {
+    cls = "score-low";
+    msg = "&#128214; More revision needed";
+    sub = "You scored " + mcCorrectCount + "/" + mcTotal + " on multiple choice (" + pct + "%). Go back to the Topic 1 cheat sheet and review the hot topic sections before retrying.";
+  }
+  banner.className = cls;
+  banner.innerHTML = "<h2>" + msg + "</h2><p>" + sub + "</p>";
+  banner.style.display = "block";
+  banner.scrollIntoView({behavior:"smooth"});
+  document.getElementById("reset-btn").style.display = "block";
+}
+
+function resetQuiz() {
+  if (!confirm("Reset the quiz? All your answers will be cleared.")) return;
+  location.reload();
+}
+
+updateProgress();
+</script>
+</body>
+</html>

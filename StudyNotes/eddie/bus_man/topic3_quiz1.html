@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 3 Quiz 1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#412402;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#BA7517;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}
+.score-great h2{color:#085041}
+.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}
+.score-ok h2{color:#412402}
+.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}
+.score-low h2{color:#4A1B0C}
+.score-low p{color:#712B13}
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}
+.q-card.incorrect{border-color:#D85A30}
+.q-card.revealed{border-color:#AFA9EC}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}
+.type-sa{background:#EEEDFE;color:#26215C}
+.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#BA7517;background:#FEFAF2}
+.mc-opt.selected{border-color:#BA7517;background:#FAEEDA;color:#412402}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}
+.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#BA7517;background:#FAEEDA}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}
+.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}
+.mc-opt.selected .opt-letter{color:#412402}
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#BA7517}
+.write-area.er-area{min-height:140px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#BA7517;color:#fff}
+.btn-check:hover{background:#412402}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}
+.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+.section-divider{background:#412402;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+.score-tracker{position:sticky;top:8px;z-index:10;background:#412402;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#412402;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#633806}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 3 Quiz 1</h1>
+<p class="subtitle">Operations Management &middot; 15 questions &middot; Mixed format &middot; Hot topics focus</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+<div id="score-banner"></div>
+
+<!-- ===== SECTION 1: OPERATIONS SYSTEM & QUALITY ===== -->
+<div class="section-divider">&#9881; Section 1: Operations system &amp; quality management <span>(3.2 &amp; 3.3)</span></div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="qc1">
+  <div class="q-meta"><span class="q-num">Question 1</span><span class="q-type type-mc">Multiple choice</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Which of the following BEST describes the transformation process in an operations system?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>The raw materials and labour purchased by a business to begin production</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>The activities that convert inputs into finished goods or services</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>The finished products and services delivered to customers</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>The profit generated from selling goods to the market</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: B</strong>
+    The transformation process is the middle stage of the operations system &mdash; it is the set of activities that converts inputs (raw materials, labour, capital) into outputs (finished goods or services). Option A describes inputs. Option C describes outputs. Option D describes financial outcomes, which are not part of the operations system model itself.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="qc2">
+  <div class="q-meta"><span class="q-num">Question 2</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A food manufacturer employs a team of inspectors who check every 50th product coming off the production line and discard any that do not meet weight and packaging standards. Which quality management strategy is being used?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Total Quality Management</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Quality assurance</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Kaizen</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Quality control</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: D &mdash; Quality control</strong>
+    Quality control involves inspecting finished products after production to identify and remove defects before they reach customers. Checking every 50th product and discarding substandard ones is a textbook QC process. Quality assurance (B) focuses on preventing defects through process monitoring during production. TQM (A) makes quality everyone&apos;s responsibility at every stage. Kaizen (C) is about continuous incremental improvement, not inspection.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q3 MC -->
+<div class="q-card" id="qc3">
+  <div class="q-meta"><span class="q-num">Question 3</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Which of the following BEST distinguishes Total Quality Management (TQM) from Quality Assurance (QA)?</p>
+  <div class="mc-options" id="mc3">
+    <div class="mc-opt" onclick="selectMC(this,'mc3','A')"><span class="opt-letter">A</span>TQM focuses on end-of-line inspection, while QA focuses on preventing defects during production</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','B')"><span class="opt-letter">B</span>TQM makes quality the responsibility of every employee at every stage, while QA focuses on systems and processes</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','C')"><span class="opt-letter">C</span>TQM applies only to manufacturing businesses, while QA applies to all industries</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','D')"><span class="opt-letter">D</span>TQM requires ISO certification, while QA does not</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk3" onclick="checkMC(3,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans3">
+    <strong>&#10003; Correct answer: B</strong>
+    The defining difference is scope and responsibility. QA builds systems and processes (such as ISO 9001) to prevent defects from occurring, with responsibility held by process owners and QA teams. TQM goes further &mdash; it is a whole-business philosophy where EVERY employee at EVERY level takes personal responsibility for quality at all times. Option A describes quality control (not TQM). Options C and D are factually incorrect.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta"><span class="q-num">Question 4</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Grandfield Bakeries produces 8,000 loaves of bread daily across two production lines. The quality manager has noticed that 6% of loaves are being rejected at the end-of-line check due to inconsistent weight and underbaking. A consultant has recommended the business move from its current quality control approach to a quality assurance system.</p>
+  <p class="q-text">Explain what quality assurance involves and outline TWO reasons why it would be more appropriate than quality control for Grandfield Bakeries in this situation. (3 marks)</p>
+  <textarea class="write-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define QA (1 mark):</strong> Quality assurance is an operations strategy that focuses on building documented systems and processes that prevent defects from occurring during production, rather than detecting them after the fact. This often involves obtaining ISO 9001 certification, which requires standardised, auditable procedures at every stage of production.<br><br>
+    <strong>Reason 1 (1 mark):</strong> QA would be more appropriate for Grandfield Bakeries because it addresses the root cause of the defects rather than simply removing products after they have already been made. By monitoring oven temperatures, dough weight and baking times as part of a documented process, the business can prevent underbaking and weight inconsistency from occurring in the first place &mdash; reducing the 6% rejection rate and saving the resources wasted producing defective loaves.<br><br>
+    <strong>Reason 2 (1 mark):</strong> QA is also more cost-effective in the long run. Currently, Grandfield is wasting the ingredients, energy and labour used to produce 480 defective loaves per day. A QA system that catches process failures before products are completed would eliminate this waste, reducing costs and improving overall production efficiency compared to the reactive, end-of-line approach.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of QA that highlights process-focused prevention. 1 mark each for two reasons that are clearly linked to the Grandfield Bakeries scenario (the 6% rejection rate, the nature of the defects). Generic answers not referencing the scenario earn a maximum of 1 mark.</p></div>
+  </div>
+</div>
+
+<!-- Q5 SA -->
+<div class="q-card" id="qc5">
+  <div class="q-meta"><span class="q-num">Question 5</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain what kaizen means and outline how it differs from quality control as an approach to quality management. (2 marks)</p>
+  <textarea class="write-area" id="wa5" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(5)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans5">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define kaizen (1 mark):</strong> Kaizen is a Japanese philosophy of continuous, incremental improvement in which all employees are encouraged to identify and implement small, ongoing improvements to processes, products and systems rather than waiting for major overhauls. It is embedded in TQM and treats improvement as an everyday activity rather than a one-off project.<br><br>
+    <strong>How it differs from QC (1 mark):</strong> Quality control is a reactive strategy applied after production is complete, focusing on identifying and removing defective products. Kaizen, by contrast, is a proactive and continuous strategy focused on preventing defects and inefficiencies by constantly improving the process itself. Where QC accepts that defects will occur and manages them after the fact, kaizen seeks to eliminate the conditions that cause defects in the first place.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of kaizen that captures the ideas of continuous, incremental and employee-driven improvement. 1 mark for a clear contrast with quality control that identifies the proactive vs reactive distinction.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: TECHNOLOGY & AUTOMATION ===== -->
+<div class="section-divider">&#129302; Section 2: Technology &amp; automation <span>(3.4)</span></div>
+
+<!-- Q6 MC -->
+<div class="q-card" id="qc6">
+  <div class="q-meta"><span class="q-num">Question 6</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A car manufacturer uses software to create a digital 3D model of a new vehicle design and runs virtual crash-test simulations before any physical prototype is built. Which technology is being used?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>Computer-aided manufacturing (CAM)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>Artificial intelligence (AI)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>Computer-aided design (CAD)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>Robotics</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk6" onclick="checkMC(6,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: C &mdash; Computer-aided design (CAD)</strong>
+    CAD is software used to create and test digital product designs before physical production begins. Creating a 3D model and running virtual simulations is the defining application of CAD. CAM (A) controls production machinery to manufacture products &mdash; it comes after design. AI (B) uses machine learning for forecasting and decision-making. Robotics (D) involves physical machines that perform tasks on production lines.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q7 SA -->
+<div class="q-card" id="qc7">
+  <div class="q-meta"><span class="q-num">Question 7</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">BrewFast Coffee Roasters is a medium-sized Melbourne business that roasts and packages specialty coffee for cafes and online customers. The operations manager is considering investing $2.1 million in a fully automated roasting and packaging line that would replace the work currently performed by 14 production employees. The technology would triple output capacity and reduce defect rates from 4.2% to under 0.5%.</p>
+  <p class="q-text">Discuss the use of automation as an operations strategy for BrewFast Coffee Roasters. In your answer, refer to both the benefits and limitations of this strategy for the business. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define and introduce (1 mark):</strong> Automation is an operations strategy that uses technology and machinery to perform tasks with minimal human input, replacing or augmenting manual labour. For BrewFast Coffee Roasters, the proposed automated roasting and packaging line would transform its production process significantly.<br><br>
+    <strong>Benefit 1 + scenario link (1 mark):</strong> A key benefit is the dramatic improvement in productivity and quality. Tripling output capacity means BrewFast can meet growing demand from cafe clients without proportionally increasing costs, while the reduction in defect rates from 4.2% to under 0.5% would reduce waste and improve the consistency that specialty coffee customers expect. These improvements would strengthen BrewFast&apos;s competitive position and profitability over time.<br><br>
+    <strong>Limitation 1 + scenario link (1 mark):</strong> However, the $2.1 million upfront capital cost is a significant financial risk for a medium-sized business. If demand does not grow as projected or the technology underperforms, BrewFast may struggle to recoup the investment within a reasonable timeframe, creating cash flow pressure that could threaten other areas of the business.<br><br>
+    <strong>Limitation 2 + scenario link (1 mark):</strong> Additionally, replacing 14 production employees would have significant human and reputational costs. Staff made redundant may have worked at BrewFast for many years, and the community impact of these job losses could damage the brand&apos;s reputation, particularly given BrewFast&apos;s positioning in the specialty coffee market where ethical and community values are often important to customers.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition linked to the scenario. 1 mark for a benefit linked to the specific BrewFast data (output, defect rate). 1 mark for a financial limitation linked to the $2.1m cost. 1 mark for a human/social limitation linked to the 14 job losses. A &quot;discuss&quot; response with only benefits OR only limitations earns a maximum of 2 marks.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: MATERIALS, LEAN & CSR ===== -->
+<div class="section-divider">&#9851; Section 3: Materials management, lean &amp; CSR <span>(3.5, 3.6 &amp; 3.7)</span></div>
+
+<!-- Q8 MC -->
+<div class="q-card" id="qc8">
+  <div class="q-meta"><span class="q-num">Question 8</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Which of the following is the MOST significant risk associated with a just-in-time (JIT) inventory system?</p>
+  <div class="mc-options" id="mc8">
+    <div class="mc-opt" onclick="selectMC(this,'mc8','A')"><span class="opt-letter">A</span>Excessive storage costs from holding large quantities of stock</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','B')"><span class="opt-letter">B</span>Production halts immediately if a supplier delivery is delayed</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','C')"><span class="opt-letter">C</span>Overproduction leading to unsold inventory</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','D')"><span class="opt-letter">D</span>Reduced product quality due to faster production speeds</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk8" onclick="checkMC(8,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans8">
+    <strong>&#10003; Correct answer: B</strong>
+    The defining vulnerability of JIT is that it holds virtually no buffer stock, so any disruption to supplier deliveries immediately stops production. This was demonstrated dramatically during COVID-19 when global supply chain breakdowns halted manufacturing for businesses relying on JIT. Options A and C describe problems that JIT is specifically designed to avoid. Option D is not an inherent risk of JIT.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q9 SA -->
+<div class="q-card" id="qc9">
+  <div class="q-meta"><span class="q-num">Question 9</span><span class="q-type type-sa">Short answer</span><span class="q-marks">3 marks</span></div>
+  <p class="q-text">Explain the concept of lean management and describe TWO of the seven wastes (TIMWOOD) that lean management seeks to eliminate. For each waste, provide a relevant business example. (3 marks)</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define lean management (1 mark):</strong> Lean management is a systematic operations approach that identifies and eliminates all activities that consume resources without adding value to the customer &mdash; known as waste. By continuously reducing waste, lean management improves efficiency, lowers costs and delivers more value to customers using fewer resources. Toyota&apos;s production system (TPS) is the world&apos;s most cited example.<br><br>
+    <strong>Waste 1 &mdash; Defects (1 mark):</strong> Defects are products or outputs that do not meet quality standards and must be reworked or discarded. Every defective product wastes the materials, labour and energy that went into producing it. Example: A biscuit manufacturer discovers that 3% of its output is being rejected due to broken packaging. Eliminating the packaging fault removes both the material waste and the labour cost of re-running affected batches.<br><br>
+    <strong>Waste 2 &mdash; Waiting (1 mark):</strong> Waiting waste occurs when people or machinery are idle because the previous step in the process has not been completed. This represents time and capacity being lost without any value being created. Example: At a car assembly plant, the painting station sits idle for 20 minutes between each vehicle because the preceding bodywork station is slower. Synchronising the speeds of both stations eliminates this waiting waste.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of lean management. 1 mark each for any two of the seven TIMWOOD wastes (Transport, Inventory, Motion, Waiting, Overproduction, Over-processing, Defects), with a correct definition and a relevant example. Accept any valid waste from the TIMWOOD framework.</p></div>
+  </div>
+</div>
+
+<!-- Q10 SA -->
+<div class="q-card" id="qc10">
+  <div class="q-meta"><span class="q-num">Question 10</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">BrightPack is an Australian packaging manufacturer that has recently come under pressure from a major retail client who requires all suppliers to demonstrate ethical sourcing practices and environmental sustainability. BrightPack currently sources plastic raw materials from an overseas supplier with no environmental certification, and disposes of 12 tonnes of manufacturing offcuts in landfill each year.</p>
+  <p class="q-text">Identify and explain TWO CSR strategies BrightPack could adopt in its operations to meet its client&apos;s requirements. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Strategy 1 &mdash; Ethical sourcing (1.5 marks):</strong> Ethical sourcing involves selecting suppliers who meet verified standards for environmental responsibility, fair labour conditions and human rights. BrightPack could replace its current overseas plastic supplier with a certified supplier that holds recognised environmental accreditation (such as the ISCC or equivalent). This directly addresses the retail client&apos;s requirement for ethical sourcing and reduces BrightPack&apos;s exposure to reputational risk from unverifiable supply chain practices.<br><br>
+    <strong>Strategy 2 &mdash; Waste reduction / circular economy practices (1.5 marks):</strong> Waste reduction involves redesigning processes to minimise material waste and divert waste from landfill through recycling, reuse or circular economy partnerships. BrightPack currently sends 12 tonnes of manufacturing offcuts to landfill annually &mdash; it could partner with a plastic recycler to redirect this material into recycled feedstock or work with other manufacturers who could use the offcuts as inputs. This demonstrates a genuine commitment to environmental sustainability and provides a concrete, measurable response to the client&apos;s requirements.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks per strategy: 0.5 marks for correctly naming the strategy, 1 mark for explaining it and clearly linking it to BrightPack&apos;s specific situation (overseas supplier, 12 tonnes of landfill waste, client requirement). Generic CSR strategies not linked to the scenario earn 0.5 marks each.</p></div>
+  </div>
+</div>
+
+<!-- Q11 SA -->
+<div class="q-card" id="qc11">
+  <div class="q-meta"><span class="q-num">Question 11</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Distinguish between a pull system and a push system in operations management. Which system is more consistent with lean management principles and why? (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Distinction (1 mark):</strong> A pull system produces goods only in response to actual customer orders &mdash; nothing is made until a demand signal triggers production, minimising inventory. A push system produces goods based on demand forecasts, pushing stock through the supply chain in advance of orders being received, resulting in higher inventory levels.<br><br>
+    <strong>Lean alignment (1 mark):</strong> The pull system is more consistent with lean management principles because it directly eliminates two of the seven wastes: overproduction (nothing is made without a customer order) and inventory (stock levels are minimised because production only begins when demand exists). The push system, by contrast, risks creating overproduction and excess inventory &mdash; two of the most significant forms of waste that lean management seeks to eliminate.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly distinguishing pull (demand-triggered) from push (forecast-triggered). 1 mark for identifying the pull system as more lean-aligned and explaining why, with reference to at least one specific waste type.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 4: Extended responses</div>
+
+<!-- Q12 ER -->
+<div class="q-card" id="qc12">
+  <div class="q-meta"><span class="q-num">Question 12</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Ironwood Furniture manufactures premium hardwood dining tables and chairs in regional Victoria. The business has recently received three negative online reviews from customers who received chairs with uneven legs and tables with visible finish defects. The current quality approach involves one staff member visually checking completed pieces before they are wrapped and dispatched. Ironwood&apos;s owner is considering upgrading to a Total Quality Management approach.</p>
+  <p class="q-text">Compare the current quality control approach at Ironwood Furniture with Total Quality Management. In your answer, identify at least ONE similarity and explain how TQM would better address the quality problems Ironwood is currently experiencing. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa12" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both quality control and Total Quality Management share the same ultimate objective &mdash; ensuring that products delivered to customers meet the required quality standard. In Ironwood&apos;s case, both approaches aim to prevent defective furniture from reaching customers and damaging the business&apos;s reputation.<br><br>
+    <strong>How TQM differs and would better address the problem (1 mark):</strong> Ironwood&apos;s current quality control approach is reactive &mdash; the single staff member checks products after they are fully completed. If defects in leg alignment or surface finish are not detected in that final check, they reach the customer. The negative reviews suggest this end-of-line inspection is either missing defects or catching them too late. TQM, by contrast, makes every craftsperson personally responsible for quality at their own workstation, meaning leg alignment issues would be caught during construction and finish defects during application &mdash; not after the product is complete.<br><br>
+    <strong>Cultural shift of TQM (1 mark):</strong> TQM requires a whole-business cultural shift at Ironwood, where quality is not someone else&apos;s job &mdash; it is embedded in every step of every craftsperson&apos;s work. This could involve regular team quality reviews, empowering staff to halt production when they identify a problem and introducing standardised checklists at each production stage (cutting, assembly, finishing, dispatch).<br><br>
+    <strong>Limitation to acknowledge (1 mark):</strong> However, TQM is not without challenges for Ironwood. It requires significant time and cultural change &mdash; craftspeople who have worked a certain way for years may resist taking on broader quality responsibilities. The transition costs in training and process redesign may also be substantial for a small regional manufacturer with limited resources.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a valid similarity between QC and TQM. 1 mark for explaining how TQM&apos;s proactive, distributed approach would address Ironwood&apos;s specific quality defects. 1 mark for describing the practical implementation of TQM at Ironwood. 1 mark for acknowledging at least one limitation or challenge of TQM for this business.</p></div>
+  </div>
+</div>
+
+<!-- Q13 ER -->
+<div class="q-card" id="qc13">
+  <div class="q-meta"><span class="q-num">Question 13</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">EcoWash is an Australian manufacturer of environmentally friendly cleaning products. It has recently gained a major contract to supply a national supermarket chain, which requires all suppliers to demonstrate strong CSR practices in their operations. EcoWash currently manufactures using petroleum-based packaging, has no documented waste management plan and sources some chemical inputs from suppliers with unknown environmental records. The supermarket has given EcoWash six months to demonstrate measurable CSR improvement.</p>
+  <p class="q-text">Discuss the implementation of CSR strategies in EcoWash&apos;s operations. In your answer, identify TWO specific strategies EcoWash should adopt and explain the potential tension between CSR and the business&apos;s profit objectives. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Strategy 1 &mdash; Sustainable packaging (1 mark):</strong> EcoWash should transition from petroleum-based packaging to recycled or plant-based alternatives, such as recycled PET bottles or compostable pouches. This directly addresses the supermarket&apos;s CSR requirement and aligns with EcoWash&apos;s brand identity as an environmentally friendly product. It is also the most visible CSR improvement, as customers see packaging directly.<br><br>
+    <strong>Strategy 2 &mdash; Ethical sourcing of chemical inputs (1 mark):</strong> EcoWash must audit its current chemical suppliers and transition to certified suppliers with verified environmental credentials. This addresses the supply chain transparency requirement and reduces the risk of reputational damage if a supplier is later found to be causing environmental harm. Formalising a supplier code of conduct and requiring environmental certifications as a condition of supply would demonstrate the measurable progress the supermarket has requested.<br><br>
+    <strong>Tension between CSR and profit (1 mark):</strong> Both strategies will increase EcoWash&apos;s short-term costs. Sustainable packaging typically costs 15&ndash;30% more than conventional alternatives, and auditing and switching chemical suppliers involves time and administrative cost. These increased costs will reduce profit margins in the short term, creating genuine tension between EcoWash&apos;s social and environmental commitments and its financial objectives.<br><br>
+    <strong>Long-term resolution (1 mark):</strong> However, the alternative &mdash; losing the national supermarket contract &mdash; would be far more damaging to EcoWash&apos;s profitability than the cost of CSR improvements. In the long term, strong CSR credentials also attract customers willing to pay a premium for genuinely sustainable products, potentially allowing EcoWash to improve its margin as its brand equity grows. The short-term tension between CSR and profit can therefore be managed as an investment in long-term commercial viability.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each for two specific CSR strategies linked to EcoWash&apos;s situation. 1 mark for explaining the genuine cost/profit tension that arises from CSR investment. 1 mark for a nuanced resolution that acknowledges both the short-term cost and the long-term commercial benefit.</p></div>
+  </div>
+</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta"><span class="q-num">Question 14</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">Apex Automotive Parts manufactures brake components for the Australian aftermarket. The business employs 95 workers across two shifts. Over the past year, the following operational data has been recorded: wastage rate has increased from 2.1% to 5.8%; the number of customer complaints about defective parts has risen from 9 to 41 per month; productivity per worker has declined by 11%; and two key clients have indicated they will review their supply contracts if quality does not improve within 90 days.</p>
+  <p class="q-text">Evaluate the effectiveness of implementing a Total Quality Management (TQM) approach to address the operational challenges at Apex Automotive Parts. In your response, refer to the data provided and justify whether you would recommend TQM as the priority strategy. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here. Aim for at least 4 paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define TQM and introduce (1 mark):</strong> Total Quality Management is a whole-business philosophy in which every employee at every level takes personal responsibility for maintaining and continuously improving quality at each stage of the production process. At Apex Automotive Parts, the deteriorating operational data &mdash; wastage rising from 2.1% to 5.8%, complaints nearly quintupling from 9 to 41 per month &mdash; points to systemic quality failures that TQM is specifically designed to address.<br><br>
+    <strong>Why TQM is well-suited &mdash; addresses root causes (1 mark):</strong> Apex&apos;s current approach clearly involves insufficient quality oversight during production. TQM would empower each of the 95 workers to identify and flag quality issues at their own workstation rather than allowing defective brake components to pass through multiple production stages before being caught or &mdash; worse &mdash; reaching customers. The 11% productivity decline may itself be partly caused by rework of defective components, which TQM&apos;s prevention-focused approach would reduce.<br><br>
+    <strong>Why TQM is well-suited &mdash; addresses the customer threat (1 mark):</strong> The 90-day client ultimatum adds urgency. While TQM is a long-term cultural investment, its early implementation signals to clients that Apex is making a genuine systemic commitment rather than a cosmetic fix. Introducing visible elements such as quality checklists at each workstation, team quality huddles and a zero-defect policy for brake components can begin immediately, demonstrating progress within the 90-day window even before full TQM maturity is reached.<br><br>
+    <strong>Limitation 1 &mdash; Time to implement (1 mark):</strong> However, the most significant limitation of TQM for Apex is that full cultural transformation takes time. TQM requires every worker on both shifts to genuinely accept personal responsibility for quality &mdash; a mindset shift that cannot be achieved through a memo or a one-day workshop. If workers on the night shift continue current practices while day shift adopts TQM principles, quality will remain inconsistent and the complaints data may not improve within 90 days.<br><br>
+    <strong>Limitation 2 &mdash; May need QC bridge in the interim (1 mark):</strong> Given the 90-day client deadline, Apex may also need to implement a strengthened quality control process as a short-term bridge &mdash; increasing inspection frequency to catch defective brake components before they ship &mdash; while TQM is progressively embedded. Relying on TQM alone in the immediate term risks further client complaints during the cultural transition period.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> Overall, TQM is the right long-term strategy for Apex Automotive Parts and should be recommended &mdash; the data clearly shows a systemic quality problem that end-of-line inspection alone cannot fix. However, given the 90-day deadline, TQM should be implemented alongside immediate short-term quality control improvements to protect client relationships while the cultural change takes hold. TQM without this transitional support risks being too slow to prevent contract losses that could threaten the business&apos;s viability.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark &mdash; correct definition and introduction referencing the data. 2 marks &mdash; two reasons TQM is appropriate, linked to specific data points. 2 marks &mdash; two limitations or challenges of TQM in this context. 1 mark &mdash; justified conclusion that makes a clear recommendation with nuanced reasoning (not just &quot;TQM is good&quot;).</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta"><span class="q-num">Question 15</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">5 marks</span></div>
+  <p class="q-scenario">SunGrow Foods is a mid-sized Australian food manufacturer producing organic snack bars. Its operations manager has proposed introducing lean management across the entire production facility. The proposal includes adopting a pull system, eliminating the seven wastes and introducing kaizen practices. Several production supervisors are sceptical, arguing that the current push system &quot;works fine&quot; and that lean will just create more meetings and paperwork without meaningful improvement.</p>
+  <p class="q-text">Explain how lean management principles could improve the operations of SunGrow Foods. In your response, address the supervisors&apos; concerns and evaluate whether lean management is appropriate for this business. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Explain lean management (1 mark):</strong> Lean management is a systematic approach to operations that identifies and eliminates all non-value-adding activities (wastes) in order to deliver products more efficiently. For SunGrow Foods, this means redesigning production processes to eliminate overproduction, excess inventory, unnecessary staff movement, defects and waiting time across the snack bar manufacturing line.<br><br>
+    <strong>Benefits for SunGrow &mdash; pull system (1 mark):</strong> Switching from a push system to a pull system would directly benefit SunGrow&apos;s operations. Rather than producing snack bars based on forecasts and holding finished stock, a pull system would trigger production only when retailer orders are received. For an organic food producer where shelf life matters, this reduces the risk of overproduction leading to expired stock &mdash; a waste that the supervisors&apos; &quot;works fine&quot; push system may currently be masking rather than addressing.<br><br>
+    <strong>Benefits for SunGrow &mdash; kaizen (1 mark):</strong> Kaizen practices would address the supervisors&apos; concern most directly. Rather than creating bureaucracy, well-implemented kaizen involves short, focused daily team discussions where production staff identify one small improvement per week &mdash; for example, repositioning ingredient storage to reduce walking distance between stations. These micro-improvements compound over time into significant efficiency gains without adding paperwork to the supervisors&apos; workload.<br><br>
+    <strong>Addressing supervisors&apos; concerns (1 mark):</strong> The supervisors&apos; resistance reflects a common misconception that lean equals more administration. The reality is the opposite &mdash; lean eliminates wasteful processes including unnecessary reporting and meetings. Their belief that the push system &quot;works fine&quot; may simply reflect a lack of visibility over waste that is currently occurring. Presenting them with data on current rejection rates, stock spoilage and machine idle time would demonstrate that the status quo has measurable, addressable inefficiencies.<br><br>
+    <strong>Evaluation conclusion (1 mark):</strong> Lean management is appropriate for SunGrow Foods and should be implemented. The organic snack bar market is competitive on both quality and cost, and lean&apos;s dual focus on waste elimination and continuous improvement directly addresses both dimensions. The supervisors&apos; concerns are understandable but should be managed through clear communication, early involvement in the kaizen process and visible short-term wins &mdash; following a similar logic to Kotter&apos;s change model. Resistance from experienced supervisors can be turned into an asset if they become lean champions rather than opponents.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly explaining lean management in the SunGrow context. 1 mark for explaining the pull system benefit with a SunGrow-specific reason. 1 mark for explaining how kaizen works and why it does not create the bureaucracy the supervisors fear. 1 mark for directly addressing the supervisors&apos; concerns with evidence-based reasoning. 1 mark for a clear evaluative conclusion recommending lean with a justified rationale.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#412402;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 3 Quiz 1 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
+function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;var opts=document.getElementById(groupId).querySelectorAll(".mc-opt");for(var i=0;i<opts.length;i++){opts[i].classList.remove("selected");}el.classList.add("selected");if(!mcAnswers[groupId])mcAnswers[groupId]={};mcAnswers[groupId].selected=letter;}
+function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
+function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
+function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Now compare your written answers carefully against the model answers &mdash; focus on whether you linked each response to the specific scenario data.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the quality management and CSR sections in your Topic 3 cheat sheet before your next attempt.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 3 cheat sheet and focus on QC vs QA vs TQM and the lean management section.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 5 Quiz 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#4B1528;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#D4537E;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}.score-great h2{color:#085041}.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}.score-ok h2{color:#412402}.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}.score-low h2{color:#4A1B0C}.score-low p{color:#712B13}
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}.q-card.incorrect{border-color:#D85A30}.q-card.revealed{border-color:#AFA9EC}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}.type-sa{background:#EEEDFE;color:#26215C}.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#D4537E;background:#FDF0F5}
+.mc-opt.selected{border-color:#D4537E;background:#FBEAF0;color:#4B1528}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#D4537E;background:#FBEAF0}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}.mc-opt.selected .opt-letter{color:#4B1528}
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#D4537E}.write-area.er-area{min-height:140px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#D4537E;color:#fff}.btn-check:hover{background:#4B1528}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+.section-divider{background:#4B1528;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+.score-tracker{position:sticky;top:8px;z-index:10;background:#4B1528;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#4B1528;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#72243E}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 5 Quiz 2</h1>
+<p class="subtitle">Implementing Change &middot; 15 questions &middot; Mixed format &middot; Fresh questions across all subtopics</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+<div id="score-banner"></div>
+
+<!-- ===== SECTION 1: LEADERSHIP & RESISTANCE ===== -->
+<div class="section-divider">&#128104;&#8205;&#128187; Section 1: Leadership styles &amp; overcoming resistance <span>(5.2 &amp; 5.3)</span></div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="qc1">
+  <div class="q-meta"><span class="q-num">Question 1</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A CEO leads a team of highly specialised data scientists who are independently managing a complex AI development project. She provides a budget and a six-month deadline but otherwise leaves all technical and process decisions to the team. Which Lewin leadership style is she using?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>Autocratic</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Democratic</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>Laissez-faire</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Consultative</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: C &mdash; Laissez-faire</strong>
+    Laissez-faire leadership gives staff full autonomy to make decisions independently, with the leader providing minimal direction. Setting a budget and deadline but leaving all other decisions to the team is the defining feature of laissez-faire. It is appropriate here because the team consists of highly specialised experts who have more technical knowledge than the CEO. Autocratic (A) is the opposite. Democratic (B) involves collective decision-making with the leader. Consultative (D) is not a Lewin leadership style &mdash; it is a management style from Topic 1.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="qc2">
+  <div class="q-meta"><span class="q-num">Question 2</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Staff at a call centre are resisting a new performance monitoring system because a respected team leader has publicly stated that the system is &quot;unfair and intrusive&quot; and has convinced half the team to ignore it. Which cause of resistance is MOST evident here?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Fear of the unknown</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Lack of understanding</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Self-interest</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Peer pressure</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: D &mdash; Peer pressure</strong>
+    Peer pressure occurs when an influential employee openly opposes change and uses their credibility or relationships to convince colleagues to resist as well. The respected team leader publicly stating the system is unfair and convincing half the team to ignore it is a textbook example of peer pressure-driven resistance. Fear of the unknown (A) relates to uncertainty about what change means for one&apos;s role. Lack of understanding (B) relates to not knowing why change is happening. Self-interest (C) relates to personal concerns about pay or status.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q3 SA -->
+<div class="q-card" id="qc3">
+  <div class="q-meta"><span class="q-num">Question 3</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-text">Compare the democratic and laissez-faire leadership styles (Lewin) in the context of managing change. In your answer, identify ONE similarity and TWO differences. (3 marks)</p>
+  <textarea class="write-area" id="wa3" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(3)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans3">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both democratic and laissez-faire leadership styles involve a high degree of trust in and respect for staff capabilities. In both styles, the leader recognises that employees have valuable knowledge or expertise that should be drawn upon during change, rather than simply directing staff to comply with management decisions.<br><br>
+    <strong>Difference 1 &mdash; Decision-making (1 mark):</strong> In the democratic style, the leader actively participates in decision-making alongside staff, facilitating a collaborative process where the group reaches decisions together. In the laissez-faire style, the leader largely removes themselves from the decision-making process and gives staff full autonomy to make decisions independently, intervening only if required. The leader is central in democratic; absent in laissez-faire.<br><br>
+    <strong>Difference 2 &mdash; Appropriate context (1 mark):</strong> Democratic leadership is most effective in change situations involving complex decisions that benefit from broad employee input across a team &mdash; for example, redesigning a customer service process. Laissez-faire is only appropriate when the change is being managed by a team of genuine domain experts who collectively have more relevant knowledge than the leader &mdash; for example, a group of R&amp;D scientists developing a new product. Using laissez-faire with non-expert staff in a change context typically leads to lack of direction and inconsistent outcomes.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a valid similarity. 1 mark each for two clearly contrasted differences. Listing features of each style separately without drawing a comparison earns no mark.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta"><span class="q-num">Question 4</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Northgate Manufacturing has decided to introduce a new production scheduling software. The IT manager has been driving the project and scheduled a mandatory training session on a Friday afternoon. Several experienced production supervisors did not attend, saying they were too busy. The production manager believes resistance is mainly because supervisors feel the new system will undermine their authority by making their scheduling decisions transparent and measurable.</p>
+  <p class="q-text">Identify the cause of resistance at Northgate Manufacturing. Recommend TWO strategies management should use to address it, and explain why each is appropriate for this specific situation. (3 marks)</p>
+  <textarea class="write-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>Cause of resistance (0.5 mark):</strong> The cause of resistance is <strong>self-interest</strong>. The supervisors believe the transparency of the new scheduling system will expose their decision-making to scrutiny and reduce their perceived authority &mdash; a direct threat to their professional status and autonomy.<br><br>
+    <strong>Strategy 1 &mdash; Empowerment (1.5 marks):</strong> Management should involve the production supervisors in configuring and customising the new scheduling software, inviting them to define what data is visible and how scheduling decisions are presented in the system. This addresses self-interest resistance by giving supervisors ownership of the system that currently threatens them &mdash; if they help design how it works, they are less likely to feel undermined by it. It also draws on their operational expertise, potentially improving the system&apos;s functionality.<br><br>
+    <strong>Strategy 2 &mdash; Communication (1 mark):</strong> The production manager should meet directly with the supervisors to clarify that the transparency provided by the system is intended to support and validate good scheduling decisions, not expose individual supervisors to criticism. Reframing the software as a tool that demonstrates their expertise &mdash; rather than monitoring them &mdash; addresses the self-interest concern by showing supervisors the system can enhance rather than undermine their standing.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 0.5 marks for correctly identifying self-interest. 1.5 marks for the first strategy (0.5 naming it, 1 mark for linking it specifically to the self-interest/authority concern at Northgate). 1 mark for the second strategy with a scenario link. Award flexibly across 3 marks.</p></div>
+  </div>
+</div>
+
+<!-- Q5 SA -->
+<div class="q-card" id="qc5">
+  <div class="q-meta"><span class="q-num">Question 5</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain ONE advantage and ONE disadvantage of negotiation as a strategy to overcome resistance to change. (2 marks)</p>
+  <textarea class="write-area" id="wa5" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(5)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans5">
+    <strong>&#128221; Model answer</strong>
+    <strong>Advantage (1 mark):</strong> Negotiation provides a structured, respectful process for resolving disputes between management and resistant employees or their union representatives. Agreements reached through genuine negotiation are more likely to be honoured by both parties because each side has contributed to the outcome and accepted it voluntarily. This can prevent costly industrial action &mdash; strikes, work bans or go-slows &mdash; that would otherwise disrupt or halt change implementation entirely.<br><br>
+    <strong>Disadvantage (1 mark):</strong> A key disadvantage is that the compromises reached through negotiation may result in the change being implemented in a diluted or less effective form. For example, a business may agree to a slower rollout timeline or modified scope in exchange for union agreement &mdash; reducing the full benefits the change was designed to deliver. Additionally, successful negotiation may signal to other employee groups that resistance is rewarded with concessions, encouraging future resistance as a strategic bargaining tool.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct advantage with explanation of the mechanism (preventing industrial action, creating buy-in). 1 mark for a correct disadvantage with explanation of why it is limiting (diluted outcomes, precedent-setting).</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: KOTTER ===== -->
+<div class="section-divider">&#128200; Section 2: Kotter&apos;s 8-step change model <span>(5.4)</span></div>
+
+<!-- Q6 MC -->
+<div class="q-card" id="qc6">
+  <div class="q-meta"><span class="q-num">Question 6</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Which of the following is a DISADVANTAGE of Kotter&apos;s 8-step change model?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>It does not address the human side of change</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>It provides no guidance on how to sustain change after implementation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>The sequential structure can be inflexible for organisations needing to implement change rapidly</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>It was developed for small businesses only and does not apply to large organisations</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk6" onclick="checkMC(6,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: C</strong>
+    The most commonly cited limitation of Kotter&apos;s model is that its strict sequential structure can be inflexible &mdash; real-world change is often messy, non-linear and fast-moving. An organisation responding to a rapid competitive threat may not have time to complete all eight steps in order. Option A is incorrect &mdash; Kotter&apos;s model is specifically known for addressing the human dimensions of change (urgency, vision, buy-in). Option B is incorrect &mdash; Step 8 is entirely focused on sustaining change. Option D is factually wrong.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q7 SA -->
+<div class="q-card" id="qc7">
+  <div class="q-meta"><span class="q-num">Question 7</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-text">Explain the purpose of Steps 1 and 3 in Kotter&apos;s 8-step change model. Using an example business of your choice, show how a manager could apply each step. (3 marks)</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Step 1 &mdash; Create urgency (1.5 marks):</strong> Step 1 involves convincing stakeholders that change is necessary NOW, by presenting compelling evidence that the cost of inaction is greater than the cost of change. Without genuine urgency, employees may support the idea of change but not act on it. At JB Hi-Fi, a retail manager wanting to improve online sales capability could create urgency by presenting data showing that 38% of competitor Harvey Norman&apos;s sales now come through digital channels, compared to only 14% for JB Hi-Fi, and projecting the market share loss if this gap continues to widen. This makes the &quot;do nothing&quot; scenario feel riskier than change.<br><br>
+    <strong>Step 3 &mdash; Form a strategic vision (1.5 marks):</strong> Step 3 involves developing a clear, compelling and memorable vision of what the organisation will look like after the change is complete &mdash; one that is easy to communicate and makes sense to everyone at every level. Without a clear vision, employees have no picture of what they are working toward and cannot make aligned decisions during implementation. At JB Hi-Fi, the vision could be: &quot;By the end of next financial year, JB Hi-Fi will deliver a seamless experience where every customer can browse, buy and receive support with the same ease whether they&apos;re in-store or online.&quot; This is specific, meaningful and easy for any staff member to understand and connect their daily work to.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks per step: 0.5 marks for correctly explaining the purpose of the step, 1 mark for applying it specifically to a named business with a concrete example. Generic explanations without a business application earn a maximum of 0.5 marks per step.</p></div>
+  </div>
+</div>
+
+<!-- Q8 SA -->
+<div class="q-card" id="qc8">
+  <div class="q-meta"><span class="q-num">Question 8</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-scenario">Stonehill Hotels is a chain of 11 hotels that has just successfully completed a two-year digital transformation program. Guest satisfaction scores have improved from 71% to 89%, online booking revenue has increased by 44% and the new hotel management system is now used daily by all 280 staff. The CEO considers the transformation complete.</p>
+  <p class="q-text">Using Kotter&apos;s model, explain why the CEO is premature in declaring the transformation &apos;complete&apos; and what must happen before change can be truly considered permanent. (2 marks)</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer</strong>
+    <strong>Why premature (1 mark):</strong> According to Kotter&apos;s model, achieving good outcomes (improved satisfaction scores, higher revenue) means the change has been implemented &mdash; but it has not yet been made permanent. Step 8 (Institute the change) has not been completed. Until the new digital behaviours and systems are embedded in Stonehill&apos;s formal culture &mdash; in policies, recruitment criteria, induction programs and performance KPIs &mdash; the transformation relies on the current team&apos;s familiarity and the recent memory of the program. If key change champions leave, if new staff are hired without digital expectations embedded in their induction, or if leadership changes, the organisation may gradually drift back to old patterns.<br><br>
+    <strong>What must happen for permanence (1 mark):</strong> Stonehill must institutionalise the change by updating all new-employee induction programs to include the digital hotel management system as a core competency from day one, revising performance review criteria to include digital service metrics, recognising staff who modelled the new behaviours throughout the transformation, and formally documenting the digital standards as policy. Only when new employees arrive at Stonehill and have never known the old way of doing things can the transformation be considered truly complete.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for explaining why operational success alone does not mean the change is permanent, with reference to Step 8 or the concept of culture embedding. 1 mark for describing at least two specific actions that would constitute genuine institutionalisation at Stonehill.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: LEARNING ORGANISATION, SENGE, FORCE FIELD ===== -->
+<div class="section-divider">&#127963; Section 3: Learning organisation, Senge &amp; force field analysis <span>(5.5 &amp; 5.6)</span></div>
+
+<!-- Q9 MC -->
+<div class="q-card" id="qc9">
+  <div class="q-meta"><span class="q-num">Question 9</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A manager traces a rise in customer complaints not to frontline staff behaviour but to a three-week delay in the warehouse team&apos;s resupply process that leaves salespeople unable to fulfil customer orders. Rather than reprimanding salespeople, the manager redesigns the resupply workflow. Which of Senge&apos;s disciplines is BEST demonstrated here?</p>
+  <div class="mc-options" id="mc9">
+    <div class="mc-opt" onclick="selectMC(this,'mc9','A')"><span class="opt-letter">A</span>Personal mastery</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','B')"><span class="opt-letter">B</span>Mental models</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','C')"><span class="opt-letter">C</span>Team learning</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','D')"><span class="opt-letter">D</span>Systems thinking</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk9" onclick="checkMC(9,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans9">
+    <strong>&#10003; Correct answer: D &mdash; Systems thinking</strong>
+    Systems thinking is the ability to see the organisation as a whole system of interconnected parts and to identify root causes rather than treating symptoms. The manager traced the customer complaints back through the system to their actual source (the warehouse resupply delay) rather than blaming the nearest visible actor (salespeople). This is exactly what systems thinking enables &mdash; seeing how actions in one part of the system (warehouse) create consequences in another (customer service). Personal mastery (A) is about individual development. Mental models (B) is about questioning assumptions. Team learning (C) is about collective dialogue.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q10 SA -->
+<div class="q-card" id="qc10">
+  <div class="q-meta"><span class="q-num">Question 10</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-text">Explain Senge&apos;s personal mastery and shared vision disciplines. For each, explain how it contributes to a business&apos;s ability to manage change effectively. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Personal mastery (1.5 marks):</strong> Personal mastery is the discipline of individuals continuously developing their own skills, knowledge and capabilities as a personal commitment rather than a corporate requirement. Employees who have strong personal mastery treat learning as an ongoing habit rather than a series of compulsory training events. In change management, this makes the organisation more adaptive because individuals proactively build new skills in response to changing demands rather than waiting to be told what to learn. A workforce of personally masterful employees is far less resistant to change because they are already comfortable with the idea of continuous development.<br><br>
+    <strong>Shared vision (1.5 marks):</strong> Shared vision is the discipline of building a genuine, collectively owned picture of the organisation&apos;s desired future that all members believe in and are personally committed to &mdash; not a vision imposed from the top, but one employees help create. In change management, shared vision provides a consistent direction that guides decision-making at every level without requiring management to micromanage implementation. When employees understand and believe in where the organisation is going, they can make autonomous decisions that align with the change, accelerating and sustaining implementation far more effectively than a top-down directive approach.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks per discipline: 0.5 marks for a correct definition, 1 mark for explaining specifically how it helps manage change effectively (not just &quot;it helps people learn&quot; or &quot;everyone knows the direction&quot; &mdash; must explain the mechanism).</p></div>
+  </div>
+</div>
+
+<!-- Q11 SA -->
+<div class="q-card" id="qc11">
+  <div class="q-meta"><span class="q-num">Question 11</span><span class="q-type type-sa">Short answer</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain how force field analysis can be used as a tool to plan change implementation. What is the significance of &apos;equilibrium&apos; in this framework? (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>How it is used for planning (1 mark):</strong> Force field analysis is used by mapping all the forces that are driving change (supporting it) against all the forces restraining it. This gives managers a structured visual overview of the change landscape, allowing them to identify which forces are strongest, which are most amenable to influence, and where to focus their strategy. Rather than simply pushing harder on driving forces (which can increase resistance), managers can choose to weaken specific restraining forces &mdash; for example, addressing job security fears through redeployment commitments &mdash; which is often more effective and less costly than trying to overpower opposition.<br><br>
+    <strong>Significance of equilibrium (1 mark):</strong> Equilibrium represents the current stable state of the organisation where driving and restraining forces are in balance. Change cannot occur while equilibrium holds &mdash; the business will remain in its current state. Change begins only when the balance is disturbed: either by strengthening driving forces (adding new reasons to change) or weakening restraining forces (removing obstacles to change). Understanding equilibrium helps managers realise that the goal of a change program is not just to promote the benefits of change, but to actively shift the balance point until change becomes the path of least resistance.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for explaining force field analysis as a planning tool with the key idea of mapping driving vs restraining forces and using this to target strategy. 1 mark for explaining equilibrium as the current balanced state and why disrupting it is the mechanism through which change occurs.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 4: Extended responses</div>
+
+<!-- Q12 ER -->
+<div class="q-card" id="qc12">
+  <div class="q-meta"><span class="q-num">Question 12</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Metro Rail is a public transport operator that needs to introduce new driver assessment procedures requiring all 680 drivers to complete an annual competency review. The transport union has indicated this is a &quot;red line&quot; issue and has threatened industrial action. Many drivers believe the reviews are a pretext for increasing dismissals. The CEO wants to avoid a strike at all costs given upcoming major events the network must service.</p>
+  <p class="q-text">Evaluate the use of negotiation as the primary strategy to overcome resistance at Metro Rail. Explain what negotiation involves in this context, its advantages and its limitations. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa12" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>What negotiation involves (1 mark):</strong> Negotiation involves structured, good-faith discussions between Metro Rail management and union representatives to reach a mutually acceptable agreement on the terms of the competency review program. In this context, negotiation could address: the criteria for assessment (who designs them and how they are validated), the consequences of a failed review (retraining vs dismissal), the review process (who conducts assessments and how results are appealed), and implementation timing that avoids the upcoming major event period.<br><br>
+    <strong>Advantage 1 (1 mark):</strong> Negotiation is the most appropriate strategy here because the union&apos;s threat of industrial action is the most immediate and concrete risk to Metro Rail. Strike action during major public events would be catastrophic for both the organisation and the community. Reaching a negotiated agreement is the only strategy that can definitively prevent industrial action, as it requires the union to formally commit to standing down the threat as part of the settlement. No other strategy &mdash; communication, training or incentives &mdash; can deliver this guarantee.<br><br>
+    <strong>Advantage 2 (1 mark):</strong> A negotiated agreement also gives the competency review process legitimacy in the eyes of the drivers. When the workforce knows that the union &mdash; which is acting in their interests &mdash; has agreed to the terms, the fear that reviews are a pretext for dismissals loses credibility. This can convert sceptical drivers into cooperative participants, improving both implementation quality and safety outcomes.<br><br>
+    <strong>Limitation (1 mark):</strong> The primary limitation of negotiation is that the union&apos;s leverage in this situation is very high. With major events approaching, Metro Rail needs to reach agreement quickly and may be forced into significant concessions &mdash; such as a lighter assessment framework or reduced consequences for underperformance &mdash; that compromise the original safety objectives of the review program. There is also a risk that reaching an agreement under threat rewards brinkmanship, encouraging the union to use the same tactic in future disputes.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for explaining what negotiation involves in the Metro Rail context (must be specific). 1 mark for each of two advantages linked to the scenario. 1 mark for a genuine limitation that acknowledges the compromise risk or precedent-setting concern. A response with only advantages earns a maximum of 2 marks.</p></div>
+  </div>
+</div>
+
+<!-- Q13 ER -->
+<div class="q-card" id="qc13">
+  <div class="q-meta"><span class="q-num">Question 13</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">5 marks</span></div>
+  <p class="q-scenario">ClearPath Financial Services employs 220 financial advisers and support staff. The CEO has announced a major restructure: all advisers will shift from a paper-based client management process to a new cloud-based CRM platform within four months. Staff reactions have been varied: most younger advisers are excited; a group of 18 senior advisers (each with 15+ years at the firm) are openly hostile; support staff are anxious about their roles; and the IT team is concerned about the implementation timeline being too short to ensure data security.</p>
+  <p class="q-text">Using Kotter&apos;s 8-step change model, recommend how the CEO of ClearPath Financial Services could address the different responses from each staff group. Apply at least FOUR steps and explain how each addresses a specific group&apos;s concerns. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Introduce Kotter (1 mark):</strong> Kotter&apos;s 8-step model provides a sequential framework for managing large-scale change. ClearPath faces four distinct staff groups with different concerns &mdash; each requiring a different Kotter step to address effectively.<br><br>
+    <strong>Step 1 &mdash; Create urgency (addresses senior advisers&apos; hostility) (1 mark):</strong> The 18 senior advisers are hostile likely because they perceive the change as unnecessary disruption to a system they have mastered. The CEO should present industry data showing that firms using modern CRM platforms are retaining clients at significantly higher rates, and that ClearPath&apos;s current paper-based system creates compliance risks under new financial services regulations. Making the case that the status quo is a greater risk than the change may not convert all 18, but it provides a factual foundation for the decision that is harder to dismiss than executive preference.<br><br>
+    <strong>Step 2 &mdash; Build a guiding coalition (addresses senior advisers and younger advisers) (1 mark):</strong> The CEO should recruit two or three of the most respected senior advisers into the implementation steering committee &mdash; not to give them veto power, but to ensure their concerns about the change (data security, workflow disruption) are heard and addressed in the design phase. Pairing them with enthusiastic younger advisers creates a coalition that spans generational perspectives and gives the transformation credibility across the entire workforce.<br><br>
+    <strong>Step 5 &mdash; Enable action by removing barriers (addresses IT&apos;s timeline concern and support staff anxiety) (1 mark):</strong> The IT team&apos;s data security concerns are legitimate and represent a genuine implementation risk. The CEO should revise the four-month timeline if IT identifies specific security milestones that cannot be safely compressed. Rushing past security barriers to hit an arbitrary deadline would create far greater problems than a six-month timeline. For support staff anxious about their roles, communicating clearly what the CRM will and won&apos;t automate &mdash; and confirming that their advisory support functions remain essential &mdash; removes the fear that is generating their anxiety.<br><br>
+    <strong>Step 6 &mdash; Generate short-term wins (addresses all groups) (1 mark):</strong> The CEO should identify a volunteer pilot group (likely drawing from the enthusiastic younger advisers) to go live on the CRM first and generate real results: reduced time spent on admin, faster client response times, or positive client feedback. Publishing these early results internally within the first six weeks demonstrates to sceptical senior advisers and anxious support staff that the change delivers genuine benefits rather than just disruption, building momentum for the full rollout.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for introducing Kotter and acknowledging the multi-group challenge. 1 mark each for four Kotter steps that are correctly named and specifically applied to an identified staff group at ClearPath. Each step must explain how it addresses that group&apos;s concern &mdash; generic step descriptions earn a maximum of 0.5 marks each.</p></div>
+  </div>
+</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta"><span class="q-num">Question 14</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">Riverstone Baking Co. is a mid-sized Australian wholesale bakery supplying cafes, restaurants and supermarkets across two states. The business has operated successfully for 19 years but has never undergone major operational change. The new CEO, appointed six months ago, wants to implement three significant changes simultaneously: (1) introduce lean production practices across all production lines; (2) replace the current order management system with an integrated digital platform; and (3) restructure the management team by introducing a new operations director role. The bakery has 95 employees, most of whom have worked there for over 10 years. The previous CEO used an exclusively autocratic management style.
+  </p>
+  <p class="q-text">Evaluate how the new CEO should approach implementing these three changes. In your response, recommend an appropriate leadership style for the change program, strategies to overcome the most likely sources of resistance, and explain whether Kotter&apos;s model or the learning organisation framework is more appropriate for Riverstone Baking Co.&apos;s situation. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here. Aim for 4+ paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Leadership style recommendation (1 mark):</strong> The new CEO should use a democratic leadership style for this change program. The bakery&apos;s employees average over 10 years of service and carry deep operational knowledge about the production lines, order processes and customer relationships. Under the previous autocratic CEO, this knowledge was never drawn upon. A democratic approach &mdash; actively involving staff in how the lean practices are designed, how the digital platform is configured and how the new management structure is communicated &mdash; both improves implementation quality and signals a cultural shift from the previous regime. An autocratic style would likely trigger significant resistance from a long-tenured workforce that has never experienced anything else and may already distrust the new CEO.<br><br>
+    <strong>Most likely sources of resistance and strategies (1 mark each &mdash; 2 marks):</strong>
+    The most likely resistance sources are fear of the unknown (three simultaneous changes after 19 years of stability) and self-interest concerns among supervisors whose roles may be affected by the new operations director. <strong>Communication</strong> should be the first strategy: the CEO must hold open-forum meetings to explain why all three changes are necessary, what the timeline is, and what will and will not change about employees&apos; day-to-day roles. The fact that three major changes are happening at once will amplify anxiety, so clear, honest communication is essential. <strong>Empowerment</strong> should be the second strategy: involve experienced long-tenured staff in designing the lean practices specific to Riverstone&apos;s production environment. This addresses both the knowledge gap (staff understand the production process better than any external consultant) and the resistance risk (employees who helped design the change are far less likely to obstruct it).<br><br>
+    <strong>Kotter vs learning organisation (2 marks):</strong> Kotter&apos;s model is more appropriate for Riverstone Baking Co. in the immediate term. The business is implementing three specific, defined changes within a timeframe &mdash; this is exactly what Kotter&apos;s sequential framework is designed to manage. The steps of creating urgency (why change now after 19 years), building a coalition (identifying respected long-tenured staff who will champion each change), generating early wins (demonstrating lean saves time on the production line within the first month) and anchoring the change in culture (updating induction and performance systems) provide a concrete roadmap that management can follow and staff can understand. The learning organisation framework is more valuable as a longer-term aspiration for Riverstone &mdash; once the immediate three changes are embedded, developing systems thinking and kaizen culture will help the business remain adaptive. But at this moment of concentrated change, Kotter&apos;s structured approach is more practical.<br><br>
+    <strong>Conclusion (1 mark):</strong> The new CEO&apos;s greatest risk is trying to implement three major changes simultaneously using a democratic style after 19 years of autocratic leadership &mdash; the cultural shift alone is a fourth change. The program will succeed if the CEO is honest about the scope of what is changing, patient with a workforce that has never experienced this kind of involvement, and disciplined about celebrating early wins from each of the three changes to maintain momentum and demonstrate that the disruption is producing real results.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark &mdash; appropriate leadership style recommendation with justification linked to the Riverstone context. 2 marks &mdash; two resistance strategies (1 mark each) with clear links to the most likely sources of resistance at Riverstone. 2 marks &mdash; evaluation of Kotter vs learning organisation: 1 mark for recommending Kotter with a reason specific to Riverstone&apos;s situation, 1 mark for acknowledging learning organisation as a longer-term complement rather than immediate tool. 1 mark &mdash; conclusion that acknowledges the compounded difficulty of simultaneous changes after a long autocratic period.</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta"><span class="q-num">Question 15</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">TechBridge Solutions is a software development company with 85 employees. The company develops custom software for clients across finance, health and government sectors. The CEO has identified that the company needs to transform from project-based delivery to a product-based model &mdash; a fundamentally different way of working. Development teams are currently structured around individual client projects; the new model requires cross-functional, persistent product teams. Senior developers are concerned they will lose client relationships they have built over years. Project managers fear their roles will be eliminated. The CTO argues that without this transformation, TechBridge will lose ground to SaaS competitors within two years.</p>
+  <p class="q-text">Evaluate whether Kotter&apos;s 8-step model or Senge&apos;s learning organisation framework is better suited to guide TechBridge Solutions&apos; transformation. Justify your recommendation and explain how the chosen framework would be applied to this specific situation. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for 4+ paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Nature of the change (1 mark):</strong> TechBridge&apos;s transformation is not just an operational change &mdash; it is a fundamental restructuring of how the company thinks about its business model, how its people relate to clients and how teams are organised. This distinction matters because Kotter&apos;s model is designed for managing a defined change program with a beginning and an end, while Senge&apos;s learning organisation framework is designed for building a culture of continuous adaptation. TechBridge needs both, but the right primary framework depends on which problem is most urgent.<br><br>
+    <strong>Case for Kotter (1 mark):</strong> Kotter&apos;s model is valuable because TechBridge faces immediate, concrete resistance (senior developers fearing client relationship loss, project managers fearing redundancy) and a competitive urgency the CTO has quantified (two years before market position erodes). Kotter&apos;s Step 1 (create urgency using the CTO&apos;s competitive analysis), Step 2 (build a coalition including respected senior developers as product team leads) and Step 6 (celebrate early wins from the first product team&apos;s delivery) all address the specific, time-bound challenges TechBridge faces right now. A structured eight-step program gives the CEO a change roadmap to follow and communicate.<br><br>
+    <strong>Case for Senge (1 mark):</strong> However, TechBridge&apos;s transformation requires more than implementing a new organisational structure &mdash; it requires developers and project managers to fundamentally challenge their mental model of what their job is. Senior developers who believe their value is in client relationships need to develop a new mental model in which their value is in product expertise and customer outcomes across multiple clients. Senge&apos;s mental models discipline directly addresses this &mdash; it provides a framework for facilitating the deep assumption-questioning that Kotter&apos;s steps assume but do not address. Senge&apos;s systems thinking is also relevant: the CEO needs to help staff see how the product model creates a more sustainable system than the current project dependency model.<br><br>
+    <strong>Recommendation &mdash; Kotter as primary framework (1 mark):</strong> Kotter&apos;s model should be the primary framework for TechBridge&apos;s transformation because it provides the practical sequential structure needed to execute a complex organisational restructure within a defined competitive window. The CTO&apos;s two-year warning creates genuine urgency that Kotter&apos;s Step 1 can formalise into a clear mandate for change. The transformation has a destination (product-based model) that can be defined as a Kotter vision, and the resistance from specific staff groups can be addressed through the coalition, barrier-removal and win-generation steps.<br><br>
+    <strong>How Senge complements Kotter (1 mark):</strong> Senge&apos;s learning organisation disciplines should be woven into the Kotter implementation rather than deployed as a separate program. The mental models discipline is integrated into Kotter&apos;s coalition-building: when senior developers join the steering group, they are explicitly invited to examine and challenge their belief that client relationships are the source of their value. Team learning is embedded in the new product team structure itself &mdash; weekly retrospectives where cross-functional teams reflect on what they learned from each sprint are both a lean practice and a Senge team learning exercise. Systems thinking informs how the CEO communicates urgency: showing how the current project model creates client dependency that makes TechBridge vulnerable, rather than simply announcing a strategic pivot.<br><br>
+    <strong>Conclusion (1 mark):</strong> TechBridge needs Kotter to execute the transformation and Senge to sustain it. Kotter without Senge produces a structural change that people comply with but do not internalise; Senge without Kotter produces cultural aspiration without a delivery roadmap. The CEO should lead with Kotter&apos;s sequential structure for the next 18 months, deliberately embedding Senge&apos;s disciplines within each step so that when the transformation is complete, TechBridge has not just a new operating model but a genuinely adaptive organisation capable of continuing to evolve as the SaaS landscape changes.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark &mdash; correctly characterises the nature of TechBridge&apos;s change as both structural and cultural. 1 mark &mdash; case for Kotter with specific application to TechBridge. 1 mark &mdash; case for Senge with specific application to TechBridge. 1 mark &mdash; clear recommendation with justification. 1 mark &mdash; explains how the two frameworks complement each other in this context. 1 mark &mdash; nuanced conclusion that acknowledges neither framework alone is sufficient.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#4B1528;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 5 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
+function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;var opts=document.getElementById(groupId).querySelectorAll(".mc-opt");for(var i=0;i<opts.length;i++){opts[i].classList.remove("selected");}el.classList.add("selected");if(!mcAnswers[groupId])mcAnswers[groupId]={};mcAnswers[groupId].selected=letter;}
+function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
+function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
+function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review your extended responses against the model answers &mdash; for Q15 in particular, check whether you evaluated both frameworks before making a recommendation.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the Senge disciplines and force field analysis sections in your Topic 5 cheat sheet.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 5 cheat sheet and focus on the resistance causes and strategies table, and make sure you know all five Senge disciplines.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
+updateProgress();
+</script>
+</body>
+</html>

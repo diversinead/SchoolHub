@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 5 Quiz 1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#4B1528;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#D4537E;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}.score-great h2{color:#085041}.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}.score-ok h2{color:#412402}.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}.score-low h2{color:#4A1B0C}.score-low p{color:#712B13}
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}.q-card.incorrect{border-color:#D85A30}.q-card.revealed{border-color:#AFA9EC}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}.type-sa{background:#EEEDFE;color:#26215C}.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#D4537E;background:#FDF0F5}
+.mc-opt.selected{border-color:#D4537E;background:#FBEAF0;color:#4B1528}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#D4537E;background:#FBEAF0}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}.mc-opt.selected .opt-letter{color:#4B1528}
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#D4537E}.write-area.er-area{min-height:140px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#D4537E;color:#fff}.btn-check:hover{background:#4B1528}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+.section-divider{background:#4B1528;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+.score-tracker{position:sticky;top:8px;z-index:10;background:#4B1528;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#4B1528;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#72243E}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 5 Quiz 1</h1>
+<p class="subtitle">Implementing Change &middot; 15 questions &middot; Mixed format &middot; Hot topics focus</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+<div id="score-banner"></div>
+
+<!-- ===== SECTION 1: LEADERSHIP & RESISTANCE ===== -->
+<div class="section-divider">&#128104;&#8205;&#128187; Section 1: Leadership styles &amp; overcoming resistance <span>(5.2 &amp; 5.3)</span></div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="qc1">
+  <div class="q-meta"><span class="q-num">Question 1</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A business is restructuring due to financial difficulty and needs to implement significant changes to staffing and operations within 30 days. Which Lewin leadership style is MOST appropriate for this situation?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>Democratic, because staff should be involved in all major decisions</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Laissez-faire, because experienced staff can manage the transition independently</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>Autocratic, because urgent change requires fast decision-making without delay</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Democratic, because staff buy-in will ensure better implementation quality</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: C &mdash; Autocratic</strong>
+    When the business is under financial pressure and needs to implement major changes within 30 days, the autocratic style is most appropriate. There is no time for consultation or consensus-building &mdash; the leader must make swift, decisive calls. Both A and D suggest democratic style for different reasons but both are wrong in a crisis/urgency context. Laissez-faire (B) would be completely inappropriate in a restructure requiring coordinated action and direction.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="qc2">
+  <div class="q-meta"><span class="q-num">Question 2</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Employees at a hospital resist a new electronic patient records system because they feel anxious about using technology they have never operated before. Which strategy to overcome resistance is MOST directly appropriate?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Incentives, to reward staff for adopting the new system</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Negotiation, to reach a compromise on the implementation timeline</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Support and training, to equip staff with the skills to use the new system confidently</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Empowerment, to involve staff in designing the records system</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: C &mdash; Support and training</strong>
+    The resistance here is explicitly caused by anxiety about using unfamiliar technology &mdash; a skills gap. Support and training directly addresses this by giving staff the competence to use the system confidently, removing the source of their anxiety. Incentives (A) would not address the skills gap. Negotiation (B) is for conflict or industrial relations, not skill anxiety. Empowerment (D) would be useful if staff were resisting because they felt excluded, not because they lack skills.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q3 MC -->
+<div class="q-card" id="qc3">
+  <div class="q-meta"><span class="q-num">Question 3</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Which of the following BEST describes the empowerment strategy for overcoming resistance to change?</p>
+  <div class="mc-options" id="mc3">
+    <div class="mc-opt" onclick="selectMC(this,'mc3','A')"><span class="opt-letter">A</span>Offering financial bonuses to employees who actively support the change</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','B')"><span class="opt-letter">B</span>Involving employees in the design and planning of the change to give them ownership</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','C')"><span class="opt-letter">C</span>Explaining the reasons for the change clearly and honestly to all staff</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','D')"><span class="opt-letter">D</span>Reaching a compromise with resistant employees about the pace of change</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk3" onclick="checkMC(3,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans3">
+    <strong>&#10003; Correct answer: B</strong>
+    Empowerment involves involving employees in the design and planning of the change, giving them genuine ownership and a sense of control. Option A describes incentives. Option C describes communication. Option D describes negotiation. The defining feature of empowerment is employee participation and co-creation of the change, not just being informed or rewarded.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta"><span class="q-num">Question 4</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Halcyon Insurance employs 180 staff across three offices. Management has decided to merge all three offices into one new central location next year. Staff have heard rumours about the relocation for months but management has made no official announcement. Many employees are anxious about longer commutes, others fear the move signals redundancies, and a union representative has warned of industrial action if staff are not consulted. The CEO wants to implement the move as smoothly as possible.</p>
+  <p class="q-text">Identify the MOST likely reason for resistance at Halcyon Insurance and recommend TWO strategies management should use to address it. (3 marks)</p>
+  <textarea class="write-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>Most likely reason (1 mark):</strong> The most likely reason for resistance at Halcyon Insurance is a combination of <strong>fear of the unknown</strong> and <strong>lack of trust in management</strong>. Employees have heard rumours for months without any official communication, which has created speculation, anxiety and mistrust. The fear that the relocation signals redundancies is a direct product of the information vacuum management has created. The union&apos;s warning of industrial action signals that this has escalated from individual anxiety to collective resistance.<br><br>
+    <strong>Strategy 1 &mdash; Communication (1 mark):</strong> Management should immediately make an honest, detailed announcement about the relocation &mdash; explaining why the move is happening, the confirmed timeline, the new office location, how relocation expenses will be handled and what arrangements will be made to support staff with longer commutes. This directly addresses the fear of the unknown by replacing rumour with fact, and begins to rebuild the trust that the rumour period has eroded.<br><br>
+    <strong>Strategy 2 &mdash; Negotiation (1 mark):</strong> Management should meet with the union representative to negotiate the terms of the relocation before announcing them unilaterally. This could include agreeing on a consultation period, relocation allowances, flexible work arrangements for staff with difficult commutes, and a commitment that no redundancies will occur as a result of the consolidation. Reaching a negotiated agreement will prevent industrial action and create a more stable implementation environment.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly identifying the reason for resistance with an explanation linked to the specific scenario (rumours, no communication, fear of redundancies). 1 mark each for two appropriate, well-explained strategies that clearly address the identified reason. Generic strategies not linked to Halcyon earn a maximum of 0.5 marks each.</p></div>
+  </div>
+</div>
+
+<!-- Q5 SA -->
+<div class="q-card" id="qc5">
+  <div class="q-meta"><span class="q-num">Question 5</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain ONE advantage and ONE disadvantage of using incentives to overcome resistance to change. (2 marks)</p>
+  <textarea class="write-area" id="wa5" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(5)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans5">
+    <strong>&#128221; Model answer</strong>
+    <strong>Advantage (1 mark):</strong> Incentives directly address self-interest resistance by giving employees a tangible personal benefit for embracing the change, making cooperation financially attractive. This can accelerate adoption of new systems or behaviours, particularly among employees who are resistant primarily because they perceive the change as offering them nothing personally. Incentives provide an immediate, concrete reason to engage rather than obstruct.<br><br>
+    <strong>Disadvantage (1 mark):</strong> A significant disadvantage is that incentives do not address the root cause of resistance &mdash; they effectively &quot;buy&quot; compliance rather than creating genuine acceptance. Once the incentive is removed, underlying opposition may resurface. Additionally, using incentives sets a precedent that employees can expect to be financially compensated each time the business needs to implement change, potentially increasing resistance leverage and cost in future change programs.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct advantage with an explanation of why it is effective (not just &quot;it motivates staff&quot;). 1 mark for a correct disadvantage with an explanation of the mechanism (not just &quot;it is expensive&quot;).</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: KOTTER ===== -->
+<div class="section-divider">&#128200; Section 2: Kotter&apos;s 8-step change model <span>(5.4)</span></div>
+
+<!-- Q6 MC -->
+<div class="q-card" id="qc6">
+  <div class="q-meta"><span class="q-num">Question 6</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">According to Kotter&apos;s 8-step change model, which step involves deliberately creating visible early successes to build momentum and demonstrate that the change is working?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>Step 2 &mdash; Build a guiding coalition</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>Step 4 &mdash; Enlist a volunteer army</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>Step 6 &mdash; Generate short-term wins</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>Step 8 &mdash; Institute the change</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk6" onclick="checkMC(6,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: C &mdash; Step 6: Generate short-term wins</strong>
+    Step 6 specifically involves planning for and creating visible early achievements that demonstrate the change is delivering results, building momentum and rewarding those who have supported the change. Step 2 (B) assembles the leadership coalition. Step 4 (B) recruits broader employee support. Step 8 (D) embeds the change permanently in culture. Only Step 6 describes the deliberate creation of early visible successes.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q7 SA -->
+<div class="q-card" id="qc7">
+  <div class="q-meta"><span class="q-num">Question 7</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Beacon Community Bank is a regional bank with 240 employees. Its board has approved a major digital transformation &mdash; replacing all in-branch manual processes with a new integrated banking platform. Many long-serving tellers and customer service staff are deeply concerned about their job security and relevance in a digital environment. The CEO wants to ensure the transformation succeeds.</p>
+  <p class="q-text">Using THREE steps of Kotter&apos;s 8-step change model, explain how the CEO of Beacon Community Bank could successfully lead this digital transformation. (3 marks &mdash; 1 mark per step)</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here... Name each step and apply it to Beacon."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer (any three of the following eight steps)</strong>
+    <strong>Step 1 &mdash; Create urgency (1 mark):</strong> The CEO should present the board&apos;s decision data to all 240 staff &mdash; showing how competitor banks are already offering fully digital services, how branch transaction volumes have declined year-on-year, and how the bank&apos;s long-term viability depends on modernising. This creates a shared understanding that change is not optional and that inaction is the greater risk.<br><br>
+    <strong>Step 2 &mdash; Build a guiding coalition (1 mark):</strong> The CEO should form a steering group including the operations manager, HR director, IT lead, and two respected long-serving tellers who can act as credible ambassadors to their anxious colleagues. Including long-serving staff in the coalition directly addresses the trust and security concerns of the workforce most likely to resist.<br><br>
+    <strong>Step 5 &mdash; Enable action by removing barriers (1 mark):</strong> Before go-live, the CEO should ensure all staff receive comprehensive training on the new platform and that the technical rollout is staged to avoid overwhelming staff. Any processes or approval layers that slow staff from practising the new system during transition should be removed, allowing staff to build competence and confidence before customers are affected.<br><br>
+    <strong>Step 6 &mdash; Generate short-term wins (1 mark):</strong> After the first branch goes live on the new platform, the CEO should publicly celebrate concrete early results &mdash; for example, a 40% reduction in transaction processing time or a positive customer satisfaction score from the pilot branch. This demonstrates to sceptical long-serving staff that the change is delivering real benefits rather than just disruption.<br><br>
+    <strong>Step 8 &mdash; Institute the change (1 mark):</strong> Once the digital platform is fully operational, the CEO should update Beacon&apos;s staff induction program to include digital competency as a core requirement, revise performance KPIs to include digital service metrics, and recognise staff who have championed the transformation. This permanently embeds the new digital culture so the change is sustained beyond the initial rollout period.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each for any three Kotter steps that are correctly named, defined and applied specifically to Beacon Community Bank&apos;s digital transformation scenario. Generic descriptions of Kotter steps without scenario application earn a maximum of 0.5 marks per step.</p></div>
+  </div>
+</div>
+
+<!-- Q8 SA -->
+<div class="q-card" id="qc8">
+  <div class="q-meta"><span class="q-num">Question 8</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain what Kotter&apos;s Step 8 (Institute the change) involves and why it is the most important step for ensuring change is permanent. (2 marks)</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer</strong>
+    <strong>What Step 8 involves (1 mark):</strong> Step 8 involves embedding the new behaviours, processes and values permanently into the organisation&apos;s culture, so they become &quot;the way we do things here&quot; rather than a temporary program. This is achieved by updating policies, HR practices, recruitment criteria, induction programs, reward systems and performance expectations to reinforce the new way of working. The change is only truly complete when new employees are hired and trained into it from day one.<br><br>
+    <strong>Why it is the most important for permanence (1 mark):</strong> Without Step 8, the most common outcome of change programs is regression &mdash; once the initial urgency fades and change champions move on, people naturally drift back to old habits. Anchoring the change in culture means it no longer depends on individual champions or leadership pressure to sustain it. The new behaviours are reinforced by every system and process in the organisation, making reversal progressively less likely with each new hire who has never known the old way.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct description of what Step 8 involves (must include the idea of embedding in culture through systems, not just &quot;making sure it sticks&quot;). 1 mark for explaining why it is critical for permanence, with reasoning about what happens without it (regression) or how culture operates as a self-reinforcing system.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: LEARNING ORGANISATION, SENGE, FORCE FIELD ===== -->
+<div class="section-divider">&#127963; Section 3: Learning organisation, Senge &amp; force field analysis <span>(5.5 &amp; 5.6)</span></div>
+
+<!-- Q9 MC -->
+<div class="q-card" id="qc9">
+  <div class="q-meta"><span class="q-num">Question 9</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">According to Senge&apos;s Five Disciplines, which discipline is described as the &apos;cornerstone&apos; that integrates all the others?</p>
+  <div class="mc-options" id="mc9">
+    <div class="mc-opt" onclick="selectMC(this,'mc9','A')"><span class="opt-letter">A</span>Personal mastery</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','B')"><span class="opt-letter">B</span>Team learning</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','C')"><span class="opt-letter">C</span>Shared vision</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','D')"><span class="opt-letter">D</span>Systems thinking</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk9" onclick="checkMC(9,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans9">
+    <strong>&#10003; Correct answer: D &mdash; Systems thinking</strong>
+    Senge called systems thinking the &quot;fifth discipline&quot; and the cornerstone that integrates and gives meaning to the other four. It is the ability to see the organisation as a whole system of interconnected parts, understanding how actions in one area create consequences elsewhere. Without systems thinking, the other four disciplines remain isolated practices rather than a coherent approach. Personal mastery (A), team learning (B) and shared vision (C) are all important disciplines but none is the integrating cornerstone.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q10 SA -->
+<div class="q-card" id="qc10">
+  <div class="q-meta"><span class="q-num">Question 10</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">RiverRun Transport is a logistics company that is considering introducing GPS tracking and automated dispatch scheduling across its fleet of 85 trucks. The operations manager has conducted an informal force field analysis and identified the following: the CEO is fully committed; fuel savings from optimised routes could save $280,000 annually; customer satisfaction data shows 34% of complaints relate to late deliveries; the investment cost is $340,000; 12 experienced dispatchers believe the automation will make their roles redundant; and three senior drivers have said they &quot;don&apos;t trust computers to plan their routes.&quot;</p>
+  <p class="q-text">Identify TWO driving forces and TWO restraining forces in RiverRun Transport&apos;s force field analysis. Recommend ONE strategy to strengthen a driving force OR weaken a restraining force. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Driving forces (1 mark &mdash; 0.5 each):</strong>
+    1. CEO commitment provides strong leadership support that will lend authority and resources to the change program.
+    2. $280,000 annual fuel savings from optimised routes provides a compelling financial case that clearly outweighs the $340,000 investment cost within 18 months.
+    (Also valid: 34% of complaints relating to late deliveries creates urgency to address a measurable customer service problem.)<br><br>
+    <strong>Restraining forces (1 mark &mdash; 0.5 each):</strong>
+    1. The 12 dispatchers&apos; fear of redundancy is a powerful source of resistance because it is grounded in genuine job security concerns rather than mere discomfort with change.
+    2. Three senior drivers&apos; distrust of automated route planning creates operational resistance from the people who will use the system daily, risking poor compliance.
+    (Also valid: $340,000 implementation cost.)<br><br>
+    <strong>Strategy recommendation (1 mark):</strong> To weaken the most significant restraining force &mdash; the dispatchers&apos; redundancy fear &mdash; management should commit publicly that no dispatcher will be made redundant as a result of the automation. Instead, the 12 dispatchers could be retrained as &quot;fleet optimisation coordinators&quot; who oversee, customise and troubleshoot the automated scheduling system rather than manually dispatching. This converts the biggest source of resistance into engaged participants, and their operational knowledge of RiverRun&apos;s routes will actually improve the system&apos;s performance.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly identifying two driving forces from the scenario (must use specific data/details). 1 mark for correctly identifying two restraining forces from the scenario. 1 mark for a specific strategy that clearly explains how it strengthens a driver or weakens a restrainer, linked to RiverRun&apos;s situation.</p></div>
+  </div>
+</div>
+
+<!-- Q11 SA -->
+<div class="q-card" id="qc11">
+  <div class="q-meta"><span class="q-num">Question 11</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain what is meant by a &apos;learning organisation&apos; and outline ONE characteristic that makes a learning organisation more adaptable to change than a traditional organisation. (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define learning organisation (1 mark):</strong> A learning organisation is one that continuously facilitates the learning of all its members and transforms itself as a result. It is not just a business that provides training &mdash; it is one where learning, questioning assumptions and improving processes are embedded in everyday culture at every level, from frontline workers to senior leaders.<br><br>
+    <strong>Characteristic that improves adaptability (1 mark):</strong> The shared vision discipline makes a learning organisation more adaptable because when all employees genuinely understand and believe in the organisation&apos;s purpose and direction, they are able to make autonomous decisions aligned with that vision without needing to wait for management instruction. In a changing environment, this means the organisation can respond faster &mdash; individuals at every level recognise when change is needed and take initiative &mdash; rather than waiting for top-down directives that may arrive too slowly. (Accept any of the five disciplines with a clear explanation of why it improves adaptability.)
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition that goes beyond &quot;an organisation that learns&quot; to capture the cultural and transformational dimensions. 1 mark for identifying any one of Senge&apos;s five disciplines (or a clearly described characteristic of a learning organisation) and explaining specifically why it improves adaptability to change.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 4: Extended responses</div>
+
+<!-- Q12 ER -->
+<div class="q-card" id="qc12">
+  <div class="q-meta"><span class="q-num">Question 12</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Starfield Supermarkets is a regional grocery chain with 18 stores. Management has decided to replace all human checkout operators with self-service kiosks over the next six months, reducing checkout staff by approximately 60%. Staff have been informed via a memo. The HR manager reports that absenteeism has spiked, two long-serving supervisors have resigned in protest, and the remaining staff are completing only the minimum required tasks. A customer complaints also risen sharply in the weeks since the announcement.</p>
+  <p class="q-text">Evaluate the use of communication as the ONLY strategy to address the resistance at Starfield Supermarkets. In your answer, explain why communication alone is insufficient and recommend ONE additional strategy. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa12" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>What communication involves + initial application (1 mark):</strong> Communication as a change strategy involves management sharing honest, clear and timely information about the reasons for change and its expected impact. At Starfield, the current communication has failed completely &mdash; a memo informing 60% of checkout staff they are being replaced is not a communication strategy; it is a notification without any of the elements that make communication effective: no explanation of why, no discussion of what will happen to affected staff, no timeline for conversations and no acknowledgement of the human impact.<br><br>
+    <strong>Why communication alone is insufficient (1 mark):</strong> Even if Starfield delivered high-quality, transparent communication now, it would not be sufficient because the resistance is driven by genuine job loss &mdash; not a misunderstanding. Staff are not resisting because they do not understand the change; they are resisting because they understand it perfectly and it threatens their livelihoods. Communication can reduce fear of the unknown but cannot resolve justified fear of actual redundancy. The two supervisor resignations and the work-to-rule behaviour indicate a level of disengagement that words alone cannot reverse.<br><br>
+    <strong>Additional strategy &mdash; negotiation (1 mark):</strong> Starfield should engage in structured negotiation with staff representatives and the union (if applicable) to agree on a redundancy package, a redeployment program for staff willing to move into other roles (deli, fresh produce, customer service), and a fair and transparent timeline for the transition. Negotiating rather than dictating demonstrates respect for the workforce and may reduce the industrial risk that the current approach has created.<br><br>
+    <strong>Why this combination is more effective (1 mark):</strong> Communication sets the context &mdash; explaining why the self-service transition is commercially necessary and what the business will do to support affected staff. Negotiation then provides the concrete actions that give communication credibility. Without negotiation, communication at Starfield will be perceived as spin. Without communication, negotiation lacks context. Together, they address both the emotional and practical dimensions of the resistance.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for explaining what communication involves and why Starfield&apos;s current approach has failed. 1 mark for explaining why communication alone is insufficient in this specific context (genuine job loss, not just misunderstanding). 1 mark for a specific additional strategy recommendation with a clear rationale. 1 mark for explaining why the combined approach is more effective than either strategy alone.</p></div>
+  </div>
+</div>
+
+<!-- Q13 ER -->
+<div class="q-card" id="qc13">
+  <div class="q-meta"><span class="q-num">Question 13</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Horizons Advertising is a mid-sized creative agency with 65 staff. The CEO has announced that the agency will transition from traditional print and television campaigns to a &quot;digital-first&quot; strategy. Many of the agency&apos;s most experienced account managers and copywriters have built their careers around traditional media and are openly dismissive of digital formats, calling them &quot;soulless&quot;. Two younger staff members who are digital experts feel marginalised because their ideas are regularly dismissed in team meetings.</p>
+  <p class="q-text">Using Senge&apos;s Five Disciplines, explain how the CEO of Horizons Advertising could develop the agency into a learning organisation to support the digital transition. Refer to at least TWO disciplines in your answer. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Introduce learning organisation (1 mark):</strong> A learning organisation continuously facilitates the learning of all its members and transforms itself in response. For Horizons Advertising, the resistance to digital formats reflects a classic failure of two of Senge&apos;s disciplines: mental models (fixed assumptions about what &quot;good&quot; advertising looks like) and team learning (the dismissal of younger staff&apos;s ideas in team meetings). Developing these disciplines would directly address the cultural barriers blocking the digital transition.<br><br>
+    <strong>Discipline 1 &mdash; Mental models (1.5 marks):</strong> The experienced account managers and copywriters are operating from fixed mental models &mdash; deeply held beliefs that traditional media is superior and that digital formats are &quot;soulless.&quot; Senge&apos;s mental models discipline requires individuals to examine and challenge these assumptions rather than defending them. The CEO could facilitate this by organising sessions where digital campaign results (audience reach, engagement rates, measurable ROI) are shared alongside traditional campaign data, helping experienced staff confront the evidence that their assumptions may be outdated. Bringing in a respected industry figure who has made the same transition successfully could also challenge the &quot;digital is soulless&quot; narrative from a credible peer voice.<br><br>
+    <strong>Discipline 2 &mdash; Team learning (1.5 marks):</strong> The marginalisation of the two digital experts in team meetings is a direct failure of team learning &mdash; the agency is not using its full collective intelligence because status and seniority are suppressing new ideas. The CEO should restructure team meetings to ensure equal platform for all contributors regardless of seniority, and could create cross-disciplinary project teams pairing digital-native staff with experienced traditional creatives on new briefs. This forces genuine dialogue between different knowledge bases and helps the traditional staff experience digital&apos;s capabilities directly, while giving the digital staff access to the creative craft skills of experienced colleagues.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly introducing the learning organisation concept and linking it to Horizons&apos; situation. 1.5 marks each for two Senge disciplines: 0.5 for correctly defining the discipline, 1 mark for specifically applying it to address a named problem at Horizons Advertising. Generic discipline descriptions earn 0.5 marks each maximum.</p></div>
+  </div>
+</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta"><span class="q-num">Question 14</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">5 marks</span></div>
+  <p class="q-scenario">PeakCare Aged Care operates four residential facilities in Victoria with 320 employees. The organisation needs to introduce a new electronic medication management system that will replace the current paper-based process. The new system will reduce medication errors significantly and is supported by the clinical director and board. However: three-quarters of nursing staff are over 45 and have limited confidence with technology; a nurse manager with 22 years of service has publicly stated the system is &quot;unnecessary and dangerous&quot;; and a previous attempt to introduce a different software system three years ago was abandoned after six months due to staff refusal to use it.
+  </p>
+  <p class="q-text">Using Kotter&apos;s 8-step change model, recommend how PeakCare should manage this change. Apply FOUR steps that are most relevant to PeakCare&apos;s situation and explain why each is important given the specific challenges identified. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here. Apply 4 Kotter steps specifically to PeakCare."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Introduction (1 mark):</strong> Kotter&apos;s 8-step model provides a sequential framework for managing complex change. PeakCare faces a particularly challenging change environment: deep technology anxiety, a high-profile resistor with 22 years of credibility, and the shadow of a previous failed implementation. The four most critical steps are those that address these specific challenges directly.<br><br>
+    <strong>Step 1 &mdash; Create urgency (1 mark):</strong> The failed previous system means staff are already sceptical about management&apos;s ability to introduce technology effectively. Creating urgency requires more than announcing a new system &mdash; the clinical director must present data on current medication errors (frequency, patient impact, near-misses) to make clear that the status quo is more dangerous than the change. When staff understand that paper-based errors are harming residents, the urgency becomes about patient safety, not management convenience &mdash; reframing the change from &quot;disruptive IT project&quot; to &quot;resident safety imperative.&quot;<br><br>
+    <strong>Step 2 &mdash; Build a guiding coalition (1 mark):</strong> Critically, the nurse manager with 22 years of service must either be brought into the coalition or her influence must be acknowledged and addressed. If she can be engaged as a coalition member &mdash; perhaps as a system champion who helps design the training program &mdash; her credibility becomes an asset rather than a barrier. If she remains publicly opposed, management must have a plan to contain her influence without alienating her. The coalition should also include other respected senior nurses whose endorsement carries weight with the anxious majority.<br><br>
+    <strong>Step 5 &mdash; Enable action by removing barriers (1 mark):</strong> The most significant barrier is the technology anxiety of the three-quarters of nursing staff over 45. PeakCare must provide extensive, patient, hands-on training conducted by trusted colleagues (not IT consultants) before the system goes live. Practice sessions with no patient data, &quot;buddy shifts&quot; where confident users support anxious colleagues, and a guaranteed help desk during the first month all remove the practical barriers that doomed the previous implementation. The previous failure was almost certainly partly caused by inadequate barrier removal.<br><br>
+    <strong>Step 6 &mdash; Generate short-term wins (1 mark):</strong> PeakCare should stage the rollout &mdash; beginning with one willing facility &mdash; and then quickly and publicly celebrate measurable improvements: zero medication errors in the first month, positive feedback from nurses who found it easier than expected, or time saved on documentation. These wins directly counter the narrative that the system is &quot;unnecessary and dangerous&quot; with real-world evidence from PeakCare&apos;s own facilities, making it harder for resistors to sustain their opposition.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for an introduction that acknowledges PeakCare&apos;s specific challenges. 1 mark each for four Kotter steps that are correctly named and applied specifically to PeakCare&apos;s situation &mdash; not generic descriptions. Steps must explain WHY that step is particularly important given the identified challenges (previous failure, nurse manager resistance, technology anxiety).</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta"><span class="q-num">Question 15</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">Vanguard Steel is a medium-sized steel fabrication business employing 140 workers. The business needs to introduce robotics and automation across two of its five production lines to remain cost-competitive. A detailed force field analysis has identified the following driving forces: competitive cost pressure from lower-cost rivals; 22% productivity improvement projected from automation; and board approval with full capital funding. Restraining forces include: 35 production workers who believe their jobs will be eliminated; the operations union has threatened to halt work if redundancies occur; high upfront training costs for robot operators; and two experienced supervisors who argue automation will reduce product customisation capability.
+  </p>
+  <p class="q-text">Evaluate the extent to which the driving forces at Vanguard Steel outweigh the restraining forces, and recommend how management should respond to tip the balance in favour of successful change implementation. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for 4+ paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Assess driving forces (1 mark):</strong> Vanguard Steel&apos;s driving forces are substantial. The competitive cost pressure is existential &mdash; if the business cannot match the cost structure of lower-cost rivals, it risks losing contracts and declining viability. The projected 22% productivity improvement from automation is a quantifiable and significant operational benefit. Full board approval and capital funding means the financial and governance barriers to change are already resolved, giving management both the mandate and the resources to act.<br><br>
+    <strong>Assess restraining forces (1 mark):</strong> The restraining forces are also significant, particularly the union threat of work stoppage. A union-organised halt would directly prevent implementation regardless of how strong the driving forces are. The 35 workers&apos; fear of job elimination is the root cause of the union action, and it is entirely legitimate &mdash; automation does routinely eliminate roles. The training cost restrainer is manageable financially. The supervisors&apos; customisation concern is operationally worth investigating but is less powerful than the union/job security dynamic.<br><br>
+    <strong>Do driving forces outweigh restraining forces? (1 mark):</strong> The driving forces are stronger in strategic and financial terms, but the restraining forces are stronger in operational and human terms. If the union acts on its threat, no automation can be installed regardless of its financial logic. This is the critical insight of force field analysis: the strength of a restraining force is not just its merit but its ability to actually block the change. The union&apos;s threat must be treated as the highest-priority restrainer to weaken before any implementation begins.<br><br>
+    <strong>Recommendation 1 &mdash; Weaken the job security restrainer through redeployment commitment (1 mark):</strong> Management should immediately commit &mdash; in writing, as a formal agreement with the union &mdash; that no worker will be made compulsorily redundant as a result of the automation. The 35 workers in affected roles should be offered retraining as robot operators, maintenance technicians or quality supervisors. Of the 35, a realistic number can be absorbed into new roles created by the automation program itself. This directly removes the union&apos;s primary stated reason for industrial action.<br><br>
+    <strong>Recommendation 2 &mdash; Address supervisor concerns and strengthen the coalition (1 mark):</strong> The two supervisors&apos; customisation concern should be taken seriously rather than dismissed. If automation genuinely reduces customisation capability, this is a strategic risk Vanguard&apos;s customers care about. Management should involve the supervisors in the procurement and programming of the robot systems, allowing them to specify customisation requirements as part of the technical brief. This converts their concern from a restraining force into a quality-improvement contribution, and their subsequent endorsement of the system removes a source of credibility for the resistant workers.<br><br>
+    <strong>Conclusion (1 mark):</strong> The driving forces at Vanguard Steel are commercially and strategically superior, but the restraining forces are capable of physically blocking implementation if not managed. Management&apos;s task is not to simply outargue the restrainers but to remove the conditions that make their resistance rational. By securing employment commitments, involving supervisors meaningfully and investing in comprehensive retraining, Vanguard can tip the force field balance decisively in favour of successful, sustainable change.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each &mdash; assess driving forces with reasoning. 1 mark &mdash; assess restraining forces with reasoning. 1 mark &mdash; evaluate whether drivers outweigh restrainers (must acknowledge the union threat as a practical blocker regardless of strategic merit). 2 marks &mdash; two specific recommendations that directly address the most powerful restrainers. 1 mark &mdash; justified conclusion that answers the question directly.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#4B1528;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 5 Quiz 1 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
+function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;var opts=document.getElementById(groupId).querySelectorAll(".mc-opt");for(var i=0;i<opts.length;i++){opts[i].classList.remove("selected");}el.classList.add("selected");if(!mcAnswers[groupId])mcAnswers[groupId]={};mcAnswers[groupId].selected=letter;}
+function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
+function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
+function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review your written answers &mdash; for extended responses, check that you applied each strategy or model step to the specific scenario rather than describing it in general terms.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the resistance strategies and Kotter sections in your Topic 5 cheat sheet &mdash; make sure you can match the right strategy to the right cause of resistance.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 5 cheat sheet and practise distinguishing all five resistance strategies and the Kotter steps.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
+updateProgress();
+</script>
+</body>
+</html>

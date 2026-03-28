@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 2 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#085041;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#1D9E75;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}
+.score-great h2{color:#085041}
+.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}
+.score-ok h2{color:#412402}
+.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}
+.score-low h2{color:#4A1B0C}
+.score-low p{color:#712B13}
+
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}
+.q-card.incorrect{border-color:#D85A30}
+.q-card.revealed{border-color:#AFA9EC}
+
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}
+.type-sa{background:#EEEDFE;color:#26215C}
+.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#1D9E75;background:#F0FBF7}
+.mc-opt.selected{border-color:#1D9E75;background:#E1F5EE;color:#085041}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}
+.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#1D9E75;background:#E1F5EE}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}
+.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}
+.mc-opt.selected .opt-letter{color:#085041}
+
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#1D9E75}
+.write-area.er-area{min-height:140px}
+
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#1D9E75;color:#fff}
+.btn-check:hover{background:#085041}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}
+.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+
+.score-tracker{position:sticky;top:8px;z-index:10;background:#085041;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#085041;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#0F6E56}
+
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 2 Quiz</h1>
+<p class="subtitle">Human Resource Management &middot; 15 questions &middot; Mixed format &middot; Hot topics focus</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+
+<div id="score-banner"></div>
+
+<!-- ==================== Q1 ==================== -->
+<div class="q-card" id="qc1">
+  <div class="q-meta">
+    <span class="q-num">Question 1</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">According to Maslow&apos;s Hierarchy of Needs, which level of need must be satisfied BEFORE an employee can be motivated by esteem needs?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>Self-actualisation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Social needs</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>Physiological needs</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Safety needs</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk1" onclick="checkMC(1,'B')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: B &mdash; Social needs</strong>
+    Maslow&apos;s hierarchy from bottom to top is: Physiological (1) &rarr; Safety (2) &rarr; Social (3) &rarr; Esteem (4) &rarr; Self-actualisation (5). Each level must be satisfied before the next level becomes motivating. Esteem is level 4, so Social (level 3) must be satisfied first. Physiological and Safety are lower still and would have already been met before reaching Social.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q2 ==================== -->
+<div class="q-card" id="qc2">
+  <div class="q-meta">
+    <span class="q-num">Question 2</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A business introduces a new bonus scheme where employees receive an extra payment if they exceed their individual sales targets. Which motivation strategy is this?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Job enrichment</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Profit sharing</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Performance-related pay</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Employee share ownership</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk2" onclick="checkMC(2,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: C &mdash; Performance-related pay</strong>
+    Performance-related pay directly links additional financial rewards to achieving specific measurable targets &mdash; exactly what this bonus scheme does. Profit sharing (B) distributes a portion of overall company profits to all staff, not tied to individual targets. Job enrichment (A) is a non-financial strategy. Employee share ownership (D) involves giving staff shares in the company.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q3 ==================== -->
+<div class="q-card" id="qc3">
+  <div class="q-meta">
+    <span class="q-num">Question 3</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following is a KEY difference between Lawrence &amp; Nohria&apos;s Four Drive Theory and Maslow&apos;s Hierarchy of Needs?</p>
+  <div class="mc-options" id="mc3">
+    <div class="mc-opt" onclick="selectMC(this,'mc3','A')"><span class="opt-letter">A</span>Lawrence &amp; Nohria focus only on financial motivation, while Maslow includes non-financial needs</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','B')"><span class="opt-letter">B</span>Lawrence &amp; Nohria&apos;s four drives operate simultaneously, while Maslow&apos;s needs follow a strict hierarchy</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','C')"><span class="opt-letter">C</span>Maslow identifies four needs while Lawrence &amp; Nohria identify five drives</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','D')"><span class="opt-letter">D</span>Lawrence &amp; Nohria&apos;s theory only applies to managers, not frontline employees</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk3" onclick="checkMC(3,'B')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans3">
+    <strong>&#10003; Correct answer: B</strong>
+    The defining structural difference between the two theories is that Maslow&apos;s needs form a hierarchy &mdash; lower needs must be met before higher needs motivate &mdash; while Lawrence &amp; Nohria&apos;s four drives (acquire, bond, comprehend, defend) all operate at the same time. A manager using L&amp;N must address all four simultaneously, not one at a time. Options A, C and D are all factually incorrect.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q4 ==================== -->
+<div class="q-card" id="qc4">
+  <div class="q-meta">
+    <span class="q-num">Question 4</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A new employee joins a logistics company and learns the company&apos;s warehouse management system by working alongside an experienced colleague during real shifts. Which type of training is this?</p>
+  <div class="mc-options" id="mc4">
+    <div class="mc-opt" onclick="selectMC(this,'mc4','A')"><span class="opt-letter">A</span>Off-the-job training</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','B')"><span class="opt-letter">B</span>Online training</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','C')"><span class="opt-letter">C</span>On-the-job training</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','D')"><span class="opt-letter">D</span>Formal qualification training</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk4" onclick="checkMC(4,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans4">
+    <strong>&#10003; Correct answer: C &mdash; On-the-job training</strong>
+    On-the-job training takes place in the actual work environment, with the employee learning by doing while guided by an experienced colleague. Working alongside a colleague during real shifts in a warehouse is a textbook example. Off-the-job (A) takes place away from the workplace at an external provider. Online (B) is delivered digitally. Formal qualification (D) is a category of off-the-job training, not a separate type in the Jacaranda framework.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q5 ==================== -->
+<div class="q-card" id="qc5">
+  <div class="q-meta">
+    <span class="q-num">Question 5</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following BEST describes redundancy as a form of termination?</p>
+  <div class="mc-options" id="mc5">
+    <div class="mc-opt" onclick="selectMC(this,'mc5','A')"><span class="opt-letter">A</span>The employee is dismissed because of serious misconduct</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','B')"><span class="opt-letter">B</span>The employee voluntarily chooses to leave the business</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','C')"><span class="opt-letter">C</span>The employee&apos;s position is no longer required by the business due to restructuring or changed circumstances</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','D')"><span class="opt-letter">D</span>The employee is removed because their performance has not improved after warnings</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk5" onclick="checkMC(5,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans5">
+    <strong>&#10003; Correct answer: C</strong>
+    Redundancy occurs when the position itself is no longer needed by the business &mdash; due to restructuring, automation, reduced demand or cost-cutting &mdash; not because of anything the employee has done. Option A describes summary dismissal (serious misconduct). Option B describes voluntary resignation. Option D describes general dismissal after performance management. The critical distinction is that redundancy is about the JOB, not the person.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q6 ==================== -->
+<div class="q-card" id="qc6">
+  <div class="q-meta">
+    <span class="q-num">Question 6</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">According to Locke &amp; Latham&apos;s Goal-Setting Theory, which of the following goal descriptions best reflects the principle of SPECIFICITY?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>&quot;Try to do better in customer service this quarter.&quot;</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>&quot;Achieve a customer satisfaction score of 90% or above by the end of Q3.&quot;</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>&quot;Work as hard as you can and see how much you improve.&quot;</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>&quot;We want you to be the best at what you do.&quot;</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk6" onclick="checkMC(6,'B')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: B</strong>
+    Specificity requires goals to be clear, precise and measurable rather than vague. Option B names an exact target (90% satisfaction score) and a clear deadline (end of Q3) &mdash; both hallmarks of a specific goal. Options A, C and D are all vague and unmeasurable, representing the type of poorly constructed goal that Locke &amp; Latham&apos;s theory argues will not effectively motivate employees.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q7 ==================== -->
+<div class="q-card" id="qc7">
+  <div class="q-meta">
+    <span class="q-num">Question 7</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Priya works as a senior nurse at a metropolitan hospital. She has a secure permanent contract, earns a competitive salary and works in a supportive team where she has strong friendships. However, she has recently told her manager that she feels unchallenged and underutilised in her current role, and is considering leaving for a position at a private hospital that would give her more specialist responsibilities.</p>
+  <p class="q-text">Using Maslow&apos;s Hierarchy of Needs, explain which level Priya is currently at and recommend ONE strategy her manager could use to increase her motivation. (3 marks)</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify current level (1 mark):</strong> According to Maslow&apos;s Hierarchy of Needs, Priya&apos;s physiological needs (salary), safety needs (permanent contract) and social needs (supportive team, strong friendships) are all already satisfied. She is therefore currently at level 4 &mdash; <strong>esteem needs</strong> &mdash; as evidenced by her desire for recognition, specialist status and a sense of achievement. Her feeling of being &quot;unchallenged and underutilised&quot; confirms that esteem needs are not currently being met.<br><br>
+    <strong>Explain next level (1 mark):</strong> To retain Priya, her manager needs to address her esteem needs and begin satisfying level 5 (self-actualisation) by offering her meaningful challenges that allow her to fulfil her potential.<br><br>
+    <strong>Strategy recommendation (1 mark):</strong> The manager could use <strong>job enrichment</strong> by assigning Priya specialist responsibilities within her current role &mdash; for example, leading a new clinical protocol review or mentoring junior nurses. This would satisfy her esteem needs through recognition and achievement, and move her toward self-actualisation, making it less likely she would leave for the private hospital.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly identifying esteem (level 4) with a reason drawn from the scenario. 1 mark for explaining what Priya needs next using Maslow&apos;s framework. 1 mark for a relevant, specific strategy linked back to the scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q8 ==================== -->
+<div class="q-card" id="qc8">
+  <div class="q-meta">
+    <span class="q-num">Question 8</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-text">Explain Lawrence &amp; Nohria&apos;s drive to bond and the drive to comprehend. For each drive, outline how a manager could address it in the workplace. (3 marks — up to 1.5 marks per drive)</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer</strong>
+    <strong>Drive to bond (1.5 marks):</strong> The drive to bond is the emotional drive to form meaningful social connections, relationships and a sense of belonging with others. Employees are motivated when they feel part of a team and valued as individuals, not just as workers. A manager could address this drive by organising regular team activities, creating mentoring pairs between experienced and new staff, or fostering an inclusive team culture where everyone is recognised and included in social interactions.<br><br>
+    <strong>Drive to comprehend (1.5 marks):</strong> The drive to comprehend is the emotional drive to learn, grow, understand and make sense of the world around us. Employees are motivated by interesting, challenging work that stretches their knowledge and skills. A manager could address this drive by assigning staff to new projects that require them to learn different skills, providing access to professional development courses, or giving employees stretch assignments that push them beyond their current comfort zone.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> Up to 1.5 marks per drive: 0.5 marks for a correct definition of the drive, 0.5 marks for explaining why it motivates employees, 0.5 marks for a relevant management strategy. Award in whole marks when assessed together (3 marks total).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q9 ==================== -->
+<div class="q-card" id="qc9">
+  <div class="q-meta">
+    <span class="q-num">Question 9</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Riverdale Aged Care employs 90 nurses, support workers and administrative staff. The organisation has recently seen a sharp rise in staff absenteeism and several experienced nurses have resigned. Exit interviews reveal that staff feel they receive no recognition for their work, have no opportunities to progress in their careers and find the workload relentless with no variety.</p>
+  <p class="q-text">Identify and explain TWO non-financial motivation strategies that Riverdale Aged Care could use to address the issues identified in the exit interviews. (3 marks)</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    <strong>Strategy 1 &mdash; Recognition and awards (1.5 marks):</strong> Recognition involves publicly acknowledging employee achievements through awards, verbal praise or formal programs. At Riverdale Aged Care, introducing a monthly &quot;Staff Champion&quot; award nominated by patients and colleagues would directly address the exit interview finding that staff feel their work goes unrecognised. Recognition satisfies Maslow&apos;s esteem needs and Lawrence &amp; Nohria&apos;s drive to acquire (status), and costs relatively little to implement.<br><br>
+    <strong>Strategy 2 &mdash; Career advancement opportunities (1.5 marks):</strong> Career advancement involves providing clear pathways for promotion, professional development and progression within the organisation. At Riverdale, creating a clinical ladder program where nurses can progress from junior to senior to specialist roles &mdash; with associated responsibilities and pay rises at each stage &mdash; would address both the lack of career opportunities and the monotony of unchanging workloads identified in exit interviews. This gives high performers a reason to stay and invest in the organisation long-term.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> Up to 1.5 marks per strategy: 0.5 marks for correctly naming and defining the strategy, 1 mark for linking it specifically to the issues identified in the Riverdale exit interviews. Generic answers not referencing the scenario earn a maximum of 0.5 marks per strategy.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q10 ==================== -->
+<div class="q-card" id="qc10">
+  <div class="q-meta">
+    <span class="q-num">Question 10</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-text">Compare on-the-job training and off-the-job training. In your answer, identify ONE similarity and TWO differences. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both on-the-job and off-the-job training aim to develop employee skills and knowledge in order to improve their performance and contribution to the business. Both are investments in human capital that benefit both the individual employee and the organisation.<br><br>
+    <strong>Difference 1 (1 mark):</strong> On-the-job training takes place in the actual work environment, with employees learning while performing their real duties alongside an experienced colleague. Off-the-job training, by contrast, takes place away from the workplace at an external provider such as a TAFE, university or specialist training centre, removing the employee from their normal duties during the learning period.<br><br>
+    <strong>Difference 2 (1 mark):</strong> On-the-job training is generally lower in cost because it requires no external provider fees or venue costs. Off-the-job training is more expensive due to provider costs, potential travel and accommodation, and the indirect cost of lost productivity while the employee is absent from their role.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a valid similarity. 1 mark each for two clearly contrasted differences. Simply listing features of each type separately without drawing a direct comparison earns no mark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q11 ==================== -->
+<div class="q-card" id="qc11">
+  <div class="q-meta">
+    <span class="q-num">Question 11</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Distinguish between redundancy and dismissal as forms of involuntary termination. (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Redundancy (1 mark):</strong> Redundancy is a form of involuntary termination initiated by the employer when the employee&apos;s position is no longer required by the business, typically due to restructuring, automation, or a reduction in business activity. Importantly, redundancy is about the job being eliminated &mdash; not the employee&apos;s conduct or performance. The employee is entitled to redundancy pay based on years of service.<br><br>
+    <strong>Dismissal (1 mark):</strong> Dismissal is a form of involuntary termination initiated by the employer based on the employee&apos;s own conduct or performance. This includes general dismissal (after documented warnings for poor performance or behaviour) and summary dismissal (immediate termination for serious misconduct without notice). Unlike redundancy, the reason for dismissal is directly related to what the employee has done or failed to do.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct explanation of redundancy that includes the key idea that the position &mdash; not the person &mdash; is the reason. 1 mark for a correct explanation of dismissal that identifies conduct or performance as the basis. A response that only lists entitlements without explaining the nature of each form earns no mark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q12 ==================== -->
+<div class="q-card" id="qc12">
+  <div class="q-meta">
+    <span class="q-num">Question 12</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain the purpose of a performance appraisal and outline ONE limitation of using it as a performance management strategy. (2 marks)</p>
+  <textarea class="write-area" id="wa12" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Purpose (1 mark):</strong> A performance appraisal is a formal, structured review process in which an employee&apos;s performance is assessed against agreed criteria or KPIs. Its purpose is to provide employees with structured feedback on their strengths and areas for development, identify training needs, set goals for the next period and inform decisions about remuneration, promotion or disciplinary action.<br><br>
+    <strong>Limitation (1 mark):</strong> A key limitation of performance appraisals is that their quality depends heavily on the objectivity of the appraiser. If the manager conducting the appraisal has a personal bias &mdash; whether positive or negative &mdash; the assessment may not accurately reflect actual performance. Employees who receive an unfair appraisal may feel demotivated and disengaged, which is the opposite of the intended outcome.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct explanation of the purpose of a performance appraisal. 1 mark for a valid and explained limitation (not just a one-word answer like &quot;biased&quot; &mdash; must explain why it is a limitation).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q13 ==================== -->
+<div class="q-card" id="qc13">
+  <div class="q-meta">
+    <span class="q-num">Question 13</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">4 marks</span>
+  </div>
+  <p class="q-scenario">Crestwood Retail employs 65 staff across three stores. The general manager has noticed that while experienced staff are highly motivated and productive, new employees tend to underperform in their first three months and receive a disproportionate number of customer complaints. The current approach to inducting new staff involves giving them a one-hour store tour on their first day and then assigning them directly to the sales floor.</p>
+  <p class="q-text">Discuss the use of on-the-job training as a strategy to address the performance issues Crestwood Retail is experiencing with new staff. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define the strategy (1 mark):</strong> On-the-job training is a training strategy in which new employees develop skills and knowledge by performing their actual work duties under the guidance of an experienced colleague, learning in the real work environment rather than in a classroom.<br><br>
+    <strong>Advantage + scenario link (1 mark):</strong> Implementing on-the-job training would directly address Crestwood Retail&apos;s new staff performance problem. By pairing each new employee with an experienced team member for their first four to six weeks, new staff would learn customer service techniques, product knowledge and store procedures in the actual environment where they are expected to apply them. This is more effective than a one-hour tour because learning is immediate and contextual, reducing the time before new staff become confident and productive.<br><br>
+    <strong>Advantage 2 + scenario link (1 mark):</strong> On-the-job training is also cost-effective for Crestwood, as it requires no external provider fees. The cost is primarily the time of the experienced staff member acting as trainer, which is an efficient use of existing talent. The training also strengthens relationships between new and experienced staff, which supports team cohesion across the three stores.<br><br>
+    <strong>Disadvantage + scenario link (1 mark):</strong> However, a limitation of on-the-job training at Crestwood is that the quality of training will depend on the skills, patience and consistency of the experienced staff member assigned as trainer. If the trainer has developed their own shortcuts or bad habits over time, these could be passed on to new employees, potentially perpetuating rather than solving the customer complaint problem. Crestwood should ensure that trainers are selected carefully and given basic guidance on what to cover.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct definition. 1 mark for each of two advantages linked to the Crestwood scenario. 1 mark for a disadvantage linked to the scenario. A &quot;discuss&quot; question requires BOTH advantages and disadvantages &mdash; a response with only one side earns a maximum of 2 marks.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q14 ==================== -->
+<div class="q-card" id="qc14">
+  <div class="q-meta">
+    <span class="q-num">Question 14</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">4 marks</span>
+  </div>
+  <p class="q-scenario">Titan Engineering employs 120 engineers and project managers. The HR manager has noticed that staff are engaged and productive but has become concerned about a trend: three of the company&apos;s top-performing engineers have recently turned down project leadership roles, saying they prefer technical work and do not feel ready to manage people. A fourth engineer has just resigned to join a competitor that offers a clearer path to becoming a principal engineer.</p>
+  <p class="q-text">Using ONE motivation theory, explain how Titan Engineering could address the motivation and retention challenges identified in this scenario. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer (Maslow approach &mdash; other valid theories also accepted)</strong>
+    <strong>Introduce the theory (1 mark):</strong> Maslow&apos;s Hierarchy of Needs proposes that employees are motivated by five levels of need &mdash; physiological, safety, social, esteem and self-actualisation &mdash; with lower levels needing to be satisfied before higher levels become motivating.<br><br>
+    <strong>Identify current level (1 mark):</strong> Titan&apos;s engineers appear to have their physiological, safety and social needs well-satisfied (they are engaged and productive). The fact that top engineers are declining management roles but one has left for a clearer career path suggests their esteem and self-actualisation needs are not being adequately met. They seek recognition of their technical expertise and a pathway to fulfil their full potential as engineers &mdash; not necessarily as managers.<br><br>
+    <strong>Apply theory to address the problem (1 mark):</strong> To address esteem needs, Titan could create a formal recognition program that publicly acknowledges engineering excellence &mdash; for example, a &quot;Principal Engineer&quot; designation awarded to top technical performers. This provides status and achievement without requiring staff to move into management roles they do not want. This is important because the three engineers who declined leadership roles are not unmotivated &mdash; they are simply motivated by technical mastery, not people management.<br><br>
+    <strong>Address self-actualisation and retention (1 mark):</strong> To address self-actualisation and prevent further departures, Titan should develop a dual career track &mdash; one path for those who want to move into project management, and a parallel technical specialist path for engineers who want to deepen their expertise. This directly responds to the engineer who resigned for a competitor with a clearer principal engineer pathway, signalling to remaining staff that excellence in technical work is valued and rewarded at Titan.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly explaining the chosen theory. 1 mark for identifying where Titan&apos;s engineers sit in the theory and linking this to the scenario evidence. 1 mark for a specific strategy that addresses the identified need level, linked to the scenario. 1 mark for addressing the retention issue (the departure) specifically. Note: Lawrence &amp; Nohria (drive to comprehend and acquire) or Locke &amp; Latham (setting specialist career goals) are also valid frameworks &mdash; award marks for any well-applied theory.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q15 ==================== -->
+<div class="q-card" id="qc15">
+  <div class="q-meta">
+    <span class="q-num">Question 15</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">6 marks</span>
+  </div>
+  <p class="q-scenario">Metro Manufacturing employs 200 production workers. The business has recently restructured, eliminating 40 positions through redundancy as a result of introducing automated production equipment. The remaining 160 workers have been told that their roles are safe, but HR data shows that in the two months since the redundancies were announced: staff absenteeism has increased from 3% to 9%, productivity per worker has declined by 22%, and the number of formal grievances lodged has tripled. The CEO wants to restore workforce performance and morale as quickly as possible.</p>
+  <p class="q-text">Evaluate the effectiveness of ONE financial AND ONE non-financial motivation strategy that Metro Manufacturing&apos;s management could use to address the current situation. Justify which of the two strategies you would recommend as the PRIORITY. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for 4 well-developed paragraphs."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Financial strategy &mdash; profit sharing (1 mark for definition + application):</strong> Profit sharing is a financial motivation strategy where a portion of the company&apos;s profits is distributed to all employees at the end of a financial period. Metro Manufacturing could introduce a quarterly profit-sharing scheme where workers receive a bonus payment linked to factory output and efficiency. This addresses the drive to acquire (Lawrence &amp; Nohria) by giving workers a tangible financial stake in the company&apos;s success, potentially motivating them to restore productivity.<br><br>
+    <strong>Evaluation of profit sharing (1 mark):</strong> However, profit sharing has significant limitations in this context. The workers&apos; disengagement is driven by fear, grief at losing colleagues and a loss of trust in management &mdash; not by a lack of financial incentive. Offering bonuses without addressing these underlying emotional concerns may be seen as an attempt to &quot;buy&quot; cooperation, which could deepen resentment and make the grievance situation worse. Additionally, declining productivity means profits may be insufficient to fund meaningful bonuses in the short term.<br><br>
+    <strong>Non-financial strategy &mdash; communication and empowerment (1 mark for definition + application):</strong> A communication and empowerment strategy involves management proactively sharing honest information with staff and involving them in decisions about how the workplace operates going forward. Metro Manufacturing&apos;s CEO could hold open forums where workers can ask questions and receive direct answers about job security, the automation program and the future direction of the business. Workers could also be invited to contribute ideas on how remaining roles can be made more efficient and rewarding.<br><br>
+    <strong>Evaluation of communication and empowerment (1 mark):</strong> This strategy is more targeted at the actual cause of the disengagement. The spike in absenteeism, grievances and productivity loss reflects anxiety, distrust and a sense of powerlessness &mdash; all of which communication and empowerment directly address. Maslow&apos;s safety needs have been threatened by the redundancies; reassurance and transparency from management will begin to restore the security employees need before higher-level motivation is possible.<br><br>
+    <strong>Justified recommendation (2 marks):</strong> Communication and empowerment should be the priority strategy for Metro Manufacturing. The root cause of the current crisis is a breakdown of trust &mdash; not a lack of financial reward. Addressing the emotional and psychological impact of the redundancies through honest, respectful communication is the foundation without which any financial incentive will be ineffective. Once trust is partially restored and absenteeism and grievances stabilise, Metro can then introduce profit sharing as a secondary strategy to rebuild long-term engagement and align worker effort with business performance. Implementing profit sharing first, without addressing trust, risks it being dismissed by workers who do not believe management&apos;s intentions are genuine.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark &mdash; correct definition and application of a financial strategy to the scenario. 1 mark &mdash; evaluation of the financial strategy&apos;s limitations in this specific context. 1 mark &mdash; correct definition and application of a non-financial strategy to the scenario. 1 mark &mdash; evaluation of the non-financial strategy&apos;s strengths in this specific context. 2 marks &mdash; a justified recommendation that explains WHY one strategy should be prioritised over the other, with reasoning linked to the scenario evidence (not just a preference statement).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FINISH BUTTON ===== -->
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#085041;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 2 Quiz &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers = {};
+var mcCorrectCount = 0;
+var totalAnswered = 0;
+
+function selectMC(el, groupId, letter) {
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  var opts = document.getElementById(groupId).querySelectorAll(".mc-opt");
+  for (var i = 0; i < opts.length; i++) { opts[i].classList.remove("selected"); }
+  el.classList.add("selected");
+  if (!mcAnswers[groupId]) mcAnswers[groupId] = {};
+  mcAnswers[groupId].selected = letter;
+}
+
+function checkMC(qNum, correctLetter) {
+  var groupId = "mc" + qNum;
+  var group = document.getElementById(groupId);
+  if (!group) return;
+  var selected = mcAnswers[groupId] ? mcAnswers[groupId].selected : null;
+  if (!selected) { alert("Please select an answer first."); return; }
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  mcAnswers[groupId].locked = true;
+  var opts = group.querySelectorAll(".mc-opt");
+  var letters = ["A","B","C","D"];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("disabled");
+    if (letters[i] === correctLetter) { opts[i].classList.add("opt-correct"); }
+    else if (letters[i] === selected) { opts[i].classList.add("opt-wrong"); }
+  }
+  var ansBox = document.getElementById("ans" + qNum);
+  ansBox.classList.add("open");
+  var isCorrect = (selected === correctLetter);
+  ansBox.classList.add(isCorrect ? "ans-correct" : "ans-wrong");
+  document.getElementById("qc" + qNum).classList.add(isCorrect ? "correct" : "incorrect");
+  var chkBtn = document.getElementById("chk" + qNum);
+  chkBtn.classList.add("btn-disabled");
+  chkBtn.disabled = true;
+  chkBtn.innerHTML = isCorrect ? "&#10003; Correct!" : "&#10007; Incorrect";
+  if (isCorrect) mcCorrectCount++;
+  totalAnswered++;
+  updateProgress();
+}
+
+function revealAnswer(qNum) {
+  var ansBox = document.getElementById("ans" + qNum);
+  if (ansBox.classList.contains("open")) return;
+  ansBox.classList.add("open");
+  document.getElementById("qc" + qNum).classList.add("revealed");
+  totalAnswered++;
+  updateProgress();
+  var card = document.getElementById("qc" + qNum);
+  var btns = card.querySelectorAll(".btn-reveal");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].innerHTML = "&#10003; Answer revealed";
+    btns[i].classList.add("btn-disabled");
+    btns[i].disabled = true;
+  }
+}
+
+function updateProgress() {
+  var pct = Math.round((totalAnswered / 15) * 100);
+  document.getElementById("prog-bar").style.width = pct + "%";
+  document.getElementById("prog-label").textContent = totalAnswered + " of 15 questions attempted";
+  document.getElementById("live-score").textContent = totalAnswered;
+  document.getElementById("live-correct").textContent = mcCorrectCount + " MC correct";
+}
+
+function finishQuiz() {
+  var banner = document.getElementById("score-banner");
+  var pct = Math.round((mcCorrectCount / 6) * 100);
+  var cls, msg, sub;
+  if (pct >= 80) {
+    cls = "score-great";
+    msg = "&#127942; Excellent work!";
+    sub = "You scored " + mcCorrectCount + "/6 on multiple choice (" + pct + "%). Now go back through your written answers and compare them carefully against the model answers &mdash; pay particular attention to whether you linked each answer back to the case study scenario.";
+  } else if (pct >= 50) {
+    cls = "score-ok";
+    msg = "&#128218; Good effort &mdash; keep reviewing!";
+    sub = "You scored " + mcCorrectCount + "/6 on multiple choice (" + pct + "%). Review the motivation theories section in your Topic 2 cheat sheet &mdash; Maslow, Locke &amp; Latham and Lawrence &amp; Nohria are the most commonly tested areas.";
+  } else {
+    cls = "score-low";
+    msg = "&#128214; More revision needed";
+    sub = "You scored " + mcCorrectCount + "/6 on multiple choice (" + pct + "%). Head back to the Topic 2 cheat sheet and focus on the motivation theories and training types sections before retrying. Make sure you can clearly distinguish between all three theories.";
+  }
+  banner.className = cls;
+  banner.innerHTML = "<h2>" + msg + "</h2><p>" + sub + "</p>";
+  banner.style.display = "block";
+  banner.scrollIntoView({behavior:"smooth"});
+  document.getElementById("reset-btn").style.display = "block";
+}
+
+function resetQuiz() {
+  if (!confirm("Reset the quiz? All your answers will be cleared.")) return;
+  location.reload();
+}
+
+updateProgress();
+</script>
+</body>
+</html>

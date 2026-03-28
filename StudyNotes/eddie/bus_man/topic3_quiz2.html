@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 3 Quiz 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#412402;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#BA7517;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}.score-great h2{color:#085041}.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}.score-ok h2{color:#412402}.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}.score-low h2{color:#4A1B0C}.score-low p{color:#712B13}
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}.q-card.incorrect{border-color:#D85A30}.q-card.revealed{border-color:#AFA9EC}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}.type-sa{background:#EEEDFE;color:#26215C}.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#BA7517;background:#FEFAF2}
+.mc-opt.selected{border-color:#BA7517;background:#FAEEDA;color:#412402}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#BA7517;background:#FAEEDA}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}.mc-opt.selected .opt-letter{color:#412402}
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#BA7517}.write-area.er-area{min-height:140px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#BA7517;color:#fff}.btn-check:hover{background:#412402}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+.section-divider{background:#412402;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+.score-tracker{position:sticky;top:8px;z-index:10;background:#412402;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#412402;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#633806}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 3 Quiz 2</h1>
+<p class="subtitle">Operations Management &middot; 15 questions &middot; Mixed format &middot; Fresh questions across all subtopics</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+<div id="score-banner"></div>
+
+<!-- ===== SECTION 1: OPERATIONS SYSTEM & QUALITY ===== -->
+<div class="section-divider">&#9881; Section 1: Operations system &amp; quality management <span>(3.2 &amp; 3.3)</span></div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="qc1">
+  <div class="q-meta"><span class="q-num">Question 1</span><span class="q-type type-mc">Multiple choice</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A business that produces the maximum number of units for a given level of resources is best described as:</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>Effective, because it is achieving its production goals</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Efficient, because it is maximising output from available inputs</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>Lean, because it is eliminating waste from its processes</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Sustainable, because it is using resources responsibly</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: B &mdash; Efficient</strong>
+    Efficiency means producing the maximum output from a given level of inputs &mdash; doing things right. Effectiveness (A) means achieving the desired goal or standard &mdash; doing the right things. Lean (C) specifically refers to waste elimination, not just output maximisation. Sustainable (D) relates to environmental or long-term resource management. The question describes efficiency precisely: maximum output per unit of resource.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="qc2">
+  <div class="q-meta"><span class="q-num">Question 2</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A dairy company holds ISO 9001 certification and has documented procedures for every step of its production process, including pasteurisation temperatures, cooling times and packaging line speeds. All procedures are audited every six months. Which quality management strategy is this BEST described as?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Quality control</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Total Quality Management</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Kaizen</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Quality assurance</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: D &mdash; Quality assurance</strong>
+    Quality assurance involves building documented systems and processes to prevent defects occurring during production, often including ISO 9001 certification with regular audits. Documented procedures at every production stage with six-monthly audits is the defining description of QA. Quality control (A) is end-of-line inspection. TQM (B) involves every employee taking responsibility for quality &mdash; there is no mention of that here. Kaizen (C) is about ongoing improvement initiatives, not documented procedures and certification.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q3 SA -->
+<div class="q-card" id="qc3">
+  <div class="q-meta"><span class="q-num">Question 3</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-text">Compare quality control and quality assurance as operations strategies. In your answer, identify ONE similarity and TWO differences. (3 marks)</p>
+  <textarea class="write-area" id="wa3" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(3)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans3">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both quality control and quality assurance aim to ensure that products delivered to customers meet the required quality standard, thereby protecting customer satisfaction and the business&apos;s reputation. Both are operations strategies that involve a dedicated focus on managing the quality of outputs.<br><br>
+    <strong>Difference 1 &mdash; Timing (1 mark):</strong> Quality control is applied after production is complete &mdash; inspectors check finished products and remove defective ones before they reach customers. Quality assurance is applied during production, monitoring and controlling processes as they occur to prevent defects from appearing in the first place.<br><br>
+    <strong>Difference 2 &mdash; Focus and waste (1 mark):</strong> Quality control is reactive and output-focused &mdash; it accepts that defects will occur and manages them after the fact, meaning resources have already been wasted producing defective items. Quality assurance is proactive and process-focused &mdash; it aims to prevent defects by ensuring processes are correct, making it more cost-efficient over time as fewer products need to be rejected or reworked.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a valid similarity. 1 mark each for two clearly contrasted differences. Listing features of each strategy without directly comparing them earns no mark.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta"><span class="q-num">Question 4</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-scenario">TileMaster produces ceramic floor tiles for residential and commercial construction. Last month, 320 out of 5,400 tiles produced were cracked or discoloured. The production manager acknowledged the defects but said, &quot;That&apos;s just the nature of ceramics &mdash; we check them all at the end and pull the bad ones. We&apos;ve always done it this way.&quot;</p>
+  <p class="q-text">Identify the quality management strategy TileMaster is currently using. Explain ONE significant weakness of this approach for TileMaster, using data from the scenario. (2 marks)</p>
+  <textarea class="write-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify (1 mark):</strong> TileMaster is using <strong>quality control</strong> &mdash; inspecting all finished tiles at the end of the production process and removing defective ones before they reach customers.<br><br>
+    <strong>Weakness (1 mark):</strong> The most significant weakness is that 320 tiles per month are being produced as defective but are only identified at the end of the line &mdash; after the full cost of raw materials, kiln energy and labour has already been spent on them. At a defect rate of approximately 5.9%, TileMaster is wasting nearly 6% of its total production resources every month without addressing the root cause. This is a significant and recurring financial cost that quality assurance &mdash; by monitoring kiln temperatures and clay mixtures during production &mdash; could substantially reduce.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly identifying quality control. 1 mark for a weakness that uses the scenario data (320 defective tiles, 5,400 produced) to illustrate the resource waste involved in reactive inspection.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: TECHNOLOGY & AUTOMATION ===== -->
+<div class="section-divider">&#129302; Section 2: Technology &amp; automation <span>(3.4)</span></div>
+
+<!-- Q5 MC -->
+<div class="q-card" id="qc5">
+  <div class="q-meta"><span class="q-num">Question 5</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A supermarket uses an AI system that analyses three years of sales data, public holiday calendars and local weather forecasts to automatically determine how much stock to order for each store each week. Which operations technology is this?</p>
+  <div class="mc-options" id="mc5">
+    <div class="mc-opt" onclick="selectMC(this,'mc5','A')"><span class="opt-letter">A</span>Computer-aided manufacturing (CAM)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','B')"><span class="opt-letter">B</span>Robotics</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','C')"><span class="opt-letter">C</span>Artificial intelligence (AI)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','D')"><span class="opt-letter">D</span>Computer-aided design (CAD)</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk5" onclick="checkMC(5,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans5">
+    <strong>&#10003; Correct answer: C &mdash; Artificial intelligence (AI)</strong>
+    AI uses machine learning to analyse large datasets and simulate human decision-making &mdash; exactly what this system does by combining sales history, calendar data and weather forecasts to make demand predictions. CAM (A) controls production machinery. Robotics (B) involves physical machines performing tasks. CAD (D) is design software. Only AI matches the description of learning from data to make autonomous forecasting decisions.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q6 SA -->
+<div class="q-card" id="qc6">
+  <div class="q-meta"><span class="q-num">Question 6</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-text">Explain the difference between computer-aided design (CAD) and computer-aided manufacturing (CAM). Describe how a business could use BOTH technologies together in its operations. (3 marks)</p>
+  <textarea class="write-area" id="wa6" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(6)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans6">
+    <strong>&#128221; Model answer</strong>
+    <strong>CAD (1 mark):</strong> Computer-aided design (CAD) is software that allows engineers and designers to create precise digital models of products and test them virtually &mdash; including structural stress tests, aerodynamic simulations and material assessments &mdash; before any physical production begins. It eliminates the cost and time of building physical prototypes for every design iteration.<br><br>
+    <strong>CAM (1 mark):</strong> Computer-aided manufacturing (CAM) is software that directly controls production machinery &mdash; such as CNC lathes, milling machines or laser cutters &mdash; by translating digital designs into precise machine instructions. It removes human error from machining operations and can run 24 hours a day without fatigue.<br><br>
+    <strong>Combined use (1 mark):</strong> The two technologies work together seamlessly in a CAD/CAM workflow. For example, an aerospace components manufacturer could use CAD to design and virtually test a new turbine blade, then export the approved digital design directly into CAM, which automatically programs the CNC machining centre to cut the blade from a titanium billet to exact tolerances &mdash; without any manual re-entry of dimensions. This integrated approach reduces lead time from concept to finished component from weeks to days.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of CAD that highlights digital design and virtual testing. 1 mark for a correct definition of CAM that highlights machine control and automation of manufacturing. 1 mark for a clear, specific example of how both are used together in a production workflow.</p></div>
+  </div>
+</div>
+
+<!-- Q7 SA -->
+<div class="q-card" id="qc7">
+  <div class="q-meta"><span class="q-num">Question 7</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">PrintFast is a large commercial printing company that currently employs 38 staff to operate its printing and binding lines. A new fully automated printing system would cost $1.8 million, eliminate 22 positions, reduce per-unit production costs by 34% and improve print quality consistency significantly. The CEO is enthusiastic but several board members are hesitant about the human impact and community perception.</p>
+  <p class="q-text">Outline TWO advantages and ONE disadvantage of introducing automation at PrintFast, using the scenario details in your answer. (3 marks)</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Advantage 1 (1 mark):</strong> Automation would reduce PrintFast&apos;s per-unit production costs by 34%, significantly improving its profitability and competitiveness. In a price-sensitive commercial printing market, lower production costs could allow PrintFast to either reduce prices to win more contracts or maintain prices and improve its profit margin &mdash; either way strengthening its long-term financial position.<br><br>
+    <strong>Advantage 2 (1 mark):</strong> The significant improvement in print quality consistency would reduce waste from reprints and customer complaints, improving customer retention and brand reputation. Consistent quality is particularly valuable for commercial printing clients who rely on colour accuracy and precision for corporate materials and marketing collateral.<br><br>
+    <strong>Disadvantage (1 mark):</strong> Eliminating 22 of PrintFast&apos;s 38 positions represents a 58% reduction in its workforce, which would cause significant personal hardship for the affected employees and their families. As the board members noted, this may also damage PrintFast&apos;s community reputation and make it harder to attract skilled staff in the future. The $1.8 million capital cost also represents a substantial financial commitment that could strain cash flow if the expected productivity gains take longer to materialise than projected.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each for two advantages that use the specific PrintFast data (34% cost reduction, quality improvement). 1 mark for a disadvantage that uses the specific scenario details (22 job losses, $1.8m cost, board concerns). Generic answers not referencing the scenario earn a maximum of 0.5 marks each.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: MATERIALS, LEAN & CSR ===== -->
+<div class="section-divider">&#9851; Section 3: Materials management, lean &amp; CSR <span>(3.5, 3.6 &amp; 3.7)</span></div>
+
+<!-- Q8 MC -->
+<div class="q-card" id="qc8">
+  <div class="q-meta"><span class="q-num">Question 8</span><span class="q-type type-mc">Multiple choice</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A furniture manufacturer uses a computer system to calculate exactly which timber, hardware and fabric quantities it needs for next month&apos;s production run, based on confirmed orders, and automatically generates purchase orders to suppliers. Which inventory management strategy is this?</p>
+  <div class="mc-options" id="mc8">
+    <div class="mc-opt" onclick="selectMC(this,'mc8','A')"><span class="opt-letter">A</span>Just-in-time (JIT)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','B')"><span class="opt-letter">B</span>Materials requirement planning (MRP)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','C')"><span class="opt-letter">C</span>Master production schedule (MPS)</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','D')"><span class="opt-letter">D</span>Pull system</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk8" onclick="checkMC(8,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans8">
+    <strong>&#10003; Correct answer: B &mdash; Materials requirement planning (MRP)</strong>
+    MRP is a computer-based system that calculates what materials are needed, in what quantities and when, based on the production schedule &mdash; then generates purchase orders automatically. This is exactly what the scenario describes. JIT (A) is about timing deliveries to arrive just as needed, not a calculation system. MPS (C) is the production schedule itself (what to make and when), not the materials calculation tool. A pull system (D) is triggered by customer demand, not a computer-generated materials calculation.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q9 SA -->
+<div class="q-card" id="qc9">
+  <div class="q-meta"><span class="q-num">Question 9</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">QuickBuild Constructions is a residential building company that constructs 80 homes per year. It currently orders all materials for each home at the start of the project and stores them on-site until needed, tying up significant cash in stock. A consultant has recommended QuickBuild adopt a just-in-time (JIT) materials system, but the site manager is concerned about the risk of construction delays if deliveries are late.</p>
+  <p class="q-text">Discuss the suitability of a just-in-time (JIT) system for QuickBuild Constructions. In your answer, explain ONE advantage and ONE disadvantage of JIT for this specific business. (3 marks)</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define JIT (1 mark):</strong> Just-in-time (JIT) is an inventory management strategy where materials are ordered and delivered only when they are needed in the production process, minimising the amount of stock held on-site at any time.<br><br>
+    <strong>Advantage (1 mark):</strong> For QuickBuild Constructions, JIT would free up the significant capital currently tied up in on-site material storage. Rather than purchasing and storing all materials at the project start, QuickBuild would only pay for materials as they are needed at each construction stage. This improves cash flow and reduces the risk of material damage, theft or deterioration from prolonged on-site storage &mdash; a genuine cost in the construction industry.<br><br>
+    <strong>Disadvantage (1 mark):</strong> However, the site manager&apos;s concern is well-founded. Construction projects are particularly vulnerable to JIT supply disruptions because building stages are sequential &mdash; if framing timber is delayed, the entire project halts until it arrives, with 20+ tradespeople sitting idle. In an industry where labour costs continue regardless of material availability, even a one-day delivery delay can generate significant cost overruns. QuickBuild would need highly reliable, long-term supplier relationships before JIT could be safely implemented across 80 concurrent projects.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of JIT. 1 mark for an advantage that links specifically to QuickBuild&apos;s cash flow situation described in the scenario. 1 mark for a disadvantage that addresses the site manager&apos;s concern about construction delays in a way specific to the building industry context.</p></div>
+  </div>
+</div>
+
+<!-- Q10 SA -->
+<div class="q-card" id="qc10">
+  <div class="q-meta"><span class="q-num">Question 10</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain what is meant by &apos;greenwashing&apos; in the context of CSR in operations. Why is greenwashing a risk to a business&apos;s long-term interests? (2 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define greenwashing (1 mark):</strong> Greenwashing occurs when a business makes misleading, exaggerated or unsubstantiated claims about the environmental benefits of its products or operations in order to appear more sustainable than it actually is. For example, a clothing retailer labelling garments as &quot;eco-friendly&quot; without being able to demonstrate certified sustainable sourcing or manufacturing practices is greenwashing.<br><br>
+    <strong>Why it is a risk (1 mark):</strong> Greenwashing poses a significant long-term risk because when consumers, journalists or regulators investigate and expose the gap between a business&apos;s environmental claims and its actual practices, the resulting reputational damage is typically far greater than if the business had made no sustainability claims at all. In Australia, greenwashing can also expose a business to legal action under the Australian Consumer Law (misleading conduct provisions) and regulatory scrutiny from the ACCC, creating financial and legal liability on top of reputational harm.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of greenwashing that captures the idea of misleading or unsubstantiated environmental claims. 1 mark for explaining at least one concrete long-term risk &mdash; reputational damage, legal liability or customer trust loss &mdash; with some explanation of the mechanism.</p></div>
+  </div>
+</div>
+
+<!-- Q11 SA -->
+<div class="q-card" id="qc11">
+  <div class="q-meta"><span class="q-num">Question 11</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain the concept of a circular economy and give ONE example of how a manufacturing business could apply circular economy principles in its operations. (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define circular economy (1 mark):</strong> A circular economy is an economic model in which materials are kept in use for as long as possible through reuse, repair, remanufacturing and recycling, rather than following the traditional linear &quot;take-make-dispose&quot; model. The goal is to eliminate waste by treating the end-of-life of one product or process as the input for another.<br><br>
+    <strong>Example (1 mark):</strong> Bega Cheese applies circular economy principles by capturing the whey by-product from cheese production &mdash; traditionally a waste stream &mdash; and processing it into animal feed, while also using biogas generated from wastewater treatment to produce electricity for its Strathmerton factory. Rather than disposing of production waste, Bega loops it back into the system as a resource, reducing both waste disposal costs and energy input costs simultaneously.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition that captures the idea of keeping materials in use and eliminating the linear &quot;dispose&quot; endpoint. 1 mark for a specific, relevant manufacturing example that clearly illustrates a circular loop (waste from one process becoming input for another).</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 4: Extended responses</div>
+
+<!-- Q12 ER -->
+<div class="q-card" id="qc12">
+  <div class="q-meta"><span class="q-num">Question 12</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Alpine Threads is a small Australian clothing manufacturer producing outdoor and activewear. The business sources all fabrics from a single overseas supplier and uses a push production system, producing large seasonal batches based on demand forecasts. Last season, Alpine Threads was left with $180,000 worth of unsold stock after misjudging demand for one of its jacket lines. The operations manager believes lean management could improve the business&apos;s efficiency and reduce this risk.</p>
+  <p class="q-text">Explain how adopting lean management practices, specifically a pull system and kaizen, could address the operational problems Alpine Threads is experiencing. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa12" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Lean management overview (1 mark):</strong> Lean management is an operations philosophy that systematically identifies and eliminates waste &mdash; any activity that consumes resources without adding value to the customer. For Alpine Threads, the $180,000 in unsold stock represents one of the most significant wastes in lean thinking: overproduction.<br><br>
+    <strong>Pull system (1.5 marks):</strong> Switching from a push to a pull system would directly address Alpine Threads&apos; overproduction problem. Under a pull system, jacket production would only be triggered by actual customer orders from retailers or online buyers, rather than by seasonal demand forecasts that proved inaccurate last season. This means Alpine Threads would never produce jackets that have no confirmed buyer, eliminating the risk of $180,000 overruns from misjudged forecasts. While this may require Alpine Threads to accept longer lead times for some customers, it dramatically reduces financial risk and frees capital currently tied up in unsold inventory.<br><br>
+    <strong>Kaizen (1.5 marks):</strong> Implementing kaizen at Alpine Threads would involve all production staff &mdash; pattern cutters, seamstresses and quality checkers &mdash; meeting regularly to identify and implement incremental improvements to their specific processes. Over time, these small improvements compound into significant efficiency gains: for example, reducing fabric offcut waste, improving stitching consistency to lower rework rates, or redesigning the cutting layout to reduce the time between patterns. Kaizen also increases staff engagement by giving employees ownership over continuous improvement, which can improve morale and reduce turnover.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for introducing lean management and linking it to Alpine Threads&apos; overproduction problem. 1.5 marks for explaining the pull system and connecting it specifically to the $180,000 unsold stock scenario. 1.5 marks for explaining kaizen and applying it to a specific improvement opportunity at Alpine Threads. Award in whole marks.</p></div>
+  </div>
+</div>
+
+<!-- Q13 ER -->
+<div class="q-card" id="qc13">
+  <div class="q-meta"><span class="q-num">Question 13</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Coastal Catch is an Australian seafood processor that supplies premium fish products to supermarkets and restaurants. A recent investigation by a consumer advocacy group found that Coastal Catch&apos;s key fish supplier uses trawling methods linked to coral reef damage and potential overfishing. The story was covered by two national news outlets and Coastal Catch&apos;s social media accounts have been flooded with criticism. The CEO has called an emergency board meeting to decide how to respond.</p>
+  <p class="q-text">Evaluate TWO CSR strategies that Coastal Catch could adopt in its operations to address the current crisis and prevent future reputational damage. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Strategy 1 &mdash; Ethical sourcing (2 marks):</strong> Ethical sourcing involves selecting and auditing suppliers against verified standards for environmental responsibility. For Coastal Catch, the immediate priority should be suspending the problematic supplier and transitioning to certified sustainable seafood sources &mdash; for example, suppliers certified by the Marine Stewardship Council (MSC), whose blue tick is internationally recognised as the gold standard for sustainable wild-catch seafood. This directly addresses the root cause of the crisis and provides Coastal Catch with a credible, verifiable claim to make publicly in its response. The limitation is that certified sustainable suppliers may command a higher price per kilogram, squeezing margins &mdash; and the transition may take several weeks, during which Coastal Catch must manage continued reputational pressure.<br><br>
+    <strong>Strategy 2 &mdash; Supply chain transparency (2 marks):</strong> Supply chain transparency involves publicly disclosing sourcing practices, supplier identities and audit results. Coastal Catch could commit to publishing an annual sustainable sourcing report that names all Tier 1 fish suppliers, their certification status and audit outcomes. This proactively addresses the problem that allowed the current crisis to develop &mdash; a lack of verified knowledge about what the supplier was actually doing. The benefit is that transparency builds trust with supermarket buyers and restaurant clients who are increasingly scrutinising their own supply chains. The limitation is that full transparency also exposes any future supplier lapses more prominently, meaning Coastal Catch must invest in robust, ongoing supplier auditing to ensure the commitments made publicly are consistently upheld.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 2 marks per strategy: 1 mark for correctly defining and applying the strategy to Coastal Catch&apos;s specific situation, 1 mark for evaluating both a benefit AND a limitation of the strategy in this context. Strategies described without evaluation earn a maximum of 1 mark each.</p></div>
+  </div>
+</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta"><span class="q-num">Question 14</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">5 marks</span></div>
+  <p class="q-scenario">SteelCore Manufacturing produces industrial metal components for the construction and mining sectors. The business operates three production lines and employs 110 workers. SteelCore&apos;s operations data over the past 18 months shows: wastage rate has increased from 3.2% to 7.1%; productivity per worker has declined by 14%; the number of customer complaints about dimensional accuracy has risen from 5 to 28 per month; and energy costs per unit have risen by 22% due to inefficient machine usage. The CEO has asked the operations manager to recommend a quality strategy to address these issues.</p>
+  <p class="q-text">Recommend and justify whether SteelCore Manufacturing should adopt Quality Assurance, or Total Quality Management, as its primary quality strategy. In your recommendation, refer to the operational data and explain why the strategy you have chosen is more appropriate than the alternative. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here. Aim for at least 4 paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Define both strategies (1 mark):</strong> Quality Assurance (QA) involves building documented systems and processes &mdash; often through ISO 9001 certification &mdash; to prevent defects from occurring during production. Total Quality Management (TQM) goes further, making quality the personal responsibility of every employee at every stage of operations, underpinned by a culture of continuous improvement.<br><br>
+    <strong>Why QA would partially address the problem (1 mark):</strong> QA would help SteelCore by documenting precise machine tolerances, cutting specifications and measurement protocols at each production stage. This could address the dimensional accuracy complaints &mdash; rising from 5 to 28 per month &mdash; by building in process controls that catch deviations before components are completed. ISO certification would also signal to construction and mining clients that quality is systematically managed, potentially protecting key contracts.<br><br>
+    <strong>Why TQM is the stronger recommendation (1 mark):</strong> However, the breadth of SteelCore&apos;s deterioration &mdash; wastage up from 3.2% to 7.1%, productivity down 14%, energy costs per unit up 22% &mdash; suggests problems that are not confined to any single process step. These interconnected failures point to a systemic cultural issue across all three production lines, not just a documentation gap that QA alone can fix. TQM is more appropriate because it activates all 110 workers as quality contributors &mdash; machine operators who notice a calibration drift can flag it immediately rather than waiting for a QA auditor&apos;s next scheduled check.<br><br>
+    <strong>How TQM addresses the data specifically (1 mark):</strong> Under TQM, the 22% increase in energy costs per unit could be addressed through kaizen teams on each production line identifying and eliminating machine idle time and inefficient operating patterns &mdash; improvements that no QA document would capture because they require workers to observe and act on what they see in real time. The wastage and productivity data similarly suggest process execution problems that only engaged, empowered workers can continuously improve.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> TQM is the recommended strategy for SteelCore Manufacturing. The scale and cross-functional nature of the deterioration requires a cultural transformation, not just better documentation. QA should be introduced as a supporting framework &mdash; providing the documented standards that TQM practitioners can continuously improve against &mdash; but TQM must be the primary strategy if SteelCore is to reverse the trend across all four deteriorating KPIs simultaneously.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly defining both strategies. 1 mark for explaining why QA would partially address the problems. 1 mark for explaining why TQM is the stronger recommendation, linked to the data. 1 mark for applying TQM specifically to at least two of the four data points. 1 mark for a justified conclusion that recommends one strategy over the other with clear reasoning.</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta"><span class="q-num">Question 15</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">GreenLine Packaging manufactures cardboard and paper-based packaging for food and retail clients across Australia. The business is under growing pressure from three directions: a major retail client has threatened to end its contract unless GreenLine can demonstrate measurable environmental progress within 12 months; several production staff have raised concerns about chemical fumes in the printing area; and a competitor has just launched fully recycled, carbon-neutral packaging at a 12% price premium that is already winning market share from environmentally conscious brands.</p>
+  <p class="q-text">Evaluate the extent to which implementing CSR strategies in GreenLine Packaging&apos;s operations can address all three pressures the business currently faces. Justify which CSR strategy you would recommend as the highest priority. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for 4+ paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Overview of pressures and CSR context (1 mark):</strong> GreenLine faces three distinct but related pressures: a client-driven demand for environmental accountability, a worker safety issue linked to chemical printing processes, and a competitive threat from a sustainability-positioned rival. CSR strategies in operations &mdash; including environmentally sustainable practices, ethical sourcing and waste reduction &mdash; can address all three, though with different levels of directness and urgency.<br><br>
+    <strong>Addressing the retail client &mdash; sustainable materials (1 mark):</strong> Transitioning to certified sustainable paper and cardboard inputs (FSC certification) and investing in water-based inks to replace solvent-based printing chemicals would directly address the retail client&apos;s requirement for measurable environmental progress. These changes are verifiable, certifiable and can be documented in a sustainability report within the 12-month window. The limitation is that both changes involve cost increases that will reduce GreenLine&apos;s margin in the short term.<br><br>
+    <strong>Addressing worker safety &mdash; ethical workplace practices (1 mark):</strong> Installing improved ventilation systems in the printing area and completing the transition to water-based inks addresses the chemical fume concern, which is both a CSR and a legal obligation under workplace health and safety legislation. Treating worker safety as a CSR priority &mdash; rather than merely a compliance matter &mdash; also demonstrates to staff and clients that GreenLine&apos;s commitment to responsible operations extends to its own people, not just its external supply chain.<br><br>
+    <strong>Addressing the competitive threat &mdash; circular economy and recycled materials (1 mark):</strong> The competitor&apos;s fully recycled, carbon-neutral product shows there is market demand willing to pay a 12% premium for credibly sustainable packaging. GreenLine could develop a certified recycled content product line using post-consumer waste fibre and circular economy principles, positioning itself to recapture environmentally conscious clients. This is the most complex and expensive CSR investment but offers the highest long-term commercial upside.<br><br>
+    <strong>Can CSR address all three? (1 mark):</strong> Yes, but not equally quickly. The worker safety issue can be addressed within weeks through ventilation upgrades. The client&apos;s 12-month deadline is achievable with focused action on certified inputs and ink transition. The competitive product threat requires a longer-term investment in new material capability and certification that may take 18&ndash;24 months to fully deliver. CSR alone cannot close the entire competitive gap immediately, but it provides the foundation for doing so sustainably.<br><br>
+    <strong>Priority recommendation (1 mark):</strong> The highest priority CSR strategy for GreenLine should be the transition to water-based inks and certified sustainable inputs. This single action addresses all three pressures simultaneously: it resolves the worker safety concern (no more solvent fumes), provides measurable environmental evidence for the retail client within 12 months and begins the material transformation needed to eventually compete with the rival&apos;s sustainable product line. It is the most leveraged investment GreenLine can make &mdash; solving the most urgent problem while laying the groundwork for long-term competitive repositioning.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark &mdash; overview of three pressures and CSR relevance. 1 mark each &mdash; applying a specific CSR strategy to each of the three pressures with clear business linkage (3 marks). 1 mark &mdash; evaluating whether and how fully CSR can address all three pressures (not just listing them). 1 mark &mdash; a justified priority recommendation that explains why one strategy has the highest leverage across multiple pressures.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#412402;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 3 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
+function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;var opts=document.getElementById(groupId).querySelectorAll(".mc-opt");for(var i=0;i<opts.length;i++){opts[i].classList.remove("selected");}el.classList.add("selected");if(!mcAnswers[groupId])mcAnswers[groupId]={};mcAnswers[groupId].selected=letter;}
+function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
+function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
+function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Go back through your written answers and check whether you used the specific scenario data in each response &mdash; that is what earns the second mark on most questions.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the technology and lean management sections of your Topic 3 cheat sheet.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 3 cheat sheet and focus on distinguishing QC, QA and TQM, and the CSR strategies section.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 5: Implementing Change</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px}
+h1{font-size:22px;font-weight:700;color:#4B1528;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:14px}
+#search{width:100%;padding:9px 14px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:14px;outline:none;background:#fff;margin-bottom:18px}
+#search:focus{border-color:#D4537E}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+
+.cat{border-radius:10px;margin-bottom:10px;overflow:hidden;border:1.5px solid}
+.cat.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.18)}
+.cat.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.15)}
+.cat.coral{border-color:#D85A30;background:rgba(240,153,123,0.12)}
+.cat.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.cat.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.cat.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.cat.gray{border-color:#888780;background:rgba(180,178,169,0.12)}
+
+.cat-head{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none}
+.cat.purple .cat-head{background:rgba(206,203,246,0.35)}
+.cat.teal .cat-head{background:rgba(159,225,203,0.3)}
+.cat.coral .cat-head{background:rgba(240,153,123,0.25)}
+.cat.amber .cat-head{background:rgba(239,159,39,0.22)}
+.cat.blue .cat-head{background:rgba(133,183,235,0.25)}
+.cat.pink .cat-head{background:rgba(237,147,177,0.22)}
+.cat.gray .cat-head{background:rgba(180,178,169,0.22)}
+
+.cat-head-text{font-size:13px;font-weight:700;color:#1a1a18}
+.cat-head-right{display:flex;align-items:center;gap:8px}
+.cat-head-right small{font-size:11px;color:#5F5E5A}
+.cat-arrow{font-size:11px;color:#5F5E5A}
+
+.cat-body{padding:0 10px 10px}
+.cat-body.collapsed{display:none}
+
+.term{border-radius:7px;margin-top:7px;background:#fff;border:1px solid #E5E3DC;overflow:hidden}
+.term-title{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#1a1a18}
+.term-title:hover{background:#F8F7F3}
+.arrow{font-size:10px;color:#888780}
+.term-body{display:none;padding:10px 12px;border-top:1px solid #EDECEA;background:#FAFAF8}
+.term-body.open{display:block}
+.term-def{font-size:12px;line-height:1.65;color:#2C2C2A;margin-bottom:6px}
+.term-eg{display:block;font-size:11px;color:#085041;background:#E1F5EE;border-radius:5px;padding:5px 8px;margin-top:4px}
+.term-note{display:block;font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:5px 8px;margin-top:6px;font-style:italic}
+
+.hot-badge{position:relative;display:inline-flex;align-items:center;background:#E24B4A;color:#fff;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;cursor:help;white-space:nowrap;margin-right:4px}
+.hot-badge .tip{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#501313;color:#fff;font-size:11px;border-radius:6px;padding:5px 9px;width:210px;text-align:center;line-height:1.4;z-index:50;pointer-events:none}
+.hot-badge .tip::after{content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#501313}
+.hot-badge:hover .tip{display:block}
+
+.box-wrap{border-radius:10px;margin-bottom:12px;overflow:visible;border:1.5px solid}
+.box-wrap.green{border-color:#5DCAA5;background:rgba(159,225,203,0.12)}
+.box-wrap.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.15)}
+.box-wrap.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.box-wrap.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.box-wrap.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.1)}
+.box-wrap.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.box-wrap.coral{border-color:#D85A30;background:rgba(240,153,123,0.1)}
+.box-wrap.gray{border-color:#888780;background:rgba(180,178,169,0.1)}
+
+.box-toggle{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:13px;font-weight:700;color:#1a1a18;border-radius:8px 8px 0 0}
+.box-wrap.green .box-toggle{background:rgba(159,225,203,0.3)}
+.box-wrap.purple .box-toggle{background:rgba(206,203,246,0.35)}
+.box-wrap.amber .box-toggle{background:rgba(239,159,39,0.22)}
+.box-wrap.blue .box-toggle{background:rgba(133,183,235,0.25)}
+.box-wrap.teal .box-toggle{background:rgba(159,225,203,0.25)}
+.box-wrap.pink .box-toggle{background:rgba(237,147,177,0.22)}
+.box-wrap.coral .box-toggle{background:rgba(240,153,123,0.22)}
+.box-wrap.gray .box-toggle{background:rgba(180,178,169,0.22)}
+
+.box-body{display:none;border-top:1px solid rgba(0,0,0,0.08)}
+.box-body.open{display:block}
+.box-note{font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:6px 10px;margin:10px 12px 12px;font-style:italic}
+
+table.ct{width:100%;border-collapse:collapse;font-size:12px}
+table.ct th{background:#3C3489;color:#fff;padding:7px 10px;text-align:left;font-size:11px;font-weight:700}
+table.ct td{padding:7px 10px;border-bottom:1px solid #EDECEA;vertical-align:top;line-height:1.55}
+table.ct tr:nth-child(even) td{background:#F8F7F3}
+table.ct tr:last-child td{border-bottom:none}
+table.ct.pink-head th{background:#4B1528}
+table.ct.teal-head th{background:#085041}
+table.ct.amber-head th{background:#412402}
+table.ct.coral-head th{background:#4A1B0C}
+table.ct.blue-head th{background:#042C53}
+table.ct.green-head th{background:#173404}
+
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:#fff}
+.ad-grid .adv{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:12px}
+.ad-grid .dis{background:#FAECE7;border:1px solid #D85A30;border-radius:8px;padding:12px}
+.ad-grid h3{font-size:12px;font-weight:700;margin-bottom:7px}
+.ad-grid .adv h3{color:#085041}
+.ad-grid .dis h3{color:#4A1B0C}
+.ad-grid ul{font-size:11px;line-height:1.8;padding-left:15px}
+.ad-grid .adv ul{color:#085041}
+.ad-grid .dis ul{color:#4A1B0C}
+
+.panel-section-title{font-size:12px;font-weight:700;color:#26215C;margin:14px 12px 4px;border-bottom:1px solid #D3D1C7;padding-bottom:4px}
+
+.model-step{background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:8px;font-size:12px;line-height:1.7;color:#1a1a18}
+.model-step strong{color:#412402}
+.model-step.conclude{background:#EEEDFE;border-left-color:#7F77DD}
+.model-step.conclude strong{color:#26215C}
+
+.tag{display:inline-block;font-size:10px;font-weight:700;border-radius:4px;padding:1px 5px;margin-right:3px}
+.tag-g{background:#E1F5EE;color:#085041}
+.tag-r{background:#FAECE7;color:#4A1B0C}
+.tag-p{background:#EEEDFE;color:#26215C}
+.tag-a{background:#FAEEDA;color:#412402}
+.tag-b{background:#E6F1FB;color:#042C53}
+
+/* Kotter steps */
+.kotter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+.kotter-step{border-radius:8px;padding:11px 13px;border:1px solid}
+.kotter-step .step-num{font-size:10px;font-weight:700;margin-bottom:4px}
+.kotter-step h3{font-size:12px;font-weight:700;margin-bottom:5px}
+.kotter-step p{font-size:11px;line-height:1.6}
+.kotter-step.phase1{background:#FAEEDA;border-color:#BA7517}
+.kotter-step.phase1 .step-num{color:#412402}
+.kotter-step.phase1 h3{color:#412402}
+.kotter-step.phase1 p{color:#633806}
+.kotter-step.phase2{background:#E6F1FB;border-color:#378ADD}
+.kotter-step.phase2 .step-num{color:#042C53}
+.kotter-step.phase2 h3{color:#042C53}
+.kotter-step.phase2 p{color:#185FA5}
+.kotter-step.phase3{background:#E1F5EE;border-color:#5DCAA5}
+.kotter-step.phase3 .step-num{color:#085041}
+.kotter-step.phase3 h3{color:#085041}
+.kotter-step.phase3 p{color:#0F6E56}
+
+/* Force field */
+.ffa-grid{display:grid;grid-template-columns:1fr 80px 1fr;gap:0;background:#D3D1C7;border-radius:8px;overflow:hidden;margin:12px}
+.ffa-driving{background:#E1F5EE;padding:14px}
+.ffa-driving h3{font-size:12px;font-weight:700;color:#085041;margin-bottom:8px}
+.ffa-driving ul{font-size:11px;line-height:1.9;padding-left:14px;color:#085041}
+.ffa-middle{background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#26215C;text-align:center;padding:8px}
+.ffa-restraining{background:#FAECE7;padding:14px}
+.ffa-restraining h3{font-size:12px;font-weight:700;color:#4A1B0C;margin-bottom:8px}
+.ffa-restraining ul{font-size:11px;line-height:1.9;padding-left:14px;color:#4A1B0C}
+
+/* Senge disciplines */
+.senge-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+.senge-card{border-radius:8px;padding:11px 13px;border:1px solid #AFA9EC;background:#EEEDFE}
+.senge-card h3{font-size:12px;font-weight:700;color:#26215C;margin-bottom:5px}
+.senge-card p{font-size:11px;line-height:1.6;color:#3C3489}
+.senge-card .eg{font-size:10px;font-style:italic;color:#534AB7;margin-top:5px}
+
+@media(max-width:520px){
+  .ad-grid{grid-template-columns:1fr}
+  .kotter-grid{grid-template-columns:1fr}
+  .senge-grid{grid-template-columns:1fr}
+  .ffa-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 5</h1>
+<p class="subtitle">Implementing Change &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- ===== COMMAND TERMS ===== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128270; Command terms &mdash; what each word requires</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Command term</th><th>What it means</th><th>Marks typically</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Define</strong></td><td>State the precise meaning of a term</td><td>1&ndash;2</td></tr>
+          <tr><td><strong>Describe</strong></td><td>Give a detailed account of characteristics or features</td><td>2&ndash;3</td></tr>
+          <tr><td><strong>Explain</strong></td><td>Make clear how or why &mdash; give reasons</td><td>2&ndash;4</td></tr>
+          <tr><td><strong>Discuss</strong></td><td>Give BOTH sides &mdash; advantages AND disadvantages</td><td>4&ndash;6</td></tr>
+          <tr><td><strong>Evaluate</strong></td><td>Discuss both sides AND make a judgement with justification</td><td>6&ndash;10</td></tr>
+          <tr><td><strong>Justify</strong></td><td>Give reasons that support a decision or recommendation</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Compare</strong></td><td>Show similarities AND differences between two things</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Propose</strong></td><td>Put forward a strategy or solution with reasons</td><td>3&ndash;5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Topic 5 is the most common source of extended &quot;evaluate&quot; questions in the exam. Know your adv/disadv for every strategy and always write a justified conclusion.</p>
+  </div>
+</div>
+
+<!-- ===== LEWIN LEADERSHIP STYLES ===== -->
+<div class="box-wrap pink">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Lewin&apos;s leadership styles in change &mdash; comparison &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Linking leadership style to change context is a core Topic 5 skill</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct pink-head">
+        <thead><tr>
+          <th>Feature</th>
+          <th>Autocratic</th>
+          <th>Democratic</th>
+          <th>Laissez-faire</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Decision making</strong></td><td>Leader makes all change decisions alone</td><td>Leader involves staff in change decisions</td><td>Staff manage change largely independently</td></tr>
+          <tr><td><strong>Communication</strong></td><td>Top-down &mdash; instructions issued, not explained</td><td>Two-way &mdash; staff consulted and kept informed</td><td>Minimal from leader &mdash; staff self-direct</td></tr>
+          <tr><td><strong>Staff involvement</strong></td><td>None &mdash; compliance expected</td><td>High &mdash; staff input sought and valued</td><td>Full autonomy given to staff</td></tr>
+          <tr><td><strong>Speed of change</strong></td><td>Fast &mdash; no consultation required</td><td>Slower &mdash; time spent on engagement</td><td>Variable &mdash; depends on staff capability</td></tr>
+          <tr><td><strong>Best used when</strong></td><td>Crisis, urgent restructure, resistant staff, survival situation</td><td>Complex change requiring staff buy-in, skilled workforce</td><td>Highly skilled, self-motivated change agents or specialist teams</td></tr>
+          <tr><td><strong>Risk in change</strong></td><td>High resistance, low morale, staff disengagement</td><td>Slower implementation, potential for indecision</td><td>Lack of direction, inconsistent outcomes</td></tr>
+          <tr><td><strong>Example</strong></td><td>CEO announces immediate store closures and redundancies during a financial crisis</td><td>Woolworths forms a cross-functional team to co-design its new supply chain system</td><td>A R&amp;D team is given full responsibility to develop a new product line with minimal management oversight</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="panel-section-title">Lewin&apos;s styles &mdash; advantages &amp; disadvantages in a change context</p>
+    <div style="overflow-x:auto;padding:0 12px 12px">
+      <table class="ct">
+        <thead><tr><th>Style</th><th><span class="tag tag-g">&#43; Advantages in change</span></th><th><span class="tag tag-r">&#8722; Disadvantages in change</span></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Autocratic</strong></td>
+            <td>Change can be implemented quickly without the delays of consultation; clear direction reduces ambiguity during turbulent times</td>
+            <td>Staff who feel excluded from the change process are likely to resist it; low morale can undermine implementation and increase turnover</td>
+          </tr>
+          <tr>
+            <td><strong>Democratic</strong></td>
+            <td>Staff who helped shape the change are more likely to support and champion it, reducing resistance and improving implementation quality</td>
+            <td>Consultation is time-consuming, which can be a disadvantage when rapid change is needed to respond to a crisis or competitive threat</td>
+          </tr>
+          <tr>
+            <td><strong>Laissez-faire</strong></td>
+            <td>Empowers expert staff to apply their specialist knowledge to change challenges, often producing innovative solutions management would not have developed alone</td>
+            <td>Without strong leadership direction, change can stall, lose momentum or proceed inconsistently across different parts of the business</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Note that Lewin&apos;s leadership styles (Topic 5) are distinct from Topic 1&apos;s management styles. The key difference: leadership focuses on inspiring people through change; management focuses on day-to-day task direction. In exams, identify which framework the question is asking about.</p>
+  </div>
+</div>
+
+<!-- ===== RESISTANCE TO CHANGE ===== -->
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654; Reasons for resistance &amp; strategies to overcome it &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Evaluate a strategy to overcome resistance is one of the most common Topic 5 questions</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+
+    <p class="panel-section-title">Why do people resist change?</p>
+    <div style="overflow-x:auto;padding:0 12px 8px">
+      <table class="ct coral-head">
+        <thead><tr><th>Reason for resistance</th><th>What it involves</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fear of the unknown</strong></td><td>Employees are uncertain about what change will mean for their role, workload or future in the business</td><td>Staff at a manufacturing plant resist automation because they are unsure whether their jobs will still exist after the machines are installed</td></tr>
+          <tr><td><strong>Lack of understanding</strong></td><td>Employees do not understand why the change is necessary or what it will involve, leading to mistrust and speculation</td><td>Workers assume a merger will lead to mass redundancies because management has not communicated the reasons or planned outcomes</td></tr>
+          <tr><td><strong>Self-interest</strong></td><td>Employees believe the change will negatively affect their pay, status, workload or working conditions</td><td>Senior staff resist a new flat organisational structure because it removes their managerial titles and perceived authority</td></tr>
+          <tr><td><strong>Peer pressure</strong></td><td>Influential employees or informal leaders oppose the change and encourage colleagues to do the same, creating collective resistance</td><td>A respected long-serving employee publicly criticises a new rostering system in the lunchroom, convincing others to refuse to use it</td></tr>
+          <tr><td><strong>Lack of trust in management</strong></td><td>Past broken promises or poor communication has eroded employee confidence in management&apos;s intentions or competence</td><td>Staff at a company that previously announced &quot;no redundancies&quot; before cutting 200 jobs are deeply sceptical of management&apos;s assurances during the current restructure</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="panel-section-title">Strategies to overcome resistance &mdash; advantages &amp; disadvantages</p>
+
+    <div style="margin:0 12px 10px;border-radius:8px;overflow:hidden;border:1px solid #D3D1C7">
+      <div style="background:#26215C;color:#fff;padding:8px 12px;font-size:12px;font-weight:700">&#128483; Communication</div>
+      <div class="ad-grid" style="padding:10px">
+        <div class="adv"><h3>&#43; Advantages</h3><ul>
+          <li>Reduces fear of the unknown by giving employees accurate information about what the change involves and why it is happening.</li>
+          <li>Builds trust between management and staff, making employees more receptive to future changes.</li>
+          <li>Low-cost strategy that can be implemented quickly through meetings, emails or town halls.</li>
+        </ul></div>
+        <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+          <li>Ineffective if management&apos;s past credibility is low &mdash; staff who distrust leadership will not believe the message regardless of how it is delivered.</li>
+          <li>Communication alone does not address resistance driven by self-interest or job security fears &mdash; words without action ring hollow.</li>
+          <li>Can create unrealistic expectations if management over-promises outcomes that the change cannot deliver.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div style="margin:0 12px 10px;border-radius:8px;overflow:hidden;border:1px solid #D3D1C7">
+      <div style="background:#085041;color:#fff;padding:8px 12px;font-size:12px;font-weight:700">&#129309; Empowerment</div>
+      <div class="ad-grid" style="padding:10px">
+        <div class="adv"><h3>&#43; Advantages</h3><ul>
+          <li>Involving employees in the design and implementation of change gives them ownership, dramatically reducing resistance.</li>
+          <li>Draws on employee knowledge and experience, often improving the quality of the change process itself.</li>
+          <li>Builds a culture where employees feel valued and trusted, improving long-term engagement and morale.</li>
+        </ul></div>
+        <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+          <li>Time-consuming process &mdash; consulting widely before acting significantly slows the pace of change implementation.</li>
+          <li>Employees empowered during the design phase may feel betrayed if their input is ultimately not adopted, worsening resistance.</li>
+          <li>Not effective in crisis situations where rapid, decisive action is required without the luxury of broad consultation.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div style="margin:0 12px 10px;border-radius:8px;overflow:hidden;border:1px solid #D3D1C7">
+      <div style="background:#412402;color:#fff;padding:8px 12px;font-size:12px;font-weight:700">&#127979; Support and training</div>
+      <div class="ad-grid" style="padding:10px">
+        <div class="adv"><h3>&#43; Advantages</h3><ul>
+          <li>Equips employees with the skills and knowledge needed to succeed under the new system, replacing anxiety with competence and confidence.</li>
+          <li>Demonstrates that the business is investing in employees rather than discarding them, improving trust and loyalty.</li>
+          <li>Reduces errors and productivity loss during the transition period by ensuring staff are prepared before the change goes live.</li>
+        </ul></div>
+        <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+          <li>Expensive and time-consuming, particularly if a large workforce needs to be retrained across multiple locations or skill areas.</li>
+          <li>Training takes staff away from their normal duties, temporarily reducing productivity during the change period.</li>
+          <li>May not address resistance that is driven by ideological opposition to the change rather than skills gaps.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div style="margin:0 12px 10px;border-radius:8px;overflow:hidden;border:1px solid #D3D1C7">
+      <div style="background:#4A1B0C;color:#fff;padding:8px 12px;font-size:12px;font-weight:700">&#128181; Incentives</div>
+      <div class="ad-grid" style="padding:10px">
+        <div class="adv"><h3>&#43; Advantages</h3><ul>
+          <li>Directly addresses self-interest resistance by giving employees a tangible personal benefit for embracing the change.</li>
+          <li>Can accelerate adoption of new systems or practices by making cooperation financially attractive.</li>
+          <li>Provides a measurable, visible signal that management values employee effort during a difficult transition.</li>
+        </ul></div>
+        <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+          <li>Expensive &mdash; using financial incentives to manage resistance adds significant cost to the change program.</li>
+          <li>May create a precedent where employees expect to be financially rewarded every time the business needs to change, increasing future resistance leverage.</li>
+          <li>Does not address the root cause of resistance &mdash; once the incentive is removed, underlying opposition may resurface.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div style="margin:0 12px 12px;border-radius:8px;overflow:hidden;border:1px solid #D3D1C7">
+      <div style="background:#042C53;color:#fff;padding:8px 12px;font-size:12px;font-weight:700">&#9998; Negotiation</div>
+      <div class="ad-grid" style="padding:10px">
+        <div class="adv"><h3>&#43; Advantages</h3><ul>
+          <li>Provides a structured, respectful process for resolving disputes between management and resistant employees or unions.</li>
+          <li>Outcomes agreed through negotiation are more likely to be honoured by all parties, improving long-term cooperation.</li>
+          <li>Can prevent costly industrial action (strikes, work bans) that would otherwise disrupt change implementation.</li>
+        </ul></div>
+        <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+          <li>Compromises reached through negotiation may mean the change is implemented in a diluted or less effective form.</li>
+          <li>Lengthy negotiation processes can significantly delay the timeline for change, increasing costs and uncertainty.</li>
+          <li>May be perceived by management as rewarding resistance, encouraging other groups to resist future changes to extract similar concessions.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <p class="box-note">&#128161; Match the strategy to the reason for resistance in the scenario &mdash; e.g. if resistance is due to lack of understanding, communication is most appropriate; if it is due to skills gaps, training is the right fit. Generic answers that do not match the strategy to the cause will lose marks.</p>
+  </div>
+</div>
+
+<!-- ===== KOTTER 8 STEPS ===== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Kotter&apos;s 8-step change model &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Applying Kotter to a scenario is a very common extended response question</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+
+    <div style="padding:10px 12px 6px">
+      <div style="background:#E6F1FB;border:1px solid #378ADD;border-radius:8px;padding:10px 12px;font-size:12px;color:#042C53;line-height:1.7">
+        Kotter&apos;s 8-step model is a sequential framework for leading large-scale organisational change. Steps 1&ndash;4 create the conditions for change, steps 5&ndash;7 implement change, and step 8 makes it permanent. Each step must be completed before moving to the next.
+      </div>
+    </div>
+
+    <p class="panel-section-title" style="color:#412402">Phase 1 &mdash; Creating urgency and direction (Steps 1&ndash;4)</p>
+    <div class="kotter-grid">
+      <div class="kotter-step phase1">
+        <div class="step-num">STEP 1</div>
+        <h3>Create urgency</h3>
+        <p>Convince the majority of stakeholders that change is necessary NOW. Use data, KPI trends, competitive threats or market analysis to build a compelling case for why the status quo is no longer acceptable.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: The CEO of Acme Manufacturing shares declining profit margin and rising competitor data with all staff and the board to create a shared sense of crisis.</p>
+      </div>
+      <div class="kotter-step phase1">
+        <div class="step-num">STEP 2</div>
+        <h3>Build a guiding coalition</h3>
+        <p>Assemble a team of influential, credible leaders from across the business who are committed to the change and have the authority and relationships to drive it forward.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Acme&apos;s CEO forms a steering committee including the operations manager, HR director, union delegate and two respected senior supervisors.</p>
+      </div>
+      <div class="kotter-step phase1">
+        <div class="step-num">STEP 3</div>
+        <h3>Form a strategic vision</h3>
+        <p>Develop a clear, compelling and memorable vision of what the business will look like after the change. The vision must be easy to communicate and must make sense to all employees.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Acme&apos;s vision: &quot;By 2026 we will be the most efficient and lowest-waste manufacturer in our sector, with every employee proud of the quality we deliver.&quot;</p>
+      </div>
+      <div class="kotter-step phase1">
+        <div class="step-num">STEP 4</div>
+        <h3>Enlist a volunteer army</h3>
+        <p>Communicate the vision broadly and recruit as many employees as possible to actively support and champion the change. The more people who own the vision, the more momentum builds.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Acme runs town hall sessions and creates a change ambassador program where enthusiastic employees from each department become internal advocates.</p>
+      </div>
+    </div>
+
+    <p class="panel-section-title" style="color:#042C53">Phase 2 &mdash; Enabling and implementing change (Steps 5&ndash;7)</p>
+    <div class="kotter-grid">
+      <div class="kotter-step phase2">
+        <div class="step-num">STEP 5</div>
+        <h3>Enable action by removing barriers</h3>
+        <p>Identify and eliminate obstacles that prevent employees from acting on the vision &mdash; including outdated processes, unsupportive managers, structural bottlenecks and skills gaps.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Acme removes the approval requirement that previously forced production workers to seek manager sign-off for every process improvement suggestion, enabling faster kaizen cycles.</p>
+      </div>
+      <div class="kotter-step phase2">
+        <div class="step-num">STEP 6</div>
+        <h3>Generate short-term wins</h3>
+        <p>Plan for and create visible early successes that demonstrate the change is working. Short-term wins build momentum, reward supporters and silence critics who argue the change will fail.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Within 90 days Acme&apos;s new production system reduces defect rates by 15% &mdash; management publicly celebrates this result across all communication channels.</p>
+      </div>
+      <div class="kotter-step phase2">
+        <div class="step-num">STEP 7</div>
+        <h3>Sustain acceleration</h3>
+        <p>Use the credibility gained from early wins to tackle larger, more complex change challenges. Maintain momentum by continuing to remove barriers and launching further improvement initiatives.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Building on its initial success, Acme rolls out lean practices to two additional production lines and begins a supplier partnership program to extend quality improvements into the supply chain.</p>
+      </div>
+      <div class="kotter-step phase2">
+        <div class="step-num" style="opacity:0">STEP</div>
+        <h3 style="opacity:0">placeholder</h3>
+      </div>
+    </div>
+
+    <p class="panel-section-title" style="color:#085041">Phase 3 &mdash; Making change stick (Step 8)</p>
+    <div class="kotter-grid">
+      <div class="kotter-step phase3" style="grid-column:1/-1">
+        <div class="step-num">STEP 8</div>
+        <h3>Institute change &mdash; anchor it in the culture</h3>
+        <p>Make the new behaviours, processes and ways of working a permanent part of the organisational culture. Update policies, reward systems, recruitment criteria and induction programs to reinforce the new way of doing things. Change becomes permanent only when &quot;this is how we do things here&quot; replaces the old default.</p>
+        <p style="margin-top:6px;font-size:10px;font-style:italic">Eg: Acme updates its performance appraisal criteria to include continuous improvement contributions, incorporates lean principles into all new-employee induction, and publicly links the business&apos;s improved results to the change program in its annual report.</p>
+      </div>
+    </div>
+
+    <div class="ad-grid" style="margin:0">
+      <div class="adv"><h3>&#43; Kotter advantages</h3><ul>
+        <li>Sequential structure provides clear guidance for managers, reducing the risk of critical steps being skipped during complex change programs.</li>
+        <li>Explicitly addresses the human side of change (urgency, vision, coalition) rather than treating change as a purely technical or operational challenge.</li>
+        <li>Step 8 ensures change is embedded in culture, preventing the common problem of people reverting to old habits after initial enthusiasm fades.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Kotter disadvantages</h3><ul>
+        <li>The strict sequential nature can be inflexible &mdash; real-world change is often messy and non-linear, and forcing every change through 8 ordered steps may be impractical.</li>
+        <li>Time-consuming to implement all eight steps properly &mdash; not suited to businesses that need to respond rapidly to urgent competitive or market threats.</li>
+        <li>Heavily top-down in design &mdash; relies on senior leaders to drive urgency and vision, which can limit genuine bottom-up employee ownership of the change process.</li>
+      </ul></div>
+    </div>
+    <p class="box-note">&#128161; You do NOT need to apply all 8 steps in an exam response. If asked to &quot;apply Kotter&apos;s model&quot;, select the 3&ndash;4 most relevant steps for the scenario and explain each one fully with scenario links. Quality beats quantity.</p>
+  </div>
+</div>
+
+<!-- ===== LEARNING ORGANISATION (SENGE) ===== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; The learning organisation &mdash; Senge&apos;s five disciplines &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Senge is frequently examined as an alternative change framework</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:10px 12px 6px">
+      <div style="background:#EEEDFE;border:1px solid #AFA9EC;border-radius:8px;padding:10px 12px;font-size:12px;color:#26215C;line-height:1.7">
+        A <strong>learning organisation</strong> is one that continuously facilitates the learning of all its members and transforms itself as a result. Peter Senge identified five disciplines that characterise a learning organisation &mdash; businesses that embed these disciplines are better equipped to manage ongoing change and adapt to a dynamic environment.
+      </div>
+    </div>
+    <div class="senge-grid">
+      <div class="senge-card">
+        <h3>1. Personal mastery</h3>
+        <p>Individual employees continuously develop their own skills, knowledge and capabilities, pursuing lifelong learning as a personal commitment rather than a corporate obligation.</p>
+        <p class="eg">Eg: A Linfox driver proactively pursues additional certifications in logistics management and safety, going beyond the minimum required by the business.</p>
+      </div>
+      <div class="senge-card">
+        <h3>2. Mental models</h3>
+        <p>Employees and leaders challenge their own deeply held assumptions and beliefs about how the world works, remaining open to new ways of thinking rather than defending existing views.</p>
+        <p class="eg">Eg: A factory manager who assumed automation always reduces quality challenges this belief after visiting a highly automated Japanese plant that produces fewer defects.</p>
+      </div>
+      <div class="senge-card">
+        <h3>3. Shared vision</h3>
+        <p>The organisation develops a common, genuinely held picture of the future that all members are committed to &mdash; not a vision imposed from the top, but one that individuals help create and believe in.</p>
+        <p class="eg">Eg: All Woolworths team members contribute to a store&apos;s sustainability targets and understand how their daily actions connect to the company&apos;s broader environmental commitments.</p>
+      </div>
+      <div class="senge-card">
+        <h3>4. Team learning</h3>
+        <p>Teams engage in genuine dialogue and collective inquiry, suspending individual assumptions to think together and produce insights that no individual could reach alone.</p>
+        <p class="eg">Eg: A Bega Cheese production team holds a weekly debrief where all members review what went wrong, share what they learned and collectively decide on process improvements.</p>
+      </div>
+      <div class="senge-card" style="grid-column:1/-1">
+        <h3>5. Systems thinking &mdash; the fifth discipline (most important)</h3>
+        <p>The ability to see the business as a whole system of interrelated parts rather than a collection of separate functions. Systems thinking reveals how actions in one area create consequences elsewhere, enabling leaders to find root causes rather than just treating symptoms. Senge called this the &quot;cornerstone discipline&quot; that integrates the other four.</p>
+        <p class="eg">Eg: Rather than simply hiring more staff to cope with rising customer complaints, Acme&apos;s manager uses systems thinking to trace the complaints back to a training gap in quality checking, and fixes the root cause instead.</p>
+      </div>
+    </div>
+
+    <div class="ad-grid" style="margin:0">
+      <div class="adv"><h3>&#43; Learning organisation advantages</h3><ul>
+        <li>Builds an adaptive, resilient culture where employees at all levels are capable of identifying problems and driving improvements without waiting for management direction.</li>
+        <li>Reduces resistance to change over time as employees are conditioned to view change and learning as normal and desirable rather than threatening.</li>
+        <li>Systems thinking helps leaders identify root causes of problems rather than repeatedly treating symptoms, leading to more sustainable solutions.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Learning organisation disadvantages</h3><ul>
+        <li>Takes years to build &mdash; transforming an organisation&apos;s culture and thinking patterns is a long-term investment with no quick returns.</li>
+        <li>Requires significant investment in training, development and time for team reflection, which competes with short-term productivity pressures.</li>
+        <li>Challenging to sustain in businesses with high staff turnover, as institutional learning and shared mental models are lost when experienced employees leave.</li>
+      </ul></div>
+    </div>
+    <p class="box-note">&#128161; Systems thinking is the most important discipline &mdash; if you only have time to explain one, make it this one. Always link it to the idea of seeing the whole business, not just individual parts.</p>
+  </div>
+</div>
+
+<!-- ===== FORCE FIELD ANALYSIS ===== -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Force field analysis &mdash; driving vs restraining forces</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:10px 12px 6px">
+      <div style="background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:10px 12px;font-size:12px;color:#085041;line-height:1.7">
+        Force field analysis (Kurt Lewin) is a framework for evaluating the forces that support a proposed change (driving forces) against those that oppose it (restraining forces). Change succeeds when driving forces outweigh restraining forces &mdash; managers can either strengthen driving forces or weaken restraining forces to tip the balance.
+      </div>
+    </div>
+
+    <p class="panel-section-title">Force field analysis framework</p>
+    <div class="ffa-grid">
+      <div class="ffa-driving">
+        <h3>&#9654; Driving forces (FOR change)</h3>
+        <ul>
+          <li>Declining KPIs (falling profit, rising complaints)</li>
+          <li>Competitive pressure from rivals</li>
+          <li>New technology creating opportunities</li>
+          <li>Supportive leadership and change champions</li>
+          <li>New legislation requiring compliance</li>
+          <li>Customer demand for new products/services</li>
+          <li>Desire to improve productivity and reduce costs</li>
+        </ul>
+      </div>
+      <div class="ffa-middle">&#8596;<br>EQUILIBRIUM<br>&#8596;</div>
+      <div class="ffa-restraining">
+        <h3>&#9664; Restraining forces (AGAINST change)</h3>
+        <ul>
+          <li>Fear of job loss or role changes</li>
+          <li>Lack of skills to operate new systems</li>
+          <li>High cost of implementation</li>
+          <li>Resistance from influential employees</li>
+          <li>Entrenched organisational culture</li>
+          <li>Lack of trust in management</li>
+          <li>Comfortable with the status quo</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="panel-section-title">Worked example &mdash; Acme Manufacturing automation decision</p>
+    <div class="ffa-grid">
+      <div class="ffa-driving">
+        <h3>&#9654; Driving forces</h3>
+        <ul>
+          <li>Rising defect rate KPI signalling quality problems</li>
+          <li>Competitors already using automated production</li>
+          <li>New robotic technology available at lower cost</li>
+          <li>CEO and operations manager fully committed</li>
+        </ul>
+      </div>
+      <div class="ffa-middle">CHANGE:<br>Introduce<br>automation</div>
+      <div class="ffa-restraining">
+        <h3>&#9664; Restraining forces</h3>
+        <ul>
+          <li>Staff fear job losses from automation</li>
+          <li>Workers lack skills to operate new machines</li>
+          <li>High upfront capital cost of equipment</li>
+          <li>Union has signalled opposition to changes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="padding:0 12px 12px">
+      <div style="background:#FAEEDA;border:1px solid #BA7517;border-radius:8px;padding:10px 12px;font-size:12px;color:#412402;line-height:1.8">
+        <strong>Management response:</strong> To implement automation successfully, Acme Manufacturing should focus on weakening restraining forces. This means: communicating transparently about job security (addressing fear), providing retraining programs (addressing skills gap), negotiating with the union (addressing opposition) and staging investment to spread capital costs. The driving forces are already strong &mdash; the priority is removing the barriers, not adding more pressure.
+      </div>
+    </div>
+    <p class="box-note">&#128161; In exam responses, always identify at least TWO driving forces and TWO restraining forces from the case study, then recommend specific strategies to either strengthen drivers or weaken restrainers.</p>
+  </div>
+</div>
+
+<!-- ===== MODEL ANSWER 1 ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer &mdash; evaluate a strategy to overcome resistance (6 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Evaluate the use of communication as a strategy to overcome resistance to change at Acme Manufacturing. (6 marks)</p>
+      </div>
+      <div class="model-step"><strong>Step 1 &mdash; Define the strategy and link to scenario:</strong> Communication as a change management strategy involves managers proactively sharing clear, honest and timely information with employees about the reasons for change, what it will involve and how it will affect them. At Acme Manufacturing, where employees are resisting the introduction of automated production equipment, communication would involve explaining why the change is necessary and what it means for staff roles.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Advantage 1 + scenario link:</strong> A key strength of communication at Acme Manufacturing is that it directly addresses the most common source of resistance &mdash; fear of the unknown. By clearly explaining that automation will be staged and that affected workers will be retrained rather than made redundant, management can reduce the anxiety driving employee opposition.</div>
+      <div class="model-step"><strong>Step 3 &mdash; Advantage 2 + scenario link:</strong> Communication also builds trust between Acme&apos;s management and its workforce. Regular updates through team briefings and written communications demonstrate transparency, which is particularly important at Acme where past restructuring has eroded employee confidence in management&apos;s intentions.</div>
+      <div class="model-step"><strong>Step 4 &mdash; Disadvantage 1 + scenario link:</strong> However, communication alone will be insufficient if Acme&apos;s employees do not trust management. If staff have experienced broken promises in the past, verbal reassurances about job security may be met with scepticism regardless of how clearly the message is communicated.</div>
+      <div class="model-step"><strong>Step 5 &mdash; Disadvantage 2 + scenario link:</strong> Additionally, communication does not address the practical skills gap that automation creates. Employees who understand the change is coming but lack the technical competency to operate new machinery will remain resistant because understanding the why does not give them the how.</div>
+      <div class="model-step conclude"><strong>Step 6 &mdash; Justified conclusion:</strong> Overall, communication is a necessary but insufficient strategy for Acme Manufacturing. It should be combined with training (to address skills gaps) and empowerment (to involve staff in the change design), with communication providing the foundation of transparency that makes the other strategies credible. Used in isolation, communication risks being seen as spin rather than genuine engagement.</div>
+    </div>
+    <p class="box-note">&#128161; The strongest evaluate responses acknowledge that no single strategy is sufficient on its own, and conclude by recommending which combination of strategies best suits the specific scenario.</p>
+  </div>
+</div>
+
+<!-- ===== MODEL ANSWER 2 ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer &mdash; apply Kotter&apos;s 8-step model to a scenario (6 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Using Kotter&apos;s 8-step change model, explain how Acme Manufacturing could successfully implement the introduction of automated production equipment. (6 marks)</p>
+      </div>
+      <div class="model-step"><strong>Introduce the model:</strong> Kotter&apos;s 8-step change model provides a sequential framework for leading large-scale organisational change. To successfully introduce automation, Acme Manufacturing should apply the following steps.</div>
+      <div class="model-step"><strong>Step 1 &mdash; Create urgency:</strong> Acme&apos;s management should present employees and the board with KPI data showing the rising defect rate, declining profit margin and the competitive threat from automated rivals. This data creates a shared understanding that doing nothing is a greater risk than changing.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Build a guiding coalition:</strong> Acme should form a cross-functional steering committee including the CEO, operations manager, HR manager, union delegate and two respected floor supervisors. This group has the credibility and authority to champion the change across all levels of the business.</div>
+      <div class="model-step"><strong>Step 5 &mdash; Enable action by removing barriers:</strong> Before the new equipment goes live, Acme should invest in retraining affected production workers, update its safety procedures and ensure the physical layout of the factory accommodates the new machines. Removing these barriers prevents the change from stalling once it begins.</div>
+      <div class="model-step"><strong>Step 6 &mdash; Generate short-term wins:</strong> Acme should identify a pilot line for the initial automation rollout and publicly celebrate measurable early results &mdash; for example, a 20% reduction in defects within the first 60 days. These visible wins build momentum and demonstrate to sceptical employees that the change is working.</div>
+      <div class="model-step conclude"><strong>Step 8 &mdash; Institute the change:</strong> Once automation is proven, Acme should embed it permanently by updating its induction programs, revising performance KPIs to include new quality benchmarks, and recognising employees who champion the new way of working. This ensures the change becomes &quot;how we do things here&quot; rather than a temporary initiative.</div>
+    </div>
+    <p class="box-note">&#128161; You do not need to apply all 8 steps &mdash; choose the 4&ndash;5 most relevant to the scenario and explain each one with a specific reference to the case study. Depth over breadth will always score higher marks.</p>
+  </div>
+</div>
+
+<!-- ===== TERMS ACCORDION ===== -->
+<div id="list"></div>
+
+<p class="footer">VCE Business Management &mdash; Topic 5 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var data = [
+  { cat: "5.2 Leadership Styles in Change", color: "pink", hot: true, items: [
+    { term: "Leadership", def: "The ability to inspire, guide and influence others toward achieving a common goal, particularly important during periods of significant organisational change.", eg: "During Qantas&apos;s COVID-19 restructuring, CEO Alan Joyce led a major change program requiring difficult decisions about redundancies, fleet grounding and route suspension.", note: "Leadership (Topic 5) focuses on inspiring people through change. Management (Topic 1) focuses on day-to-day task direction. Know which concept the question is asking about." },
+    { term: "Lewin&apos;s leadership styles", def: "Kurt Lewin&apos;s framework identifying three leadership approaches particularly relevant to managing change: autocratic, democratic and laissez-faire.", eg: "Lewin&apos;s research found that democratic leadership generally produced the most positive outcomes in change situations, but autocratic was most effective in crises." },
+    { term: "Autocratic leadership (change context)", def: "A leadership approach where the leader makes all change-related decisions independently and directs staff to comply, without seeking consultation or input.", eg: "A retail chain&apos;s CEO announces immediate store closures and redundancy packages during a financial crisis, with no staff consultation, to preserve the business&apos;s solvency." },
+    { term: "Democratic leadership (change context)", def: "A leadership approach where the leader actively involves staff in planning and decision-making during change, building consensus and buy-in before implementing new ways of working.", eg: "Woolworths&apos; management forms employee working groups to co-design its new flexible rostering system, ensuring the solution works for both the business and its staff." },
+    { term: "Laissez-faire leadership (change context)", def: "A leadership approach where staff are given full autonomy to determine how change is implemented in their area, with the leader providing minimal direction or oversight.", eg: "A pharmaceutical company gives its R&amp;D team complete freedom to redesign the clinical trial data management process, trusting their specialist expertise to produce the best outcome." }
+  ]},
+  { cat: "5.3 Overcoming Resistance to Change", color: "coral", hot: true, items: [
+    { term: "Resistance to change", def: "The behaviours, attitudes and actions of employees that slow down, obstruct or undermine the implementation of organisational change.", eg: "Staff at a logistics company refuse to use a new route planning software, continuing to use paper-based processes, because they distrust the technology and fear their jobs are at risk.", note: "Resistance is normal and should be expected in any significant change. The manager&apos;s job is to identify the cause and choose the appropriate strategy to address it." },
+    { term: "Communication (change strategy)", def: "A strategy to overcome resistance by proactively sharing clear, honest and timely information with employees about the reasons for change and its expected impact.", eg: "Metro Cafe&apos;s manager holds a team meeting to explain that the new ordering system will reduce errors and free staff from administrative tasks rather than replace them." },
+    { term: "Empowerment (change strategy)", def: "A strategy to overcome resistance by involving employees in the design and planning of the change, giving them a sense of ownership and control over the process.", eg: "Acme Manufacturing invites production workers to participate in the process redesign team for the automation rollout, incorporating their practical insights into the implementation plan." },
+    { term: "Support and training (change strategy)", def: "A strategy to overcome resistance by providing employees with the skills, knowledge and emotional support needed to succeed under the new arrangements.", eg: "Before launching its new inventory management system, Linfox runs two weeks of hands-on training for all warehouse staff across all sites, ensuring no one is left behind." },
+    { term: "Incentives (change strategy)", def: "A strategy to overcome resistance by offering financial or non-financial rewards to employees who embrace and support the change.", eg: "A bank offers all staff a $500 bonus upon completing the required training for its new customer relationship management system, accelerating adoption across the branch network." },
+    { term: "Negotiation (change strategy)", def: "A strategy to overcome resistance by engaging in structured discussion with resistant employees or their union representatives to reach a mutually acceptable compromise.", eg: "Qantas negotiates with the Transport Workers Union to agree on redundancy terms, retraining commitments and rostering changes before announcing its post-COVID fleet restructure to staff." }
+  ]},
+  { cat: "5.4 Kotter&apos;s 8-Step Change Model", color: "blue", hot: true, items: [
+    { term: "Kotter&apos;s 8-step change model", def: "A sequential framework developed by John Kotter for leading large-scale organisational change, moving through three phases: creating conditions for change (steps 1&ndash;4), implementing change (steps 5&ndash;7) and making change permanent (step 8).", eg: "Toyota used a process similar to Kotter&apos;s model when rolling out its lean production system globally &mdash; starting with urgency creation at each plant before building local coalitions to drive implementation.", note: "You do not need to apply all 8 steps in an exam. Choose the 3&ndash;4 most relevant to the scenario and explain each one with specific case study links." },
+    { term: "Create urgency (Step 1)", def: "The first step of Kotter&apos;s model, in which leaders use data and evidence to convince stakeholders that the change is necessary and that the cost of inaction outweighs the cost of change.", eg: "A CEO presents the board with five years of declining market share data and a competitor analysis to demonstrate that the business cannot afford to maintain its current strategy." },
+    { term: "Guiding coalition (Step 2)", def: "A team of credible, influential leaders assembled across business functions to champion and drive the change forward, providing direction and legitimacy.", eg: "Acme Manufacturing forms a coalition including the CEO, operations manager, HR director, union delegate and two respected senior supervisors to lead its automation program." },
+    { term: "Short-term wins (Step 6)", def: "Planned early achievements during a change program that provide visible evidence the change is working, building momentum and rewarding those who have supported the process.", eg: "After 60 days on the new production system, Acme&apos;s management announces publicly that defect rates have fallen by 20%, celebrating the team responsible and demonstrating progress to sceptics." },
+    { term: "Anchoring change in culture (Step 8)", def: "The final step of Kotter&apos;s model, in which the new behaviours and processes are embedded permanently into the organisation&apos;s culture through updated policies, reward systems and induction programs.", eg: "Acme revises all new-employee induction programs to include lean production principles and updates its performance review criteria to reward continuous improvement contributions." }
+  ]},
+  { cat: "5.5 The Learning Organisation", color: "purple", hot: true, items: [
+    { term: "Learning organisation", def: "An organisation that continuously facilitates the learning of all its members and transforms itself as a result, remaining adaptable in a constantly changing environment.", eg: "Google is frequently cited as a learning organisation &mdash; it encourages experimentation, tolerates failure as a learning opportunity and systematically captures and shares knowledge across teams.", note: "A learning organisation is not just about training programs &mdash; it is a cultural orientation where learning, questioning and improving are embedded in everyday work." },
+    { term: "Personal mastery (Senge)", def: "The discipline of continuously developing one&apos;s own skills, knowledge and capabilities as a personal commitment to growth, not just because the employer requires it.", eg: "A Linfox logistics coordinator pursues a Diploma of Supply Chain Management in their own time, driven by genuine curiosity and a desire to contribute more effectively to the business." },
+    { term: "Mental models (Senge)", def: "The discipline of identifying, examining and challenging the deeply held assumptions and beliefs that shape how individuals and organisations perceive and respond to the world.", eg: "A factory manager who always assumed new employees needed at least six months to become productive challenges this assumption and discovers a redesigned induction reduces the learning curve to eight weeks." },
+    { term: "Shared vision (Senge)", def: "The discipline of building a genuine, collectively owned picture of the desired future that all members of the organisation are personally committed to, not just aware of.", eg: "All staff at Woolworths understand and contribute to the company&apos;s sustainability targets, experiencing them as a shared aspiration rather than a management directive." },
+    { term: "Team learning (Senge)", def: "The discipline of enabling teams to think and learn together through genuine dialogue, producing collective insights that exceed what any individual member could achieve alone.", eg: "A Bega Cheese production team holds a weekly learning debrief where all members share what they observed, what worked, what failed and what should change &mdash; building collective intelligence over time." },
+    { term: "Systems thinking (Senge)", def: "The discipline of viewing the organisation as a whole system of interrelated parts, understanding how actions in one area create consequences elsewhere, and addressing root causes rather than symptoms.", eg: "Rather than simply hiring more customer service staff to handle complaints, Acme&apos;s manager traces the complaint root cause to an undertrained quality inspection team and fixes the source of the problem.", note: "Systems thinking is Senge&apos;s &apos;fifth discipline&apos; and the cornerstone that integrates the other four. It is the most commonly examined of the five disciplines." }
+  ]},
+  { cat: "5.6 Force Field Analysis", color: "teal", hot: false, items: [
+    { term: "Force field analysis", def: "A framework developed by Kurt Lewin that evaluates the forces driving change and the forces restraining it, used to determine how to tip the balance in favour of successful change.", eg: "Before deciding whether to introduce a new enterprise software system, Acme&apos;s management maps all driving forces (efficiency gains, competitor pressure) against restraining forces (cost, staff resistance, training needs)." },
+    { term: "Driving forces", def: "Forces that support and push a proposed change forward, creating pressure to move away from the current state.", eg: "For Acme Manufacturing&apos;s automation decision, driving forces include declining quality KPIs, competitive pressure from automated rivals and the CEO&apos;s personal commitment to the change." },
+    { term: "Restraining forces", def: "Forces that oppose or hold back a proposed change, creating resistance to moving away from the current state.", eg: "For Acme Manufacturing&apos;s automation decision, restraining forces include employee fear of job loss, the high capital cost of equipment, staff skills gaps and union opposition." },
+    { term: "Equilibrium", def: "The current stable state of the organisation where driving and restraining forces are in balance &mdash; change occurs when driving forces are strengthened or restraining forces are weakened enough to disturb this balance.", eg: "Acme Manufacturing is in equilibrium when it continues its current production methods &mdash; the CEO must shift this equilibrium by either adding driving forces or reducing restraining forces to make automation happen." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

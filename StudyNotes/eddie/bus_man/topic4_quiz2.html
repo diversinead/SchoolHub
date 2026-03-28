@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 4 Quiz 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#042C53;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#378ADD;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}.score-great h2{color:#085041}.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}.score-ok h2{color:#412402}.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}.score-low h2{color:#4A1B0C}.score-low p{color:#712B13}
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}.q-card.incorrect{border-color:#D85A30}.q-card.revealed{border-color:#AFA9EC}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}.type-sa{background:#EEEDFE;color:#26215C}.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#378ADD;background:#EDF4FC}
+.mc-opt.selected{border-color:#378ADD;background:#E6F1FB;color:#042C53}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#378ADD;background:#E6F1FB}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}.mc-opt.selected .opt-letter{color:#042C53}
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#378ADD}.write-area.er-area{min-height:140px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#378ADD;color:#fff}.btn-check:hover{background:#042C53}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+.section-divider{background:#042C53;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+.score-tracker{position:sticky;top:8px;z-index:10;background:#042C53;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#042C53;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#185FA5}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+.kpi-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px}
+.kpi-table th{background:#042C53;color:#fff;padding:6px 10px;text-align:left;font-size:11px}
+.kpi-table td{padding:7px 10px;border-bottom:1px solid #EDECEA;vertical-align:top}
+.kpi-table tr:nth-child(even) td{background:#F8F7F3}
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 4 Quiz 2</h1>
+<p class="subtitle">Reviewing Performance &mdash; the Need for Change &middot; 15 questions &middot; Mixed format &middot; Fresh questions across all subtopics</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+<div id="score-banner"></div>
+
+<!-- ===== SECTION 1: KPIs ===== -->
+<div class="section-divider">&#128200; Section 1: Key Performance Indicators <span>(4.2 &amp; 4.3)</span></div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="qc1">
+  <div class="q-meta"><span class="q-num">Question 1</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A retail business earned a net profit of $42,000 on sales revenue of $280,000. What is its net profit margin?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>6.7%</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>15%</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>8.4%</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>150%</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: B &mdash; 15%</strong>
+    Net profit margin = (Net profit / Sales revenue) &times; 100 = (42,000 / 280,000) &times; 100 = 15%. Option A (6.7%) comes from dividing 280,000 by 42,000 &times; 100 &mdash; an inverted formula. Option C (8.4%) is an arithmetic error. Option D (150%) would only be possible if profit exceeded revenue, which is impossible. Always divide net profit by sales revenue, then multiply by 100.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="qc2">
+  <div class="q-meta"><span class="q-num">Question 2</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A manufacturing business records the following data: Year 1 &mdash; 4 workplace accidents; Year 2 &mdash; 7 accidents; Year 3 &mdash; 12 accidents. Which statement BEST interprets this KPI trend?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>The business is growing rapidly, so more accidents are expected</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>The trend is positive because the number of accidents is still relatively small</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>The trend is negative &mdash; safety systems and culture are deteriorating and legal liability risk is increasing</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>The trend is concerning only if the number exceeds 20 per year</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: C</strong>
+    A tripling of workplace accidents over three years is a clear negative trend regardless of the absolute numbers. The direction and acceleration of the trend matters &mdash; from 4 to 12 in three years suggests a safety culture or system failure that will worsen if unaddressed. Option A incorrectly rationalises the trend. Option B misapplies the &quot;relatively small&quot; reasoning. Option D invents an arbitrary threshold that does not exist in KPI analysis.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q3 SA -->
+<div class="q-card" id="qc3">
+  <div class="q-meta"><span class="q-num">Question 3</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Bluestone Gym &amp; Fitness has three locations in Melbourne. The owner reviews the following KPI data after the end of the financial year:
+  </p>
+  <table class="kpi-table">
+    <thead><tr><th>KPI</th><th>Previous year</th><th>This year</th></tr></thead>
+    <tbody>
+      <tr><td>Net profit margin</td><td>21%</td><td>13%</td></tr>
+      <tr><td>Number of customer complaints</td><td>18</td><td>61</td></tr>
+      <tr><td>Staff turnover</td><td>14%</td><td>38%</td></tr>
+      <tr><td>Number of new memberships sold</td><td>843</td><td>712</td></tr>
+    </tbody>
+  </table>
+  <p class="q-text">Using the four-step KPI interpretation formula, analyse the staff turnover data for Bluestone Gym &amp; Fitness. (3 marks)</p>
+  <textarea class="write-area" id="wa3" placeholder="Step 1 - State the trend with data. Step 2 - State what it means. Step 3 - Likely cause. Step 4 - Recommended action."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(3)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans3">
+    <strong>&#128221; Model answer</strong>
+    <strong>Step 1 &mdash; Trend with data (1 mark):</strong> Staff turnover at Bluestone Gym has increased sharply from 14% to 38% in a single year &mdash; a rise of 24 percentage points that nearly triples the previous rate. A 38% turnover rate means more than one in three employees left the business in one year, which is significantly above the fitness industry benchmark of approximately 20&ndash;25%.<br><br>
+    <strong>Step 2 &mdash; What it means (0.5 mark):</strong> This is a very negative trend. High staff turnover is expensive (recruitment, training and induction costs) and signals that employees are dissatisfied with their working conditions, pay, management or culture at Bluestone.<br><br>
+    <strong>Step 3 &mdash; Likely cause (0.5 mark):</strong> The simultaneous spike in customer complaints (18 to 61) and falling net profit suggest the business is under broader pressure. The turnover is most likely driven by poor morale, management issues or pay concerns &mdash; and is itself likely contributing to the complaint increase, as high-turnover workforces are less experienced and deliver less consistent service.<br><br>
+    <strong>Step 4 &mdash; Recommended action (1 mark):</strong> Bluestone Gym should urgently conduct exit interviews with recent departing staff to identify the primary reasons for leaving. Management should review pay rates against industry benchmarks, assess whether working conditions (rosters, hours) are contributing to departures, and introduce retention strategies such as recognition programs or career development pathways to stabilise the workforce before the next membership cycle.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Award 3 marks for responses that clearly address all four steps with specific reference to Bluestone&apos;s data. 1 mark for stating the trend with figures. 0.5 mark each for meaning and cause. 1 mark for a specific, actionable recommendation linked to the scenario. Deduct marks for generic answers that do not use the data.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta"><span class="q-num">Question 4</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain what &apos;rate of productivity growth&apos; measures as a KPI, and explain what a declining rate might indicate about a business. (2 marks)</p>
+  <textarea class="write-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>What it measures (1 mark):</strong> Rate of productivity growth measures how much the business&apos;s output per unit of input (usually labour or capital) is increasing over time. It tracks whether the business is becoming more efficient &mdash; producing more goods or services per employee hour, or per dollar of capital invested, compared to previous periods.<br><br>
+    <strong>What a decline indicates (1 mark):</strong> A declining rate of productivity growth means the business is becoming less efficient &mdash; it is producing less per unit of input than it previously did. This could indicate that machinery is ageing and breaking down more often, that staff are less motivated or less skilled (often linked to high turnover or poor training), that processes are poorly designed, or that waste and rework are consuming increasing proportions of available production time. Left unaddressed, declining productivity will increase per-unit costs and reduce profitability.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition that captures the idea of output per unit of input over time (not just &quot;how productive workers are&quot;). 1 mark for explaining at least one specific cause or implication of a declining rate, beyond just &quot;it means productivity is going down.&quot;</p></div>
+  </div>
+</div>
+
+<!-- Q5 SA -->
+<div class="q-card" id="qc5">
+  <div class="q-meta"><span class="q-num">Question 5</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain why wastage rate is considered a negative KPI when it increases, and identify ONE area of business operations it is most closely linked to. (2 marks)</p>
+  <textarea class="write-area" id="wa5" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(5)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans5">
+    <strong>&#128221; Model answer</strong>
+    <strong>Why an increase is negative (1 mark):</strong> An increasing wastage rate means a greater proportion of the business&apos;s inputs or finished products are being discarded as defective, spoiled or unusable. Every wasted unit represents materials, labour, energy and time consumed without producing a saleable output &mdash; directly increasing per-unit production costs and reducing profitability. In a CSR context, high wastage also increases the environmental impact of operations by generating more material for disposal.<br><br>
+    <strong>Area it is linked to (1 mark):</strong> Wastage rate is most closely linked to operations management &mdash; specifically quality management strategies. A rising wastage rate typically signals problems with production processes, machinery calibration or staff training that are causing defects or spoilage, and should prompt a review of quality control, quality assurance or lean management practices to identify and eliminate the root cause.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for explaining why higher wastage is negative with a clear link to cost or resource consumption. 1 mark for correctly identifying operations management (or quality management specifically) as the linked area, with a brief reason.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: FORCES FOR CHANGE ===== -->
+<div class="section-divider">&#9889; Section 2: Forces for change <span>(4.4)</span></div>
+
+<!-- Q6 MC -->
+<div class="q-card" id="qc6">
+  <div class="q-meta"><span class="q-num">Question 6</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A business decides to enter a new export market after its CEO identifies an opportunity for strong revenue growth. This is an example of which force for change?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>Globalisation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>Pursuit of profit</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>Legislation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>Organisational objectives</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk6" onclick="checkMC(6,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: B &mdash; Pursuit of profit</strong>
+    The pursuit of profit is an internal force for change where the desire to improve financial performance motivates strategic decisions such as entering new markets. The CEO&apos;s identification of a revenue growth opportunity and the business&apos;s internal decision to act on it is driven by profit motivation. Globalisation (A) is an external structural force about market interconnectedness. Legislation (C) is regulatory. Organisational objectives (D) is similar but refers specifically to formal strategic goals, whereas this describes a more direct profit motivation.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B. Note: D (organisational objectives) could also be argued &mdash; if the student selects D with a valid explanation in a written context, award the mark.</p></div>
+  </div>
+</div>
+
+<!-- Q7 MC -->
+<div class="q-card" id="qc7">
+  <div class="q-meta"><span class="q-num">Question 7</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Rising consumer demand for plant-based food products causes a meat processing company to begin developing a new plant-based product range. Which external force for change is PRIMARILY driving this decision?</p>
+  <div class="mc-options" id="mc7">
+    <div class="mc-opt" onclick="selectMC(this,'mc7','A')"><span class="opt-letter">A</span>Legislation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc7','B')"><span class="opt-letter">B</span>Economic conditions</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc7','C')"><span class="opt-letter">C</span>Societal attitudes</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc7','D')"><span class="opt-letter">D</span>Competition</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk7" onclick="checkMC(7,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans7">
+    <strong>&#10003; Correct answer: C &mdash; Societal attitudes</strong>
+    Societal attitudes refer to shifts in community values, consumer preferences and social expectations. Growing consumer demand for plant-based products reflects a broader shift in how people think about diet, animal welfare and environmental sustainability &mdash; a societal attitude change. Legislation (A) would only apply if a law mandated the change. Economic conditions (B) relate to interest rates, inflation or spending power. Competition (D) would be the force if a rival&apos;s actions drove the decision, not consumer preference shifts.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q8 SA -->
+<div class="q-card" id="qc8">
+  <div class="q-meta"><span class="q-num">Question 8</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">CloudVault is an Australian data storage company that provides cloud services to small and medium businesses. The CEO has just read that the federal government plans to introduce new mandatory data privacy legislation requiring all cloud storage providers to store Australian customer data on servers physically located within Australia. CloudVault currently uses overseas servers for 60% of its storage capacity.</p>
+  <p class="q-text">Identify the force for change affecting CloudVault and explain how it creates pressure for the business to change. Then identify ONE further force for change that CloudVault might face as a result of this situation. (3 marks)</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer</strong>
+    <strong>Primary force &mdash; Legislation (1 mark):</strong> The primary force for change is legislation &mdash; the new government data privacy law requiring Australian customer data to be stored on Australian servers. This is an external force that CloudVault has no control over. It creates direct pressure to change because 60% of CloudVault&apos;s current storage capacity uses overseas servers, meaning the business must either build, lease or migrate to Australian-based server infrastructure before the legislation takes effect or face compliance breaches and potential penalties.<br><br>
+    <strong>How it creates pressure (1 mark):</strong> This is both a financial and operational challenge. Investing in or leasing Australian server capacity will be significantly more expensive than the overseas arrangements currently used. CloudVault must restructure its infrastructure, potentially renegotiate supplier contracts and communicate the transition to its business clients &mdash; all of which require time, capital and operational change that the legislation has forced on the business.<br><br>
+    <strong>Secondary force (1 mark):</strong> Competition is a further force CloudVault will face. Competitors who already use Australian-based servers will be able to immediately market themselves as compliant, positioning them advantageously during the transition period. If CloudVault is slow to achieve compliance, it may lose clients to competitors who can offer certainty of compliance sooner. This competitive pressure compounds the urgency of the legislative force.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly identifying legislation and briefly explaining the change required. 1 mark for explaining how the legislation creates specific operational or financial pressure for CloudVault (must use scenario details). 1 mark for identifying a second valid force (competition, economic conditions, technology, or managers/employees realising the urgency are all valid) with a brief explanation of how it applies.</p></div>
+  </div>
+</div>
+
+<!-- Q9 SA -->
+<div class="q-card" id="qc9">
+  <div class="q-meta"><span class="q-num">Question 9</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain how globalisation can be both an opportunity AND a threat for an Australian business. Use a specific example for each. (2 marks)</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    <strong>Globalisation as an opportunity (1 mark):</strong> Globalisation creates opportunities by giving Australian businesses access to new export markets beyond the domestic market. For example, Bega Cheese has expanded into Asian export markets where rising middle-class incomes and growing demand for Australian dairy products have opened significant new revenue streams that would not have existed in a less connected global economy.<br><br>
+    <strong>Globalisation as a threat (1 mark):</strong> Globalisation also exposes Australian businesses to intensified competition from overseas rivals who can now reach Australian consumers more easily. For example, international online retailers such as Amazon and ASOS have used global logistics and digital commerce to sell directly to Australian consumers at competitive prices, threatening the market share of domestic retailers like David Jones and Myer who previously had little competition from overseas.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct explanation of globalisation as an opportunity with a specific and relevant Australian business example. 1 mark for a correct explanation of globalisation as a threat with a specific and relevant Australian business example. Accept any valid Australian business example.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: SWOT & APPROACHES TO CHANGE ===== -->
+<div class="section-divider">&#128202; Section 3: SWOT analysis &amp; approaches to change <span>(4.5 &amp; 4.6)</span></div>
+
+<!-- Q10 MC -->
+<div class="q-card" id="qc10">
+  <div class="q-meta"><span class="q-num">Question 10</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A business notices that a popular competitor has just announced it is exiting the market. Using SWOT analysis, this development should be classified as:</p>
+  <div class="mc-options" id="mc10">
+    <div class="mc-opt" onclick="selectMC(this,'mc10','A')"><span class="opt-letter">A</span>A strength, because it makes the business relatively stronger</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc10','B')"><span class="opt-letter">B</span>A weakness, because it removes a reference point for benchmarking</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc10','C')"><span class="opt-letter">C</span>An opportunity, because the competitor&apos;s customers are now available to win</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc10','D')"><span class="opt-letter">D</span>A threat, because losing a competitor changes the competitive landscape</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk10" onclick="checkMC(10,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans10">
+    <strong>&#10003; Correct answer: C &mdash; An opportunity</strong>
+    A competitor exiting the market is an external positive development &mdash; an opportunity. The competitor&apos;s customers are now without a supplier and available to be won. Their staff may also be recruitable. This is not a strength (A) because strengths are internal to the business. It is not a weakness (B) &mdash; weaknesses are internal negatives. Option D misclassifies an exit as a threat; a competitor ENTERING the market would be a threat.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q11 SA -->
+<div class="q-card" id="qc11">
+  <div class="q-meta"><span class="q-num">Question 11</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Wanderlust Travel is a Melbourne-based travel agency that has operated for 14 years. It has built a loyal client base among retirees and corporate travellers. However, online travel booking platforms have grown significantly, and Wanderlust&apos;s sales revenue has declined for three consecutive years. The owner has not updated the agency&apos;s website since 2019 and still uses a manual paper-based booking system. Two long-serving staff members are approaching retirement.</p>
+  <p class="q-text">Conduct a SWOT analysis for Wanderlust Travel using the information provided. Identify at least ONE element per category. (3 marks &mdash; up to 0.75 marks per category)</p>
+  <textarea class="write-area" id="wa11" placeholder="Strengths: ... Weaknesses: ... Opportunities: ... Threats: ..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Strengths (internal positive):</strong> Wanderlust has 14 years of operational experience and expertise in travel planning. It has a loyal, established client base among retirees and corporate travellers who value personal service and specialist knowledge &mdash; something online platforms cannot replicate. The long-serving staff have deep destination knowledge and strong client relationships.<br><br>
+    <strong>Weaknesses (internal negative):</strong> The outdated website (unchanged since 2019) and manual paper-based booking system are significant weaknesses that make Wanderlust appear outdated and slow compared to online competitors. The impending retirement of two long-serving staff represents an imminent loss of institutional knowledge and client relationships that will be difficult to replace.<br><br>
+    <strong>Opportunities (external positive):</strong> There is a growing market segment of retirees and premium travellers who specifically want personalised, expert-curated travel experiences rather than self-booked packages &mdash; a trend toward &quot;experiential travel&quot; that Wanderlust&apos;s specialist knowledge can serve. Corporate travel management contracts with local businesses are also a potential growth avenue.<br><br>
+    <strong>Threats (external negative):</strong> The continued growth of online travel booking platforms (Booking.com, Expedia, Airbnb) offers cheaper self-service alternatives that appeal to price-sensitive and digitally confident travellers. The three-year revenue decline suggests this threat is already materialising into market share loss.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 0.75 marks per SWOT category for a correct element drawn from or logically inferred from the scenario information. Award 3 marks for responses that correctly populate all four categories with relevant, explained elements. Deduct for elements placed in the wrong category (e.g. calling competitor growth a &quot;weakness&quot; instead of a &quot;threat&quot;).</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 4: Extended responses</div>
+
+<!-- Q12 ER -->
+<div class="q-card" id="qc12">
+  <div class="q-meta"><span class="q-num">Question 12</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Ridgeline Breweries produces craft beer and cider for the Victorian hospitality market. The following KPI data has been collected:
+  &bull; Wastage rate: Year 1 2.8% &rarr; Year 2 4.1% &rarr; Year 3 6.7%
+  &bull; Number of customer complaints: Year 1 4 &rarr; Year 2 11 &rarr; Year 3 29
+  &bull; Rate of productivity growth: Year 1 +6.2% &rarr; Year 2 +2.1% &rarr; Year 3 -3.4%
+  &bull; Net profit margin: Year 1 24% &rarr; Year 2 19% &rarr; Year 3 14%</p>
+  <p class="q-text">Analyse Ridgeline Breweries&apos; KPI data. Using the data, explain how TWO KPIs are interconnected and recommend ONE specific operations or HRM strategy to address the underlying cause. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa12" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Overall trend (1 mark):</strong> All four KPIs are deteriorating across the three-year period. Most alarmingly, productivity growth has turned negative (-3.4% in Year 3), meaning Ridgeline is now producing less per unit of input than it did the previous year. The wastage rate has more than doubled (2.8% to 6.7%), customer complaints have risen sevenfold (4 to 29), and net profit margin has declined by 10 percentage points (24% to 14%). These trends are consistent, accelerating and interrelated.<br><br>
+    <strong>Interconnected KPIs (1 mark):</strong> The wastage rate and productivity growth are directly interconnected. As Ridgeline&apos;s wastage rate increases, more production time and raw materials are consumed producing beer and cider that must be discarded &mdash; reducing the usable output per unit of input. This is what drives the deteriorating productivity figure. The waste is essentially stealing productivity by consuming resources without contributing to saleable outputs. In Year 3, the combination of 6.7% wastage and negative productivity growth suggests that almost 1 in 14 units produced is being lost, significantly undermining operational efficiency.<br><br>
+    <strong>Recommended operations strategy (1 mark):</strong> Ridgeline should implement a quality assurance system, introducing documented process controls for key brewing variables including fermentation temperature, carbonation levels and filtration standards. By monitoring these parameters continuously rather than only checking finished product, Ridgeline can catch deviations before they produce batches that must be discarded &mdash; directly reducing both the wastage rate and the resource loss that is driving the productivity decline.<br><br>
+    <strong>Why this addresses the root cause (1 mark):</strong> The rising complaints and wastage pattern is consistent with process consistency problems rather than ingredient quality issues. A QA approach targets the process &mdash; the root cause &mdash; whereas simply increasing end-of-line inspections (quality control) would continue to find defective batches after resources have already been wasted. Fixing the process fixes the waste, which restores productivity and should reduce both complaints and cost pressures on profit margin.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for an overall analysis that uses multiple KPI figures. 1 mark for a clear explanation of how two specific KPIs are causally connected, using data. 1 mark for a specific recommended strategy. 1 mark for explaining why the strategy addresses the root cause rather than just the symptoms.</p></div>
+  </div>
+</div>
+
+<!-- Q13 ER -->
+<div class="q-card" id="qc13">
+  <div class="q-meta"><span class="q-num">Question 13</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">Amber Ridge Bakeries is an established Australian bakery chain with 28 stores nationally. Its operations manager has been tracking a range of external developments: Australian households are buying significantly less bread than five years ago as low-carbohydrate diets become more popular; the cost of wheat, eggs and butter has increased substantially due to global supply chain disruptions; and a new bakery concept focusing on gluten-free and protein-enriched products has opened three stores in Sydney and has been extremely well-received on social media.</p>
+  <p class="q-text">Identify and evaluate THREE forces for change that Amber Ridge Bakeries is currently facing. For each force, explain whether it represents a threat, an opportunity or both. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Force 1 &mdash; Societal attitudes (threat and opportunity) (1.5 marks):</strong> The shift toward low-carbohydrate diets is a significant external force driven by changing societal attitudes about nutrition and health. As a threat, it directly reduces the core market for Amber Ridge&apos;s traditional bread products &mdash; declining household bread consumption means the business&apos;s primary revenue driver is structurally shrinking. However, it also represents an opportunity: the consumer shift toward health-conscious eating is creating demand for alternative baked goods (protein-enriched, low-carb, gluten-free) that Amber Ridge&apos;s existing production and distribution infrastructure could potentially supply, if it adapts its product range.<br><br>
+    <strong>Force 2 &mdash; Economic conditions (threat) (1 mark):</strong> Rising input costs for wheat, eggs and butter due to global supply chain disruptions is an economic force applying direct pressure to Amber Ridge&apos;s cost structure. As raw material costs increase, profit margins compress unless the business can pass costs on through higher prices &mdash; which risks losing price-sensitive customers. This is primarily a threat as Amber Ridge has no control over global commodity prices and limited ability to offset the full cost increase without affecting competitiveness.<br><br>
+    <strong>Force 3 &mdash; Competition (threat and opportunity) (1.5 marks):</strong> The new gluten-free and protein-enriched bakery concept is a competitive threat, particularly if it expands nationally. Its early social media success suggests it is resonating strongly with health-conscious consumers &mdash; precisely the segment Amber Ridge is losing to low-carb diet trends. However, this competitor also signals an opportunity: it validates market demand for healthier baked alternatives, which Amber Ridge could enter at scale given its 28-store national network &mdash; an infrastructure advantage the small new entrant does not yet have.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks for Forces 1 and 3 (which have both threat and opportunity dimensions) and 1 mark for Force 2 (primarily a threat). Award marks for correctly identifying the force type, explaining how it affects Amber Ridge, and evaluating whether it is a threat, opportunity or both. Responses that identify the force but do not evaluate its nature earn half marks.</p></div>
+  </div>
+</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta"><span class="q-num">Question 14</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">5 marks</span></div>
+  <p class="q-scenario">NovaStar Gyms is a premium fitness chain with 9 locations across Melbourne. The chain has seen strong revenue growth for five years. The CEO has just completed a SWOT analysis with the following key findings:
+  Strengths: Premium brand and facilities; loyal high-income member base; experienced management team; zero debt; strong social media presence (280,000 followers).
+  Weaknesses: High monthly membership fees limit market reach; no group fitness timetable app (members must phone to book classes); no recovery or wellness services (e.g. physiotherapy, nutrition).
+  Opportunities: Post-COVID growth in premium wellness spending; physiotherapy and nutrition consultation services are increasingly in demand at gyms; the building next door to the flagship gym has just become available to lease.
+  Threats: New budget gym chain opening six locations in Melbourne within 12 months; economic uncertainty may cause members to downgrade or cancel.</p>
+  <p class="q-text">Using the SWOT analysis, recommend TWO specific strategies NovaStar Gyms should pursue. For each strategy, explain which SWOT elements it uses and why it is the right strategic priority for the business right now. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Introduction (1 mark):</strong> NovaStar is in a strong strategic position &mdash; debt-free, with a premium brand and loyal base &mdash; but faces a competitive threat and has meaningful weaknesses that could be exploited by the budget gym entrant. The two most important strategies should use strengths to capitalise on opportunities before threats materialise.<br><br>
+    <strong>Strategy 1 &mdash; Expand into wellness services (SO strategy) (2 marks):</strong> NovaStar should lease the adjacent building and develop a recovery and wellness hub offering physiotherapy, sports massage and nutrition consultation services. This is an SO strategy: it uses NovaStar&apos;s zero debt (strength) and flagship location (strength) to capitalise on the growing demand for in-gym wellness services (opportunity) and the adjacent building availability (opportunity). This strategy deepens NovaStar&apos;s value proposition for its high-income loyal members &mdash; offering services that budget gyms will never provide &mdash; making it far more resilient to the budget gym threat. The wellness revenue also diversifies NovaStar&apos;s income beyond membership fees, protecting against cancellation risk during economic uncertainty.<br><br>
+    <strong>Strategy 2 &mdash; Launch a class booking app (WT strategy) (2 marks):</strong> NovaStar should immediately develop and launch a group fitness timetable app, removing the phone-booking requirement. This is a WT strategy: it addresses the weakness of phone-only class bookings, which is a friction point that makes NovaStar feel less premium than its price point suggests, and counters the threat of budget gyms who, despite lower prices, may offer better digital convenience. In a market where economic uncertainty may push members to reconsider value, removing a pain point that contributes to frustration or perceived poor value is urgent. NovaStar&apos;s 280,000 social media followers (strength) can be leveraged to promote the app launch quickly and at low marketing cost.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for an introduction that correctly characterises NovaStar&apos;s strategic position. 2 marks each for two strategies: 1 mark for clearly identifying the SWOT elements used (must name them), 1 mark for explaining why this strategy is the right priority now in this specific context (not just &quot;it uses a strength and an opportunity&quot;).</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta"><span class="q-num">Question 15</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">Westbrook Automotive is a family-owned car dealership that has operated for 27 years. It sells new vehicles from two manufacturer brands. The following situation has developed: electric vehicle (EV) sales now represent 18% of the Australian new car market and are growing rapidly; both manufacturers Westbrook represents have committed to becoming EV-only by 2030; the state government has introduced a $3,000 subsidy for EV purchases; Westbrook&apos;s staff have almost no knowledge of EV technology and battery systems; Westbrook&apos;s net profit has remained stable but its market share of local new car sales has declined from 14.2% to 10.7% over three years as EV-specialist dealers have opened nearby.</p>
+  <p class="q-text">Evaluate the extent to which Westbrook Automotive&apos;s KPI data and external environment indicate a need for change. Using a SWOT framework and forces for change analysis, recommend a strategic approach for the next three years. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for 4+ paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>KPI analysis &mdash; need for change (1 mark):</strong> Westbrook&apos;s KPI data presents a mixed but warning-sign picture. Net profit remains stable, which might suggest no urgency &mdash; but market share has declined from 14.2% to 10.7% in three years, a 3.5 percentage point loss that represents a structural erosion of competitive position. Stable profit on a shrinking market share base typically means margins are being maintained through cost control rather than revenue growth &mdash; a position that is unlikely to be sustainable as EV-specialist competitors continue to take share.<br><br>
+    <strong>Forces for change analysis (1 mark):</strong> Westbrook faces multiple converging forces. Legislation and government incentives (the $3,000 EV subsidy) are accelerating EV adoption by making the purchase decision easier for consumers. Societal attitudes are shifting &mdash;18% EV market share is already significant and growing. Technology (EV and battery technology) is transforming the product Westbrook is required to sell. Competition from EV-specialist dealers is already reducing Westbrook&apos;s market share. And organisational objectives are becoming non-negotiable: both manufacturers Westbrook represents will be EV-only by 2030, meaning the current combustion vehicle business model has a defined end date.<br><br>
+    <strong>SWOT analysis (1 mark):</strong> Strengths: 27 years of community presence and customer trust; established relationships with two major manufacturer brands. Weaknesses: staff have almost no EV knowledge, making service quality unreliable as EV sales grow; the dealership may lack EV charging infrastructure for customer test drives. Opportunities: state government EV subsidies are increasing buyer intent; first-mover advantage is still available in Westbrook&apos;s local market before the EV-specialist competitor fully establishes. Threats: EV-specialist dealers with trained staff and charging facilities are eroding market share; if staff knowledge gap is not closed, warranty service quality will decline as EVs enter Westbrook&apos;s fleet.<br><br>
+    <strong>Strategic recommendation (2 marks):</strong> Westbrook should adopt a proactive three-year EV transformation strategy with three components. First, invest immediately in comprehensive EV product and service training for all sales and service staff, beginning with the model lines Westbrook&apos;s manufacturers will transition first. This closes the most urgent weakness before it generates customer complaints or warranty issues. Second, install EV charging stations at both the sales facility and service centre, enabling test drives and positioning Westbrook as EV-ready in the community. Third, proactively communicate the EV transition to Westbrook&apos;s loyal existing customers &mdash; using 27 years of trust to offer personalised EV consultations before EV-specialist competitors do.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> The case for change at Westbrook is urgent despite the stable profit figure. The declining market share, the manufacturer 2030 EV-only commitment and the growing specialist competition all point to the same conclusion: Westbrook&apos;s current approach has a defined shelf life. Acting proactively now &mdash; while profit is still stable and the business has financial capacity to invest &mdash; is far preferable to reacting in 2028 or 2029 when the combustion vehicle market has largely closed and Westbrook&apos;s staff are still not EV-competent.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark &mdash; KPI analysis that goes beyond face value (identifies stable profit as insufficient reassurance given market share decline). 1 mark &mdash; identifies at least three relevant forces for change from the scenario. 1 mark &mdash; SWOT with at least one element per category. 2 marks &mdash; specific three-year strategy with clear reasoning: 1 mark for the strategy itself, 1 mark for explaining why it must be proactive rather than reactive. 1 mark &mdash; conclusion that directly answers &quot;is change needed?&quot; with a justified position.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#042C53;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 4 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
+function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;var opts=document.getElementById(groupId).querySelectorAll(".mc-opt");for(var i=0;i<opts.length;i++){opts[i].classList.remove("selected");}el.classList.add("selected");if(!mcAnswers[groupId])mcAnswers[groupId]={};mcAnswers[groupId].selected=letter;}
+function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
+function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
+function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Compare your written answers against the model answers &mdash; focus on whether you classified SWOT elements correctly and used specific data in your KPI analysis.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the forces for change table and SWOT framework in your Topic 4 cheat sheet.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 4 cheat sheet &mdash; practise classifying SWOT elements and make sure you know which KPIs are better when they decrease.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
+updateProgress();
+</script>
+</body>
+</html>

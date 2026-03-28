@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 4: Reviewing Performance</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px}
+h1{font-size:22px;font-weight:700;color:#042C53;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:14px}
+#search{width:100%;padding:9px 14px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:14px;outline:none;background:#fff;margin-bottom:18px}
+#search:focus{border-color:#378ADD}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+
+.cat{border-radius:10px;margin-bottom:10px;overflow:hidden;border:1.5px solid}
+.cat.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.18)}
+.cat.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.15)}
+.cat.coral{border-color:#D85A30;background:rgba(240,153,123,0.12)}
+.cat.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.cat.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.cat.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.cat.gray{border-color:#888780;background:rgba(180,178,169,0.12)}
+
+.cat-head{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none}
+.cat.purple .cat-head{background:rgba(206,203,246,0.35)}
+.cat.teal .cat-head{background:rgba(159,225,203,0.3)}
+.cat.coral .cat-head{background:rgba(240,153,123,0.25)}
+.cat.amber .cat-head{background:rgba(239,159,39,0.22)}
+.cat.blue .cat-head{background:rgba(133,183,235,0.25)}
+.cat.pink .cat-head{background:rgba(237,147,177,0.22)}
+.cat.gray .cat-head{background:rgba(180,178,169,0.22)}
+
+.cat-head-text{font-size:13px;font-weight:700;color:#1a1a18}
+.cat-head-right{display:flex;align-items:center;gap:8px}
+.cat-head-right small{font-size:11px;color:#5F5E5A}
+.cat-arrow{font-size:11px;color:#5F5E5A}
+
+.cat-body{padding:0 10px 10px}
+.cat-body.collapsed{display:none}
+
+.term{border-radius:7px;margin-top:7px;background:#fff;border:1px solid #E5E3DC;overflow:hidden}
+.term-title{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#1a1a18}
+.term-title:hover{background:#F8F7F3}
+.arrow{font-size:10px;color:#888780}
+.term-body{display:none;padding:10px 12px;border-top:1px solid #EDECEA;background:#FAFAF8}
+.term-body.open{display:block}
+.term-def{font-size:12px;line-height:1.65;color:#2C2C2A;margin-bottom:6px}
+.term-eg{display:block;font-size:11px;color:#085041;background:#E1F5EE;border-radius:5px;padding:5px 8px;margin-top:4px}
+.term-note{display:block;font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:5px 8px;margin-top:6px;font-style:italic}
+
+.hot-badge{position:relative;display:inline-flex;align-items:center;background:#E24B4A;color:#fff;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;cursor:help;white-space:nowrap;margin-right:4px}
+.hot-badge .tip{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#501313;color:#fff;font-size:11px;border-radius:6px;padding:5px 9px;width:210px;text-align:center;line-height:1.4;z-index:50;pointer-events:none}
+.hot-badge .tip::after{content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#501313}
+.hot-badge:hover .tip{display:block}
+
+.box-wrap{border-radius:10px;margin-bottom:12px;overflow:visible;border:1.5px solid}
+.box-wrap.green{border-color:#5DCAA5;background:rgba(159,225,203,0.12)}
+.box-wrap.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.15)}
+.box-wrap.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.box-wrap.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.box-wrap.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.1)}
+.box-wrap.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.box-wrap.coral{border-color:#D85A30;background:rgba(240,153,123,0.1)}
+.box-wrap.gray{border-color:#888780;background:rgba(180,178,169,0.1)}
+
+.box-toggle{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:13px;font-weight:700;color:#1a1a18;border-radius:8px 8px 0 0}
+.box-wrap.green .box-toggle{background:rgba(159,225,203,0.3)}
+.box-wrap.purple .box-toggle{background:rgba(206,203,246,0.35)}
+.box-wrap.amber .box-toggle{background:rgba(239,159,39,0.22)}
+.box-wrap.blue .box-toggle{background:rgba(133,183,235,0.25)}
+.box-wrap.teal .box-toggle{background:rgba(159,225,203,0.25)}
+.box-wrap.pink .box-toggle{background:rgba(237,147,177,0.22)}
+.box-wrap.coral .box-toggle{background:rgba(240,153,123,0.22)}
+.box-wrap.gray .box-toggle{background:rgba(180,178,169,0.22)}
+
+.box-body{display:none;border-top:1px solid rgba(0,0,0,0.08)}
+.box-body.open{display:block}
+.box-note{font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:6px 10px;margin:10px 12px 12px;font-style:italic}
+
+table.ct{width:100%;border-collapse:collapse;font-size:12px}
+table.ct th{background:#3C3489;color:#fff;padding:7px 10px;text-align:left;font-size:11px;font-weight:700}
+table.ct td{padding:7px 10px;border-bottom:1px solid #EDECEA;vertical-align:top;line-height:1.55}
+table.ct tr:nth-child(even) td{background:#F8F7F3}
+table.ct tr:last-child td{border-bottom:none}
+table.ct.blue-head th{background:#042C53}
+table.ct.teal-head th{background:#085041}
+table.ct.coral-head th{background:#4A1B0C}
+table.ct.amber-head th{background:#412402}
+table.ct.green-head th{background:#173404}
+
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:#fff}
+.ad-grid .adv{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:12px}
+.ad-grid .dis{background:#FAECE7;border:1px solid #D85A30;border-radius:8px;padding:12px}
+.ad-grid h3{font-size:12px;font-weight:700;margin-bottom:7px}
+.ad-grid .adv h3{color:#085041}
+.ad-grid .dis h3{color:#4A1B0C}
+.ad-grid ul{font-size:11px;line-height:1.8;padding-left:15px}
+.ad-grid .adv ul{color:#085041}
+.ad-grid .dis ul{color:#4A1B0C}
+
+.panel-section-title{font-size:12px;font-weight:700;color:#26215C;margin:14px 12px 4px;border-bottom:1px solid #D3D1C7;padding-bottom:4px}
+
+.model-step{background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:8px;font-size:12px;line-height:1.7;color:#1a1a18}
+.model-step strong{color:#412402}
+.model-step.conclude{background:#EEEDFE;border-left-color:#7F77DD}
+.model-step.conclude strong{color:#26215C}
+.model-step.info{background:#E6F1FB;border-left-color:#378ADD}
+.model-step.info strong{color:#042C53}
+
+.tag{display:inline-block;font-size:10px;font-weight:700;border-radius:4px;padding:1px 5px;margin-right:3px}
+.tag-g{background:#E1F5EE;color:#085041}
+.tag-r{background:#FAECE7;color:#4A1B0C}
+.tag-p{background:#EEEDFE;color:#26215C}
+.tag-a{background:#FAEEDA;color:#412402}
+.tag-b{background:#E6F1FB;color:#042C53}
+
+/* SWOT grid */
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#D3D1C7;border-radius:8px;overflow:hidden;margin:12px}
+.swot-cell{padding:14px;font-size:12px}
+.swot-cell h3{font-size:13px;font-weight:700;margin-bottom:8px}
+.swot-cell ul{padding-left:15px;line-height:1.8}
+.swot-s{background:#E1F5EE}
+.swot-s h3{color:#085041}
+.swot-s ul{color:#085041}
+.swot-w{background:#FAECE7}
+.swot-w h3{color:#4A1B0C}
+.swot-w ul{color:#4A1B0C}
+.swot-o{background:#E6F1FB}
+.swot-o h3{color:#042C53}
+.swot-o ul{color:#042C53}
+.swot-t{background:#FBEAF0}
+.swot-t h3{color:#4B1528}
+.swot-t ul{color:#4B1528}
+
+/* KPI signal colours */
+.kpi-up{color:#085041;font-weight:600}
+.kpi-down{color:#4A1B0C;font-weight:600}
+.kpi-context{font-size:10px;color:#5F5E5A;font-style:italic}
+
+@media(max-width:520px){
+  .ad-grid{grid-template-columns:1fr}
+  .swot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 4</h1>
+<p class="subtitle">Reviewing Performance &mdash; the Need for Change &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- ===== COMMAND TERMS ===== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128270; Command terms &mdash; what each word requires</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Command term</th><th>What it means</th><th>Marks typically</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Define</strong></td><td>State the precise meaning of a term</td><td>1&ndash;2</td></tr>
+          <tr><td><strong>Describe</strong></td><td>Give a detailed account of characteristics or features</td><td>2&ndash;3</td></tr>
+          <tr><td><strong>Explain</strong></td><td>Make clear how or why &mdash; give reasons</td><td>2&ndash;4</td></tr>
+          <tr><td><strong>Discuss</strong></td><td>Give BOTH sides &mdash; advantages AND disadvantages</td><td>4&ndash;6</td></tr>
+          <tr><td><strong>Evaluate</strong></td><td>Discuss both sides AND make a judgement with justification</td><td>6&ndash;10</td></tr>
+          <tr><td><strong>Justify</strong></td><td>Give reasons that support a decision or recommendation</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Compare</strong></td><td>Show similarities AND differences between two things</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Propose</strong></td><td>Put forward a strategy or solution with reasons</td><td>3&ndash;5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Discuss = both sides. Evaluate = both sides + judgement. These distinctions are critical for Topic 4 extended responses.</p>
+  </div>
+</div>
+
+<!-- ===== KPIs ===== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Key Performance Indicators (KPIs) &mdash; full reference &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">KPI interpretation questions appear in almost every exam</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct blue-head">
+        <thead><tr>
+          <th>KPI</th>
+          <th>What it measures</th>
+          <th>If it increases &uarr;</th>
+          <th>If it decreases &darr;</th>
+          <th>Linked to</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Net profit figures</strong></td>
+            <td>Total revenue minus all expenses &mdash; the business&apos;s bottom-line earnings</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; business is more profitable; shareholders benefit</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; may signal rising costs, falling sales or both</td>
+            <td>Pricing, cost control, sales volume</td>
+          </tr>
+          <tr>
+            <td><strong>Net profit margin</strong></td>
+            <td>Net profit as a percentage of sales revenue &mdash; how much profit is made per dollar of sales</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; business is keeping more of each sale as profit</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; costs are rising faster than revenue, or discounting is eroding margins</td>
+            <td>Efficiency, pricing strategy</td>
+          </tr>
+          <tr>
+            <td><strong>Percentage of market share</strong></td>
+            <td>The business&apos;s share of total industry sales, expressed as a percentage</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; business is growing relative to competitors</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; competitors are gaining ground; may need strategic review</td>
+            <td>Marketing, product quality, competition</td>
+          </tr>
+          <tr>
+            <td><strong>Rate of productivity growth</strong></td>
+            <td>How much output is produced per unit of input (labour, capital) and whether this ratio is improving over time</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; producing more with the same or fewer resources; efficiency improving</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; operations are becoming less efficient; review processes and staffing</td>
+            <td>Operations, technology, training</td>
+          </tr>
+          <tr>
+            <td><strong>Number of customer complaints</strong></td>
+            <td>Volume of formal complaints received from customers about products, services or experiences</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; quality or service is declining; risk of reputational damage and customer loss</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; customers are more satisfied; quality and service standards are improving</td>
+            <td>Quality management, HRM, customer service</td>
+          </tr>
+          <tr>
+            <td><strong>Level of staff turnover</strong></td>
+            <td>The rate at which employees leave and must be replaced, expressed as a percentage of the workforce per year</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; suggests poor culture, low morale or inadequate pay; costly to recruit and retrain</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; staff are satisfied and engaged; reduces recruitment and training costs</td>
+            <td>HRM, motivation, corporate culture</td>
+          </tr>
+          <tr>
+            <td><strong>Level of staff absenteeism</strong></td>
+            <td>The rate at which employees are absent from work without prior approval, expressed as days lost per employee</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; may indicate poor morale, workplace stress, illness or disengagement</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; staff are engaged, healthy and motivated to attend work</td>
+            <td>HRM, workplace culture, workload management</td>
+          </tr>
+          <tr>
+            <td><strong>Number of workplace accidents</strong></td>
+            <td>Frequency of injuries, near-misses or safety incidents in the workplace</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; safety systems are failing; legal liability risk and WorkSafe scrutiny</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; safety culture and procedures are effective; reduces compensation claims</td>
+            <td>OHS management, training, operations</td>
+          </tr>
+          <tr>
+            <td><strong>Number of sales</strong></td>
+            <td>Total volume of units sold or transactions completed in a period</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; demand is strong; marketing and sales strategies are working</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; demand is falling; may need pricing, product or marketing review</td>
+            <td>Marketing, pricing, customer satisfaction</td>
+          </tr>
+          <tr>
+            <td><strong>Wastage rates</strong></td>
+            <td>The proportion of inputs or outputs that are discarded as defective, spoiled or unusable</td>
+            <td><span class="kpi-down">&#9660; Concern</span> &mdash; quality or process problems are wasting resources and increasing costs</td>
+            <td><span class="kpi-up">&#9650; Positive</span> &mdash; operations are more efficient; lean and quality strategies are working</td>
+            <td>Quality management, lean operations, CSR</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; KPI questions in exams always provide data &mdash; identify the trend (up or down), state whether it is positive or negative, explain WHY it signals a problem or improvement, and link to a potential cause or solution in the business. Never just say &quot;it went up&quot; &mdash; always say what it means for the business.</p>
+  </div>
+</div>
+
+<!-- ===== KPI INTERPRETATION GUIDE ===== -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; How to interpret KPI data &mdash; exam technique</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:12px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:700;color:#085041;margin-bottom:6px">&#128161; Four-step KPI interpretation formula</p>
+        <div style="font-size:12px;color:#085041;line-height:1.9">
+          <p><strong>Step 1 &mdash; State the trend:</strong> Identify whether the KPI has increased, decreased or remained stable. Quote the actual figures from the data.</p>
+          <p style="margin-top:4px"><strong>Step 2 &mdash; State what this means:</strong> Is the trend positive or negative for the business? (Remember: some KPIs are better when they decrease, e.g. complaints, absenteeism.)</p>
+          <p style="margin-top:4px"><strong>Step 3 &mdash; Explain the likely cause:</strong> What might have caused this trend? Link to the case study details.</p>
+          <p style="margin-top:4px"><strong>Step 4 &mdash; Link to action:</strong> What should the business do in response? Which strategy (HRM, operations, etc.) should be reviewed?</p>
+        </div>
+      </div>
+      <div style="background:#FAEEDA;border:1px solid #BA7517;border-radius:8px;padding:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402;margin-bottom:6px">&#128221; Worked example</p>
+        <p style="font-size:12px;color:#412402;line-height:1.8"><strong>Data:</strong> Metro Cafe&apos;s number of customer complaints increased from 12 per month to 47 per month over the past quarter.<br>
+        <strong>Trend:</strong> Customer complaints have increased significantly, rising by 292% over the quarter.<br>
+        <strong>Meaning:</strong> This is a negative trend &mdash; a sharp rise in complaints signals declining product or service quality, which threatens customer retention and Metro Cafe&apos;s reputation.<br>
+        <strong>Likely cause:</strong> The case study notes that Metro Cafe recently hired several new staff &mdash; insufficient training may be leading to inconsistent coffee quality and poor service.<br>
+        <strong>Action:</strong> Metro Cafe should review its staff training and onboarding program, and consider implementing a quality assurance system to ensure consistent standards across all staff.</p>
+      </div>
+    </div>
+    <p class="box-note">&#128161; Always use the specific numbers from the data in your answer &mdash; writing &quot;complaints increased significantly&quot; without quoting the figures will cost you marks.</p>
+  </div>
+</div>
+
+<!-- ===== FORCES FOR CHANGE ===== -->
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Forces for change &mdash; internal &amp; external &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Identifying and explaining forces for change is a core Topic 4 skill</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct coral-head">
+        <thead><tr>
+          <th>Force</th>
+          <th>Internal or external?</th>
+          <th>What it involves</th>
+          <th>Example</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Managers and employees</strong></td>
+            <td><span class="tag tag-p">Internal</span></td>
+            <td>Staff who identify operational problems, champion new ideas or drive change from within the business</td>
+            <td>A Woolworths store manager identifies that current checkout processes cause long queues and proposes a self-service checkout expansion</td>
+          </tr>
+          <tr>
+            <td><strong>Pursuit of profit</strong></td>
+            <td><span class="tag tag-p">Internal</span></td>
+            <td>The desire to improve financial performance drives the business to change processes, reduce costs or enter new markets</td>
+            <td>Linfox restructures its logistics routes to reduce fuel costs and improve delivery efficiency, increasing net profit margin</td>
+          </tr>
+          <tr>
+            <td><strong>Organisational objectives</strong></td>
+            <td><span class="tag tag-p">Internal</span></td>
+            <td>New or revised strategic goals require the business to change its structure, processes or resource allocation</td>
+            <td>Qantas sets a new objective to become carbon-neutral by 2050, requiring significant investment in fuel-efficient aircraft and renewable fuels</td>
+          </tr>
+          <tr>
+            <td><strong>Legislation</strong></td>
+            <td><span class="tag tag-r">External</span></td>
+            <td>New or amended laws require businesses to change their practices, products or operations to remain compliant</td>
+            <td>New workplace safety regulations require all construction companies to introduce mandatory daily safety briefings and updated personal protective equipment</td>
+          </tr>
+          <tr>
+            <td><strong>Economic conditions</strong></td>
+            <td><span class="tag tag-r">External</span></td>
+            <td>Changes in interest rates, inflation, unemployment or consumer confidence that affect business operations and demand</td>
+            <td>Rising interest rates in 2023&ndash;24 reduced consumer spending, forcing retailers like JB Hi-Fi to discount products and review their pricing strategies</td>
+          </tr>
+          <tr>
+            <td><strong>Technology</strong></td>
+            <td><span class="tag tag-r">External</span></td>
+            <td>New technologies that disrupt existing business models, create new competitors or offer opportunities to improve operations</td>
+            <td>The rise of online streaming forced Australian retailers like JB Hi-Fi to reduce their physical CD and DVD floor space and pivot to accessories and services</td>
+          </tr>
+          <tr>
+            <td><strong>Competition</strong></td>
+            <td><span class="tag tag-r">External</span></td>
+            <td>Actions by rival businesses that threaten market share and force the business to respond by improving products, prices or services</td>
+            <td>Amazon&apos;s entry into the Australian market forced Kmart and Target to accelerate their online delivery capabilities to protect market share</td>
+          </tr>
+          <tr>
+            <td><strong>Societal attitudes</strong></td>
+            <td><span class="tag tag-r">External</span></td>
+            <td>Shifts in community values, consumer preferences or social expectations that require the business to adapt its products, operations or communications</td>
+            <td>Growing consumer demand for sustainable packaging has led Woolworths and Coles to phase out single-use plastic bags and invest in recyclable alternatives</td>
+          </tr>
+          <tr>
+            <td><strong>Globalisation</strong></td>
+            <td><span class="tag tag-r">External</span></td>
+            <td>Increasing interconnection of world markets, creating both new opportunities (export markets) and new threats (overseas competition, supply chain risks)</td>
+            <td>Bega Cheese expanded into Asian export markets as rising middle-class incomes increased demand for Australian dairy products overseas</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="panel-section-title">Internal vs external forces &mdash; key differences</p>
+    <div class="ad-grid">
+      <div class="adv">
+        <h3>&#127968; Internal forces</h3>
+        <ul>
+          <li>Originate from within the business &mdash; management decisions, employee feedback, financial performance.</li>
+          <li>The business has significant control over whether and how it responds to these forces.</li>
+          <li>Often arise from reviewing KPI data, strategic planning or employee-driven innovation.</li>
+          <li>Examples: pursuit of profit, new objectives, manager-driven restructuring.</li>
+        </ul>
+      </div>
+      <div class="dis">
+        <h3>&#127758; External forces</h3>
+        <ul>
+          <li>Originate outside the business &mdash; government, economy, competitors, technology, society.</li>
+          <li>The business has limited or no control over these forces &mdash; it can only respond to them.</li>
+          <li>Often unpredictable and can require rapid strategic responses to avoid competitive disadvantage.</li>
+          <li>Examples: new legislation, economic downturn, disruptive technology, competitor actions.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="box-note">&#128161; Exam questions often ask you to identify whether a force is internal or external AND explain how it creates pressure for change. Always link the force directly to the case study business.</p>
+  </div>
+</div>
+
+<!-- ===== SWOT ===== -->
+<div class="box-wrap green">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; SWOT analysis &mdash; framework &amp; worked example &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">SWOT is used to justify the need for change and recommend strategies</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+
+    <p class="panel-section-title">What is SWOT analysis?</p>
+    <div style="padding:0 12px 8px">
+      <div style="background:#EAF3DE;border:1px solid #97C459;border-radius:8px;padding:12px;font-size:12px;color:#173404;line-height:1.8">
+        SWOT analysis is a strategic planning tool used to evaluate the current position of a business by identifying its internal <strong>Strengths</strong> and <strong>Weaknesses</strong> and the external <strong>Opportunities</strong> and <strong>Threats</strong> it faces. It is used to justify the need for change and determine the direction of future strategy.
+      </div>
+    </div>
+
+    <div class="swot-grid">
+      <div class="swot-cell swot-s">
+        <h3>&#9733; STRENGTHS (Internal)</h3>
+        <ul>
+          <li>What does the business do well?</li>
+          <li>What resources or capabilities give it an advantage?</li>
+          <li>What do customers value about the business?</li>
+        </ul>
+        <p style="font-size:11px;margin-top:8px;font-style:italic">Eg: Strong brand recognition, loyal customer base, skilled workforce, proprietary technology, low cost structure</p>
+      </div>
+      <div class="swot-cell swot-w">
+        <h3>&#9888; WEAKNESSES (Internal)</h3>
+        <ul>
+          <li>Where does the business underperform?</li>
+          <li>What resources or capabilities are lacking?</li>
+          <li>What do competitors do better?</li>
+        </ul>
+        <p style="font-size:11px;margin-top:8px;font-style:italic">Eg: High staff turnover, outdated technology, limited product range, poor online presence, high debt levels</p>
+      </div>
+      <div class="swot-cell swot-o">
+        <h3>&#128161; OPPORTUNITIES (External)</h3>
+        <ul>
+          <li>What external trends could the business exploit?</li>
+          <li>Are there underserved markets or customer segments?</li>
+          <li>What technology or regulatory changes create openings?</li>
+        </ul>
+        <p style="font-size:11px;margin-top:8px;font-style:italic">Eg: Growing export markets, changing consumer preferences, new technology, competitor weakness, demographic shifts</p>
+      </div>
+      <div class="swot-cell swot-t">
+        <h3>&#9940; THREATS (External)</h3>
+        <ul>
+          <li>What external forces could harm the business?</li>
+          <li>What are competitors doing that is threatening?</li>
+          <li>What economic, legal or social risks exist?</li>
+        </ul>
+        <p style="font-size:11px;margin-top:8px;font-style:italic">Eg: New market entrants, rising input costs, changing legislation, economic downturn, disruptive technology</p>
+      </div>
+    </div>
+
+    <p class="panel-section-title">Worked example &mdash; Metro Cafe SWOT</p>
+    <div class="swot-grid">
+      <div class="swot-cell swot-s">
+        <h3>&#9733; Strengths</h3>
+        <ul>
+          <li>Award-winning coffee blends with strong local reputation</li>
+          <li>Loyal regular customer base providing stable revenue</li>
+          <li>Prime CBD location with high foot traffic</li>
+        </ul>
+      </div>
+      <div class="swot-cell swot-w">
+        <h3>&#9888; Weaknesses</h3>
+        <ul>
+          <li>High staff turnover leading to inconsistent service quality</li>
+          <li>No online ordering or delivery capability</li>
+          <li>Limited seating capacity restricting peak-hour revenue</li>
+        </ul>
+      </div>
+      <div class="swot-cell swot-o">
+        <h3>&#128161; Opportunities</h3>
+        <ul>
+          <li>Growing demand for specialty coffee subscriptions and home delivery</li>
+          <li>Neighbouring business recently closed, freeing up adjacent floor space</li>
+          <li>New office tower opening nearby will increase lunchtime foot traffic</li>
+        </ul>
+      </div>
+      <div class="swot-cell swot-t">
+        <h3>&#9940; Threats</h3>
+        <ul>
+          <li>Two new specialty cafes opening within 200m in the next quarter</li>
+          <li>Rising milk and coffee bean costs squeezing profit margins</li>
+          <li>Increased working-from-home reducing CBD daytime customer base</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="panel-section-title">How to use SWOT in an exam response</p>
+    <div style="padding:0 12px 12px">
+      <div style="background:#EAF3DE;border:1px solid #97C459;border-radius:8px;padding:12px;font-size:12px;color:#173404;line-height:1.8">
+        <strong>SO strategy:</strong> Use a Strength to capitalise on an Opportunity &mdash; e.g. Metro Cafe could leverage its award-winning coffee reputation to launch a home delivery subscription service.<br>
+        <strong>WO strategy:</strong> Address a Weakness to take advantage of an Opportunity &mdash; e.g. fix the high staff turnover problem before the new office tower opens so service quality is reliable when demand spikes.<br>
+        <strong>ST strategy:</strong> Use a Strength to counter a Threat &mdash; e.g. Metro Cafe&apos;s loyal customer base provides a buffer against new competitor cafes.<br>
+        <strong>WT strategy:</strong> Address a Weakness to minimise exposure to a Threat &mdash; e.g. invest in staff retention to ensure quality remains consistent as competition intensifies.
+      </div>
+    </div>
+    <p class="box-note">&#128161; SWOT is a tool, not an answer. In exams, you must use SWOT findings to JUSTIFY a recommended strategy &mdash; identifying strengths and threats alone is not sufficient.</p>
+  </div>
+</div>
+
+<!-- ===== PROACTIVE VS REACTIVE ===== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Proactive vs reactive approaches to change</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Proactive approach</th><th>Reactive approach</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Definition</strong></td><td>Anticipating future changes and making adjustments before problems arise or opportunities are missed</td><td>Responding to changes after they have already occurred and impacted the business</td></tr>
+          <tr><td><strong>Timing</strong></td><td>Before the change or problem occurs</td><td>After the change or problem has occurred</td></tr>
+          <tr><td><strong>Driven by</strong></td><td>Strategic planning, KPI monitoring, SWOT analysis, forward-looking management</td><td>Declining KPIs, competitive pressure, crisis, legal requirement, customer complaints</td></tr>
+          <tr><td><strong>Risk level</strong></td><td><span class="tag tag-g">Lower risk</span> &mdash; business is prepared and in control</td><td><span class="tag tag-r">Higher risk</span> &mdash; business may be behind the curve and forced to act under pressure</td></tr>
+          <tr><td><strong>Example</strong></td><td>Woolworths invests in online delivery infrastructure in 2018, before the online grocery boom accelerated in 2020</td><td>A retailer scrambles to build an online store only after losing significant market share to Amazon following its 2017 Australian launch</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ad-grid">
+      <div class="adv">
+        <h3>&#43; Proactive advantages</h3>
+        <ul>
+          <li>Business is better positioned than competitors who are still reacting, creating a first-mover advantage.</li>
+          <li>Change is planned and resourced properly rather than rushed, reducing the risk of costly errors.</li>
+          <li>Staff have time to be consulted and trained, reducing resistance and improving implementation.</li>
+        </ul>
+      </div>
+      <div class="dis">
+        <h3>&#8722; Reactive disadvantages</h3>
+        <ul>
+          <li>Business may have already suffered financial damage (lost sales, market share) before change is implemented.</li>
+          <li>Rushed changes are more likely to be poorly planned, increasing costs and staff resistance.</li>
+          <li>Competitors who acted proactively may have already captured the market opportunity.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="box-note">&#128161; A business that regularly reviews its KPIs and conducts SWOT analysis is positioned to be proactive. A business that only changes when forced to by poor results or external pressure is reactive.</p>
+  </div>
+</div>
+
+<!-- ===== MODEL ANSWER 1 ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer &mdash; interpret KPI data and recommend action (4 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Analyse the following KPI data for Acme Manufacturing and explain what action the business should take. Staff turnover: Year 1 &mdash; 8%, Year 2 &mdash; 14%, Year 3 &mdash; 23%. (4 marks)</p>
+      </div>
+      <div class="model-step"><strong>Step 1 &mdash; State the trend with data:</strong> Acme Manufacturing&apos;s staff turnover rate has increased significantly over three years, rising from 8% to 23% &mdash; nearly tripling in that period. This is a sharply negative trend.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Explain what it means:</strong> A staff turnover rate of 23% indicates that nearly one in four employees is leaving the business each year. This is well above the typical manufacturing industry benchmark of around 10&ndash;15%, suggesting a serious problem with employee satisfaction, engagement or working conditions.</div>
+      <div class="model-step"><strong>Step 3 &mdash; Identify the likely cause:</strong> The sustained and accelerating increase suggests an underlying issue with Acme&apos;s workplace culture, management practices or remuneration rather than a one-off event. Poor management styles, inadequate pay or a lack of career development opportunities may be driving employees to seek work elsewhere.</div>
+      <div class="model-step conclude"><strong>Step 4 &mdash; Recommend action:</strong> Acme Manufacturing should urgently review its human resource management practices, including exit interview data to identify the primary reasons for departure. The business should consider introducing non-financial motivation strategies such as career advancement pathways, improved recognition programs and a review of its management style to rebuild engagement and reduce further losses.</div>
+    </div>
+    <p class="box-note">&#128161; Always quote the specific numbers in your analysis &mdash; &quot;staff turnover increased from 8% to 23%&quot; is much stronger than &quot;staff turnover increased&quot;.</p>
+  </div>
+</div>
+
+<!-- ===== MODEL ANSWER 2 ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer &mdash; evaluate a force for change (6 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Evaluate technology as a force for change for Acme Manufacturing. (6 marks)</p>
+      </div>
+      <div class="model-step"><strong>Step 1 &mdash; Define and introduce:</strong> Technology is an external force for change that arises when new innovations disrupt existing business models, create new competitive threats or present opportunities to improve operations. For a manufacturer like Acme, technological change is particularly significant as it directly affects production processes and competitiveness.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Positive impact 1:</strong> Adopting new manufacturing technology, such as robotic automation, could allow Acme Manufacturing to significantly increase production speed and consistency. This would improve its rate of productivity growth KPI and reduce unit costs, strengthening its competitive position against lower-cost rivals.</div>
+      <div class="model-step"><strong>Step 3 &mdash; Positive impact 2:</strong> Technology also enables Acme to use computer-aided design (CAD) and materials requirement planning (MRP) systems, reducing waste, improving scheduling and lowering input costs &mdash; all of which directly improve the net profit margin KPI.</div>
+      <div class="model-step"><strong>Step 4 &mdash; Negative impact 1:</strong> However, the high capital cost of acquiring and implementing new technology places significant financial pressure on Acme Manufacturing, particularly if profit margins are already tight. Failing to invest may leave Acme behind technologically, but investing poorly or prematurely can deplete cash reserves.</div>
+      <div class="model-step"><strong>Step 5 &mdash; Negative impact 2:</strong> Additionally, automation may displace production workers, increasing staff turnover and triggering resistance to change within the workforce. The social and cultural cost of job losses can damage morale among remaining staff and harm Acme&apos;s reputation in the community.</div>
+      <div class="model-step conclude"><strong>Step 6 &mdash; Justified conclusion:</strong> Overall, technology represents both a significant opportunity and a genuine threat for Acme Manufacturing. The business should adopt a proactive approach &mdash; investing in targeted automation where productivity gains clearly outweigh costs &mdash; while actively managing the workforce impact through retraining and transparent communication. Failure to engage with technological change reactively will ultimately be more damaging than the short-term cost of proactive investment.</div>
+    </div>
+    <p class="box-note">&#128161; A strong &quot;evaluate a force for change&quot; response must include: what the force is, its positive impacts, its negative impacts, AND a justified conclusion about whether and how the business should respond. Linking to KPIs adds significant depth.</p>
+  </div>
+</div>
+
+<!-- ===== TERMS ACCORDION ===== -->
+<div id="list"></div>
+
+<p class="footer">VCE Business Management &mdash; Topic 4 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var data = [
+  { cat: "4.2 Key Performance Indicators", color: "blue", hot: true, items: [
+    { term: "Key performance indicator (KPI)", def: "A measurable value used to evaluate how effectively a business is achieving its objectives over a defined period.", eg: "Metro Cafe tracks five KPIs monthly: net profit margin, customer complaints, staff turnover, number of sales and wastage rate.", note: "KPIs are only useful when compared to a benchmark, a target or a previous period &mdash; a single data point tells you nothing without context." },
+    { term: "Net profit figures", def: "The total earnings of a business after all costs and expenses have been deducted from revenue, representing the bottom-line financial result.", eg: "Bega Cheese reports a net profit of $48 million for the financial year, up from $41 million the previous year." },
+    { term: "Net profit margin", def: "Net profit expressed as a percentage of total sales revenue, showing how much profit is generated for every dollar of sales.", eg: "If Metro Cafe earns $20,000 net profit on $100,000 of revenue, its net profit margin is 20%.", note: "Formula: Net profit / Sales revenue x 100. A falling net profit margin means costs are rising faster than revenue." },
+    { term: "Percentage of market share", def: "The proportion of total industry sales captured by one business, expressed as a percentage, indicating competitive position.", eg: "Woolworths holds approximately 37% of the Australian supermarket market, making it the largest player by market share." },
+    { term: "Rate of productivity growth", def: "The rate at which a business is increasing its output per unit of input over time, measuring efficiency improvements.", eg: "After installing new automated packaging equipment, Bega Cheese increased output per labour hour by 18% in one year." },
+    { term: "Level of staff turnover", def: "The percentage of employees who leave a business and need to be replaced within a given period, typically measured annually.", eg: "A hospitality business with 50 staff where 15 leave in a year has a staff turnover rate of 30%, well above the industry average.", note: "High turnover is costly &mdash; estimates suggest replacing one employee costs 50&ndash;150% of their annual salary when recruitment and training are included." },
+    { term: "Level of staff absenteeism", def: "The rate at which employees are absent from work without prior approval, measured as days lost per employee per year.", eg: "An average of 8 unplanned absent days per employee per year signals potential morale or workload issues that management needs to address." },
+    { term: "Number of customer complaints", def: "The total volume of formal complaints received from customers about products, services or experiences within a period.", eg: "Metro Cafe received 47 complaints in March compared to 12 in February, triggering a management review of service standards." },
+    { term: "Number of workplace accidents", def: "The frequency of injuries, near-misses and safety incidents occurring in the workplace over a defined period.", eg: "A construction company records 3 lost-time injuries per 100 workers per year, which it aims to reduce to zero through a new safety training program." },
+    { term: "Wastage rates", def: "The proportion of materials, inputs or finished products discarded as unusable, defective or spoiled during the production process.", eg: "A food manufacturer identifies that 12% of raw ingredients are being wasted due to over-ordering and spoilage, costing $80,000 per year." }
+  ]},
+  { cat: "4.3 Interpreting KPI Data", color: "teal", hot: false, items: [
+    { term: "Benchmark", def: "A reference point or standard against which KPI performance is compared, such as an industry average, a competitor&apos;s result or the business&apos;s own historical data.", eg: "The Australian retail industry average for staff turnover is approximately 25%. A retailer with 18% turnover is performing better than the benchmark." },
+    { term: "Trend analysis", def: "Examining KPI data over multiple time periods to identify patterns of improvement, decline or stability.", eg: "Acme Manufacturing analyses five years of net profit margin data and identifies a consistent downward trend, signalling a structural cost problem rather than a one-off event." },
+    { term: "Business performance", def: "The overall assessment of how well a business is achieving its financial, operational and strategic objectives, measured using KPIs and other indicators.", eg: "A comprehensive performance review of Metro Cafe considers financial KPIs (profit margin, sales) alongside non-financial KPIs (complaints, staff turnover) for a complete picture." }
+  ]},
+  { cat: "4.4 Forces for Change", color: "coral", hot: true, items: [
+    { term: "Force for change", def: "Any internal or external factor that creates pressure on a business to alter its strategies, operations, structure or culture.", eg: "Rising consumer demand for online shopping is an external force that has compelled traditional retailers like Myer to invest heavily in e-commerce capabilities.", note: "Forces for change can be positive (opportunities to exploit) or negative (threats to respond to)." },
+    { term: "Internal force for change", def: "A driver of change that originates from within the business, such as decisions by management, employee feedback, financial performance or revised objectives.", eg: "When Qantas&apos;s net profit margin declined over three consecutive quarters, management initiated an internal review that led to a major cost reduction program." },
+    { term: "External force for change", def: "A driver of change that originates outside the business, such as new legislation, economic shifts, competitor activity or technological disruption.", eg: "The introduction of the National Disability Insurance Scheme (NDIS) was an external legislative force that created significant new opportunities for healthcare and support service providers." },
+    { term: "Legislation", def: "Laws and regulations enacted by government that require businesses to change their practices, products, employment conditions or operations.", eg: "New single-use plastics legislation in Victoria required hospitality businesses to replace plastic straws, cutlery and containers with approved alternatives by a set deadline." },
+    { term: "Globalisation", def: "The increasing integration of economies, markets and businesses across national borders, creating both new market opportunities and new competitive threats.", eg: "Australian wine producers have expanded into Chinese and Southeast Asian export markets driven by growing middle-class demand, while simultaneously facing increased competition from imported wines domestically." },
+    { term: "Societal attitudes", def: "Shifts in community values, consumer preferences and social expectations that require businesses to adapt their products, services or operations.", eg: "Growing community concern about single-use plastics forced supermarkets to phase out plastic bags years before any legislation required them to do so." }
+  ]},
+  { cat: "4.5 SWOT Analysis", color: "green", hot: true, items: [
+    { term: "SWOT analysis", def: "A strategic planning framework that evaluates a business&apos;s internal Strengths and Weaknesses alongside external Opportunities and Threats to inform decision-making and justify the need for change.", eg: "Metro Cafe conducts a SWOT analysis and identifies its loyal customer base (strength) and the lack of online ordering (weakness) as the starting points for its digital transformation strategy.", note: "S and W are internal (the business controls them). O and T are external (the business does not control them)." },
+    { term: "Strengths", def: "Internal capabilities, resources or attributes that give a business a competitive advantage over its rivals.", eg: "Toyota&apos;s strength is its globally recognised lean production system (TPS), which consistently delivers lower defect rates and higher productivity than competitors." },
+    { term: "Weaknesses", def: "Internal limitations, gaps or deficiencies that place the business at a disadvantage relative to competitors.", eg: "A family-owned manufacturing business has a weakness in its outdated IT systems, making it slower to respond to customer orders than its tech-enabled rivals." },
+    { term: "Opportunities", def: "External factors or trends in the environment that the business could exploit to improve its performance or competitive position.", eg: "Rising health-consciousness among Australian consumers presents an opportunity for food manufacturers to develop and market reduced-sugar and plant-based product lines." },
+    { term: "Threats", def: "External factors or trends that could negatively impact the business&apos;s performance, market position or viability.", eg: "The entry of Amazon into the Australian retail market represents a major external threat to established retailers, given Amazon&apos;s pricing power and logistics capabilities." }
+  ]},
+  { cat: "4.6 Approaches to Change", color: "purple", hot: false, items: [
+    { term: "Proactive change", def: "A forward-looking approach where a business anticipates future challenges or opportunities and makes changes before problems arise, giving it a strategic advantage.", eg: "Woolworths invested in building its online shopping and home delivery infrastructure from 2018 onwards, positioning itself strongly before the surge in online grocery demand during COVID-19.", note: "Proactive change requires strong KPI monitoring, SWOT analysis and strategic planning to anticipate what is coming before it arrives." },
+    { term: "Reactive change", def: "A response-driven approach where a business makes changes only after being forced to by declining performance, competitive pressure or external events.", eg: "Many traditional banks only accelerated their digital banking investment after fintech startups like Up Bank and Tyro had already captured significant market share among younger customers." },
+    { term: "Strategic planning", def: "The process of setting long-term objectives and developing the strategies and plans needed to achieve them, used to guide proactive decision-making.", eg: "Qantas&apos;s five-year strategic plan sets out targets for fleet renewal, emissions reduction and market expansion, providing a framework for proactive investment decisions." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

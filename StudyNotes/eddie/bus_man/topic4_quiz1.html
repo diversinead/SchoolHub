@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 4 Quiz 1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#042C53;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#378ADD;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}.score-great h2{color:#085041}.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}.score-ok h2{color:#412402}.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}.score-low h2{color:#4A1B0C}.score-low p{color:#712B13}
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}.q-card.incorrect{border-color:#D85A30}.q-card.revealed{border-color:#AFA9EC}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}.type-sa{background:#EEEDFE;color:#26215C}.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#378ADD;background:#EDF4FC}
+.mc-opt.selected{border-color:#378ADD;background:#E6F1FB;color:#042C53}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#378ADD;background:#E6F1FB}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}.mc-opt.selected .opt-letter{color:#042C53}
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#378ADD}.write-area.er-area{min-height:140px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#378ADD;color:#fff}.btn-check:hover{background:#042C53}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+.section-divider{background:#042C53;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+.score-tracker{position:sticky;top:8px;z-index:10;background:#042C53;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#042C53;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#185FA5}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+/* KPI data table */
+.kpi-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px}
+.kpi-table th{background:#042C53;color:#fff;padding:6px 10px;text-align:left;font-size:11px}
+.kpi-table td{padding:7px 10px;border-bottom:1px solid #EDECEA;vertical-align:top}
+.kpi-table tr:nth-child(even) td{background:#F8F7F3}
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 4 Quiz 1</h1>
+<p class="subtitle">Reviewing Performance &mdash; the Need for Change &middot; 15 questions &middot; Mixed format &middot; Hot topics focus</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+<div id="score-banner"></div>
+
+<!-- ===== SECTION 1: KPIs ===== -->
+<div class="section-divider">&#128200; Section 1: Key Performance Indicators <span>(4.2 &amp; 4.3)</span></div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="qc1">
+  <div class="q-meta"><span class="q-num">Question 1</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A business&apos;s staff turnover rate has increased from 12% to 31% over two years. Which of the following is the MOST likely interpretation of this trend?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>The business is growing rapidly and hiring many new employees</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Staff morale, engagement or working conditions have deteriorated significantly</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>The business has recently expanded into new markets</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>The business is performing strongly and attracting talent from competitors</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: B</strong>
+    A rising staff turnover rate is a negative KPI trend &mdash; it means employees are leaving at an accelerating rate, which almost always signals problems with morale, management, pay, working conditions or culture. A 31% rate means nearly one in three employees leaves each year, which is well above most industry benchmarks. Options A, C and D all describe positive business outcomes that would not explain staff choosing to leave.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="qc2">
+  <div class="q-meta"><span class="q-num">Question 2</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">Which of the following KPIs would a business WANT to see DECREASE over time?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Net profit margin</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Rate of productivity growth</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Number of sales</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Number of workplace accidents</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: D &mdash; Number of workplace accidents</strong>
+    A decrease in workplace accidents means fewer injuries, lower liability risk and improved safety culture &mdash; all positive outcomes. The other three options are KPIs where an increase is desirable: higher net profit margin means more profit per dollar of sales; higher productivity growth means improving efficiency; more sales means growing revenue. This question tests whether students understand that some KPIs are &quot;better when lower&quot; (accidents, complaints, absenteeism, turnover, wastage).
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q3 MC -->
+<div class="q-card" id="qc3">
+  <div class="q-meta"><span class="q-num">Question 3</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">A business calculates that its net profit was $95,000 on total sales revenue of $500,000. What is its net profit margin?</p>
+  <div class="mc-options" id="mc3">
+    <div class="mc-opt" onclick="selectMC(this,'mc3','A')"><span class="opt-letter">A</span>5.3%</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','B')"><span class="opt-letter">B</span>19%</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','C')"><span class="opt-letter">C</span>52.6%</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','D')"><span class="opt-letter">D</span>9.5%</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk3" onclick="checkMC(3,'B')">Check answer</button></div>
+  <div class="answer-box" id="ans3">
+    <strong>&#10003; Correct answer: B &mdash; 19%</strong>
+    Net profit margin = (Net profit / Sales revenue) &times; 100 = (95,000 / 500,000) &times; 100 = 19%. Option A (5.3%) is a common error from dividing incorrectly. Option C (52.6%) inverts the formula. Option D (9.5%) appears to use 1,000,000 as the denominator. Always use: net profit divided by sales revenue, then multiply by 100.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting B.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta"><span class="q-num">Question 4</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">The following KPI data has been recorded for Meridian Health Clinics, a private physiotherapy chain with four locations:
+  </p>
+  <table class="kpi-table">
+    <thead><tr><th>KPI</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr></thead>
+    <tbody>
+      <tr><td>Net profit margin</td><td>18%</td><td>14%</td><td>9%</td></tr>
+      <tr><td>Number of customer complaints</td><td>11</td><td>29</td><td>54</td></tr>
+      <tr><td>Staff absenteeism (days/employee/yr)</td><td>4.1</td><td>6.8</td><td>9.7</td></tr>
+      <tr><td>Number of sales (appointments)</td><td>4,820</td><td>4,610</td><td>4,190</td></tr>
+    </tbody>
+  </table>
+  <p class="q-text">Analyse the KPI data for Meridian Health Clinics. Identify the TWO most concerning trends, explain what each trend suggests about the business, and recommend ONE action for each. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>Trend 1 &mdash; Customer complaints (1 mark):</strong> Customer complaints have increased nearly fivefold over three years, rising from 11 to 54 per year. This is an extremely alarming trend that suggests the quality of physiotherapy services delivered to patients is declining significantly. Combined with the falling number of appointments (4,820 to 4,190), this suggests dissatisfied patients are not returning and likely sharing negative feedback. <strong>Recommended action:</strong> Meridian should conduct an immediate review of patient feedback to identify the specific nature of complaints &mdash; whether related to wait times, treatment outcomes or staff manner &mdash; and implement targeted training or process improvements for the identified issues.<br><br>
+    <strong>Trend 2 &mdash; Net profit margin (1 mark):</strong> Net profit margin has fallen sharply from 18% to 9% &mdash; a halving of profitability in just three years. This signals that costs are rising faster than revenue, or that falling patient numbers are reducing income while fixed costs remain. At 9%, the margin is approaching a level where the business may struggle to service debt or invest in maintenance and equipment. <strong>Recommended action:</strong> Meridian should conduct a cost audit across all four clinics to identify areas of unnecessary expenditure, and develop a patient retention strategy &mdash; such as follow-up booking reminders &mdash; to reverse the declining appointment numbers.<br><br>
+    <strong>Supporting context (award within marks above):</strong> Staff absenteeism rising from 4.1 to 9.7 days/employee/year reinforces the picture of a business in difficulty &mdash; high absenteeism likely contributes to both the service quality decline (causing complaints) and the cost increases (through overtime or agency staff coverage) driving down the profit margin.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each for identifying and explaining two concerning trends using the specific data. 1 mark each for a relevant, practical recommendation for each trend. All four marks require scenario-specific responses &mdash; generic answers earn a maximum of 2 marks total.</p></div>
+  </div>
+</div>
+
+<!-- Q5 SA -->
+<div class="q-card" id="qc5">
+  <div class="q-meta"><span class="q-num">Question 5</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Explain what a benchmark is in the context of KPI analysis and explain why a single year&apos;s data is insufficient to assess business performance. (2 marks)</p>
+  <textarea class="write-area" id="wa5" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(5)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans5">
+    <strong>&#128221; Model answer</strong>
+    <strong>Benchmark (1 mark):</strong> A benchmark is a reference point or standard against which a business compares its KPI performance &mdash; this may be the business&apos;s own historical data, an industry average, a competitor&apos;s result or a target set at the start of the period. Without a benchmark, a KPI figure is meaningless &mdash; a 12% staff turnover rate cannot be assessed as good or bad without knowing what is typical for that industry or what the business previously achieved.<br><br>
+    <strong>Why single year is insufficient (1 mark):</strong> A single year&apos;s data shows a snapshot but cannot reveal a trend &mdash; it is impossible to know whether performance is improving, declining or stable from one data point alone. A business with a 9% net profit margin this year could be dramatically improving (if last year was 5%) or in serious decline (if last year was 18%). Multi-year trend analysis is essential to understand the direction of travel and make informed strategic decisions.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of benchmark that explains its role as a reference point for comparison. 1 mark for a clear explanation of why single-year data is insufficient, with reasoning about trend vs snapshot.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: FORCES FOR CHANGE ===== -->
+<div class="section-divider">&#9889; Section 2: Forces for change <span>(4.4)</span></div>
+
+<!-- Q6 MC -->
+<div class="q-card" id="qc6">
+  <div class="q-meta"><span class="q-num">Question 6</span><span class="q-type type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">New government legislation requires all food manufacturers to display allergen information in a larger font on product packaging. This is an example of which force for change?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>Pursuit of profit</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>Societal attitudes</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>Legislation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>Technology</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk6" onclick="checkMC(6,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: C &mdash; Legislation</strong>
+    Legislation refers to laws and regulations enacted by government that require businesses to change their practices. A new government requirement about packaging labelling is a direct legislative force. Societal attitudes (B) might have influenced the government to introduce such a law, but the force acting on the business is the law itself, not public opinion. Pursuit of profit (A) and technology (D) are unrelated to this scenario.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q7 SA -->
+<div class="q-card" id="qc7">
+  <div class="q-meta"><span class="q-num">Question 7</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Hearth &amp; Home is an established furniture retailer with 12 stores across Victoria. Over the past two years, online furniture retailers &mdash; particularly international platforms offering flat-pack furniture at significantly lower prices &mdash; have captured an increasing share of the Australian furniture market. Hearth &amp; Home&apos;s market share has declined from 8.4% to 5.1% and its net profit has fallen for the third consecutive year.</p>
+  <p class="q-text">Identify TWO forces for change affecting Hearth &amp; Home and explain how each is creating pressure for the business to change. (3 marks)</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Force 1 &mdash; Competition (external) (1.5 marks):</strong> The entry and growth of international online furniture platforms is a powerful competitive force. These rivals offer significantly lower prices by eliminating the overhead costs of physical stores, creating pressure for Hearth &amp; Home to either match their pricing (difficult given its fixed store costs) or differentiate its offer in ways online retailers cannot replicate, such as in-store experience, assembly services or faster delivery. The 3.3 percentage point market share decline directly reflects the competitive damage this force is causing.<br><br>
+    <strong>Force 2 &mdash; Technology (external) (1.5 marks):</strong> The growth of e-commerce technology has enabled consumers to research, compare and purchase furniture from their phone without visiting a store. This technological shift has fundamentally changed customer purchasing behaviour, reducing foot traffic to Hearth &amp; Home&apos;s 12 physical stores. The business is under pressure to develop its own robust online channel to participate in the digital marketplace, or risk continuing to lose customers to platforms that offer a more convenient shopping experience.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks per force: 0.5 for correctly identifying the force, 1 mark for explaining how it is creating specific pressure for Hearth &amp; Home using the scenario evidence. Accept other valid forces (e.g. declining KPIs as an internal force) if well-reasoned.</p></div>
+  </div>
+</div>
+
+<!-- Q8 SA -->
+<div class="q-card" id="qc8">
+  <div class="q-meta"><span class="q-num">Question 8</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Distinguish between an internal force for change and an external force for change. Give ONE example of each. (2 marks)</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer</strong>
+    <strong>Internal force (1 mark):</strong> An internal force for change originates from within the business itself &mdash; it may include management decisions, declining KPI performance, employee feedback, new leadership or revised strategic objectives. The business has significant control over how it responds to internal forces. Example: A business identifies through KPI analysis that its net profit margin has fallen for three consecutive years and internally decides to restructure its cost base and product range.<br><br>
+    <strong>External force (1 mark):</strong> An external force for change originates from outside the business &mdash; from the broader environment including competitors, government, economic conditions, technology or shifting community values. The business has little or no control over external forces and can only respond to them. Example: Rising interest rates reduce consumer spending, forcing a furniture retailer to revise its pricing strategy and promotional activity to maintain sales volumes.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition and example of an internal force (must identify it as originating within the business with an example that is genuinely internal). 1 mark for a correct definition and example of an external force (must identify it as outside the business&apos;s control with a genuinely external example).</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: SWOT & APPROACHES TO CHANGE ===== -->
+<div class="section-divider">&#128202; Section 3: SWOT analysis &amp; approaches to change <span>(4.5 &amp; 4.6)</span></div>
+
+<!-- Q9 MC -->
+<div class="q-card" id="qc9">
+  <div class="q-meta"><span class="q-num">Question 9</span><span class="q-num type-mc">Multiple choice</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+  <p class="q-text">In a SWOT analysis, which of the following would be classified as a THREAT?</p>
+  <div class="mc-options" id="mc9">
+    <div class="mc-opt" onclick="selectMC(this,'mc9','A')"><span class="opt-letter">A</span>The business has a highly skilled and experienced management team</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','B')"><span class="opt-letter">B</span>A new government grant is available to support small business digital transformation</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','C')"><span class="opt-letter">C</span>A major competitor has just announced a 20% price reduction across its product range</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc9','D')"><span class="opt-letter">D</span>The business relies on a single supplier for 80% of its raw materials</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk9" onclick="checkMC(9,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans9">
+    <strong>&#10003; Correct answer: C</strong>
+    A threat is an external factor that could harm the business&apos;s performance or competitive position. A competitor cutting prices by 20% is a clear external threat &mdash; it may force the business to respond with its own price reductions, reducing margins. Option A is a strength (internal positive). Option B is an opportunity (external positive). Option D is a weakness (internal negative) &mdash; supplier dependency is an internal vulnerability, not an external threat.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q10 SA -->
+<div class="q-card" id="qc10">
+  <div class="q-meta"><span class="q-num">Question 10</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">3 marks</span></div>
+  <p class="q-scenario">Fleetwood Logistics operates a regional freight network in Queensland. Its SWOT analysis has identified the following:
+  Strengths: 15 years of operational experience; strong client relationships with three major mining companies; owned fleet of 42 vehicles with no debt.
+  Weaknesses: No real-time GPS tracking system; ageing fleet with high maintenance costs; limited digital booking capability.
+  Opportunities: Mining sector expansion in Central Queensland creating new freight demand; federal government infrastructure grants available for regional logistics businesses.
+  Threats: New interstate competitor entering the Queensland market with modern GPS-tracked fleet; rising fuel costs increasing operating expenses.</p>
+  <p class="q-text">Using the SWOT analysis, recommend ONE strategy Fleetwood Logistics should pursue. Explain how your strategy uses a strength to capitalise on an opportunity OR addresses a weakness to counter a threat. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer (WO or ST strategies both valid)</strong>
+    <strong>Recommended strategy (1 mark):</strong> Fleetwood Logistics should apply for the federal government infrastructure grant to fund the installation of real-time GPS tracking across its fleet and upgrade its digital booking platform.<br><br>
+    <strong>How it addresses weakness to counter threat (1 mark):</strong> The absence of GPS tracking and digital booking is a significant weakness that the new competitor &mdash; who already has a modern GPS-tracked fleet &mdash; will use to win contracts from Fleetwood&apos;s mining clients. Mining companies increasingly require real-time freight visibility for safety and scheduling compliance. If Fleetwood does not close this technology gap, it risks losing its three major mining contracts to the new entrant regardless of its 15-year relationship advantage.<br><br>
+    <strong>How the grant reduces the financial risk (1 mark):</strong> Fleetwood&apos;s debt-free fleet ownership (a strength) means it has the balance sheet capacity to co-invest alongside the government grant, making this an achievable strategy without excessive financial strain. The grant opportunity also provides a time-limited window that gives Fleetwood a strategic reason to act now rather than delaying the technology upgrade, which the company clearly needs regardless of the grant.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a clear, specific strategy recommendation drawn from the SWOT elements. 1 mark for explaining how the strategy uses a specific SWOT element (must name the strength/weakness/opportunity/threat being used). 1 mark for a further explanation of why the strategy is justified in the context of Fleetwood&apos;s specific situation. Accept SO, WO, ST or WT strategies if clearly reasoned.</p></div>
+  </div>
+</div>
+
+<!-- Q11 SA -->
+<div class="q-card" id="qc11">
+  <div class="q-meta"><span class="q-num">Question 11</span><span class="q-type type-sa">Short answer</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">2 marks</span></div>
+  <p class="q-text">Distinguish between a proactive and a reactive approach to change. Explain which approach is generally more advantageous for a business and why. (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Distinction (1 mark):</strong> A proactive approach to change involves a business anticipating future challenges or opportunities and making adjustments before problems arise, giving it control over timing and implementation. A reactive approach involves responding to changes only after they have already occurred and begun to impact the business, often forcing rushed and poorly resourced decisions.<br><br>
+    <strong>Which is more advantageous (1 mark):</strong> Proactive change is generally more advantageous because the business can plan carefully, allocate resources appropriately, consult staff and implement changes in a controlled manner &mdash; reducing costs and resistance compared to rushed reactive responses. Proactive businesses also gain first-mover advantages over competitors who are still reacting, creating a strategic window that reactive businesses cannot recapture once it closes.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a clear distinction that identifies proactive as anticipatory and reactive as responsive. 1 mark for explaining why proactive is more advantageous with at least one specific reason (planning quality, staff preparation, first-mover advantage, reduced cost). A response that only says &quot;proactive is better because it happens first&quot; without explaining why earns no mark for the second part.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 4: Extended responses</div>
+
+<!-- Q12 ER -->
+<div class="q-card" id="qc12">
+  <div class="q-meta"><span class="q-num">Question 12</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">The following data has been recorded for Lakewood Hardware, a family-owned hardware retailer with two stores:
+  &bull; Net profit: Year 1 $210,000 &rarr; Year 2 $187,000 &rarr; Year 3 $134,000
+  &bull; Staff turnover: Year 1 9% &rarr; Year 2 16% &rarr; Year 3 28%
+  &bull; Number of customer complaints: Year 1 14 &rarr; Year 2 31 &rarr; Year 3 67
+  &bull; Market share: Year 1 4.2% &rarr; Year 2 3.8% &rarr; Year 3 3.1%</p>
+  <p class="q-text">Analyse Lakewood Hardware&apos;s KPI data. Identify the most significant trend, explain what it suggests about the business and recommend ONE change strategy that directly addresses the likely root cause. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa12" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify most significant trend (1 mark):</strong> While all four KPIs are deteriorating, the most significant and revealing trend is the sharp rise in customer complaints &mdash; from 14 to 67 over three years, a 379% increase. This is the most operationally urgent issue because it directly explains the decline in market share and net profit: customers who have poor experiences do not return and do not recommend the business.<br><br>
+    <strong>What it suggests (1 mark):</strong> The simultaneous spike in staff turnover (9% to 28%) and customer complaints is not coincidental. A staff turnover rate of 28% means Lakewood is constantly replacing experienced staff with new, less knowledgeable employees. In a hardware retail environment where customers rely heavily on product advice, inexperienced staff who cannot answer questions about materials, tools or trade products will generate significantly more complaints and drive customers to competitors.<br><br>
+    <strong>Link the KPIs together (1 mark):</strong> The chain of causation is clear: rising turnover &rarr; less experienced staff &rarr; poorer customer service &rarr; more complaints &rarr; fewer returning customers &rarr; falling market share and profit. Addressing turnover is therefore the root cause fix rather than training new staff who will also leave within months.<br><br>
+    <strong>Recommended change strategy (1 mark):</strong> Lakewood Hardware should urgently review its HRM practices to understand and address what is driving staff to leave. This should include exit interviews with recent departures, a review of pay rates against industry benchmarks, and the introduction of non-financial motivation strategies such as career development pathways and recognition programs. Stabilising the workforce will progressively rebuild the product knowledge and service quality that drives customer satisfaction.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for identifying the most significant trend with data. 1 mark for explaining what it suggests using interconnected KPI reasoning. 1 mark for linking the KPIs causally (connecting turnover to complaints to profit). 1 mark for a specific, justified change strategy that addresses the root cause rather than just a symptom.</p></div>
+  </div>
+</div>
+
+<!-- Q13 ER -->
+<div class="q-card" id="qc13">
+  <div class="q-meta"><span class="q-num">Question 13</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">4 marks</span></div>
+  <p class="q-scenario">SolarBright is an Australian solar panel installation company that has operated successfully for 11 years. The business has a strong reputation, an experienced team and zero debt. Its marketing manager has identified two external developments: the federal government is planning to introduce a major new household battery storage subsidy program within 18 months, and a large international solar company has just announced it is entering the Australian market with a significant marketing campaign and lower prices.</p>
+  <p class="q-text">Conduct a partial SWOT analysis for SolarBright using the information provided. Identify at least ONE element from each SWOT category and recommend ONE strategy SolarBright should pursue before the international competitor launches. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>SWOT elements (2 marks &mdash; 0.5 per element, all four required):</strong><br>
+    <strong>Strength:</strong> Strong brand reputation built over 11 years and an experienced installation team that understands Australian rooftop conditions and regulatory requirements &mdash; advantages that a new international entrant cannot replicate immediately.<br>
+    <strong>Weakness:</strong> The scenario does not identify weaknesses explicitly, but SolarBright may have limited marketing budget and brand visibility compared to a well-funded international competitor launching a &quot;significant marketing campaign.&quot;<br>
+    <strong>Opportunity:</strong> The federal government&apos;s planned household battery storage subsidy program will likely create a surge in new customer demand for solar-plus-battery systems within 18 months &mdash; a significant market opportunity.<br>
+    <strong>Threat:</strong> The international competitor&apos;s lower pricing and large marketing campaign threatens to capture market share from SolarBright before it can capitalise on the battery storage opportunity.<br><br>
+    <strong>Recommended strategy (2 marks):</strong> SolarBright should immediately develop and market a battery storage package offer, positioning itself as the trusted, experienced local expert for solar-plus-battery systems ahead of the subsidy program launch. By using its 11-year reputation (strength) to capture early battery storage customers before the international competitor is fully established, SolarBright can build a first-mover advantage in this growth segment. This SO strategy converts the upcoming opportunity into market share before the threat fully materialises &mdash; proactively changing rather than waiting to react after the competitor has already captured customer attention.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 2 marks for correctly identifying and explaining at least one element in each of the four SWOT categories using information from the scenario (0.5 per category). 2 marks for a clear strategy recommendation: 1 mark for the strategy itself, 1 mark for explaining how it uses at least one SWOT element and why it should be acted on proactively before the competitor launches.</p></div>
+  </div>
+</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta"><span class="q-num">Question 14</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">5 marks</span></div>
+  <p class="q-scenario">TerraFarm is a Queensland-based fresh produce grower that supplies supermarkets. Over the past three years: wastage rates have increased from 4% to 11% due to longer transport times; the number of supermarket complaints about product freshness has risen from 3 to 19 per month; and the rate of productivity growth has declined by 18%. The business has not changed its operations in six years. The owner attributes the problems to &quot;bad seasons&quot; but has made no changes to address them. Meanwhile, two nearby competitors have invested in refrigerated transport and new irrigation technology.</p>
+  <p class="q-text">Evaluate the extent to which TerraFarm&apos;s current approach to change is appropriate, and recommend a more suitable approach. Refer to the KPI data and forces for change in your response. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify TerraFarm&apos;s current approach (1 mark):</strong> TerraFarm is currently taking a reactive &mdash; or more accurately, inactive &mdash; approach to change. Despite clear and worsening KPI signals over three years (wastage tripling from 4% to 11%, complaints rising from 3 to 19 per month, productivity declining 18%), the owner has attributed all problems to external factors (&quot;bad seasons&quot;) and made no operational changes. This is a reactive approach taken to its most damaging extreme: not even reacting to clear evidence of deterioration.<br><br>
+    <strong>Why the current approach is inappropriate &mdash; KPI evidence (1 mark):</strong> The KPI data makes it clear that TerraFarm&apos;s problems are structural, not seasonal. A consistent three-year worsening of three separate KPIs &mdash; wastage, complaints and productivity &mdash; is not explained by variable weather. The increasing wastage from longer transport times, in particular, points to a specific operational problem (lack of refrigerated transport) that the owner is ignoring despite competitors having already solved it.<br><br>
+    <strong>Forces for change being ignored (1 mark):</strong> TerraFarm faces both internal forces (declining KPIs, falling productivity) and external forces (competition from rivals who have invested in better technology) that are demanding change. The owner&apos;s attribution of all problems to bad seasons reflects a failure to conduct proper KPI trend analysis or SWOT analysis that would clearly identify the true causes and the competitive threat.<br><br>
+    <strong>Recommended approach (1 mark):</strong> TerraFarm should immediately adopt a proactive change approach by conducting a full SWOT analysis and KPI review to formally acknowledge the deteriorating trends. The most urgent operational investment is refrigerated transport, which directly addresses the documented cause of rising wastage and freshness complaints. This is a reactive change in the sense that TerraFarm is already behind its competitors, but it must be executed with urgency before supermarket clients begin sourcing from the better-equipped competitors instead.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> TerraFarm&apos;s current approach is wholly inappropriate and is accelerating its competitive decline. The business is not &quot;failing to be proactive&quot; &mdash; it is failing to even respond reactively to a crisis that its own KPI data has clearly signalled for three years. Continued inaction risks supermarket contract losses that could threaten the business&apos;s viability. The owner must shift from denial to data-driven decision-making immediately.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for identifying TerraFarm&apos;s current approach as reactive/inactive. 1 mark for explaining why it is inappropriate using specific KPI data. 1 mark for identifying forces for change that TerraFarm is ignoring. 1 mark for a specific, justified recommended approach. 1 mark for an evaluative conclusion that clearly states the consequences of continued inaction.</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta"><span class="q-num">Question 15</span><span class="q-type type-er">Extended response</span><span class="hot-pill">&#9733; HOT</span><span class="q-marks">6 marks</span></div>
+  <p class="q-scenario">Pinnacle Print Solutions is a commercial printing business that has operated for 18 years. Its CEO has been reviewing KPI and market data and identified the following situation:
+  Internal: Net profit margin has fallen from 22% to 11% over four years; staff absenteeism has risen from 3.2 to 7.9 days/employee/year; the business holds $420,000 in modern equipment with no debt.
+  External: Digital communication has significantly reduced demand for printed marketing materials; two competitors have closed in the past 18 months; a growing number of small businesses are seeking high-quality branded merchandise (mugs, shirts, bags) as an alternative to paper-based marketing.</p>
+  <p class="q-text">Using the KPI data and a SWOT framework, evaluate the strategic position of Pinnacle Print Solutions and recommend whether the business should take a proactive or reactive approach to change. Justify your recommendation. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for 4+ paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>SWOT analysis (1 mark):</strong> Pinnacle&apos;s internal strengths include 18 years of operational experience and expertise, $420,000 in modern equipment owned outright (no debt), and an established client base. Weaknesses include the declining profit margin (22% to 11%) and rising absenteeism (7.9 days/employee/year), which suggests internal engagement or workload issues. Externally, the closure of two competitors is an opportunity &mdash; their former clients are available to be won. The growing demand for branded merchandise is a further opportunity aligned with Pinnacle&apos;s existing printing capability. The key threat is the structural decline in demand for printed marketing materials driven by digital communication, which threatens the core business model.<br><br>
+    <strong>KPI analysis (1 mark):</strong> The fall in net profit margin from 22% to 11% over four years reflects the structural revenue decline from the digital threat &mdash; sales are likely falling as clients reduce print budgets. The rise in absenteeism from 3.2 to 7.9 days/employee/year is a separate concern that may reflect employee anxiety about job security as the business contracts, or workload stress from maintaining output with fewer clients. Both trends will worsen if no strategic change is made.<br><br>
+    <strong>Strategic position assessment (1 mark):</strong> Pinnacle&apos;s position is one of managed decline if it does nothing. The digital threat is structural &mdash; it will not reverse. However, Pinnacle has real strategic assets (modern equipment, experience, debt-free balance sheet) and two genuine opportunities (competitor client capture, branded merchandise demand) that mean the business is not in crisis but at a strategic crossroads.<br><br>
+    <strong>Proactive approach recommended (1 mark):</strong> Pinnacle should take a proactive approach to change. The business has a rare window of opportunity: two competitors have just exited the market (leaving clients available to win) and the branded merchandise trend is growing but not yet saturated. A proactive pivot into high-margin branded merchandise production &mdash; using Pinnacle&apos;s existing equipment for fabric printing, mug printing and bag printing &mdash; could replace declining print marketing revenue before it falls further.<br><br>
+    <strong>Why proactive is superior to reactive (1 mark):</strong> A reactive approach would mean waiting until profit margins become unsustainable before acting &mdash; at which point Pinnacle&apos;s equipment may be outdated, its best staff may have left due to insecurity, and the branded merchandise opportunity may have been captured by new entrants. Acting proactively from a position of relative financial strength (debt-free) gives Pinnacle the resources to invest in the transition on its own terms.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> Pinnacle Print Solutions should pursue a proactive change strategy focused on diversifying into branded merchandise while aggressively pursuing the client base freed by its two former competitors&apos; closure. This SO strategy leverages Pinnacle&apos;s strengths (equipment, experience) to seize the available opportunities before the threats (digital decline) make the transition unaffordable. The business has perhaps two to three years to make this transition successfully before continued margin compression makes it impossible.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark &mdash; SWOT elements correctly identified from scenario data. 1 mark &mdash; KPI data correctly interpreted with trend reasoning. 1 mark &mdash; clear strategic position assessment (neither all doom nor all optimism &mdash; nuanced). 1 mark &mdash; clear recommendation for proactive approach with justification. 1 mark &mdash; comparison of proactive vs reactive explaining why proactive is superior in this specific context. 1 mark &mdash; justified, forward-looking conclusion with a realistic timeframe or consequence if change is delayed.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#042C53;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 4 Quiz 1 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
+function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;var opts=document.getElementById(groupId).querySelectorAll(".mc-opt");for(var i=0;i<opts.length;i++){opts[i].classList.remove("selected");}el.classList.add("selected");if(!mcAnswers[groupId])mcAnswers[groupId]={};mcAnswers[groupId].selected=letter;}
+function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
+function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
+function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review your written answers against the model answers &mdash; focus on whether you quoted specific data figures and linked your analysis to the scenario.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the KPI reference table and forces for change sections in your Topic 4 cheat sheet.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 4 cheat sheet and memorise which KPIs are better when lower, and review the SWOT framework section.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
+updateProgress();
+</script>
+</body>
+</html>

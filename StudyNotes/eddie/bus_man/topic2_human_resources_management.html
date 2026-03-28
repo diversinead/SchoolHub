@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 2: Human Resource Management</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px}
+h1{font-size:22px;font-weight:700;color:#085041;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:14px}
+#search{width:100%;padding:9px 14px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:14px;outline:none;background:#fff;margin-bottom:18px}
+#search:focus{border-color:#1D9E75}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+
+.cat{border-radius:10px;margin-bottom:10px;overflow:hidden;border:1.5px solid}
+.cat.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.18)}
+.cat.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.15)}
+.cat.coral{border-color:#D85A30;background:rgba(240,153,123,0.12)}
+.cat.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.cat.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.cat.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.cat.gray{border-color:#888780;background:rgba(180,178,169,0.12)}
+
+.cat-head{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none}
+.cat.purple .cat-head{background:rgba(206,203,246,0.35)}
+.cat.teal .cat-head{background:rgba(159,225,203,0.3)}
+.cat.coral .cat-head{background:rgba(240,153,123,0.25)}
+.cat.amber .cat-head{background:rgba(239,159,39,0.22)}
+.cat.blue .cat-head{background:rgba(133,183,235,0.25)}
+.cat.pink .cat-head{background:rgba(237,147,177,0.22)}
+.cat.gray .cat-head{background:rgba(180,178,169,0.22)}
+
+.cat-head-text{font-size:13px;font-weight:700;color:#1a1a18}
+.cat-head-right{display:flex;align-items:center;gap:8px}
+.cat-head-right small{font-size:11px;color:#5F5E5A}
+.cat-arrow{font-size:11px;color:#5F5E5A}
+
+.cat-body{padding:0 10px 10px}
+.cat-body.collapsed{display:none}
+
+.term{border-radius:7px;margin-top:7px;background:#fff;border:1px solid #E5E3DC;overflow:hidden}
+.term-title{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#1a1a18}
+.term-title:hover{background:#F8F7F3}
+.arrow{font-size:10px;color:#888780}
+.term-body{display:none;padding:10px 12px;border-top:1px solid #EDECEA;background:#FAFAF8}
+.term-body.open{display:block}
+.term-def{font-size:12px;line-height:1.65;color:#2C2C2A;margin-bottom:6px}
+.term-eg{display:block;font-size:11px;color:#085041;background:#E1F5EE;border-radius:5px;padding:5px 8px;margin-top:4px}
+.term-note{display:block;font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:5px 8px;margin-top:6px;font-style:italic}
+
+.hot-badge{position:relative;display:inline-flex;align-items:center;background:#E24B4A;color:#fff;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;cursor:help;white-space:nowrap;margin-right:4px}
+.hot-badge .tip{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#501313;color:#fff;font-size:11px;border-radius:6px;padding:5px 9px;width:210px;text-align:center;line-height:1.4;z-index:50;pointer-events:none}
+.hot-badge .tip::after{content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#501313}
+.hot-badge:hover .tip{display:block}
+
+.box-wrap{border-radius:10px;margin-bottom:12px;overflow:visible;border:1.5px solid}
+.box-wrap.green{border-color:#5DCAA5;background:rgba(159,225,203,0.12)}
+.box-wrap.red{border-color:#D85A30;background:rgba(240,153,123,0.1)}
+.box-wrap.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.15)}
+.box-wrap.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.box-wrap.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.box-wrap.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.1)}
+.box-wrap.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.box-wrap.coral{border-color:#D85A30;background:rgba(240,153,123,0.1)}
+
+.box-toggle{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:13px;font-weight:700;color:#1a1a18}
+.box-wrap.green .box-toggle{background:rgba(159,225,203,0.3);border-radius:8px 8px 0 0}
+.box-wrap.red .box-toggle{background:rgba(240,153,123,0.25);border-radius:8px 8px 0 0}
+.box-wrap.purple .box-toggle{background:rgba(206,203,246,0.35);border-radius:8px 8px 0 0}
+.box-wrap.amber .box-toggle{background:rgba(239,159,39,0.22);border-radius:8px 8px 0 0}
+.box-wrap.blue .box-toggle{background:rgba(133,183,235,0.25);border-radius:8px 8px 0 0}
+.box-wrap.teal .box-toggle{background:rgba(159,225,203,0.25);border-radius:8px 8px 0 0}
+.box-wrap.pink .box-toggle{background:rgba(237,147,177,0.22);border-radius:8px 8px 0 0}
+.box-wrap.coral .box-toggle{background:rgba(240,153,123,0.22);border-radius:8px 8px 0 0}
+
+.box-body{display:none;border-top:1px solid rgba(0,0,0,0.08)}
+.box-body.open{display:block}
+.box-note{font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:6px 10px;margin:10px 12px 12px;font-style:italic}
+
+table.ct{width:100%;border-collapse:collapse;font-size:12px}
+table.ct th{background:#3C3489;color:#fff;padding:7px 10px;text-align:left;font-size:11px;font-weight:700}
+table.ct td{padding:7px 10px;border-bottom:1px solid #EDECEA;vertical-align:top;line-height:1.55}
+table.ct tr:nth-child(even) td{background:#F8F7F3}
+table.ct tr:last-child td{border-bottom:none}
+
+table.ct.teal-head th{background:#085041}
+table.ct.coral-head th{background:#4A1B0C}
+table.ct.amber-head th{background:#412402}
+
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:#fff}
+.ad-grid .adv{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:12px}
+.ad-grid .dis{background:#FAECE7;border:1px solid #D85A30;border-radius:8px;padding:12px}
+.ad-grid h3{font-size:12px;font-weight:700;margin-bottom:7px}
+.ad-grid .adv h3{color:#085041}
+.ad-grid .dis h3{color:#4A1B0C}
+.ad-grid ul{font-size:11px;line-height:1.8;padding-left:15px}
+.ad-grid .adv ul{color:#085041}
+.ad-grid .dis ul{color:#4A1B0C}
+
+.panel-section-title{font-size:12px;font-weight:700;color:#26215C;margin:14px 12px 4px;border-bottom:1px solid #D3D1C7;padding-bottom:4px}
+
+.model-step{background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:8px;font-size:12px;line-height:1.7;color:#1a1a18}
+.model-step strong{color:#412402}
+.model-step.conclude{background:#EEEDFE;border-left-color:#7F77DD}
+.model-step.conclude strong{color:#26215C}
+
+.theory-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px;margin:10px 12px}
+.theory-card h3{font-size:13px;font-weight:700;color:#26215C;margin-bottom:6px}
+.theory-card p{font-size:12px;line-height:1.65;color:#2C2C2A;margin-bottom:6px}
+.theory-card .levels{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.level-bar{border-radius:5px;padding:5px 10px;font-size:11px;font-weight:600}
+
+.tag{display:inline-block;font-size:10px;font-weight:700;border-radius:4px;padding:1px 5px;margin-right:3px}
+.tag-g{background:#E1F5EE;color:#085041}
+.tag-r{background:#FAECE7;color:#4A1B0C}
+.tag-p{background:#EEEDFE;color:#26215C}
+.tag-a{background:#FAEEDA;color:#412402}
+
+@media(max-width:520px){.ad-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 2</h1>
+<p class="subtitle">Human Resource Management &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- ===== COMMAND TERMS ===== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128270; Command terms &mdash; what each word requires</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Command term</th><th>What it means</th><th>Marks typically</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Define</strong></td><td>State the precise meaning of a term</td><td>1&ndash;2</td></tr>
+          <tr><td><strong>Describe</strong></td><td>Give a detailed account of characteristics or features</td><td>2&ndash;3</td></tr>
+          <tr><td><strong>Explain</strong></td><td>Make clear how or why &mdash; give reasons</td><td>2&ndash;4</td></tr>
+          <tr><td><strong>Discuss</strong></td><td>Give BOTH sides &mdash; advantages AND disadvantages</td><td>4&ndash;6</td></tr>
+          <tr><td><strong>Evaluate</strong></td><td>Discuss both sides AND make a judgement with justification</td><td>6&ndash;10</td></tr>
+          <tr><td><strong>Justify</strong></td><td>Give reasons that support a decision or recommendation</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Compare</strong></td><td>Show similarities AND differences between two things</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Propose</strong></td><td>Put forward a strategy or solution with reasons</td><td>3&ndash;5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Discuss = both sides. Evaluate = both sides + judgement. Never write only advantages for a &quot;discuss&quot; question.</p>
+  </div>
+</div>
+
+<!-- ===== MOTIVATION THEORIES COMPARISON ===== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Motivation theories &mdash; comparison &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">One of the most frequently examined areas in Topic 2</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+
+    <!-- Maslow -->
+    <div class="theory-card">
+      <h3>&#127970; Maslow&apos;s Hierarchy of Needs (1943)</h3>
+      <p>People are motivated by five levels of needs, arranged in a hierarchy. Lower-level needs must be satisfied before higher-level needs can motivate behaviour. Managers must identify which level an employee is currently at and offer rewards that satisfy the NEXT level.</p>
+      <div class="levels">
+        <div class="level-bar" style="background:#E24B4A;color:#fff;width:100%">5. Self-actualisation &mdash; reaching full potential, creativity, meaningful work</div>
+        <div class="level-bar" style="background:#D85A30;color:#fff;width:90%">4. Esteem &mdash; recognition, status, achievement, respect from others</div>
+        <div class="level-bar" style="background:#BA7517;color:#fff;width:80%">3. Social &mdash; belonging, friendship, teamwork, acceptance</div>
+        <div class="level-bar" style="background:#0F6E56;color:#fff;width:70%">2. Safety &mdash; job security, safe working conditions, stable income</div>
+        <div class="level-bar" style="background:#085041;color:#fff;width:60%">1. Physiological &mdash; basic pay, food, shelter, rest</div>
+      </div>
+      <p style="font-size:11px;color:#5F5E5A;margin-top:8px;font-style:italic">&#9888; Exam tip: Do NOT just list the five levels. Explain how the theory guides a manager to identify an employee&apos;s current level and offer needs at the NEXT level up.</p>
+    </div>
+
+    <!-- Locke -->
+    <div class="theory-card">
+      <h3>&#127919; Locke &amp; Latham&apos;s Goal-Setting Theory (1968)</h3>
+      <p>Employees are motivated when they are set specific, challenging but achievable goals. The theory identifies five key principles for effective goal-setting, remembered with the acronym <strong>SCCEA</strong>:</p>
+      <div style="overflow-x:auto;margin-top:8px">
+        <table class="ct teal-head">
+          <thead><tr><th>Principle</th><th>What it means</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>S &mdash; Specificity</strong></td><td>Goals must be clear and precise, not vague</td><td>&quot;Increase sales by 10% this quarter&quot; not &quot;do better&quot;</td></tr>
+            <tr><td><strong>C &mdash; Challenge</strong></td><td>Goals must stretch the employee but remain achievable</td><td>A target that requires effort but is not impossible</td></tr>
+            <tr><td><strong>C &mdash; Commitment</strong></td><td>Employees must genuinely accept and agree to the goal</td><td>Involving staff in setting their own KPIs</td></tr>
+            <tr><td><strong>E &mdash; Feedback</strong></td><td>Regular progress updates help employees stay on track</td><td>Monthly performance reviews with the manager</td></tr>
+            <tr><td><strong>A &mdash; Task complexity</strong></td><td>Complex goals need to be broken into manageable steps</td><td>A large project split into weekly milestones</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:#5F5E5A;margin-top:8px;font-style:italic">&#9888; Exam tip: The exam may ask you to explain ONE of the five principles &mdash; always name the principle, define it, and link to the scenario.</p>
+    </div>
+
+    <!-- Lawrence & Nohria -->
+    <div class="theory-card">
+      <h3>&#128101; Lawrence &amp; Nohria&apos;s Four Drive Theory (2002)</h3>
+      <p>Employees are motivated by four fundamental emotional drives. Unlike Maslow, these drives do not form a hierarchy &mdash; all four operate simultaneously and independently. Managers should address ALL four drives to fully motivate staff.</p>
+      <div style="overflow-x:auto;margin-top:8px">
+        <table class="ct amber-head">
+          <thead><tr><th>Drive</th><th>What it means</th><th>How managers can address it</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Drive to Acquire</strong></td><td>Desire for material goods, money, status and experiences</td><td>Competitive salaries, bonuses, promotions, perks</td></tr>
+            <tr><td><strong>Drive to Bond</strong></td><td>Desire for social connection, belonging and caring relationships</td><td>Teamwork, social events, inclusive culture, recognition</td></tr>
+            <tr><td><strong>Drive to Comprehend</strong></td><td>Desire to learn, grow, make sense of the world and be challenged</td><td>Training, interesting work, stretch assignments, autonomy</td></tr>
+            <tr><td><strong>Drive to Defend</strong></td><td>Desire to protect oneself, one&apos;s achievements and one&apos;s values</td><td>Job security, fair processes, transparent communication</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:#5F5E5A;margin-top:8px;font-style:italic">&#9888; Exam tip: Lawrence &amp; Nohria is often compared to Maslow. Key difference &mdash; L&amp;N has NO hierarchy; all four drives operate at the same time.</p>
+    </div>
+
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Maslow</th><th>Locke &amp; Latham</th><th>Lawrence &amp; Nohria</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Core idea</strong></td><td>Hierarchy of 5 needs</td><td>Specific, challenging goals</td><td>4 simultaneous emotional drives</td></tr>
+          <tr><td><strong>Hierarchy?</strong></td><td>Yes &mdash; must satisfy lower first</td><td>No</td><td>No &mdash; all operate at once</td></tr>
+          <tr><td><strong>Focus</strong></td><td>What employees need</td><td>How goals are set</td><td>What emotionally drives people</td></tr>
+          <tr><td><strong>Manager action</strong></td><td>Identify current level, satisfy next</td><td>Set SCCEA goals with employee</td><td>Address all 4 drives simultaneously</td></tr>
+          <tr><td><strong>Best used for</strong></td><td>Understanding why motivation varies across staff</td><td>Performance reviews, KPI-setting</td><td>Designing a complete motivation strategy</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Exams often ask you to apply ONE theory to a scenario. Always: name the theory, explain its core idea, and link it specifically to the case study details.</p>
+  </div>
+</div>
+
+<!-- ===== MOTIVATION STRATEGIES ADV/DIS ===== -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654; Motivation strategies &mdash; financial &amp; non-financial &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Frequently asked to discuss or evaluate a specific strategy</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p class="panel-section-title">Financial strategies</p>
+    <div style="overflow-x:auto;padding:0 12px 8px">
+      <table class="ct teal-head">
+        <thead><tr><th>Strategy</th><th>What it involves</th><th><span class="tag tag-g">&#43; Advantage</span></th><th><span class="tag tag-r">&#8722; Disadvantage</span></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Remuneration</strong></td>
+            <td>Base salary or wages paid for work performed</td>
+            <td>Provides financial security, attracting and retaining staff</td>
+            <td>Does not reward performance above minimum expectations</td>
+          </tr>
+          <tr>
+            <td><strong>Performance-related pay</strong></td>
+            <td>Bonuses or pay increases linked to achieving targets</td>
+            <td>Directly incentivises effort and high performance</td>
+            <td>Can create unhealthy competition and reduce teamwork</td>
+          </tr>
+          <tr>
+            <td><strong>Profit sharing</strong></td>
+            <td>A share of company profits distributed to employees</td>
+            <td>Aligns employee interests with business success, boosting commitment</td>
+            <td>Payments depend on overall profit &mdash; individual effort may not be rewarded</td>
+          </tr>
+          <tr>
+            <td><strong>Employee share ownership</strong></td>
+            <td>Employees receive shares in the company as part of their package</td>
+            <td>Creates strong long-term commitment as employees become part-owners</td>
+            <td>Share price fluctuations are outside employee control, reducing motivational effect</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="panel-section-title">Non-financial strategies</p>
+    <div style="overflow-x:auto;padding:0 12px 8px">
+      <table class="ct teal-head">
+        <thead><tr><th>Strategy</th><th>What it involves</th><th><span class="tag tag-g">&#43; Advantage</span></th><th><span class="tag tag-r">&#8722; Disadvantage</span></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Recognition &amp; awards</strong></td>
+            <td>Publicly acknowledging employee achievements (Employee of the Month, awards)</td>
+            <td>Satisfies esteem needs at low cost; encourages desired behaviour in others</td>
+            <td>Can cause resentment among staff who feel overlooked or unfairly judged</td>
+          </tr>
+          <tr>
+            <td><strong>Job enrichment</strong></td>
+            <td>Making roles more meaningful by adding greater responsibility and variety</td>
+            <td>Addresses higher-level needs (Maslow) and the drive to comprehend (L&amp;N)</td>
+            <td>Not all employees want more responsibility; can increase stress and workload</td>
+          </tr>
+          <tr>
+            <td><strong>Career advancement</strong></td>
+            <td>Opportunities for promotion, development and progression within the business</td>
+            <td>Motivates high performers and reduces turnover by providing a future within the company</td>
+            <td>Limited positions available &mdash; can demotivate staff who are passed over for promotion</td>
+          </tr>
+          <tr>
+            <td><strong>Investment in training</strong></td>
+            <td>Providing learning and development opportunities to build employee skills</td>
+            <td>Increases employee capability and demonstrates the business values their growth</td>
+            <td>Costly and time-consuming; trained employees may be poached by competitors</td>
+          </tr>
+          <tr>
+            <td><strong>Flexible working arrangements</strong></td>
+            <td>Options such as working from home, flexible hours or part-time arrangements</td>
+            <td>Improves work-life balance and loyalty, especially for employees with family commitments</td>
+            <td>Can reduce collaboration and make supervision more difficult for managers</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Link motivation strategies to a theory where possible &mdash; e.g. &quot;recognition addresses Maslow&apos;s esteem needs and Lawrence &amp; Nohria&apos;s drive to acquire (status).&quot;</p>
+  </div>
+</div>
+
+<!-- ===== TRAINING TYPES ADV/DIS ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654; Training types &mdash; advantages &amp; disadvantages &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Discuss or evaluate training questions appear regularly</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+
+    <p class="panel-section-title">On-the-job training</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Employees learn skills directly relevant to their specific role, reducing the time before they become productive.</li>
+        <li>Lower cost than off-the-job training as no external provider or venue is required.</li>
+        <li>Training occurs in the real work environment, so skills transfer immediately to daily tasks.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Quality depends on the trainer&apos;s skills and patience &mdash; poor trainers produce poor outcomes.</li>
+        <li>Disrupts normal work operations as both trainer and trainee are occupied during working hours.</li>
+        <li>May pass on bad habits or outdated practices if the trainer lacks current best-practice knowledge.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Off-the-job training</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Delivered by specialist experts, ensuring employees receive high-quality, up-to-date knowledge and skills.</li>
+        <li>Removes employees from workplace distractions, allowing them to focus entirely on learning.</li>
+        <li>Broadens employee skills beyond current role requirements, supporting career development.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>More expensive than on-the-job training due to external provider fees, travel and accommodation costs.</li>
+        <li>Lost productivity while employees are away from their normal duties during training.</li>
+        <li>Skills learned may not be directly applicable to the specific tools or processes used in the business.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Online (e-learning) training</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Flexible &mdash; employees can complete training at their own pace and at a time that suits them.</li>
+        <li>Cost-effective for large workforces as the same content can be delivered to many employees simultaneously.</li>
+        <li>Easy to update and keep current without the expense of re-running face-to-face programs.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Lacks the hands-on, practical component needed for technical or physical skills (e.g. operating machinery).</li>
+        <li>Requires reliable internet access and technology, which may not be available for all staff.</li>
+        <li>Lower engagement and completion rates as employees may defer or rush through modules without supervision.</li>
+      </ul></div>
+    </div>
+
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>On-the-job</th><th>Off-the-job</th><th>Online</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Location</strong></td><td>At the workplace</td><td>External venue/provider</td><td>Anywhere with internet</td></tr>
+          <tr><td><strong>Cost</strong></td><td><span class="tag tag-g">Low</span></td><td><span class="tag tag-r">High</span></td><td><span class="tag tag-g">Low&ndash;Moderate</span></td></tr>
+          <tr><td><strong>Disruption to work</strong></td><td>Moderate</td><td>High (away from job)</td><td>Low (self-paced)</td></tr>
+          <tr><td><strong>Best for</strong></td><td>Practical, job-specific skills</td><td>Specialised knowledge, qualifications</td><td>Policy, compliance, broad skills</td></tr>
+          <tr><td><strong>Example</strong></td><td>Senior barista trains new hire on espresso machine</td><td>Chef attends food safety certification course</td><td>All staff complete WorkSafe compliance modules</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Match the training type to the scenario &mdash; if the business needs staff trained quickly on specific tasks, on-the-job is justified; if specialised qualifications are needed, off-the-job is better.</p>
+  </div>
+</div>
+
+<!-- ===== PERFORMANCE MANAGEMENT ===== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Performance management strategies &mdash; overview</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Strategy</th><th>What it involves</th><th><span class="tag tag-g">&#43; Benefit</span></th><th><span class="tag tag-r">&#8722; Limitation</span></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Management by objectives (MBO)</strong></td>
+            <td>Manager and employee jointly set specific, measurable performance goals for the period</td>
+            <td>Increases employee commitment because they helped set the goals</td>
+            <td>Time-consuming to set individual objectives for all staff</td>
+          </tr>
+          <tr>
+            <td><strong>Performance appraisals</strong></td>
+            <td>Formal review meetings where employee performance is assessed against agreed criteria</td>
+            <td>Provides structured feedback and identifies development needs</td>
+            <td>Can feel threatening; outcomes depend heavily on the appraiser&apos;s objectivity</td>
+          </tr>
+          <tr>
+            <td><strong>Self-evaluation</strong></td>
+            <td>Employees assess their own performance against set criteria before a review</td>
+            <td>Encourages self-reflection and ownership of development</td>
+            <td>May be overly positive or negative and lack objectivity</td>
+          </tr>
+          <tr>
+            <td><strong>Employee observation</strong></td>
+            <td>Manager directly observes employee performance in the workplace</td>
+            <td>Provides real, unfiltered evidence of actual performance</td>
+            <td>Employees may behave differently when aware they are being observed (Hawthorne effect)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Performance management is not just about identifying poor performance &mdash; it is also about recognising excellence and supporting development.</p>
+  </div>
+</div>
+
+<!-- ===== TERMINATION ===== -->
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654; Termination of employment &mdash; types &amp; entitlements &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Distinguishing between termination types is a common exam question</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct coral-head">
+        <thead><tr><th>Type</th><th>Definition</th><th>Who initiates?</th><th>Entitlements</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Resignation</strong></td>
+            <td>Employee voluntarily chooses to leave the business</td>
+            <td>Employee</td>
+            <td>Annual leave payout; notice period may apply</td>
+            <td>A cafe manager resigns to start their own business</td>
+          </tr>
+          <tr>
+            <td><strong>Retirement</strong></td>
+            <td>Employee voluntarily leaves the workforce permanently, usually due to age</td>
+            <td>Employee</td>
+            <td>Superannuation, annual leave payout, farewell recognition</td>
+            <td>A 65-year-old warehouse supervisor retires after 20 years of service</td>
+          </tr>
+          <tr>
+            <td><strong>Redundancy</strong></td>
+            <td>The employee&apos;s position is no longer required due to restructuring, automation or reduced business activity</td>
+            <td>Employer</td>
+            <td>Redundancy pay based on years of service, notice period, annual leave payout</td>
+            <td>Qantas made 8,500 positions redundant during COVID-19 as flights ceased</td>
+          </tr>
+          <tr>
+            <td><strong>Dismissal (summary)</strong></td>
+            <td>Immediate termination due to serious misconduct &mdash; no notice required</td>
+            <td>Employer</td>
+            <td>Outstanding wages only; no notice pay</td>
+            <td>An employee is dismissed on the spot after being caught stealing from the register</td>
+          </tr>
+          <tr>
+            <td><strong>Dismissal (general)</strong></td>
+            <td>Termination due to ongoing poor performance or behaviour after warnings have been given</td>
+            <td>Employer</td>
+            <td>Notice period, annual leave payout; must follow fair process</td>
+            <td>An employee is dismissed after three documented warnings for repeated lateness</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="panel-section-title">Unfair vs wrongful dismissal</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#128270; Unfair dismissal</h3><ul>
+        <li>When an employee is dismissed in a harsh, unjust or unreasonable manner without following proper procedure.</li>
+        <li>Employee can apply to the Fair Work Commission for reinstatement or compensation.</li>
+        <li>Example: dismissing an employee without warnings or without giving them a chance to respond to allegations.</li>
+      </ul></div>
+      <div class="dis"><h3>&#9888; Wrongful dismissal</h3><ul>
+        <li>When an employee is dismissed in breach of their employment contract (e.g. without required notice period).</li>
+        <li>Employee may pursue legal action for breach of contract in court.</li>
+        <li>Example: terminating an employee two weeks before their contract entitles them to redundancy pay.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Entitlement obligations summary</p>
+    <div style="padding:0 12px 12px">
+      <div style="background:#FAECE7;border:1px solid #D85A30;border-radius:8px;padding:12px;font-size:12px;line-height:1.8;color:#4A1B0C">
+        <strong>Employers MUST provide:</strong> payment of all outstanding wages &middot; accrued annual leave entitlements &middot; required notice period (or pay in lieu) &middot; redundancy pay where applicable<br>
+        <strong>Key legislation:</strong> Fair Work Act 2009 &middot; National Employment Standards (NES) &middot; applicable Modern Award
+      </div>
+    </div>
+    <p class="box-note">&#128161; Key distinction: redundancy = the JOB is no longer needed (not the person). Dismissal = the PERSON&apos;S conduct or performance is the reason. This difference matters in exam scenarios.</p>
+  </div>
+</div>
+
+<!-- ===== MODEL ANSWER ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer &mdash; discuss a motivation strategy (4 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Discuss the use of performance-related pay as a motivation strategy at Acme Manufacturing. (4 marks)</p>
+      </div>
+      <div class="model-step"><strong>Step 1 &mdash; Define the strategy:</strong> Performance-related pay is a financial motivation strategy where employees receive bonuses or pay increases directly linked to achieving specific measurable targets.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Link to theory (adds marks):</strong> This strategy addresses Maslow&apos;s physiological and esteem needs by increasing income and recognising achievement. It also satisfies Lawrence &amp; Nohria&apos;s drive to acquire, as employees are rewarded with greater financial status.</div>
+      <div class="model-step"><strong>Step 3 &mdash; Advantage + scenario link:</strong> For Acme Manufacturing, performance-related pay would directly incentivise production line workers to meet output targets, as higher throughput leads to a measurable financial reward they can see in their pay packet.</div>
+      <div class="model-step"><strong>Step 4 &mdash; Disadvantage + scenario link:</strong> However, this strategy may create unhealthy competition between Acme&apos;s production teams, with workers focused on individual bonuses rather than supporting colleagues, potentially reducing overall team cohesion and product quality.</div>
+      <div class="model-step conclude"><strong>Step 5 &mdash; Conclusion (evaluate/justify only):</strong> Overall, performance-related pay is appropriate for Acme Manufacturing if individual output is measurable and the business prioritises productivity. If teamwork is critical to operations, a profit-sharing model would better balance individual and collective motivation.</div>
+    </div>
+    <p class="box-note">&#128161; Linking to a motivation theory is not always required but will earn you higher marks &mdash; do it whenever you can naturally weave it in.</p>
+  </div>
+</div>
+
+<!-- ===== MODEL ANSWER 2 ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer &mdash; apply a motivation theory to a scenario (4 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Using Maslow&apos;s Hierarchy of Needs, explain how the manager at Metro Cafe could increase staff motivation. (4 marks)</p>
+      </div>
+      <div class="model-step"><strong>Step 1 &mdash; Explain the theory:</strong> Maslow&apos;s Hierarchy of Needs proposes that employees are motivated by five levels of needs, from physiological at the base to self-actualisation at the top. Lower-level needs must be satisfied before higher-level needs become motivating.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Identify the current level in the scenario:</strong> The case study indicates Metro Cafe staff have stable wages and safe conditions, suggesting their physiological and safety needs are already met. The manager should therefore focus on the social (level 3) needs.</div>
+      <div class="model-step"><strong>Step 3 &mdash; Recommend and justify:</strong> The manager at Metro Cafe could organise regular team lunches and encourage peer mentoring between experienced and new staff. This would satisfy the social need for belonging and friendship, moving employees toward level 4 (esteem), which would further increase motivation and engagement.</div>
+      <div class="model-step conclude"><strong>Step 4 &mdash; Overall conclusion:</strong> By systematically addressing each level of Maslow&apos;s hierarchy, Metro Cafe&apos;s manager can build a workplace where staff feel secure, connected, valued and challenged &mdash; progressively increasing motivation at each stage.</div>
+    </div>
+    <p class="box-note">&#128161; Always identify which level the employees ARE at before recommending what they NEED next. Recommending physiological needs for highly-paid professionals loses marks.</p>
+  </div>
+</div>
+
+<!-- ===== TERMS ACCORDION ===== -->
+<div id="list"></div>
+
+<p class="footer">VCE Business Management &mdash; Topic 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var data = [
+  { cat: "2.2 The HRM Function", color: "purple", hot: false, items: [
+    { term: "Human resource management (HRM)", def: "The management function responsible for recruiting, developing, motivating and retaining employees to achieve business objectives.", eg: "The HR department at Commonwealth Bank oversees recruitment campaigns, runs graduate training programs and manages performance reviews for 50,000 staff.", note: "HRM is strategic &mdash; it aligns the workforce with business goals, not just administration." },
+    { term: "Human resource planning", def: "The process of forecasting the future workforce needs of a business and developing strategies to meet those needs.", eg: "Qantas forecasts pilot retirements over the next five years and plans cadet training intakes to ensure no shortage of qualified pilots." },
+    { term: "Recruitment", def: "The process of attracting suitable candidates to apply for vacant positions within a business.", eg: "JB Hi-Fi advertises a sales consultant role on Seek and LinkedIn, receiving 80 applications within a week." },
+    { term: "Selection", def: "The process of evaluating applicants and choosing the most suitable candidate for a position.", eg: "After shortlisting five candidates from 80 applications, the Bunnings HR team conducts interviews and reference checks before making an offer." },
+    { term: "Induction", def: "A structured program to welcome new employees and familiarise them with the business, its culture, policies and their role.", eg: "A new Woolworths team member completes a three-day induction covering workplace safety, customer service standards and rostering systems." },
+    { term: "Employee relations", def: "The management of the relationship between employers and employees, including communication, dispute resolution and industrial relations.", eg: "A manufacturing company negotiates an enterprise agreement with its union to update wage rates and working conditions for the next three years." }
+  ]},
+  { cat: "2.3 Motivation Theories", color: "teal", hot: true, items: [
+    { term: "Motivation", def: "The internal drive that influences a person to take action and persist in their effort toward achieving a goal.", eg: "A sales representative works overtime to exceed their quarterly target in order to qualify for the annual performance bonus.", note: "Motivation is internal &mdash; managers cannot directly motivate staff, only create conditions that support motivation." },
+    { term: "Maslow&apos;s Hierarchy of Needs", def: "A motivation theory proposing that people are driven by five levels of needs (physiological, safety, social, esteem, self-actualisation) that must be satisfied from the bottom up.", eg: "A manager who ensures staff have fair pay (physiological) and job security (safety) can then focus on building team culture (social) to drive further motivation." },
+    { term: "Self-actualisation", def: "The highest level of Maslow&apos;s hierarchy, representing the need to fulfil one&apos;s full potential and find deep meaning in work.", eg: "A senior architect given creative freedom to design a landmark building experiences self-actualisation through the meaningful challenge of the work." },
+    { term: "Locke &amp; Latham&apos;s Goal-Setting Theory", def: "A motivation theory stating that employees are most motivated when given specific, challenging but achievable goals, combined with regular feedback.", eg: "A sales manager works with each team member to set a specific quarterly revenue target with monthly check-ins to review progress.", note: "Remember SCCEA: Specificity, Challenge, Commitment, fEedback, task complexity (task Acceptance in some versions)." },
+    { term: "Lawrence &amp; Nohria&apos;s Four Drive Theory", def: "A motivation theory arguing that all people are simultaneously driven by four emotional drives: to acquire, to bond, to comprehend and to defend.", eg: "A technology company motivates staff by offering competitive salaries (acquire), team-building events (bond), innovation projects (comprehend) and transparent HR processes (defend).", note: "Key distinction from Maslow: all four drives operate AT THE SAME TIME &mdash; there is no hierarchy." },
+    { term: "Drive to acquire", def: "The emotional drive to obtain material goods, money, social status and positive experiences.", eg: "An employee accepts a role at a rival firm offering a $15,000 salary increase &mdash; their drive to acquire material wealth has been triggered." },
+    { term: "Drive to bond", def: "The emotional drive to form meaningful social connections and relationships with others.", eg: "Staff at a logistics company volunteer for a team community project, strengthening friendships and their sense of belonging to the organisation." },
+    { term: "Drive to comprehend", def: "The emotional drive to learn, grow, solve problems and make sense of the world around us.", eg: "A software developer is highly motivated when assigned to a new project requiring them to learn a programming language they have not used before." },
+    { term: "Drive to defend", def: "The emotional drive to protect ourselves, our achievements, our values and what we believe to be fair.", eg: "Employees become disengaged when a business introduces sudden policy changes without explanation, as this threatens their sense of security and fairness." }
+  ]},
+  { cat: "2.4 Motivation Strategies", color: "amber", hot: true, items: [
+    { term: "Financial motivation strategy", def: "A strategy that uses monetary rewards to encourage employee effort and performance.", eg: "Medibank offers all customer service staff a quarterly bonus of up to $2,000 if their individual customer satisfaction scores exceed 90%." },
+    { term: "Non-financial motivation strategy", def: "A strategy that uses non-monetary rewards and working conditions to motivate employees.", eg: "A technology company offers all staff one day per week to work on self-directed projects, increasing motivation through autonomy and creativity." },
+    { term: "Remuneration", def: "The total compensation an employee receives in exchange for their work, including salary, wages and benefits.", eg: "A project manager at Linfox receives a base salary of $120,000 per year plus a company car and superannuation contributions." },
+    { term: "Performance-related pay", def: "A financial strategy where additional pay is linked directly to individual or team performance against targets.", eg: "Real estate agents at a property firm earn a 2% commission on every sale they close, creating a direct link between effort and pay." },
+    { term: "Profit sharing", def: "A financial strategy where a portion of the business&apos;s profits is distributed to employees at the end of a financial period.", eg: "Bega Cheese distributes 5% of annual net profit equally among all permanent employees, paid as a December bonus." },
+    { term: "Job enrichment", def: "A non-financial strategy where the content of a role is made more meaningful and challenging by adding greater responsibility, variety and autonomy.", eg: "A store manager at JB Hi-Fi gives a senior salesperson responsibility for mentoring new team members and selecting product displays." },
+    { term: "Recognition", def: "A non-financial strategy where employees are publicly acknowledged for outstanding performance or contribution.", eg: "Woolworths holds a national &apos;Star Awards&apos; ceremony recognising outstanding team members nominated by customers and colleagues." },
+    { term: "Career advancement opportunities", def: "A non-financial strategy where employees are offered pathways to grow, develop and be promoted within the organisation.", eg: "Commonwealth Bank&apos;s graduate program guarantees high-performing graduates a management role within five years, motivating strong effort from day one." }
+  ]},
+  { cat: "2.5 Training &amp; Development", color: "blue", hot: true, items: [
+    { term: "Training", def: "The process of teaching employees the specific skills, knowledge and behaviours required to perform their current role effectively.", eg: "New Bunnings team members complete a two-week training program covering product knowledge, safe manual handling and customer service techniques." },
+    { term: "Development", def: "Long-term investment in building employee capabilities beyond their current role, preparing them for future responsibilities.", eg: "A Qantas operations manager is enrolled in an executive leadership program to prepare them for a future senior management role." },
+    { term: "On-the-job training", def: "Training that takes place in the actual work environment, with employees learning skills while performing their duties under the guidance of an experienced colleague.", eg: "A new barista at a specialty coffee chain is trained by the head barista during real service shifts, learning to make espresso on the actual machines used daily." },
+    { term: "Off-the-job training", def: "Training that takes place away from the normal workplace, delivered by external specialists in a classroom or external facility.", eg: "All supervisors at a manufacturing company attend a two-day workplace health and safety leadership course at an external training centre." },
+    { term: "Online training (e-learning)", def: "Training delivered through digital platforms that employees can access remotely at their own pace.", eg: "All Commonwealth Bank staff complete annual anti-money laundering compliance modules through the bank&apos;s internal learning management system." }
+  ]},
+  { cat: "2.6 Performance Management", color: "pink", hot: false, items: [
+    { term: "Performance management", def: "An ongoing process of setting expectations, monitoring progress and providing feedback to ensure employees meet business goals.", eg: "Medibank conducts bi-annual performance reviews where managers and staff assess progress against KPIs set at the start of the year." },
+    { term: "Management by objectives (MBO)", def: "A performance management strategy where managers and employees jointly set specific, measurable performance goals at the beginning of a review period.", eg: "A retail store manager and each team member agree on individual sales targets, customer satisfaction scores and training completion goals for the next six months." },
+    { term: "Performance appraisal", def: "A formal, structured review of an employee&apos;s performance against agreed criteria, usually conducted annually or bi-annually.", eg: "A Linfox driver&apos;s annual appraisal covers delivery accuracy, safety record, customer feedback and professional development achievements." },
+    { term: "Key performance indicators (KPIs)", def: "Specific, measurable targets used to assess whether an employee or business is achieving its objectives.", eg: "A call centre employee&apos;s KPIs include average call handling time under 4 minutes, customer satisfaction rating above 85% and attendance above 95%." },
+    { term: "360-degree feedback", def: "A performance review process where an employee receives feedback from multiple sources including their manager, peers, direct reports and sometimes customers.", eg: "A team leader at a tech company receives structured feedback from their manager, five colleagues and three direct reports, providing a complete picture of their leadership effectiveness." }
+  ]},
+  { cat: "2.7 Termination of Employment", color: "coral", hot: true, items: [
+    { term: "Termination", def: "The ending of the employment relationship between an employer and an employee, whether voluntary or involuntary.", eg: "A business may end employment through redundancy (business reason) or the employee may resign (personal choice)." },
+    { term: "Voluntary termination", def: "When the employee chooses to end their employment, including through resignation or retirement.", eg: "A senior nurse resigns from a public hospital to move to a private practice offering better pay and flexible hours." },
+    { term: "Involuntary termination", def: "When the employer ends the employment relationship, including through dismissal or redundancy.", eg: "A retailer makes 200 casual staff redundant after closing five underperforming stores following a strategic review." },
+    { term: "Redundancy", def: "When an employee&apos;s position is no longer required because the job itself has been eliminated, not because of the employee&apos;s performance.", eg: "Qantas made ground crew positions redundant during COVID-19 when international flights were suspended indefinitely.", note: "Redundancy is about the position being gone &mdash; NOT the person. The business cannot immediately re-hire someone else into the same role." },
+    { term: "Dismissal", def: "When an employer terminates an employee&apos;s contract due to the employee&apos;s conduct or performance.", eg: "An employee is dismissed after a formal performance improvement plan fails to address repeated errors in financial reporting." },
+    { term: "Summary dismissal", def: "Immediate termination without notice due to serious misconduct that makes continued employment untenable.", eg: "A manager is summarily dismissed after being caught falsifying expense claims, which constitutes serious misconduct under the employment contract." },
+    { term: "Unfair dismissal", def: "A dismissal that is considered harsh, unjust or unreasonable, entitling the employee to apply to the Fair Work Commission for a remedy.", eg: "An employee dismissed without being given warnings or the opportunity to respond to performance concerns may successfully claim unfair dismissal." },
+    { term: "Entitlements", def: "The payments and benefits an employee is legally entitled to receive upon leaving a business, such as outstanding wages, annual leave and redundancy pay.", eg: "Under the National Employment Standards, a full-time employee made redundant after 5 years of service is entitled to 10 weeks of redundancy pay plus all accrued annual leave." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 1: Business Foundations</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px}
+h1{font-size:22px;font-weight:700;color:#26215C;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:14px}
+#search{width:100%;padding:9px 14px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:14px;outline:none;background:#fff;margin-bottom:18px}
+#search:focus{border-color:#7F77DD}
+.footer{text-align:center;font-size:11px;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+
+/* Accordion categories */
+.cat{border-radius:10px;margin-bottom:10px;overflow:hidden;border:1.5px solid}
+.cat.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.18)}
+.cat.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.15)}
+.cat.coral{border-color:#D85A30;background:rgba(240,153,123,0.12)}
+.cat.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.cat.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.cat.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+.cat.gray{border-color:#888780;background:rgba(180,178,169,0.12)}
+
+.cat-head{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none}
+.cat.purple .cat-head{background:rgba(206,203,246,0.35)}
+.cat.teal .cat-head{background:rgba(159,225,203,0.3)}
+.cat.coral .cat-head{background:rgba(240,153,123,0.25)}
+.cat.amber .cat-head{background:rgba(239,159,39,0.22)}
+.cat.blue .cat-head{background:rgba(133,183,235,0.25)}
+.cat.pink .cat-head{background:rgba(237,147,177,0.22)}
+.cat.gray .cat-head{background:rgba(180,178,169,0.22)}
+
+.cat-head-text{font-size:13px;font-weight:700;color:#1a1a18}
+.cat-head-right{display:flex;align-items:center;gap:8px}
+.cat-head-right small{font-size:11px;color:#5F5E5A}
+.cat-arrow{font-size:11px;color:#5F5E5A;transition:transform 0.2s}
+
+.cat-body{padding:0 10px 10px}
+.cat-body.collapsed{display:none}
+
+.term{border-radius:7px;margin-top:7px;background:#fff;border:1px solid #E5E3DC;overflow:hidden}
+.term-title{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#1a1a18}
+.term-title:hover{background:#F8F7F3}
+.arrow{font-size:10px;color:#888780;transition:transform 0.2s}
+.term-body{display:none;padding:10px 12px;border-top:1px solid #EDECEA;background:#FAFAF8}
+.term-body.open{display:block}
+.term-def{font-size:12px;line-height:1.65;color:#2C2C2A;margin-bottom:6px}
+.term-eg{display:block;font-size:11px;color:#085041;background:#E1F5EE;border-radius:5px;padding:5px 8px;margin-top:4px}
+.term-note{display:block;font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:5px 8px;margin-top:6px;font-style:italic}
+
+/* Hot badge */
+.hot-badge{position:relative;display:inline-flex;align-items:center;background:#E24B4A;color:#fff;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;cursor:help;white-space:nowrap;margin-right:4px}
+.hot-badge .tip{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#501313;color:#fff;font-size:11px;border-radius:6px;padding:5px 9px;width:200px;text-align:center;line-height:1.4;z-index:50;pointer-events:none}
+.hot-badge .tip::after{content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#501313}
+.hot-badge:hover .tip{display:block}
+
+/* Collapsible panel boxes */
+.box-wrap{border-radius:10px;margin-bottom:12px;overflow:visible;border:1.5px solid}
+.box-wrap.green{border-color:#5DCAA5;background:rgba(159,225,203,0.12)}
+.box-wrap.red{border-color:#D85A30;background:rgba(240,153,123,0.1)}
+.box-wrap.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.15)}
+.box-wrap.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
+.box-wrap.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
+.box-wrap.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.1)}
+.box-wrap.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
+
+.box-toggle{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:13px;font-weight:700;color:#1a1a18}
+.box-wrap.green .box-toggle{background:rgba(159,225,203,0.3);border-radius:8px 8px 0 0}
+.box-wrap.red .box-toggle{background:rgba(240,153,123,0.25);border-radius:8px 8px 0 0}
+.box-wrap.purple .box-toggle{background:rgba(206,203,246,0.35);border-radius:8px 8px 0 0}
+.box-wrap.amber .box-toggle{background:rgba(239,159,39,0.22);border-radius:8px 8px 0 0}
+.box-wrap.blue .box-toggle{background:rgba(133,183,235,0.25);border-radius:8px 8px 0 0}
+.box-wrap.teal .box-toggle{background:rgba(159,225,203,0.25);border-radius:8px 8px 0 0}
+.box-wrap.pink .box-toggle{background:rgba(237,147,177,0.22);border-radius:8px 8px 0 0}
+
+.box-body{display:none;border-top:1px solid rgba(0,0,0,0.08)}
+.box-body.open{display:block}
+.box-note{font-size:11px;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:6px 10px;margin:10px 12px 12px;font-style:italic}
+
+/* Comparison tables */
+table.ct{width:100%;border-collapse:collapse;font-size:12px}
+table.ct th{background:#3C3489;color:#fff;padding:7px 10px;text-align:left;font-size:11px;font-weight:700}
+table.ct td{padding:7px 10px;border-bottom:1px solid #EDECEA;vertical-align:top;line-height:1.5}
+table.ct tr:nth-child(even) td{background:#F8F7F3}
+table.ct tr:last-child td{border-bottom:none}
+table.ct th:first-child{border-radius:0}
+
+/* Adv/Disadv grid */
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:#fff}
+.ad-grid .adv{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:12px}
+.ad-grid .dis{background:#FAECE7;border:1px solid #D85A30;border-radius:8px;padding:12px}
+.ad-grid h3{font-size:12px;font-weight:700;margin-bottom:7px}
+.ad-grid .adv h3{color:#085041}
+.ad-grid .dis h3{color:#4A1B0C}
+.ad-grid ul{font-size:11px;line-height:1.8;padding-left:15px}
+.ad-grid .adv ul{color:#085041}
+.ad-grid .dis ul{color:#4A1B0C}
+
+/* Tags */
+.tag{display:inline-block;font-size:10px;font-weight:700;border-radius:4px;padding:1px 5px;margin-right:4px}
+.tag-g{background:#E1F5EE;color:#085041}
+.tag-r{background:#FAECE7;color:#4A1B0C}
+.tag-p{background:#EEEDFE;color:#26215C}
+
+/* Model answer */
+.model-step{background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:8px;font-size:12px;line-height:1.7;color:#1a1a18}
+.model-step strong{color:#412402}
+
+/* Section heading inside panels */
+.panel-section-title{font-size:12px;font-weight:700;color:#26215C;margin:14px 12px 6px;border-bottom:1px solid #D3D1C7;padding-bottom:4px}
+
+@media(max-width:520px){.ad-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 1</h1>
+<p class="subtitle">Business Foundations &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- ===================== COMMAND TERMS PANEL ===================== -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128270; Command terms &mdash; what each word requires</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Command term</th><th>What it means</th><th>Marks typically</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Define</strong></td><td>State the precise meaning of a term</td><td>1&ndash;2</td></tr>
+          <tr><td><strong>Describe</strong></td><td>Give a detailed account of characteristics or features</td><td>2&ndash;3</td></tr>
+          <tr><td><strong>Explain</strong></td><td>Make clear how or why &mdash; give reasons</td><td>2&ndash;4</td></tr>
+          <tr><td><strong>Discuss</strong></td><td>Give BOTH sides &mdash; advantages AND disadvantages</td><td>4&ndash;6</td></tr>
+          <tr><td><strong>Evaluate</strong></td><td>Discuss both sides AND make a judgement with justification</td><td>6&ndash;10</td></tr>
+          <tr><td><strong>Justify</strong></td><td>Give reasons that support a decision or recommendation</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Compare</strong></td><td>Show similarities AND differences between two things</td><td>3&ndash;6</td></tr>
+          <tr><td><strong>Propose</strong></td><td>Put forward a strategy or solution with reasons</td><td>3&ndash;5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Discuss = both sides. Evaluate = both sides + judgement. Confusing these two is the most common exam mistake in Business Management.</p>
+  </div>
+</div>
+
+<!-- ===================== BUSINESS TYPES COMPARISON ===================== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Types of business &mdash; comparison table</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr>
+          <th>Feature</th><th>Sole Trader</th><th>Partnership</th><th>Private Company</th><th>Public Company</th><th>Social Enterprise</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Ownership</strong></td><td>1 person</td><td>2&ndash;20 people</td><td>1&ndash;50 shareholders</td><td>Unlimited shareholders</td><td>Varies</td></tr>
+          <tr><td><strong>Liability</strong></td><td><span class="tag tag-r">risk</span>Unlimited</td><td><span class="tag tag-r">risk</span>Unlimited</td><td><span class="tag tag-g">safer</span>Limited</td><td><span class="tag tag-g">safer</span>Limited</td><td>Varies</td></tr>
+          <tr><td><strong>Setup cost</strong></td><td>Very low</td><td>Low</td><td>Moderate</td><td>High</td><td>Low&ndash;moderate</td></tr>
+          <tr><td><strong>Decision making</strong></td><td>Owner only</td><td>Shared by partners</td><td>Directors/shareholders</td><td>Board of directors</td><td>Mission-driven</td></tr>
+          <tr><td><strong>Profit motive</strong></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Reinvested in purpose</td></tr>
+          <tr><td><strong>Example</strong></td><td>Local plumber</td><td>Law firm</td><td>Family business (Pty Ltd)</td><td>Woolworths, Qantas</td><td>STREAT Hospitality</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Know the difference between limited and unlimited liability &mdash; this is a common short-answer question.</p>
+  </div>
+</div>
+
+<!-- ===================== MANAGEMENT STYLES COMPARISON ===================== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Management styles &mdash; comparison table &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Appears in nearly every VCE Business Management exam</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr>
+          <th>Feature</th><th>Autocratic</th><th>Persuasive</th><th>Consultative</th><th>Participative</th><th>Laissez-faire</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Who decides?</strong></td><td>Manager only</td><td>Manager decides, explains why</td><td>Seeks input, manager decides</td><td>Group decides together</td><td>Staff decide independently</td></tr>
+          <tr><td><strong>Communication</strong></td><td>One-way (down)</td><td>One-way + reasoning</td><td>Two-way</td><td>Two-way, collaborative</td><td>Minimal from manager</td></tr>
+          <tr><td><strong>Best used when</strong></td><td>Crisis, unskilled staff, time pressure</td><td>Staff need motivation or explanation</td><td>Experienced team, complex decisions</td><td>Highly skilled, creative staff</td><td>Expert professionals, R&amp;D teams</td></tr>
+          <tr><td><strong>Staff involvement</strong></td><td>None</td><td>Low (informed only)</td><td>Moderate (consulted)</td><td>High</td><td>Full autonomy</td></tr>
+          <tr><td><strong>Speed of decision</strong></td><td>Fast</td><td>Fast</td><td>Moderate</td><td>Slow</td><td>Variable</td></tr>
+          <tr><td><strong>Risk</strong></td><td>Low morale, high turnover</td><td>Staff feel talked at</td><td>Decisions can be slow</td><td>Conflict, groupthink</td><td>Lack of direction</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Exam questions will give you a case study scenario &mdash; always link your style choice to the specific details of the business and its situation.</p>
+  </div>
+</div>
+
+<!-- ===================== MANAGEMENT STYLES ADV/DIS ===================== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654; Management styles &mdash; advantages &amp; disadvantages</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+
+    <p class="panel-section-title">Autocratic style</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Fast decisions are made without waiting for consultation, which is valuable in a crisis or time-sensitive situation.</li>
+        <li>Clear chain of command reduces confusion about who is responsible for outcomes.</li>
+        <li>Effective with new or unskilled staff who require direct guidance to complete tasks correctly.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Low employee morale and high staff turnover because workers feel undervalued and ignored.</li>
+        <li>Reduces creativity and innovation as employees are not encouraged to contribute ideas.</li>
+        <li>Dependent on the manager being correct &mdash; poor decisions have no check from staff input.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Persuasive style</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Staff understand the reasoning behind decisions, which increases buy-in and motivation to carry them out.</li>
+        <li>Retains managerial control while improving staff engagement compared to autocratic style.</li>
+        <li>Suitable when implementing changes that staff may initially resist, as explanation reduces pushback.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Staff may feel manipulated if they sense the consultation is one-sided, reducing trust in management.</li>
+        <li>Does not make use of employee expertise &mdash; valuable insights from the workforce are ignored.</li>
+        <li>Can be time-consuming as the manager must justify every decision to employees.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Consultative style</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Draws on employee expertise and experience, which can improve the quality of decisions.</li>
+        <li>Increases staff morale and job satisfaction as employees feel their opinions are valued.</li>
+        <li>Manager retains final decision-making authority, maintaining accountability and control.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Slower decision-making process as the manager must gather and consider employee input first.</li>
+        <li>Staff may feel frustrated if their suggestions are consistently ignored after being consulted.</li>
+        <li>Requires skilled communication from the manager to consult without creating false expectations.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Participative style</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>High level of staff ownership over decisions leads to greater commitment and accountability.</li>
+        <li>Encourages creativity and innovation, making it well-suited to businesses needing new ideas.</li>
+        <li>Builds a collaborative culture that can improve team cohesion and long-term retention.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Very slow decision-making process as reaching group consensus takes significant time.</li>
+        <li>Risk of groupthink where the desire for harmony prevents critical analysis of ideas.</li>
+        <li>Unsuitable in crises or with unskilled staff who lack the knowledge to contribute meaningfully.</li>
+      </ul></div>
+    </div>
+
+    <p class="panel-section-title">Laissez-faire style</p>
+    <div class="ad-grid">
+      <div class="adv"><h3>&#43; Advantages</h3><ul>
+        <li>Maximises staff autonomy and creativity, ideal for highly skilled professionals such as researchers or designers.</li>
+        <li>Demonstrates high trust in employees, which can boost motivation and job satisfaction.</li>
+        <li>Manager is freed to focus on strategic tasks rather than day-to-day operational decisions.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Disadvantages</h3><ul>
+        <li>Lack of direction and oversight can lead to inconsistent outcomes and missed deadlines.</li>
+        <li>Ineffective with new or unskilled staff who need guidance and structure to perform well.</li>
+        <li>Accountability is unclear when problems arise, making it difficult to address performance issues.</li>
+      </ul></div>
+    </div>
+
+    <p class="box-note">&#128161; Always use the scenario details to justify your chosen style &mdash; marks are lost for generic answers that do not reference the specific business.</p>
+  </div>
+</div>
+
+<!-- ===================== MANAGEMENT SKILLS ADV/DIS ===================== -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654; Management skills &mdash; overview &amp; importance &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Commonly examined alongside management styles</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Skill</th><th>What it involves</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Interpersonal</strong></td><td>Building positive working relationships, communicating effectively with individuals and teams</td><td>Creates a motivated, cooperative workplace and reduces conflict</td></tr>
+          <tr><td><strong>Communication</strong></td><td>Clearly conveying information both verbally and in writing; active listening</td><td>Ensures staff understand goals, tasks and expectations, reducing errors</td></tr>
+          <tr><td><strong>Decision-making</strong></td><td>Identifying problems, evaluating options and selecting the best course of action</td><td>Drives effective outcomes and helps the business respond to challenges</td></tr>
+          <tr><td><strong>Delegation</strong></td><td>Assigning tasks and authority to staff while retaining overall responsibility</td><td>Frees the manager for higher-level tasks and develops employee skills</td></tr>
+          <tr><td><strong>Planning</strong></td><td>Setting goals and determining the actions required to achieve them</td><td>Provides direction and helps allocate resources efficiently</td></tr>
+          <tr><td><strong>Leadership</strong></td><td>Inspiring and influencing others toward achieving business objectives</td><td>Motivates staff and shapes the culture of the organisation</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Exams often ask you to identify a skill being demonstrated in a scenario &mdash; look for keywords like &quot;assigned tasks&quot; (delegation) or &quot;held a meeting to explain&quot; (communication).</p>
+  </div>
+</div>
+
+<!-- ===================== CORPORATE CULTURE PANEL ===================== -->
+<div class="box-wrap pink">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#127963; Corporate culture &mdash; formal vs informal &nbsp;<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">Frequently examined in both short answer and extended response</span></span></span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;padding:12px">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Formal (official) culture</th><th>Informal (real) culture</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Definition</strong></td><td>The intended culture expressed through official documents, policies and mission statements</td><td>The actual culture that develops through day-to-day behaviour, norms and unwritten rules</td></tr>
+          <tr><td><strong>Examples</strong></td><td>Staff code of conduct, vision statement, organisational chart</td><td>Lunchroom habits, unofficial hierarchies, how staff actually treat each other</td></tr>
+          <tr><td><strong>Shaped by</strong></td><td>Senior management and HR policies</td><td>Shared experiences, stories, role models within the team</td></tr>
+          <tr><td><strong>Visibility</strong></td><td>Visible &mdash; written and communicated explicitly</td><td>Often invisible &mdash; assumed and rarely stated</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ad-grid" style="margin:0 12px 12px">
+      <div class="adv"><h3>&#43; Strong culture benefits</h3><ul>
+        <li>Increases staff motivation and engagement as employees share common values and purpose.</li>
+        <li>Reduces need for close supervision as behaviour is guided by shared norms.</li>
+        <li>Attracts talent who align with the values, improving recruitment and retention.</li>
+      </ul></div>
+      <div class="dis"><h3>&#8722; Weak or toxic culture risks</h3><ul>
+        <li>High staff turnover and absenteeism as employees feel disconnected or undervalued.</li>
+        <li>Resistance to change when a negative informal culture conflicts with new management direction.</li>
+        <li>Can damage brand reputation if toxic culture becomes public knowledge.</li>
+      </ul></div>
+    </div>
+    <p class="box-note">&#128161; Exams may show a gap between formal and informal culture &mdash; identify BOTH and explain the impact on the business.</p>
+  </div>
+</div>
+
+<!-- ===================== MODEL ANSWER STRUCTURE ===================== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Model answer structure &mdash; discuss/evaluate a management style</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="padding:12px">
+      <div style="background:#FAEEDA;border-left:4px solid #BA7517;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">
+        <p style="font-size:12px;font-weight:700;color:#412402">Sample question: Discuss the use of the autocratic management style at Metro Cafe. (4 marks)</p>
+      </div>
+      <div class="model-step"><strong>Step 1 &mdash; Define the term:</strong> The autocratic management style is an approach where the manager makes all decisions independently, without seeking input from employees.</div>
+      <div class="model-step"><strong>Step 2 &mdash; Advantage + link to scenario:</strong> This style would benefit Metro Cafe as it allows the owner to make quick decisions during busy service periods without waiting for staff input, maintaining efficiency in a fast-paced environment.</div>
+      <div class="model-step"><strong>Step 3 &mdash; Disadvantage + link to scenario:</strong> However, using this style consistently may lower staff morale at Metro Cafe, as experienced baristas and chefs may feel their expertise is not valued, potentially leading to higher turnover.</div>
+      <div class="model-step" style="background:#EEEDFE;border-left-color:#7F77DD"><strong>Step 4 &mdash; Conclusion (for evaluate/justify questions only):</strong> Overall, the autocratic style is only appropriate for Metro Cafe in short-term crisis situations. For everyday operations, a consultative approach would better utilise staff experience and improve retention.</div>
+    </div>
+    <p class="box-note">&#128161; Step 4 is only required for &quot;evaluate&quot; or &quot;justify&quot; questions, not &quot;discuss&quot;. A conclusion without a judgement still loses marks on an evaluate question.</p>
+  </div>
+</div>
+
+<!-- ===================== TERMS ACCORDION ===================== -->
+<div id="list"></div>
+
+<p class="footer">VCE Business Management &mdash; Topic 1 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var data = [
+  { cat: "1.2 Types of Businesses", color: "purple", hot: false, items: [
+    { term: "Sole trader", def: "A business owned and operated by one person who has unlimited personal liability for all debts.", eg: "A local electrician who operates under their own ABN and employs two apprentices.", note: "Unlimited liability means personal assets (car, house) can be seized to pay business debts." },
+    { term: "Partnership", def: "A business structure owned by 2 to 20 people who share profits, losses and management responsibilities.", eg: "Two architects who form a firm together and split profits 60/40 as agreed in their partnership agreement." },
+    { term: "Private company (Pty Ltd)", def: "A company with 1 to 50 shareholders where shares cannot be offered to the general public. Shareholders have limited liability.", eg: "Bega Cheese began as a private company before listing on the ASX. A family-owned manufacturer with 10 shareholders.", note: "Limited liability = shareholders can only lose what they invested, not personal assets." },
+    { term: "Public company (Ltd)", def: "A company that can offer shares to the general public through a stock exchange. Has unlimited shareholders and limited liability.", eg: "Woolworths Group Ltd and Qantas Airways Ltd are listed on the ASX and owned by thousands of shareholders." },
+    { term: "Social enterprise", def: "A business that operates primarily to achieve a social, environmental or community purpose, reinvesting profits back into that mission.", eg: "STREAT Hospitality in Melbourne trains homeless youth as baristas and chefs, reinvesting cafe profits into support programs." },
+    { term: "Government business enterprise (GBE)", def: "A business owned and operated by the government that provides essential services, sometimes competing with private businesses.", eg: "Australia Post is a government-owned enterprise that provides postal and parcel delivery services nationally." },
+    { term: "Limited liability", def: "A legal protection where a shareholder can only lose the amount they invested in a company and cannot be personally sued for company debts.", eg: "If Qantas goes into debt, a shareholder who paid $5 per share can lose at most that $5 &mdash; their house is protected.", note: "Only companies (Pty Ltd and Ltd) have limited liability. Sole traders and partners do NOT." },
+    { term: "Unlimited liability", def: "A legal obligation where the business owner is personally responsible for all debts of the business, including with their own personal assets.", eg: "A sole trader cafe owner whose business fails may have their car or savings seized to pay supplier debts." }
+  ]},
+  { cat: "1.3 Business Objectives", color: "teal", hot: false, items: [
+    { term: "Business objective", def: "A specific goal or target that a business aims to achieve, which guides its decision-making and strategy.", eg: "JB Hi-Fi has an objective to increase market share by 5% in the next financial year through competitive pricing." },
+    { term: "Profit maximisation", def: "The objective of earning the highest possible profit by maximising revenue and minimising costs.", eg: "A private accounting firm sets a target of increasing net profit by 15% by reducing administration costs." },
+    { term: "Market share", def: "The percentage of total industry sales held by one business, used as a measure of competitive position.", eg: "Woolworths holds approximately 37% of the Australian supermarket market, making it the market leader." },
+    { term: "Growth", def: "The objective of expanding the business through increased sales, new products, new markets or acquisitions.", eg: "Linfox expanded its logistics operations into Southeast Asia, growing from an Australian company into a regional one." },
+    { term: "Social objectives", def: "Goals related to contributing positively to the community, environment or society beyond making profit.", eg: "Commonwealth Bank sets a social objective to increase financial literacy programs delivered in schools each year." },
+    { term: "Corporate social responsibility (CSR)", def: "A business approach where a company takes responsibility for the impact of its actions on employees, communities and the environment.", eg: "Bunnings donates excess building materials to community projects and sources timber from certified sustainable suppliers." }
+  ]},
+  { cat: "1.4 Stakeholders", color: "coral", hot: true, items: [
+    { term: "Stakeholder", def: "Any individual or group that has an interest in or is affected by the decisions and activities of a business.", eg: "For Qantas, stakeholders include shareholders, employees, customers, suppliers, the government and local communities near airports.", note: "Know the difference between internal stakeholders (inside the business) and external stakeholders (outside)." },
+    { term: "Internal stakeholders", def: "Groups or individuals who are part of the business and directly involved in its day-to-day operations.", eg: "At Medibank, internal stakeholders include the CEO, managers, employees and the board of directors." },
+    { term: "External stakeholders", def: "Groups or individuals outside the business who are affected by or have an interest in its activities.", eg: "For a Woolworths supermarket, external stakeholders include customers, suppliers, the local council and nearby residents." },
+    { term: "Shareholders", def: "Owners of a company who have purchased shares and expect a financial return in the form of dividends and capital growth.", eg: "A retiree who holds 500 Telstra shares expects regular dividend payments and hopes the share price will rise over time." },
+    { term: "Conflicting stakeholder interests", def: "A situation where the goals of one stakeholder group are incompatible with those of another, requiring management to find a balance.", eg: "Shareholders of a mining company want to maximise profits by cutting costs, while the local community wants the company to fund environmental rehabilitation.", note: "Exams often ask you to identify a conflict between two stakeholder groups and explain how the business could respond." }
+  ]},
+  { cat: "1.5 Management Styles", color: "amber", hot: true, items: [
+    { term: "Management style", def: "The approach or manner in which a manager makes decisions, communicates with staff and exercises authority.", eg: "The founder of a small startup uses a participative style, holding weekly team meetings where all staff vote on product features.", note: "No single style is best in all situations &mdash; the right style depends on the staff, task and context." },
+    { term: "Autocratic style", def: "A management approach where the manager makes all decisions alone, without consulting or involving staff.", eg: "During a kitchen fire at Metro Cafe, the manager immediately directs all staff to evacuate &mdash; no discussion needed." },
+    { term: "Persuasive style", def: "A management approach where the manager makes decisions independently but explains and sells the reasoning to staff to gain their support.", eg: "The CEO of a logistics company announces a new rostering system and holds a meeting to explain how it will reduce overtime costs and benefit staff work-life balance." },
+    { term: "Consultative style", def: "A management approach where the manager seeks the opinions and ideas of staff before making a final decision alone.", eg: "A store manager at JB Hi-Fi asks experienced sales staff for their views on a new commission structure before deciding whether to implement it." },
+    { term: "Participative style", def: "A management approach where the manager and all staff share in the decision-making process, with decisions made collectively.", eg: "An architectural firm holds a full-team workshop where all designers vote on which projects to pursue for the next quarter." },
+    { term: "Laissez-faire style", def: "A management approach where staff are given full freedom to make their own decisions, with the manager providing minimal direction or oversight.", eg: "A research and development team at a pharmaceutical company is given a six-month brief with no daily check-ins &mdash; the scientists determine their own methods and schedule." }
+  ]},
+  { cat: "1.6 Management Skills", color: "blue", hot: true, items: [
+    { term: "Management skill", def: "An ability or competency that enables a manager to perform their role effectively and achieve business objectives.", eg: "A Bunnings store manager uses planning skills to ensure sufficient stock is ordered before a public holiday weekend." },
+    { term: "Interpersonal skills", def: "The ability to build positive relationships, work effectively with others and manage workplace dynamics.", eg: "A manager at Commonwealth Bank mediates a dispute between two team members, helping them reach a resolution that satisfies both." },
+    { term: "Communication skills", def: "The ability to convey information clearly in written and verbal form and to actively listen to others.", eg: "A production manager at Bega Cheese holds a morning briefing to ensure all line workers understand their daily targets and any safety updates." },
+    { term: "Decision-making skills", def: "The ability to identify a problem, evaluate available options and select the most appropriate course of action.", eg: "The CEO of Linfox decides to invest in electric trucks after analysing cost, emissions targets and long-term fuel price projections." },
+    { term: "Delegation skills", def: "The ability to assign tasks and responsibility to employees while retaining overall accountability for outcomes.", eg: "A cafe owner delegates the weekly stock ordering to a trusted senior employee, freeing the owner to focus on menu development." },
+    { term: "Planning skills", def: "The ability to set clear goals and develop the strategies, timelines and resources needed to achieve them.", eg: "A retail manager creates a staffing and promotional plan for the Christmas trading period three months in advance." },
+    { term: "Leadership skills", def: "The ability to inspire, motivate and guide employees toward achieving the goals of the organisation.", eg: "During a period of organisational change, the CEO of Medibank holds town halls with staff to articulate the vision and address concerns, maintaining morale." }
+  ]},
+  { cat: "1.7 Corporate Culture", color: "pink", hot: true, items: [
+    { term: "Corporate culture", def: "The shared values, beliefs, attitudes, norms and practices that characterise the way people behave within an organisation.", eg: "At Google, a culture of innovation means employees are expected to experiment, take risks and share ideas freely, regardless of their seniority.", note: "Culture can be a major competitive advantage &mdash; it is hard for rivals to copy." },
+    { term: "Formal culture", def: "The intended organisational culture that is deliberately created and communicated through official policies, vision statements and codes of conduct.", eg: "Woolworths publishes a formal code of conduct requiring staff to treat customers with respect, which is part of its intended customer-first culture." },
+    { term: "Informal culture", def: "The actual culture that develops naturally through shared experiences, unwritten norms and the behaviour of influential individuals within the business.", eg: "Despite a formal policy of open communication, the informal culture at a law firm is that junior staff never question senior partners in meetings." },
+    { term: "Symbols", def: "Objects, images or actions that represent the values and identity of an organisation and reinforce its culture.", eg: "The open-plan office layout at a tech startup symbolises collaboration and equality, reinforcing a flat management culture." },
+    { term: "Rituals and ceremonies", def: "Regular events or practices that reinforce shared values and strengthen the sense of belonging within an organisation.", eg: "Linfox holds an annual employee recognition dinner where long-serving staff are publicly acknowledged, reinforcing a culture of loyalty." },
+    { term: "Heroes", def: "Individuals within the organisation who are celebrated because they embody its values and serve as role models for others.", eg: "A customer service manager who resolved a major client complaint single-handedly becomes an informal hero at the business, reinforcing the value of going above and beyond." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

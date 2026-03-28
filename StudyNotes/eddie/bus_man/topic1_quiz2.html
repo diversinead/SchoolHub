@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 1 Quiz 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#26215C;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#7F77DD;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}
+.score-great h2{color:#085041}
+.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}
+.score-ok h2{color:#412402}
+.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}
+.score-low h2{color:#4A1B0C}
+.score-low p{color:#712B13}
+
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}
+.q-card.incorrect{border-color:#D85A30}
+.q-card.revealed{border-color:#AFA9EC}
+
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}
+.type-sa{background:#EEEDFE;color:#26215C}
+.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#7F77DD;background:#F8F7FF}
+.mc-opt.selected{border-color:#7F77DD;background:#EEEDFE;color:#26215C}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}
+.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#7F77DD;background:#EEEDFE}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}
+.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}
+.mc-opt.selected .opt-letter{color:#26215C}
+
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#7F77DD}
+.write-area.er-area{min-height:140px}
+
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#7F77DD;color:#fff}
+.btn-check:hover{background:#534AB7}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}
+.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+
+.score-tracker{position:sticky;top:8px;z-index:10;background:#26215C;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#26215C;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#3C3489}
+
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 1 Quiz 2</h1>
+<p class="subtitle">Business Foundations &middot; 15 questions &middot; Mixed format &middot; Different areas from Quiz 1</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+
+<div id="score-banner"></div>
+
+<!-- ==================== Q1 ==================== -->
+<div class="q-card" id="qc1">
+  <div class="q-meta">
+    <span class="q-num">Question 1</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following is a characteristic of a SOLE TRADER business structure?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>The owner has limited liability for all business debts</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Ownership is shared between 2 and 20 people</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>The owner has unlimited personal liability for all business debts</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Shares can be offered to the general public on a stock exchange</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk1" onclick="checkMC(1,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: C</strong>
+    A sole trader has unlimited personal liability, meaning the owner is personally responsible for all business debts. Their personal assets (home, car, savings) can be seized to repay creditors. Option A describes a company structure (limited liability). Option B describes a partnership. Option D describes a public company listed on the ASX.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q2 ==================== -->
+<div class="q-card" id="qc2">
+  <div class="q-meta">
+    <span class="q-num">Question 2</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A manager wants to implement a new customer service policy. She calls a meeting and explains the reasoning and benefits of the change to her team, but does not ask for their input or change the policy based on their reactions. Which management style is she using?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Autocratic</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Consultative</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Persuasive</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Participative</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk2" onclick="checkMC(2,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: C &mdash; Persuasive</strong>
+    The persuasive style involves the manager making a decision independently and then explaining the reasoning to staff to gain their buy-in &mdash; without opening the decision to input or change. Autocratic (A) does not involve any explanation. Consultative (B) involves genuinely seeking staff input before deciding. Participative (D) involves shared decision-making. The key clue here is that she explains the reasons but does not ask for or use any feedback.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q3 ==================== -->
+<div class="q-card" id="qc3">
+  <div class="q-meta">
+    <span class="q-num">Question 3</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following is an EXTERNAL stakeholder of a supermarket chain?</p>
+  <div class="mc-options" id="mc3">
+    <div class="mc-opt" onclick="selectMC(this,'mc3','A')"><span class="opt-letter">A</span>The store manager</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','B')"><span class="opt-letter">B</span>A full-time checkout operator</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','C')"><span class="opt-letter">C</span>The board of directors</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc3','D')"><span class="opt-letter">D</span>A fresh produce supplier</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk3" onclick="checkMC(3,'D')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans3">
+    <strong>&#10003; Correct answer: D &mdash; A fresh produce supplier</strong>
+    External stakeholders are individuals or groups outside the business who are affected by its activities. A supplier is external &mdash; they are not employed by the supermarket but are directly affected by its purchasing decisions. The store manager (A), checkout operator (B) and board of directors (C) are all internal stakeholders because they work within the business.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q4 ==================== -->
+<div class="q-card" id="qc4">
+  <div class="q-meta">
+    <span class="q-num">Question 4</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following management styles involves the HIGHEST level of staff participation in decision-making?</p>
+  <div class="mc-options" id="mc4">
+    <div class="mc-opt" onclick="selectMC(this,'mc4','A')"><span class="opt-letter">A</span>Persuasive</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','B')"><span class="opt-letter">B</span>Consultative</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','C')"><span class="opt-letter">C</span>Laissez-faire</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc4','D')"><span class="opt-letter">D</span>Participative</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk4" onclick="checkMC(4,'D')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans4">
+    <strong>&#10003; Correct answer: D &mdash; Participative</strong>
+    The participative style involves the manager and all staff making decisions together as a group &mdash; this is the highest level of staff involvement in decision-making. Persuasive (A) has no staff input. Consultative (B) seeks input but the manager still decides alone. Laissez-faire (C) gives staff autonomy but is more about independence than collaborative participation in shared decisions.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q5 ==================== -->
+<div class="q-card" id="qc5">
+  <div class="q-meta">
+    <span class="q-num">Question 5</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">STREAT Hospitality trains homeless youth as baristas and reinvests its cafe profits into support programs. Which type of business is STREAT Hospitality?</p>
+  <div class="mc-options" id="mc5">
+    <div class="mc-opt" onclick="selectMC(this,'mc5','A')"><span class="opt-letter">A</span>Public company</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','B')"><span class="opt-letter">B</span>Government business enterprise</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','C')"><span class="opt-letter">C</span>Partnership</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','D')"><span class="opt-letter">D</span>Social enterprise</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk5" onclick="checkMC(5,'D')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans5">
+    <strong>&#10003; Correct answer: D &mdash; Social enterprise</strong>
+    A social enterprise operates primarily to achieve a social or community purpose and reinvests profits back into that mission. STREAT&apos;s primary purpose is supporting homeless youth (social purpose) and it reinvests cafe profits into programs &mdash; both hallmarks of a social enterprise. It is not government-owned (B), not a partnership (C), and not a public company listed on a stock exchange (A).
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q6 ==================== -->
+<div class="q-card" id="qc6">
+  <div class="q-meta">
+    <span class="q-num">Question 6</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A manager who sets clear goals, creates a 12-month operational plan and allocates resources across departments before the financial year begins is primarily demonstrating which management skill?</p>
+  <div class="mc-options" id="mc6">
+    <div class="mc-opt" onclick="selectMC(this,'mc6','A')"><span class="opt-letter">A</span>Interpersonal skills</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','B')"><span class="opt-letter">B</span>Decision-making</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','C')"><span class="opt-letter">C</span>Planning</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc6','D')"><span class="opt-letter">D</span>Delegation</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-check" id="chk6" onclick="checkMC(6,'C')">Check answer</button>
+  </div>
+  <div class="answer-box" id="ans6">
+    <strong>&#10003; Correct answer: C &mdash; Planning</strong>
+    Planning is the skill of setting goals and determining the strategies, timelines and resources needed to achieve them. Setting goals, creating a 12-month plan and allocating resources ahead of time is a textbook example of planning. Decision-making (B) involves selecting between options when a problem arises. Delegation (D) involves assigning tasks to others. Interpersonal (A) involves relationship management.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- ==================== Q7 ==================== -->
+<div class="q-card" id="qc7">
+  <div class="q-meta">
+    <span class="q-num">Question 7</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Distinguish between a private company (Pty Ltd) and a public company (Ltd). In your answer, refer to ONE similarity and ONE difference.</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both private and public companies provide shareholders with limited liability, meaning shareholders can only lose the amount they invested and their personal assets cannot be seized to repay company debts.<br><br>
+    <strong>Difference (1 mark):</strong> A key difference is ownership and access to capital. A private company (Pty Ltd) is restricted to a maximum of 50 shareholders and cannot offer shares to the general public, whereas a public company (Ltd) can have unlimited shareholders and raise capital by listing on a stock exchange such as the ASX and offering shares to the public.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct and relevant similarity. 1 mark for a correct and clearly stated difference. Vague answers such as &quot;they are both companies&quot; earn no mark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q8 ==================== -->
+<div class="q-card" id="qc8">
+  <div class="q-meta">
+    <span class="q-num">Question 8</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Marcus manages a team of 12 retail staff at a large Bunnings store. He recently introduced a new stock management process that requires staff to complete additional paperwork after each stock delivery. Several staff members have complained that the process is unnecessary and have asked to be involved in finding a better solution. Marcus acknowledges their concerns but always makes the final call himself after listening to their suggestions.</p>
+  <p class="q-text">Identify the management style Marcus is using. Outline ONE advantage and ONE disadvantage of this style for Marcus&apos;s team. (3 marks)</p>
+  <textarea class="write-area" id="wa8" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(8)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans8">
+    <strong>&#128221; Model answer</strong>
+    <strong>Identify (1 mark):</strong> Marcus is using the <strong>consultative</strong> management style. He listens to and acknowledges staff input, but retains final decision-making authority for himself.<br><br>
+    <strong>Advantage (1 mark):</strong> The consultative style increases staff morale and engagement at Bunnings because team members feel their opinions are valued and considered, even though Marcus makes the final decision. This is likely to reduce complaints and improve cooperation with the new stock process.<br><br>
+    <strong>Disadvantage (1 mark):</strong> A disadvantage is that the consultative style can slow down decision-making, as Marcus must gather and consider staff feedback before acting. In a busy retail environment where stock processes need to operate efficiently, this delay could be disruptive during high-demand periods.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly identifying consultative. 1 mark for a relevant advantage linked to the scenario. 1 mark for a relevant disadvantage linked to the scenario. Generic advantages and disadvantages not linked to the Bunnings scenario earn half marks only.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q9 ==================== -->
+<div class="q-card" id="qc9">
+  <div class="q-meta">
+    <span class="q-num">Question 9</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain what is meant by a &apos;conflicting stakeholder interest&apos; and provide a realistic Australian business example.</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    <strong>Explanation (1 mark):</strong> A conflicting stakeholder interest occurs when the goals or interests of one stakeholder group are incompatible with those of another, creating a situation where satisfying one group comes at a cost to another.<br><br>
+    <strong>Example (1 mark):</strong> At Woolworths, shareholders want the business to maximise profit by keeping labour costs low and limiting staff hours. However, employees want adequate hours and fair wages to support their livelihoods. If Woolworths cuts staff hours to boost profit margins, it benefits shareholders but directly harms the financial wellbeing of its workforce &mdash; a clear conflict between two internal stakeholder groups.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct explanation of conflicting stakeholder interests. 1 mark for a relevant and specific Australian business example that clearly identifies two stakeholder groups with incompatible interests. A vague example with no named business earns a maximum of half marks.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q10 ==================== -->
+<div class="q-card" id="qc10">
+  <div class="q-meta">
+    <span class="q-num">Question 10</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-text">Compare the autocratic and participative management styles. In your answer, identify ONE similarity and TWO differences between them. (3 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both the autocratic and participative styles involve a manager who holds formal authority over their team and is ultimately responsible for the outcomes of decisions made within the business.<br><br>
+    <strong>Difference 1 (1 mark):</strong> In the autocratic style, the manager makes all decisions independently without any staff input, while in the participative style, decisions are made collectively by the manager and all team members together. Staff have no voice in autocratic management but have full voice in participative management.<br><br>
+    <strong>Difference 2 (1 mark):</strong> The autocratic style produces fast decisions, making it suitable for crisis situations or when managing unskilled staff. The participative style produces slower decisions due to the time required to reach group consensus, making it more suitable for highly skilled or creative teams where buy-in and quality of ideas matter more than speed.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a valid similarity. 1 mark each for two clearly contrasted differences. Simply listing features of each style separately without drawing a comparison earns no mark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q11 ==================== -->
+<div class="q-card" id="qc11">
+  <div class="q-meta">
+    <span class="q-num">Question 11</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain how a strong corporate culture can benefit a business. Provide ONE specific example in your answer. (2 marks)</p>
+  <textarea class="write-area" id="wa11" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(11)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans11">
+    <strong>&#128221; Model answer</strong>
+    <strong>Explanation (1 mark):</strong> A strong corporate culture benefits a business by aligning the values and behaviours of all employees without the need for constant supervision or detailed rules. When staff share common values, they are more motivated, more consistent in their conduct, and more likely to act in the business&apos;s best interests without being told to.<br><br>
+    <strong>Example (1 mark):</strong> At Google, a strong culture of innovation and psychological safety means employees proactively experiment and share new ideas without fear of failure. This culture-driven behaviour has produced major products that management alone could not have generated, demonstrating how culture directly drives business performance and competitive advantage.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a correct explanation of how strong culture benefits a business (must go beyond &quot;it makes staff happy&quot;). 1 mark for a specific, relevant example that illustrates the benefit described.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q12 ==================== -->
+<div class="q-card" id="qc12">
+  <div class="q-meta">
+    <span class="q-num">Question 12</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain the difference between a business&apos;s profit maximisation objective and its social objectives. Why might these two objectives sometimes conflict? (2 marks)</p>
+  <textarea class="write-area" id="wa12" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Distinction (1 mark):</strong> Profit maximisation is the objective of earning the highest possible financial return by maximising revenue and minimising costs. Social objectives, by contrast, are goals related to contributing positively to the community, environment or society, often at some financial cost to the business.<br><br>
+    <strong>Why they conflict (1 mark):</strong> These objectives conflict because actions that improve social outcomes often increase costs and reduce profit. For example, a business that sources ethically certified materials, funds community programs or reduces its carbon footprint will typically spend more than a competitor that ignores these responsibilities &mdash; meaning social commitment and short-term profit maximisation pull in opposite directions.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly explaining both objectives and their distinction. 1 mark for a logical explanation of why they conflict, ideally with an example or reasoning that goes beyond &quot;they cost money.&quot;</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q13 ==================== -->
+<div class="q-card" id="qc13">
+  <div class="q-meta">
+    <span class="q-num">Question 13</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">4 marks</span>
+  </div>
+  <p class="q-scenario">Silvana is the newly appointed CEO of a mid-sized transport company with 80 employees. After reviewing staff survey results, she discovers that morale is low, experienced staff feel their ideas are never heard, and several high performers have recently resigned. The previous CEO used an autocratic management style exclusively.</p>
+  <p class="q-text">Recommend a more appropriate management style for Silvana to adopt and justify your recommendation by referring to the specific circumstances of the business. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa13" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Recommendation (1 mark):</strong> Silvana should adopt a <strong>consultative</strong> management style going forward.<br><br>
+    <strong>Justify reason 1 (1 mark):</strong> The consultative style involves the manager seeking staff input and opinions before making decisions, while retaining final authority. This directly addresses the core problem at the transport company &mdash; experienced employees feel their ideas are never heard. By actively consulting staff, Silvana demonstrates that their expertise is valued, which is likely to improve morale and reduce the frustration that has driven high performers to resign.<br><br>
+    <strong>Justify reason 2 (1 mark):</strong> The consultative style also allows Silvana to draw on the practical knowledge of 80 employees to make better-informed operational decisions. In a transport business, frontline staff often have the best understanding of route inefficiencies, scheduling issues and customer needs &mdash; insights that were wasted under the autocratic approach.<br><br>
+    <strong>Acknowledge limitation (1 mark):</strong> While a fully participative style might seem appealing, it would slow decision-making significantly in an 80-person business and may not suit all operational decisions. The consultative approach strikes the right balance &mdash; improving staff engagement and information quality without sacrificing the speed and clarity of managerial authority that a transport operation requires.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for a clear recommendation with the style named. 2 marks for two well-reasoned justifications linked to the specific scenario details (low morale, unheard staff, resignations). 1 mark for acknowledging a limitation of the recommended style or comparing it to an alternative, demonstrating evaluative thinking.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q14 ==================== -->
+<div class="q-card" id="qc14">
+  <div class="q-meta">
+    <span class="q-num">Question 14</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">4 marks</span>
+  </div>
+  <p class="q-scenario">Harbour Lane is a boutique hotel with 35 staff. The owner has observed that while the hotel&apos;s written values emphasise &quot;warmth, inclusion and going above and beyond for guests&quot;, the actual day-to-day behaviour of staff tells a different story: new employees are quickly discouraged from showing initiative by more senior staff who say &quot;that&apos;s not how we do things here.&quot; Guest satisfaction scores have been declining for six months.</p>
+  <p class="q-text">Using the concepts of formal and informal corporate culture, explain the problem facing Harbour Lane and suggest ONE strategy the owner could use to address it. (4 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Explain formal culture (1 mark):</strong> Harbour Lane&apos;s <strong>formal culture</strong> &mdash; the intended culture expressed through its official written values of warmth, inclusion and going above and beyond &mdash; promotes proactive, guest-focused behaviour. This is the culture the owner wants and has communicated explicitly.<br><br>
+    <strong>Explain informal culture and the gap (1 mark):</strong> However, the <strong>informal culture</strong> that has actually developed among staff is one of conformity and resistance to initiative. Senior staff actively discourage new employees from showing the very behaviour the formal values endorse, creating a significant gap between what the business says it values and how people actually behave. This informal culture is invisible in policy documents but shapes daily conduct far more powerfully than the written values.<br><br>
+    <strong>Link to guest satisfaction decline (1 mark):</strong> This gap explains the declining guest satisfaction scores. Guests experience the informal culture &mdash; the actual behaviour of staff &mdash; not the values printed in the hotel&apos;s brochure. When new, enthusiastic staff are silenced by informal norms, service becomes formulaic rather than warm and personalised, directly contradicting the formal values and disappointing guests.<br><br>
+    <strong>Strategy (1 mark):</strong> The owner should actively reshape the informal culture by publicly recognising and rewarding staff who demonstrate initiative and go above and beyond for guests. When senior staff see that the informal norm of discouraging initiative is not aligned with how the business actually rewards behaviour, the informal culture will gradually shift to match the formal values.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark for correctly applying formal culture to the scenario. 1 mark for correctly applying informal culture and identifying the gap. 1 mark for linking the culture gap to the declining guest satisfaction scores. 1 mark for a practical, relevant strategy to address the informal culture problem.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q15 ==================== -->
+<div class="q-card" id="qc15">
+  <div class="q-meta">
+    <span class="q-num">Question 15</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">6 marks</span>
+  </div>
+  <p class="q-scenario">Pinnacle Constructions is a mid-sized building company. Its shareholders are pushing for the business to maximise profit by taking on more contracts and extending working hours. However, the local community is concerned about noise and disruption from weekend work, and several employees have raised safety concerns about being expected to work longer shifts without adequate rest. The local council has recently written to Pinnacle warning that it may review the company&apos;s operating permits if community complaints continue.</p>
+  <p class="q-text">Evaluate the extent to which Pinnacle Constructions can satisfy the interests of ALL its stakeholders in this situation. In your response, identify at least THREE stakeholder groups and discuss the tensions between their interests. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for at least 3 well-developed paragraphs."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button>
+  </div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>Introduction &mdash; stakeholder overview (1 mark):</strong> Pinnacle Constructions faces competing demands from at least four stakeholder groups: shareholders, employees, the local community and the local council. Each group has legitimate but incompatible interests, making it extremely difficult for the business to fully satisfy all of them simultaneously.<br><br>
+    <strong>Shareholders vs employees (1 mark):</strong> Shareholders want Pinnacle to maximise profit by taking on more contracts and extending working hours. Employees, however, are raising safety concerns about longer shifts without adequate rest. These interests are directly opposed: satisfying shareholders by increasing output comes at a direct cost to employee health, safety and wellbeing. Pinnacle cannot extend hours to boost profit without exacerbating the very safety risks its workforce has flagged.<br><br>
+    <strong>Shareholders vs local community (1 mark):</strong> Weekend and extended construction work that pleases shareholders by increasing throughput generates noise and disruption that harms the local community&apos;s quality of life. The community has a legitimate interest in living without excessive disturbance, while shareholders have an equally legitimate interest in the financial returns that extended work hours can deliver.<br><br>
+    <strong>Government/council as regulator (1 mark):</strong> The local council&apos;s warning about operating permits introduces a regulatory dimension that overrides some of the other interests. If Pinnacle continues to ignore community concerns, it risks losing the permits required to operate at all &mdash; which would harm shareholders far more than temporarily restraining work hours. This demonstrates that the council&apos;s interest, while external, has the power to constrain every other stakeholder group&apos;s outcomes.<br><br>
+    <strong>Can all interests be satisfied? (1 mark):</strong> It is not possible for Pinnacle to fully satisfy all stakeholder interests simultaneously. Every option involves a trade-off: restricting hours satisfies employees, the community and the council but disappoints shareholders; extending hours satisfies shareholders but endangers employees and the operating licence. The business must prioritise, and the council&apos;s warning suggests that regulatory compliance and community relations must take precedence over short-term profit.<br><br>
+    <strong>Justified conclusion (1 mark):</strong> Overall, Pinnacle Constructions cannot satisfy all its stakeholders equally in this situation. The most strategically sound approach is to restrict weekend work and address employee safety concerns &mdash; accepting a short-term reduction in profit to protect the operating licence and workforce. While this will frustrate shareholders, the alternative &mdash; losing permits and facing potential workplace injury claims &mdash; would be far more damaging to the business&apos;s long-term profitability and reputation. Managing stakeholder conflict requires prioritising those whose concerns carry the greatest legal, regulatory or operational consequence.
+    <div class="mark-scheme">
+      <p><strong>Mark scheme:</strong> 1 mark &mdash; correctly identifies 3+ stakeholder groups with their interests described. 1 mark each for 2 clearly explained tensions between specific stakeholder pairs (2 marks). 1 mark &mdash; discusses the council/regulatory dimension and its power over other interests. 1 mark &mdash; directly addresses whether all interests can be satisfied (must say no with reasoning). 1 mark &mdash; justified conclusion that recommends a course of action and explains the trade-off.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FINISH BUTTON ===== -->
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#26215C;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 1 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers = {};
+var mcCorrectCount = 0;
+var totalAnswered = 0;
+
+function selectMC(el, groupId, letter) {
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  var opts = document.getElementById(groupId).querySelectorAll(".mc-opt");
+  for (var i = 0; i < opts.length; i++) { opts[i].classList.remove("selected"); }
+  el.classList.add("selected");
+  if (!mcAnswers[groupId]) mcAnswers[groupId] = {};
+  mcAnswers[groupId].selected = letter;
+}
+
+function checkMC(qNum, correctLetter) {
+  var groupId = "mc" + qNum;
+  var group = document.getElementById(groupId);
+  if (!group) return;
+  var selected = mcAnswers[groupId] ? mcAnswers[groupId].selected : null;
+  if (!selected) { alert("Please select an answer first."); return; }
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  mcAnswers[groupId].locked = true;
+  var opts = group.querySelectorAll(".mc-opt");
+  var letters = ["A","B","C","D"];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("disabled");
+    if (letters[i] === correctLetter) { opts[i].classList.add("opt-correct"); }
+    else if (letters[i] === selected) { opts[i].classList.add("opt-wrong"); }
+  }
+  var ansBox = document.getElementById("ans" + qNum);
+  ansBox.classList.add("open");
+  var isCorrect = (selected === correctLetter);
+  ansBox.classList.add(isCorrect ? "ans-correct" : "ans-wrong");
+  document.getElementById("qc" + qNum).classList.add(isCorrect ? "correct" : "incorrect");
+  var chkBtn = document.getElementById("chk" + qNum);
+  chkBtn.classList.add("btn-disabled");
+  chkBtn.disabled = true;
+  chkBtn.innerHTML = isCorrect ? "&#10003; Correct!" : "&#10007; Incorrect";
+  if (isCorrect) mcCorrectCount++;
+  totalAnswered++;
+  updateProgress();
+}
+
+function revealAnswer(qNum) {
+  var ansBox = document.getElementById("ans" + qNum);
+  if (ansBox.classList.contains("open")) return;
+  ansBox.classList.add("open");
+  document.getElementById("qc" + qNum).classList.add("revealed");
+  totalAnswered++;
+  updateProgress();
+  var card = document.getElementById("qc" + qNum);
+  var btns = card.querySelectorAll(".btn-reveal");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].innerHTML = "&#10003; Answer revealed";
+    btns[i].classList.add("btn-disabled");
+    btns[i].disabled = true;
+  }
+}
+
+function updateProgress() {
+  var pct = Math.round((totalAnswered / 15) * 100);
+  document.getElementById("prog-bar").style.width = pct + "%";
+  document.getElementById("prog-label").textContent = totalAnswered + " of 15 questions attempted";
+  document.getElementById("live-score").textContent = totalAnswered;
+  document.getElementById("live-correct").textContent = mcCorrectCount + " MC correct";
+}
+
+function finishQuiz() {
+  var banner = document.getElementById("score-banner");
+  var pct = Math.round((mcCorrectCount / 6) * 100);
+  var cls, msg, sub;
+  if (pct >= 80) {
+    cls = "score-great";
+    msg = "&#127942; Excellent work!";
+    sub = "You scored " + mcCorrectCount + "/6 on multiple choice (" + pct + "%). Compare your written answers carefully against the model answers above &mdash; pay attention to how each response links back to the scenario.";
+  } else if (pct >= 50) {
+    cls = "score-ok";
+    msg = "&#128218; Good effort &mdash; keep going!";
+    sub = "You scored " + mcCorrectCount + "/6 on multiple choice (" + pct + "%). Review the questions you missed and re-read the relevant sections in your Topic 1 cheat sheet before your next attempt.";
+  } else {
+    cls = "score-low";
+    msg = "&#128214; More revision needed";
+    sub = "You scored " + mcCorrectCount + "/6 on multiple choice (" + pct + "%). Head back to the Topic 1 cheat sheet and focus on the management styles, stakeholders and corporate culture sections before retrying.";
+  }
+  banner.className = cls;
+  banner.innerHTML = "<h2>" + msg + "</h2><p>" + sub + "</p>";
+  banner.style.display = "block";
+  banner.scrollIntoView({behavior:"smooth"});
+  document.getElementById("reset-btn").style.display = "block";
+}
+
+function resetQuiz() {
+  if (!confirm("Reset the quiz? All your answers will be cleared.")) return;
+  location.reload();
+}
+
+updateProgress();
+</script>
+</body>
+</html>

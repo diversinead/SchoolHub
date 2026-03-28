@@ -80,6 +80,26 @@
   .link-row a { color: #1a5fb4; text-decoration: none; font-size: 13px; flex: 1; }
   .link-row a:hover { text-decoration: underline; }
 
+  /* Subsections (third level) */
+  .subsection { border-top: 1px solid #eee; }
+  .subsection-header { padding: 9px 16px 9px 32px; cursor: pointer; display: flex; justify-content: space-between;
+                       align-items: center; user-select: none; font-size: 13px; font-weight: 600; }
+  .subsection-header:hover { background: #f8f9fa; }
+  .subsection-chevron { font-size: 10px; color: #aaa; transition: transform 0.2s; }
+  .subsection.open .subsection-chevron { transform: rotate(90deg); }
+  .subsection-body { display: none; }
+  .subsection.open .subsection-body { display: block; }
+
+  /* Quiz section */
+  .quiz-label { padding: 8px 40px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+                letter-spacing: 0.4px; color: #999; border-top: 1px dashed #e0e0e0; margin-top: 4px; }
+  .sub-quiz-label { padding: 8px 56px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+                    letter-spacing: 0.4px; color: #999; border-top: 1px dashed #e0e0e0; margin-top: 4px; }
+  .quiz-link { padding-left: 40px; }
+  .sub-chapter-link { padding-left: 56px; }
+  .sub-quiz-link { padding-left: 56px; }
+  .sub-add-row { padding-left: 56px; border-top: 1px solid #f0f0f0; }
+
   /* Delete button */
   .chapter-row { display: flex; align-items: center; border-top: 1px solid #f0f0f0; }
   .chapter-row .chapter-link { flex: 1; border-top: none; }
@@ -163,13 +183,13 @@
     loadNotes();
   }
 
-  function showAddChapterForm(btn, subjectName, aosName) {
+  function showAddChapterForm(btn, subjectName, aosName, label, subsection) {
     if (activeForm) { activeForm.remove(); activeForm = null; }
     const form = document.createElement('div');
     form.className = 'inline-form' + (aosName ? ' indent' : '');
     const titleInput = document.createElement('input');
     titleInput.className = 'title-input';
-    titleInput.placeholder = 'Chapter title, e.g. Ch 2 — Revenue';
+    titleInput.placeholder = (label || 'Chapter') + ' title';
     const fileInput = document.createElement('input');
     fileInput.className = 'file-input';
     fileInput.placeholder = 'File path, e.g. eddie/accounting/aos1_ch2.html';
@@ -182,7 +202,7 @@
       const file = fileInput.value.trim();
       if (!title) return;
       await apiPost('/api/studynotes/add_chapter', {
-        student, subject: subjectName, aos: aosName || '', title, file
+        student, subject: subjectName, aos: aosName || '', title, file, subsection: subsection || ''
       });
       loadNotes();
     };
@@ -228,12 +248,85 @@
     nameInput.focus();
   }
 
-  async function deleteChapter(subjectName, aosName, index) {
-    if (!confirm('Delete this chapter?')) return;
+  async function deleteChapter(subjectName, aosName, index, subsection) {
+    if (!confirm('Delete this?')) return;
     await apiPost('/api/studynotes/delete_chapter', {
-      student, subject: subjectName, aos: aosName, index
+      student, subject: subjectName, aos: aosName, index, subsection: subsection || ''
     });
     loadNotes();
+  }
+
+  function showAddQuizForm(btn, subjectName, aosName, subsection) {
+    if (activeForm) { activeForm.remove(); activeForm = null; }
+    const form = document.createElement('div');
+    form.className = 'inline-form indent';
+    const titleInput = document.createElement('input');
+    titleInput.className = 'title-input';
+    titleInput.placeholder = 'Quiz title';
+    const fileInput = document.createElement('input');
+    fileInput.className = 'file-input';
+    fileInput.placeholder = 'File path, e.g. eddie/bus_man/quiz_topic1.html';
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.style.background = themeColor;
+    saveBtn.textContent = 'Add';
+    saveBtn.onclick = async function() {
+      const title = titleInput.value.trim();
+      const file = fileInput.value.trim();
+      if (!title) return;
+      await apiPost('/api/studynotes/add_quiz', {
+        student, subject: subjectName, aos: aosName, title, file, subsection: subsection || ''
+      });
+      loadNotes();
+    };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function() { form.remove(); activeForm = null; };
+    titleInput.onkeydown = function(e) { if (e.key === 'Enter') fileInput.focus(); };
+    fileInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(titleInput, fileInput, saveBtn, cancelBtn);
+    btn.closest('.add-row').after(form);
+    activeForm = form;
+    titleInput.focus();
+  }
+
+  async function deleteQuiz(subjectName, aosName, index, subsection) {
+    if (!confirm('Delete this quiz?')) return;
+    await apiPost('/api/studynotes/delete_quiz', {
+      student, subject: subjectName, aos: aosName, index, subsection: subsection || ''
+    });
+    loadNotes();
+  }
+
+  function showAddSubsectionForm(btn, subjectName, aosName) {
+    if (activeForm) { activeForm.remove(); activeForm = null; }
+    const form = document.createElement('div');
+    form.className = 'inline-form indent';
+    const nameInput = document.createElement('input');
+    nameInput.className = 'title-input';
+    nameInput.placeholder = 'Subsection name, e.g. AOS 1 - Topic Name';
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.style.background = themeColor;
+    saveBtn.textContent = 'Add';
+    saveBtn.onclick = async function() {
+      const name = nameInput.value.trim();
+      if (!name) return;
+      await apiPost('/api/studynotes/add_subsection', {
+        student, subject: subjectName, aos: aosName, name
+      });
+      loadNotes();
+    };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function() { form.remove(); activeForm = null; };
+    nameInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(nameInput, saveBtn, cancelBtn);
+    btn.closest('.add-row').after(form);
+    activeForm = form;
+    nameInput.focus();
   }
 
   function renderNotes(studentData) {
@@ -258,6 +351,7 @@
       let bodyHtml = '';
       const sn = subject.name.replace(/'/g, "\\'");
       const links = subject.links || [];
+      const chLabel = subject.chapterLabel || 'Chapter';
 
       // Links section
       if (links.length > 0) {
@@ -270,24 +364,82 @@
       if (hasAos) {
         for (const aos of subject.aos) {
           const an = aos.name.replace(/'/g, "\\'");
-          let chaptersHtml = '';
-          if (aos.chapters && aos.chapters.length > 0) {
-            chaptersHtml = '<ul class="chapter-list">' + aos.chapters.map((ch, i) =>
-              `<li class="chapter-row"><a class="chapter-link" href="/studynotes/${ch.file}" target="_blank">${ch.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteChapter('${sn}','${an}',${i})">&#x2715;</button></li>`
-            ).join('') + '</ul>';
+          let aosInnerHtml = '';
+
+          if (aos.subsections) {
+            // Third-level: subsections within this AOS
+            for (const sub of aos.subsections) {
+              const subn = sub.name.replace(/'/g, "\\'");
+              const hasSubContent = (sub.chapters && sub.chapters.length > 0) || (sub.quizzes && sub.quizzes.length > 0);
+
+              let subChaptersHtml = '';
+              if (sub.chapters && sub.chapters.length > 0) {
+                subChaptersHtml = '<ul class="chapter-list">' + sub.chapters.map((ch, i) =>
+                  `<li class="chapter-row"><a class="chapter-link sub-chapter-link" href="/studynotes/${ch.file}" target="_blank">${ch.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteChapter('${sn}','${an}',${i},'${subn}')">&#x2715;</button></li>`
+                ).join('') + '</ul>';
+              }
+
+              const subQuizzes = sub.quizzes || [];
+              let subQuizzesHtml = '';
+              if (subQuizzes.length > 0) {
+                subQuizzesHtml = '<div class="sub-quiz-label">Quizzes</div><ul class="chapter-list">' + subQuizzes.map((q, i) =>
+                  `<li class="chapter-row"><a class="chapter-link sub-quiz-link" href="/studynotes/${q.file}" target="_blank">${q.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteQuiz('${sn}','${an}',${i},'${subn}')">&#x2715;</button></li>`
+                ).join('') + '</ul>';
+              }
+
+              aosInnerHtml += `
+                <div class="subsection${hasSubContent ? ' open' : ''}">
+                  <div class="subsection-header" onclick="this.parentElement.classList.toggle('open')">
+                    <span style="color:${themeColor}">${sub.name}</span>
+                    <span class="subsection-chevron">&#x25B6;</span>
+                  </div>
+                  <div class="subsection-body">
+                    ${subChaptersHtml}
+                    <div class="add-row sub-add-row"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}','${chLabel}','${subn}')">+ ${chLabel}</button></div>
+                    ${subQuizzesHtml}
+                    <div class="add-row sub-add-row"><button class="add-btn" onclick="showAddQuizForm(this,'${sn}','${an}','${subn}')">+ Quiz</button></div>
+                  </div>
+                </div>`;
+            }
+            aosInnerHtml += `<div class="add-row indent"><button class="add-btn" onclick="showAddSubsectionForm(this,'${sn}','${an}')">+ Subsection</button></div>`;
           } else {
-            chaptersHtml = '<div class="empty-note">No chapters yet</div>';
+            // Original flat structure: chapters + quizzes directly under AOS
+            let chaptersHtml = '';
+            if (aos.chapters && aos.chapters.length > 0) {
+              chaptersHtml = '<ul class="chapter-list">' + aos.chapters.map((ch, i) =>
+                `<li class="chapter-row"><a class="chapter-link" href="/studynotes/${ch.file}" target="_blank">${ch.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteChapter('${sn}','${an}',${i},'')">&#x2715;</button></li>`
+              ).join('') + '</ul>';
+            } else {
+              chaptersHtml = '<div class="empty-note">No chapters yet</div>';
+            }
+
+            const quizzes = aos.quizzes || [];
+            let quizzesHtml = '';
+            if (quizzes.length > 0) {
+              quizzesHtml = '<div class="quiz-label">Quizzes</div><ul class="chapter-list">' + quizzes.map((q, i) =>
+                `<li class="chapter-row"><a class="chapter-link quiz-link" href="/studynotes/${q.file}" target="_blank">${q.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteQuiz('${sn}','${an}',${i},'')">&#x2715;</button></li>`
+              ).join('') + '</ul>';
+            }
+
+            aosInnerHtml = `
+              ${chaptersHtml}
+              <div class="add-row indent"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}','${chLabel}','')">+ ${chLabel}</button></div>
+              ${quizzesHtml}
+              <div class="add-row indent"><button class="add-btn" onclick="showAddQuizForm(this,'${sn}','${an}','')">+ Quiz</button></div>`;
           }
 
+          const aosHasContent = aos.subsections
+            ? aos.subsections.some(s => (s.chapters && s.chapters.length > 0) || (s.quizzes && s.quizzes.length > 0))
+            : (aos.chapters && aos.chapters.length > 0) || (aos.quizzes && aos.quizzes.length > 0);
+
           bodyHtml += `
-            <div class="aos-section${aos.chapters && aos.chapters.length > 0 ? ' open' : ''}">
+            <div class="aos-section${aosHasContent ? ' open' : ''}">
               <div class="aos-header" onclick="this.parentElement.classList.toggle('open')">
                 <span style="color:${themeColor}">${aos.name}</span>
                 <span class="aos-chevron">&#x25B6;</span>
               </div>
               <div class="aos-chapters">
-                ${chaptersHtml}
-                <div class="add-row indent"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}')">+ Chapter</button></div>
+                ${aosInnerHtml}
               </div>
             </div>`;
         }
@@ -300,7 +452,7 @@
         } else {
           bodyHtml = '<div class="empty-subject">No notes yet</div>';
         }
-        bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','')">+ Chapter</button></div>`;
+        bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','')">+ ${chLabel}</button></div>`;
       }
 
       section.innerHTML = `

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Business Management — Topic 2 Quiz 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
+h1{font-size:21px;font-weight:700;color:#085041;margin-bottom:4px}
+.subtitle{font-size:13px;color:#5F5E5A;margin-bottom:20px}
+
+.progress-wrap{background:#D3D1C7;border-radius:99px;height:8px;margin-bottom:6px}
+.progress-bar{background:#1D9E75;border-radius:99px;height:8px;transition:width 0.4s}
+.progress-label{font-size:11px;color:#5F5E5A;margin-bottom:18px}
+
+#score-banner{display:none;border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center}
+#score-banner h2{font-size:20px;font-weight:700;margin-bottom:4px}
+#score-banner p{font-size:13px}
+.score-great{background:#E1F5EE;border:1.5px solid #5DCAA5}
+.score-great h2{color:#085041}
+.score-great p{color:#0F6E56}
+.score-ok{background:#FAEEDA;border:1.5px solid #BA7517}
+.score-ok h2{color:#412402}
+.score-ok p{color:#633806}
+.score-low{background:#FAECE7;border:1.5px solid #D85A30}
+.score-low h2{color:#4A1B0C}
+.score-low p{color:#712B13}
+
+.q-card{background:#fff;border:1.5px solid #D3D1C7;border-radius:12px;padding:18px 20px;margin-bottom:14px;transition:border-color 0.2s}
+.q-card.correct{border-color:#5DCAA5}
+.q-card.incorrect{border-color:#D85A30}
+.q-card.revealed{border-color:#AFA9EC}
+
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;color:#5F5E5A}
+.q-type{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+.type-mc{background:#E6F1FB;color:#042C53}
+.type-sa{background:#EEEDFE;color:#26215C}
+.type-er{background:#FBEAF0;color:#4B1528}
+.q-marks{font-size:10px;color:#888780;margin-left:auto}
+.hot-pill{font-size:10px;font-weight:700;background:#E24B4A;color:#fff;border-radius:4px;padding:2px 6px}
+.topic-pill{font-size:10px;font-weight:700;background:#E1F5EE;color:#085041;border-radius:4px;padding:2px 6px}
+
+.q-text{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.6;margin-bottom:14px}
+.q-scenario{font-size:12px;color:#2C2C2A;background:#F1EFE8;border-left:3px solid #888780;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:12px;line-height:1.6;font-style:italic}
+
+.mc-options{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1.5px solid #D3D1C7;border-radius:8px;cursor:pointer;font-size:12px;line-height:1.5;color:#1a1a18;transition:all 0.15s;user-select:none}
+.mc-opt:hover{border-color:#1D9E75;background:#F0FBF7}
+.mc-opt.selected{border-color:#1D9E75;background:#E1F5EE;color:#085041}
+.mc-opt.opt-correct{border-color:#5DCAA5;background:#E1F5EE;color:#085041;font-weight:600}
+.mc-opt.opt-wrong{border-color:#D85A30;background:#FAECE7;color:#4A1B0C}
+.mc-opt.disabled{cursor:default}
+.mc-opt.disabled:hover{border-color:#D3D1C7;background:#fff}
+.mc-opt.disabled.selected:hover{border-color:#1D9E75;background:#E1F5EE}
+.opt-letter{font-weight:700;font-size:11px;min-width:18px;color:#888780}
+.mc-opt.opt-correct .opt-letter{color:#085041}
+.mc-opt.opt-wrong .opt-letter{color:#4A1B0C}
+.mc-opt.selected .opt-letter{color:#085041}
+
+.write-area{width:100%;min-height:80px;padding:10px 12px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;color:#1a1a18;background:#FAFAF8;margin-bottom:10px}
+.write-area:focus{border-color:#1D9E75}
+.write-area.er-area{min-height:140px}
+
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-check{background:#1D9E75;color:#fff}
+.btn-check:hover{background:#085041}
+.btn-reveal{background:#F1EFE8;color:#2C2C2A;border:1.5px solid #D3D1C7}
+.btn-reveal:hover{background:#E5E3DC}
+.btn-disabled{opacity:0.45;cursor:default}
+
+.answer-box{display:none;margin-top:12px;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7}
+.answer-box.open{display:block}
+.answer-box.ans-correct{background:#E1F5EE;border:1px solid #5DCAA5;color:#085041}
+.answer-box.ans-wrong{background:#FAECE7;border:1px solid #D85A30}
+.answer-box.ans-neutral{background:#EEEDFE;border:1px solid #AFA9EC;color:#26215C}
+.answer-box strong{display:block;margin-bottom:5px}
+.answer-box .mark-scheme{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:11px;opacity:0.85}
+.answer-box .mark-scheme p{margin-top:3px}
+
+/* Section dividers */
+.section-divider{background:#085041;color:#fff;border-radius:9px;padding:10px 16px;margin:20px 0 14px;font-size:13px;font-weight:700}
+.section-divider span{font-size:11px;font-weight:400;opacity:0.8;margin-left:8px}
+
+.score-tracker{position:sticky;top:8px;z-index:10;background:#085041;color:#fff;border-radius:9px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12px}
+.score-tracker span{font-weight:700;font-size:14px}
+
+#reset-btn{display:none;width:100%;padding:12px;border:none;border-radius:9px;background:#085041;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+#reset-btn:hover{background:#0F6E56}
+
+@media(max-width:500px){.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<h1>VCE Business Management &mdash; Topic 2 Quiz 2</h1>
+<p class="subtitle">Human Resource Management &middot; 15 questions &middot; Mixed format &middot; Fresh questions across all subtopics</p>
+
+<div class="score-tracker">
+  <span>&#128202; Score: <span id="live-score">0</span> / 15 attempted</span>
+  <span id="live-correct">0 MC correct</span>
+</div>
+
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<p class="progress-label" id="prog-label">0 of 15 questions attempted</p>
+
+<div id="score-banner"></div>
+
+<!-- ===== SECTION: MOTIVATION THEORIES ===== -->
+<div class="section-divider">&#128161; Section 1: Motivation theories <span>(2.3)</span></div>
+
+<!-- Q1 -->
+<div class="q-card" id="qc1">
+  <div class="q-meta">
+    <span class="q-num">Question 1</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">According to Lawrence &amp; Nohria&apos;s Four Drive Theory, a manager who introduces a transparent and fair grievance process is primarily addressing which drive?</p>
+  <div class="mc-options" id="mc1">
+    <div class="mc-opt" onclick="selectMC(this,'mc1','A')"><span class="opt-letter">A</span>Drive to acquire</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','B')"><span class="opt-letter">B</span>Drive to bond</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','C')"><span class="opt-letter">C</span>Drive to comprehend</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc1','D')"><span class="opt-letter">D</span>Drive to defend</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'D')">Check answer</button></div>
+  <div class="answer-box" id="ans1">
+    <strong>&#10003; Correct answer: D &mdash; Drive to defend</strong>
+    The drive to defend is the desire to protect oneself, one&apos;s achievements and one&apos;s sense of fairness. A transparent grievance process directly addresses this drive by giving employees a safe, fair mechanism to raise concerns and protect themselves from perceived injustice. The drive to acquire (A) relates to material rewards and status. Drive to bond (B) relates to relationships. Drive to comprehend (C) relates to learning and challenge.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting D.</p></div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card" id="qc2">
+  <div class="q-meta">
+    <span class="q-num">Question 2</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">In Locke &amp; Latham&apos;s Goal-Setting Theory, which principle refers to the employee genuinely accepting and agreeing to work toward the goal?</p>
+  <div class="mc-options" id="mc2">
+    <div class="mc-opt" onclick="selectMC(this,'mc2','A')"><span class="opt-letter">A</span>Specificity</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','B')"><span class="opt-letter">B</span>Challenge</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','C')"><span class="opt-letter">C</span>Commitment</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc2','D')"><span class="opt-letter">D</span>Feedback</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk2" onclick="checkMC(2,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans2">
+    <strong>&#10003; Correct answer: C &mdash; Commitment</strong>
+    Commitment in Locke &amp; Latham&apos;s theory refers to the employee genuinely accepting and buying into the goal &mdash; not just being told what it is. Research shows that employees who are involved in setting their own goals are far more committed to achieving them. Specificity (A) is about clarity and precision. Challenge (B) is about the difficulty level. Feedback (D) is about regular progress updates. Remember the acronym SCCEA.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q3 SA -->
+<div class="q-card" id="qc3">
+  <div class="q-meta">
+    <span class="q-num">Question 3</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Dominic works as a software developer at a large tech company. He earns a strong salary, has a permanent contract and works in a social team. His manager has recently set him a new goal: &quot;Improve your code quality.&quot; Despite the goal being set, Dominic remains disengaged and his output has not improved.</p>
+  <p class="q-text">Using Locke &amp; Latham&apos;s Goal-Setting Theory, identify TWO reasons why this goal is unlikely to motivate Dominic and suggest how each could be improved. (3 marks)</p>
+  <textarea class="write-area" id="wa3" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(3)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans3">
+    <strong>&#128221; Model answer</strong>
+    <strong>Problem 1 &mdash; Lack of specificity (1 mark):</strong> &quot;Improve your code quality&quot; violates the specificity principle because it is vague and unmeasurable. Dominic cannot know what success looks like or whether he has achieved the goal. This should be improved to a precise, measurable target such as &quot;Reduce code defect rate from 8% to below 3% by the end of Q2,&quot; giving Dominic a clear benchmark to work toward.<br><br>
+    <strong>Problem 2 &mdash; Lack of commitment (1 mark):</strong> The goal appears to have been imposed on Dominic by his manager rather than developed collaboratively. Without genuine buy-in, Dominic has no personal ownership of the goal and is unlikely to be intrinsically motivated to achieve it. The manager should involve Dominic in setting the goal &mdash; asking him to identify what he thinks a meaningful code quality target would look like &mdash; so that commitment is built from the outset.<br><br>
+    <strong>Linked explanation (1 mark):</strong> Both issues explain why Dominic remains disengaged: he does not know precisely what he is working toward, and he does not feel personally invested in the goal. Locke &amp; Latham&apos;s research consistently shows that specific, self-committed goals produce significantly higher performance than vague, imposed ones.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each for correctly identifying and explaining two goal-setting principles that are violated (specificity, commitment, feedback, challenge or task complexity are all valid). 1 mark for linking both issues back to Dominic&apos;s disengagement or suggesting a concrete improvement for each. Award flexibly across the three marks.</p></div>
+  </div>
+</div>
+
+<!-- Q4 SA -->
+<div class="q-card" id="qc4">
+  <div class="q-meta">
+    <span class="q-num">Question 4</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-text">Compare Maslow&apos;s Hierarchy of Needs and Lawrence &amp; Nohria&apos;s Four Drive Theory as motivation frameworks. Identify ONE similarity and TWO differences. (3 marks)</p>
+  <textarea class="write-area" id="wa4" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(4)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans4">
+    <strong>&#128221; Model answer</strong>
+    <strong>Similarity (1 mark):</strong> Both Maslow and Lawrence &amp; Nohria recognise that employees are motivated by more than just financial rewards. Both theories identify social and emotional dimensions of motivation &mdash; Maslow&apos;s social and esteem needs align broadly with Lawrence &amp; Nohria&apos;s drive to bond and drive to acquire (status), acknowledging that human motivation is complex and multi-dimensional.<br><br>
+    <strong>Difference 1 &mdash; Structure (1 mark):</strong> Maslow&apos;s theory is arranged as a strict hierarchy where lower-level needs must be satisfied before higher-level needs can motivate an employee. Lawrence &amp; Nohria&apos;s four drives have no hierarchy &mdash; all four drives operate simultaneously and independently. A manager using Maslow works sequentially; a manager using L&amp;N must address all four drives at the same time.<br><br>
+    <strong>Difference 2 &mdash; Number and nature of motivators (1 mark):</strong> Maslow identifies five levels of needs (physiological, safety, social, esteem, self-actualisation) framed as needs that must be fulfilled. Lawrence &amp; Nohria identify four emotional drives (acquire, bond, comprehend, defend) framed as deep-seated instincts rather than hierarchical needs. L&amp;N also explicitly includes the drive to defend &mdash; the desire for fairness and security &mdash; which has no direct equivalent in Maslow&apos;s model.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a valid, explained similarity. 1 mark each for two clearly contrasted differences. Listing features of each theory without directly comparing them earns no mark.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION: MOTIVATION STRATEGIES ===== -->
+<div class="section-divider">&#128181; Section 2: Motivation strategies <span>(2.4)</span></div>
+
+<!-- Q5 -->
+<div class="q-card" id="qc5">
+  <div class="q-meta">
+    <span class="q-num">Question 5</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">A hospital gives all of its nurses an additional day of paid leave per year for every five years of continuous service. Which motivation strategy is this BEST described as?</p>
+  <div class="mc-options" id="mc5">
+    <div class="mc-opt" onclick="selectMC(this,'mc5','A')"><span class="opt-letter">A</span>Performance-related pay</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','B')"><span class="opt-letter">B</span>Job enrichment</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','C')"><span class="opt-letter">C</span>Flexible working arrangements</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc5','D')"><span class="opt-letter">D</span>Career advancement</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk5" onclick="checkMC(5,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans5">
+    <strong>&#10003; Correct answer: C &mdash; Flexible working arrangements</strong>
+    Additional paid leave is a form of flexible working arrangement &mdash; a non-financial strategy that improves work-life balance rather than increasing base pay. Performance-related pay (A) links rewards to achieving targets, not tenure. Job enrichment (B) involves making the role more meaningful and challenging. Career advancement (D) involves promotion or progression pathways. Additional leave as a long-service reward is best categorised under flexible/non-financial arrangements.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q6 SA -->
+<div class="q-card" id="qc6">
+  <div class="q-meta">
+    <span class="q-num">Question 6</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Coastal Brewing Co. employs 45 staff in its brewery and taproom. The owner has noticed that despite paying competitive wages, turnover among taproom staff remains high and engagement scores are low. Exit interviews consistently mention that staff feel like &quot;just a number,&quot; never receive feedback on how they are going and see no future for themselves at the business.</p>
+  <p class="q-text">Identify and justify TWO non-financial motivation strategies the owner could introduce at Coastal Brewing Co. to address the issues raised in exit interviews. (3 marks)</p>
+  <textarea class="write-area" id="wa6" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(6)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans6">
+    <strong>&#128221; Model answer</strong>
+    <strong>Strategy 1 &mdash; Recognition (1.5 marks):</strong> Recognition involves publicly acknowledging employee contributions and achievements, addressing the exit interview finding that staff feel &quot;like just a number.&quot; The owner could introduce a monthly &quot;Brewer&apos;s Choice&quot; shoutout where managers and customers nominate outstanding taproom staff, shared at team briefings and on the staff noticeboard. This satisfies Maslow&apos;s esteem needs and Lawrence &amp; Nohria&apos;s drive to bond (feeling valued by the team), and costs almost nothing to implement.<br><br>
+    <strong>Strategy 2 &mdash; Career advancement opportunities (1.5 marks):</strong> Career advancement addresses the exit interview finding that staff see no future at the business. The owner could introduce a structured development pathway &mdash; for example, taproom staff who complete a certified hospitality or brewing course are eligible to progress to senior server, bar supervisor or assistant brewer roles. This gives employees a visible reason to stay and invest in the business, directly reducing turnover by showing staff that Coastal Brewing Co. values their growth as much as their daily output.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks per strategy: 0.5 for naming and defining the strategy, 1 mark for clearly linking it to a specific issue from the Coastal Brewing exit interviews. Generic strategies not referenced to the scenario earn a maximum of 0.5 marks each.</p></div>
+  </div>
+</div>
+
+<!-- Q7 SA -->
+<div class="q-card" id="qc7">
+  <div class="q-meta">
+    <span class="q-num">Question 7</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Distinguish between profit sharing and performance-related pay as financial motivation strategies. (2 marks)</p>
+  <textarea class="write-area" id="wa7" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(7)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans7">
+    <strong>&#128221; Model answer</strong>
+    <strong>Profit sharing (1 mark):</strong> Profit sharing is a financial strategy where a portion of the business&apos;s total profits is distributed to all employees at the end of a financial period, regardless of individual performance. Every employee receives a share based on the overall result of the business, not their personal contribution. For example, Bega Cheese distributes 5% of annual net profit equally to all permanent staff.<br><br>
+    <strong>Performance-related pay (1 mark):</strong> Performance-related pay directly links an individual employee&apos;s additional financial reward to their personal performance against a specific, measurable target. Only employees who meet or exceed their targets receive the additional payment. For example, a sales representative who exceeds their quarterly target by 20% receives a bonus, while one who misses their target does not. The key distinction is that profit sharing is collective and results-based, while performance-related pay is individual and target-based.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct explanation of profit sharing that highlights its collective, company-wide nature. 1 mark for a correct explanation of performance-related pay that highlights its individual, target-based nature. A response that only defines one strategy earns a maximum of 1 mark.</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION: TRAINING ===== -->
+<div class="section-divider">&#127979; Section 3: Training &amp; development <span>(2.5)</span></div>
+
+<!-- Q8 -->
+<div class="q-card" id="qc8">
+  <div class="q-meta">
+    <span class="q-num">Question 8</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">Which of the following is the MOST significant disadvantage of online (e-learning) training compared to the other training types?</p>
+  <div class="mc-options" id="mc8">
+    <div class="mc-opt" onclick="selectMC(this,'mc8','A')"><span class="opt-letter">A</span>It is more expensive than off-the-job training</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','B')"><span class="opt-letter">B</span>It cannot be updated once it has been created</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','C')"><span class="opt-letter">C</span>It lacks the practical, hands-on component needed for physical or technical skills</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc8','D')"><span class="opt-letter">D</span>It can only be delivered to one employee at a time</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk8" onclick="checkMC(8,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans8">
+    <strong>&#10003; Correct answer: C</strong>
+    The most significant limitation of online training is that it cannot replicate physical, practical learning. For roles that require hands-on skills &mdash; operating machinery, performing medical procedures, cooking &mdash; watching a video or completing a digital module is no substitute for doing the task in a real environment. Option A is wrong (online is generally cheaper). Option B is wrong (online content is easy to update). Option D is wrong (online training can be delivered to unlimited employees simultaneously &mdash; this is one of its key advantages).
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q9 SA -->
+<div class="q-card" id="qc9">
+  <div class="q-meta">
+    <span class="q-num">Question 9</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">3 marks</span>
+  </div>
+  <p class="q-scenario">Horizon Hospitality Group operates 12 hotels across Victoria. It has just acquired three new hotels in regional areas and needs to upskill 80 new staff across roles including reception, housekeeping, kitchen and management. The Group&apos;s HR director must decide which training approach to use for each staff group within a tight budget and a six-week deadline before the hotels open.</p>
+  <p class="q-text">Recommend the most appropriate type of training for (a) kitchen and housekeeping staff and (b) new hotel managers at Horizon. Justify each recommendation. (3 marks)</p>
+  <textarea class="write-area" id="wa9" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(9)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans9">
+    <strong>&#128221; Model answer</strong>
+    <strong>(a) Kitchen and housekeeping staff &mdash; on-the-job training (1.5 marks):</strong> On-the-job training is most appropriate for kitchen and housekeeping staff because their roles require practical, physical skills that cannot be effectively taught through an online module or external classroom. Pairing new staff with experienced Horizon employees in an existing hotel for two to three weeks before the regional opening allows them to learn the Group&apos;s specific cleaning standards, food preparation procedures and service expectations in a real work environment. This is also cost-effective given the tight budget, as it requires no external provider.<br><br>
+    <strong>(b) New hotel managers &mdash; off-the-job training (1.5 marks):</strong> Off-the-job training is more appropriate for new managers because they need to develop leadership, financial management and guest experience skills that go beyond the specific procedures of any one hotel. Sending new managers to an external hospitality management program ensures they receive structured, expert instruction from specialists. Although more expensive, this investment is justified for management roles where the quality and breadth of knowledge will directly affect the performance of the entire hotel team.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> Up to 1.5 marks per recommendation: 0.5 marks for correctly naming the training type, 1 mark for a clear justification linked specifically to the nature of the role and the Horizon scenario constraints (budget, deadline, skill type). Accept alternative well-reasoned recommendations if properly justified.</p></div>
+  </div>
+</div>
+
+<!-- Q10 SA -->
+<div class="q-card" id="qc10">
+  <div class="q-meta">
+    <span class="q-num">Question 10</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain the difference between training and development as human resource strategies. Why might a business invest in development even when an employee&apos;s current performance is satisfactory? (2 marks)</p>
+  <textarea class="write-area" id="wa10" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(10)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans10">
+    <strong>&#128221; Model answer</strong>
+    <strong>Distinction (1 mark):</strong> Training focuses on building the specific skills and knowledge an employee needs to perform their current role effectively. Development, by contrast, is a longer-term investment in building broader capabilities that prepare an employee for future roles and responsibilities beyond their current position. Training is role-specific and immediate; development is career-focused and forward-looking.<br><br>
+    <strong>Why invest in development when performance is satisfactory (1 mark):</strong> A business invests in development even when performance is good because it builds a pipeline of future leaders and reduces the risk of skill gaps emerging as the business grows or changes. High-performing employees who are not given development opportunities may become disengaged or leave for employers who invest in their growth. Development also increases loyalty &mdash; employees who feel the business is investing in their future are more likely to remain long-term.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a clear distinction that identifies training as current-role-focused and development as future-role-focused. 1 mark for a valid and explained reason why development is worthwhile even for satisfactory performers &mdash; must go beyond &quot;to make them better.&quot;</p></div>
+  </div>
+</div>
+
+<!-- ===== SECTION: PERFORMANCE MANAGEMENT & TERMINATION ===== -->
+<div class="section-divider">&#128203; Section 4: Performance management &amp; termination <span>(2.6 &amp; 2.7)</span></div>
+
+<!-- Q11 -->
+<div class="q-card" id="qc11">
+  <div class="q-meta">
+    <span class="q-num">Question 11</span>
+    <span class="q-type type-mc">Multiple choice</span>
+    <span class="q-marks">1 mark</span>
+  </div>
+  <p class="q-text">An employee is dismissed from their role immediately after being found to have stolen cash from the business register. Which type of termination has occurred?</p>
+  <div class="mc-options" id="mc11">
+    <div class="mc-opt" onclick="selectMC(this,'mc11','A')"><span class="opt-letter">A</span>Redundancy</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc11','B')"><span class="opt-letter">B</span>General dismissal</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc11','C')"><span class="opt-letter">C</span>Summary dismissal</div>
+    <div class="mc-opt" onclick="selectMC(this,'mc11','D')"><span class="opt-letter">D</span>Voluntary resignation</div>
+  </div>
+  <div class="btn-row"><button class="btn btn-check" id="chk11" onclick="checkMC(11,'C')">Check answer</button></div>
+  <div class="answer-box" id="ans11">
+    <strong>&#10003; Correct answer: C &mdash; Summary dismissal</strong>
+    Summary dismissal is immediate termination without notice due to serious misconduct that makes continued employment untenable. Theft from the register is a clear example of serious misconduct. General dismissal (B) requires prior warnings and a documented performance improvement process. Redundancy (A) is when the position is no longer required. Voluntary resignation (D) is employee-initiated. The key signals here are &quot;immediately&quot; and the serious nature of the offence.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
+  </div>
+</div>
+
+<!-- Q12 SA -->
+<div class="q-card" id="qc12">
+  <div class="q-meta">
+    <span class="q-num">Question 12</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-scenario">Brendan has worked as a senior accountant at Park Lane Financial Services for seven years. Due to the company adopting new AI-powered accounting software, his entire department of five people is being dissolved, as the software now performs most of the work his team previously did. Brendan has been informed that his position no longer exists.</p>
+  <p class="q-text">Identify the type of termination Brendan is experiencing and explain the entitlements he should receive. (2 marks)</p>
+  <textarea class="write-area" id="wa12" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(12)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans12">
+    <strong>&#128221; Model answer</strong>
+    <strong>Type of termination (1 mark):</strong> Brendan is experiencing <strong>redundancy</strong> &mdash; an involuntary, employer-initiated form of termination in which the employee&apos;s position is eliminated because it is no longer required by the business. The cause is technological change (AI software replacing the accounting team&apos;s work), not anything Brendan has done. The position no longer exists, which is the defining feature of redundancy.<br><br>
+    <strong>Entitlements (1 mark):</strong> Under the National Employment Standards (NES) and the Fair Work Act 2009, Brendan is entitled to: redundancy pay based on his years of service (for 7 years of service, this is approximately 13 weeks of pay under the NES scale), payment of all accrued annual leave at the time of termination, and a notice period (or payment in lieu of notice) based on his length of service and contract terms.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly identifying redundancy with a brief explanation that references the position being eliminated (not the person). 1 mark for identifying at least two relevant entitlements. Accept reasonable approximations of NES redundancy pay scales.</p></div>
+  </div>
+</div>
+
+<!-- Q13 SA -->
+<div class="q-card" id="qc13">
+  <div class="q-meta">
+    <span class="q-num">Question 13</span>
+    <span class="q-type type-sa">Short answer</span>
+    <span class="q-marks">2 marks</span>
+  </div>
+  <p class="q-text">Explain what is meant by &apos;unfair dismissal&apos; and describe what action an employee can take if they believe they have been unfairly dismissed. (2 marks)</p>
+  <textarea class="write-area" id="wa13" placeholder="Write your answer here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(13)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans13">
+    <strong>&#128221; Model answer</strong>
+    <strong>Definition (1 mark):</strong> Unfair dismissal occurs when an employee is terminated in a manner that is considered harsh, unjust or unreasonable under the Fair Work Act 2009. This includes situations where the dismissal lacked a valid reason, the employee was not given an opportunity to respond to allegations, or proper warning and performance management procedures were not followed before the dismissal was enacted.<br><br>
+    <strong>Employee action (1 mark):</strong> An employee who believes they have been unfairly dismissed can lodge an application with the <strong>Fair Work Commission</strong> within 21 days of the dismissal taking effect. The Commission will attempt to resolve the dispute through conciliation. If unresolved, the matter may proceed to arbitration, where the Commission can order reinstatement to the employee&apos;s former position or financial compensation if reinstatement is not appropriate.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for a correct definition of unfair dismissal that identifies the key concept of harsh, unjust or unreasonable treatment. 1 mark for correctly identifying the Fair Work Commission as the avenue for remedy and describing at least one possible outcome (reinstatement or compensation).</p></div>
+  </div>
+</div>
+
+<!-- ===== EXTENDED RESPONSES ===== -->
+<div class="section-divider">&#128221; Section 5: Extended responses</div>
+
+<!-- Q14 ER -->
+<div class="q-card" id="qc14">
+  <div class="q-meta">
+    <span class="q-num">Question 14</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">5 marks</span>
+  </div>
+  <p class="q-scenario">Suncoast Resorts employs 300 staff across four beachside resorts. The business has been struggling to retain housekeeping and kitchen staff, with annual turnover reaching 48% &mdash; more than double the hospitality industry average of 22%. The HR manager has reviewed exit interview data which consistently identifies three issues: staff feel their work is repetitive and unstimulating, they are never recognised for good performance, and they feel the company does not care about their long-term careers.</p>
+  <p class="q-text">Using Lawrence &amp; Nohria&apos;s Four Drive Theory, explain how the HR manager at Suncoast Resorts could redesign the business&apos;s approach to employee motivation to address the issues identified in the exit interviews. (5 marks)</p>
+  <textarea class="write-area er-area" id="wa14" placeholder="Write your extended response here..."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(14)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans14">
+    <strong>&#128221; Model answer</strong>
+    <strong>Introduce the theory (1 mark):</strong> Lawrence &amp; Nohria&apos;s Four Drive Theory proposes that all employees are simultaneously motivated by four emotional drives: to acquire, to bond, to comprehend and to defend. Unlike Maslow&apos;s hierarchy, all four drives operate at the same time, so a truly effective motivation strategy must address all four concurrently.<br><br>
+    <strong>Drive to comprehend &mdash; addresses &apos;repetitive and unstimulating&apos; (1 mark):</strong> The drive to comprehend is the desire to learn, grow and be challenged. Exit interviews show that housekeeping and kitchen staff find their work repetitive and unstimulating &mdash; a direct signal that this drive is unmet. The HR manager could address this through job rotation (regularly moving staff across different roles and resorts) and by creating cross-training opportunities in other departments. This introduces variety and learning, satisfying the drive to comprehend without requiring significant financial investment.<br><br>
+    <strong>Drive to acquire &mdash; addresses lack of recognition (1 mark):</strong> The drive to acquire extends beyond money to include status, recognition and esteem. Staff who are &quot;never recognised&quot; have their drive to acquire (status) left unsatisfied. The HR manager could introduce a structured recognition program &mdash; for example, monthly &quot;Resort Star&quot; awards voted by colleagues and guests &mdash; that publicly acknowledges outstanding performance. This costs very little but directly addresses one of the three exit interview themes.<br><br>
+    <strong>Drive to bond &mdash; addresses feeling uncared for (1 mark):</strong> The drive to bond is the desire to form meaningful relationships and feel a sense of belonging. The perception that &quot;the company does not care&quot; suggests the bond between the organisation and its employees has broken down. Regular one-on-one check-ins between managers and staff, team social events and a genuine open-door culture would strengthen these bonds, helping staff feel seen and valued as individuals rather than interchangeable labour.<br><br>
+    <strong>Drive to defend &mdash; career development (1 mark):</strong> The drive to defend includes the desire for job security and a sense of fairness about one&apos;s future. Staff who see no career path at Suncoast feel their future is undefended. The HR manager could introduce a formal career ladder for housekeeping and kitchen staff, with clear criteria for progressing to supervisor and management roles. This directly addresses the third exit interview theme and gives staff a reason to stay and invest in the business long-term.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for correctly introducing L&amp;N&apos;s Four Drive Theory. 1 mark each for applying three of the four drives to specific exit interview findings at Suncoast Resorts, with a concrete strategy for each (up to 4 marks). A response that applies the theory generically without referencing the scenario earns a maximum of 2 marks total.</p></div>
+  </div>
+</div>
+
+<!-- Q15 ER -->
+<div class="q-card" id="qc15">
+  <div class="q-meta">
+    <span class="q-num">Question 15</span>
+    <span class="q-type type-er">Extended response</span>
+    <span class="hot-pill">&#9733; HOT</span>
+    <span class="q-marks">6 marks</span>
+  </div>
+  <p class="q-scenario">Alpine Ski Resort employs 180 seasonal and permanent staff. Each winter, the resort hires 60 additional ski instructors, lift operators and hospitality staff on fixed-term contracts. The resort&apos;s general manager has noticed that seasonal staff consistently underperform in their first two weeks on the job, leading to guest complaints about safety briefings, equipment hire errors and poor food service. The resort has no formal training program &mdash; new seasonal staff are currently given a 30-minute safety video and then assigned to their posts.</p>
+  <p class="q-text">Evaluate the use of on-the-job training and off-the-job training as strategies to improve the performance of seasonal staff at Alpine Ski Resort. Recommend which type of training you believe should be the PRIORITY for the resort and justify your recommendation. (6 marks)</p>
+  <textarea class="write-area er-area" id="wa15" placeholder="Write your extended response here. Aim for at least 4 paragraphs."></textarea>
+  <div class="btn-row"><button class="btn btn-reveal" onclick="revealAnswer(15)">Reveal model answer</button></div>
+  <div class="answer-box ans-neutral" id="ans15">
+    <strong>&#128221; Model answer</strong>
+    <strong>On-the-job training &mdash; strengths in this context (1 mark):</strong> On-the-job training involves employees learning by performing their actual duties alongside an experienced colleague in the real work environment. For Alpine Ski Resort, this is particularly valuable for roles like lift operation and equipment hire, where staff need to learn the resort&apos;s specific systems, equipment and safety protocols as they will actually be used. Experienced permanent staff can guide seasonal hires in real conditions, and skills transfer immediately to the job &mdash; reducing the two-week underperformance window the manager has identified.<br><br>
+    <strong>On-the-job training &mdash; limitations in this context (1 mark):</strong> However, a key limitation is that quality depends entirely on the trainer assigned. If permanent staff are busy during peak winter periods, they may not have the time or patience to train seasonal staff properly. There is also a risk that bad habits or shortcuts are passed on, which is a particular concern given the safety issues already occurring. On-the-job training also takes the experienced staff member away from their own duties, reducing overall productivity during the critical early-season period.<br><br>
+    <strong>Off-the-job training &mdash; strengths in this context (1 mark):</strong> Off-the-job training takes place away from the work environment, delivered by specialist external providers. For ski instructors, external certification programs (such as Australian Ski Instructors Alliance courses) would ensure staff meet a consistent, nationally recognised standard before they ever step in front of a guest. This is especially important given the safety briefing failures identified by the manager, as these pose both reputational and legal risks for the resort.<br><br>
+    <strong>Off-the-job training &mdash; limitations in this context (1 mark):</strong> The main limitation for Alpine is cost and timing. Sending 60 seasonal staff to external providers before each winter season would be expensive, and the logistics of coordinating training for staff arriving from different locations within the resort&apos;s tight pre-season window would be complex. The content of external programs may also not be specific enough to Alpine&apos;s particular equipment, layout and service standards.<br><br>
+    <strong>Recommendation with justification (2 marks):</strong> A blended approach is ideal, but if forced to prioritise one, on-the-job training should be the first step implemented at Alpine Ski Resort. The most urgent problem &mdash; staff underperforming in their first two weeks &mdash; is best addressed by structured on-the-job pairing with experienced permanent staff, which can be designed and implemented immediately at minimal cost. The resort should identify its five or six best permanent staff as designated trainers, give them a simple training checklist for each role, and pair them with two seasonal hires each during the first week. This is targeted, practical and immediately responsive to the scenario. Off-the-job certification for ski instructors and safety-critical roles should then be introduced as a medium-term priority in the following season, when budget can be allocated and logistics planned in advance.
+    <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark each for evaluating on-the-job training strengths and limitations in the Alpine context. 1 mark each for evaluating off-the-job training strengths and limitations in the Alpine context. 2 marks for a clear recommendation with a justified rationale that references the specific scenario &mdash; 1 mark for the recommendation alone, 1 mark for a logical justification that goes beyond simply restating which is &quot;better&quot;.</p></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:20px 0 10px">
+  <button class="btn" style="background:#085041;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
+</div>
+<button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
+
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 2 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+
+<script>
+var mcAnswers = {};
+var mcCorrectCount = 0;
+var totalAnswered = 0;
+var MC_IDS = [1,2,5,8,11];
+
+function selectMC(el, groupId, letter) {
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  var opts = document.getElementById(groupId).querySelectorAll(".mc-opt");
+  for (var i = 0; i < opts.length; i++) { opts[i].classList.remove("selected"); }
+  el.classList.add("selected");
+  if (!mcAnswers[groupId]) mcAnswers[groupId] = {};
+  mcAnswers[groupId].selected = letter;
+}
+
+function checkMC(qNum, correctLetter) {
+  var groupId = "mc" + qNum;
+  var group = document.getElementById(groupId);
+  if (!group) return;
+  var selected = mcAnswers[groupId] ? mcAnswers[groupId].selected : null;
+  if (!selected) { alert("Please select an answer first."); return; }
+  if (mcAnswers[groupId] && mcAnswers[groupId].locked) return;
+  mcAnswers[groupId].locked = true;
+  var opts = group.querySelectorAll(".mc-opt");
+  var letters = ["A","B","C","D"];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("disabled");
+    if (letters[i] === correctLetter) { opts[i].classList.add("opt-correct"); }
+    else if (letters[i] === selected) { opts[i].classList.add("opt-wrong"); }
+  }
+  var ansBox = document.getElementById("ans" + qNum);
+  ansBox.classList.add("open");
+  var isCorrect = (selected === correctLetter);
+  ansBox.classList.add(isCorrect ? "ans-correct" : "ans-wrong");
+  document.getElementById("qc" + qNum).classList.add(isCorrect ? "correct" : "incorrect");
+  var chkBtn = document.getElementById("chk" + qNum);
+  chkBtn.classList.add("btn-disabled");
+  chkBtn.disabled = true;
+  chkBtn.innerHTML = isCorrect ? "&#10003; Correct!" : "&#10007; Incorrect";
+  if (isCorrect) mcCorrectCount++;
+  totalAnswered++;
+  updateProgress();
+}
+
+function revealAnswer(qNum) {
+  var ansBox = document.getElementById("ans" + qNum);
+  if (ansBox.classList.contains("open")) return;
+  ansBox.classList.add("open");
+  document.getElementById("qc" + qNum).classList.add("revealed");
+  totalAnswered++;
+  updateProgress();
+  var card = document.getElementById("qc" + qNum);
+  var btns = card.querySelectorAll(".btn-reveal");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].innerHTML = "&#10003; Answer revealed";
+    btns[i].classList.add("btn-disabled");
+    btns[i].disabled = true;
+  }
+}
+
+function updateProgress() {
+  var pct = Math.round((totalAnswered / 15) * 100);
+  document.getElementById("prog-bar").style.width = pct + "%";
+  document.getElementById("prog-label").textContent = totalAnswered + " of 15 questions attempted";
+  document.getElementById("live-score").textContent = totalAnswered;
+  document.getElementById("live-correct").textContent = mcCorrectCount + " MC correct";
+}
+
+function finishQuiz() {
+  var banner = document.getElementById("score-banner");
+  var total = MC_IDS.length;
+  var pct = Math.round((mcCorrectCount / total) * 100);
+  var cls, msg, sub;
+  if (pct >= 80) {
+    cls = "score-great";
+    msg = "&#127942; Excellent work!";
+    sub = "You scored " + mcCorrectCount + "/" + total + " on multiple choice (" + pct + "%). Go back through your written answers and compare them carefully against the model answers &mdash; focus especially on whether your responses link back to the specific scenario details.";
+  } else if (pct >= 60) {
+    cls = "score-ok";
+    msg = "&#128218; Good effort &mdash; keep reviewing!";
+    sub = "You scored " + mcCorrectCount + "/" + total + " on multiple choice (" + pct + "%). Review the motivation theories and training sections of your Topic 2 cheat sheet before your next attempt.";
+  } else {
+    cls = "score-low";
+    msg = "&#128214; More revision needed";
+    sub = "You scored " + mcCorrectCount + "/" + total + " on multiple choice (" + pct + "%). Head back to your Topic 2 cheat sheet and focus on L&amp;N&apos;s Four Drive Theory, Locke &amp; Latham and the differences between training types.";
+  }
+  banner.className = cls;
+  banner.innerHTML = "<h2>" + msg + "</h2><p>" + sub + "</p>";
+  banner.style.display = "block";
+  banner.scrollIntoView({behavior:"smooth"});
+  document.getElementById("reset-btn").style.display = "block";
+}
+
+function resetQuiz() {
+  if (!confirm("Reset the quiz? All your answers will be cleared.")) return;
+  location.reload();
+}
+
+updateProgress();
+</script>
+</body>
+</html>
