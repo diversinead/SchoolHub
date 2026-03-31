@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 9 — Accounting for Credit Transactions</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F4F3F0; color: #1C1C1A; font-size: 15px; line-height: 1.55; }
+h1 { background: #1C1C1A; color: #fff; padding: 22px 20px 10px; font-size: 22px; letter-spacing: -0.3px; }
+.subtitle { background: #1C1C1A; color: #AAA89F; padding: 0 20px 18px; font-size: 13px; }
+#search { display: block; width: calc(100% - 32px); margin: 14px 16px; padding: 10px 14px; border: 2px solid #D0CEC6; border-radius: 8px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #378ADD; }
+
+/* ── accordion sections ── */
+.cat { border-radius: 10px; margin: 10px 12px; overflow: hidden; border: 1.5px solid #ccc; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; user-select: none; font-weight: 600; font-size: 14px; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; }
+.cat-head small { font-weight: 400; opacity: 0.7; font-size: 12px; }
+.cat-arrow { font-size: 11px; }
+.cat-body { }
+.cat-body.collapsed { display: none; }
+
+/* colours */
+.cat.purple { border-color: #AFA9EC; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+.cat.teal { border-color: #5DCAA5; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+.cat.coral { border-color: #D85A30; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.cat.amber { border-color: #BA7517; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+.cat.blue { border-color: #378ADD; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; }
+.cat.pink { border-color: #D4537E; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; }
+.cat.gray { border-color: #888780; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+/* terms */
+.term { border-top: 1px solid #EBEBEB; background: #fff; }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 500; font-size: 14px; }
+.term-title:hover { background: #F9F8F5; }
+.arrow { font-size: 10px; color: #888; }
+.term-body { display: none; padding: 10px 16px 14px; background: #FAFAF8; border-top: 1px dashed #E0DED7; }
+.term-body.open { display: block; }
+.term-def { color: #2A2A28; margin-bottom: 6px; font-size: 14px; }
+.term-eg { display: inline-block; background: #F0EEE8; border-left: 3px solid #888; padding: 5px 10px; border-radius: 0 5px 5px 0; font-size: 13px; color: #3A3A38; margin-top: 4px; }
+.term-note { display: block; margin-top: 8px; font-style: italic; font-size: 12.5px; color: #7A4A10; background: #FFF3DC; padding: 5px 9px; border-radius: 5px; }
+
+/* purple example bg */
+.cat.purple .term-eg { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; }
+.cat.teal .term-eg { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
+.cat.coral .term-eg { background: #FAECE7; border-color: #D85A30; color: #4A1B0C; }
+.cat.amber .term-eg { background: #FAEEDA; border-color: #BA7517; color: #412402; }
+.cat.blue .term-eg { background: #E6F1FB; border-color: #378ADD; color: #042C53; }
+.cat.pink .term-eg { background: #FBEAF0; border-color: #D4537E; color: #4B1528; }
+.cat.gray .term-eg { background: #F1EFE8; border-color: #888780; color: #2C2C2A; }
+
+/* hot badge */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* collapsible box panels */
+.box-wrap { border-radius: 10px; margin: 10px 12px; overflow: hidden; border: 1.5px solid #ccc; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 600; font-size: 14px; user-select: none; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.22); color: #042C53; }
+.box-body { display: none; padding: 14px; background: #fff; }
+.box-body.open { display: block; }
+.box-note { font-style: italic; font-size: 12.5px; color: #412402; background: #FAEEDA; padding: 6px 10px; border-radius: 5px; margin-top: 10px; }
+
+/* journal tables */
+.jt { width: 100%; border-collapse: collapse; font-size: 13px; }
+.jt th { background: #2C2C2A; color: #fff; padding: 7px 8px; text-align: left; font-size: 12px; }
+.jt td { padding: 6px 8px; border-bottom: 1px solid #EBEBEB; vertical-align: top; }
+.jt tfoot td { background: #F0EEE8; font-weight: 600; border-top: 2px solid #2C2C2A; }
+.jt .num { text-align: right; }
+.jt .label { font-style: italic; font-size: 11.5px; color: #666; background: #F9F8F5; }
+.col-tag { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+.tag-g { background: #C5F0DC; color: #085041; }
+.tag-r { background: #FAECE7; color: #4A1B0C; }
+.tag { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-right: 4px; }
+
+/* comparison tables */
+.ct { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ct th { background: #3C3489; color: #fff; padding: 7px 10px; text-align: left; font-size: 12px; }
+.ct td { padding: 7px 10px; border-bottom: 1px solid #EBEBEB; vertical-align: top; }
+.ct tr:nth-child(even) td { background: #F9F8F5; }
+
+/* formula cards */
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.fcard { background: #FAEEDA; border: 1.5px solid #BA7517; border-radius: 8px; padding: 12px; }
+.fcard h3 { font-size: 13px; color: #412402; margin-bottom: 6px; }
+.fcard .formula { font-family: monospace; font-size: 14px; font-weight: 700; color: #1C1C1A; background: #fff; padding: 6px 10px; border-radius: 5px; margin-bottom: 6px; }
+.fcard p { font-size: 12.5px; color: #555; margin-bottom: 6px; }
+.fcard .worked { font-size: 12px; background: #fff; padding: 6px 8px; border-radius: 5px; border-left: 3px solid #BA7517; }
+
+/* section label */
+.section-label { margin: 16px 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+
+.footer { text-align: center; color: #AAA; font-size: 11px; padding: 20px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &#9658; Chapter 9</h1>
+<p class="subtitle">Accounting for Credit Transactions &middot; tap any term to expand</p>
+
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- ══════════════════════════════════════════
+     VISUAL PANELS
+══════════════════════════════════════════ -->
+<p class="section-label">&#128202; Visual Reference Panels</p>
+
+<!-- Sales Journal worked example -->
+<div class="box-wrap green">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128203; Sales Journal — worked example</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:13px;margin-bottom:10px;">Used to record <strong>credit sales</strong> — when the business sells goods/services and will be paid later. No cash changes hands yet.</p>
+    <div style="overflow-x:auto;">
+      <table class="jt">
+        <thead><tr>
+          <th>Date</th>
+          <th>Accounts Receivable</th>
+          <th>Inv. No.</th>
+          <th class="num">Sales <span class="col-tag tag-g">revenue up</span></th>
+          <th class="num">GST <span class="col-tag tag-r">liability up</span></th>
+          <th class="num">Acc. Receivable <span class="col-tag tag-g">asset up</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td>4 Apr</td><td>Albert Park College</td><td>44</td>
+            <td class="num">900</td><td class="num">90</td><td class="num">990</td>
+          </tr>
+          <tr><td colspan="6" class="label">Issued invoice — no cash received yet. Acc. Receivable increases (asset up). GST Payable increases (liability up).</td></tr>
+          <tr>
+            <td>14 Apr</td><td>MasterChef Australia</td><td>45</td>
+            <td class="num">600</td><td class="num">60</td><td class="num">660</td>
+          </tr>
+          <tr><td colspan="6" class="label">Invoice 45 — $660 incl. GST means Sales = 600, GST = 60.</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Totals</td>
+            <td class="num">$ 1,500</td><td class="num">$ 150</td><td class="num">$ 1,650</td>
+          </tr>
+          <tr><td colspan="6" class="label">Acc. Receivable column must equal Sales + GST &#10003;</td></tr>
+        </tfoot>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The Accounts Receivable column must always equal Sales + GST. This is your check that the journal balances.</p>
+  </div>
+</div>
+
+<!-- Purchases Journal worked example -->
+<div class="box-wrap red">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128203; Purchases Journal — worked example</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:13px;margin-bottom:10px;">Used to record <strong>credit purchases</strong> — when the business buys goods/services on credit and will pay later.</p>
+    <div style="overflow-x:auto;">
+      <table class="jt">
+        <thead><tr>
+          <th>Date</th>
+          <th>Accounts Payable</th>
+          <th>Inv. No.</th>
+          <th class="num">Equipment <span class="col-tag tag-g">asset up</span></th>
+          <th class="num">Supplies <span class="col-tag tag-g">asset up</span></th>
+          <th class="num">GST <span class="col-tag tag-g">asset up</span></th>
+          <th class="num">Acc. Payable <span class="col-tag tag-r">liability up</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td>20 Apr</td><td>Equipment &amp; Co</td><td>X84</td>
+            <td class="num">330</td><td class="num">-</td><td class="num">33</td><td class="num">363</td>
+          </tr>
+          <tr><td colspan="7" class="label">Bought a tripod $330 excl. GST on credit — Equipment up, GST Receivable up, Acc. Payable up.</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Totals</td>
+            <td class="num">$ 330</td><td class="num">$ 0</td><td class="num">$ 33</td><td class="num">$ 363</td>
+          </tr>
+          <tr><td colspan="7" class="label">Acc. Payable column must equal all other columns combined &#10003;</td></tr>
+        </tfoot>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The Accounts Payable column must always equal the sum of all other columns. Column headings depend on what the business regularly buys on credit.</p>
+  </div>
+</div>
+
+<!-- Cash vs Credit comparison -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Cash vs Credit Transactions — comparison</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Cash Transaction</th><th>Credit Transaction</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Payment timing</strong></td>
+            <td>Immediate — cash changes hands now</td>
+            <td>Deferred — pay/receive later</td>
+          </tr>
+          <tr>
+            <td><strong>Journal used (sales)</strong></td>
+            <td>Cash Receipts Journal</td>
+            <td>Sales Journal</td>
+          </tr>
+          <tr>
+            <td><strong>Journal used (purchases)</strong></td>
+            <td>Cash Payments Journal</td>
+            <td>Purchases Journal</td>
+          </tr>
+          <tr>
+            <td><strong>Bank affected?</strong></td>
+            <td><span class="tag tag-g">yes</span>Bank column used</td>
+            <td><span class="tag tag-r">no</span>No Bank column</td>
+          </tr>
+          <tr>
+            <td><strong>GST impact</strong></td>
+            <td>GST Payable (sales) or GST Receivable (purchases)</td>
+            <td>Same GST rules apply — just recorded in different journal</td>
+          </tr>
+          <tr>
+            <td><strong>New balance sheet item</strong></td>
+            <td>None (Bank changes)</td>
+            <td>Accounts Receivable (asset) or Accounts Payable (liability)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The key difference is timing — credit means the exchange of goods/services happens NOW but the money moves LATER.</p>
+  </div>
+</div>
+
+<!-- GST formula card -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129518; GST Balance Formula</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div class="formula-grid">
+      <div class="fcard">
+        <h3>GST Closing Balance</h3>
+        <div class="formula">Opening + CRJ + SJ - CPJ - PJ</div>
+        <p>Add GST collected from sales (CRJ and SJ). Subtract GST paid on purchases (CPJ and PJ).</p>
+        <div class="worked">
+          Opening: $550 (receivable)<br>
+          + CRJ: $22 + SJ: $150 = $172 collected<br>
+          - CPJ: $80 - PJ: $33 = $113 paid<br>
+          <strong>Closing = 550 + 172 - 113 = $609 Receivable (Asset)</strong>
+        </div>
+      </div>
+      <div class="fcard">
+        <h3>GST Extracted from incl. price</h3>
+        <div class="formula">Price incl. GST / 11</div>
+        <p>When a price includes GST, divide by 11 to find the GST component.</p>
+        <div class="worked">
+          $660 incl. GST<br>
+          GST = 660 / 11 = <strong>$60</strong><br>
+          Sales (excl.) = 660 - 60 = <strong>$600</strong>
+        </div>
+      </div>
+      <div class="fcard">
+        <h3>GST Added to excl. price</h3>
+        <div class="formula">Price excl. GST x 10%</div>
+        <p>When a price excludes GST, multiply by 0.10 to find GST to add.</p>
+        <div class="worked">
+          $900 excl. GST<br>
+          GST = 900 x 0.10 = <strong>$90</strong><br>
+          Total = 900 + 90 = <strong>$990</strong>
+        </div>
+      </div>
+    </div>
+    <p class="box-note">&#128161; Always check whether a price is stated as including or excluding GST before calculating — this is the most common exam mistake.</p>
+  </div>
+</div>
+
+<!-- Accounting equation effect panel -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9874; Accounting Equation Effects — credit transactions</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Transaction</th><th>Item in Balance Sheet</th><th>Classification</th><th>Change</th><th>$</th></tr></thead>
+        <tbody>
+          <tr>
+            <td rowspan="3"><strong>Credit sale $900 + GST</strong><br><small>Invoice issued</small></td>
+            <td>Accounts Receivable</td><td>Current Asset</td><td>Increase</td><td>990</td>
+          </tr>
+          <tr>
+            <td>Sales Revenue</td><td>Revenue (Equity up)</td><td>Increase</td><td>900</td>
+          </tr>
+          <tr>
+            <td>GST Payable</td><td>Current Liability</td><td>Increase</td><td>90</td>
+          </tr>
+          <tr style="background:#F9F8F5;">
+            <td rowspan="3"><strong>Credit purchase $330 + GST</strong><br><small>Purchase invoice received</small></td>
+            <td>Equipment</td><td>Non-current Asset</td><td>Increase</td><td>330</td>
+          </tr>
+          <tr style="background:#F9F8F5;">
+            <td>GST Receivable</td><td>Current Asset</td><td>Increase</td><td>33</td>
+          </tr>
+          <tr style="background:#F9F8F5;">
+            <td>Accounts Payable</td><td>Current Liability</td><td>Increase</td><td>363</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; For a credit sale: Assets up (Acc. Receivable), Liabilities up (GST Payable), Equity up (Revenue). The equation stays balanced.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TERMS ACCORDION
+══════════════════════════════════════════ -->
+<p class="section-label">&#128218; Key Terms by Section</p>
+<div id="list"></div>
+
+<p class="footer">VCE Accounting — Neville Box 7th Ed. &middot; Chapter 9 &middot; Tap any term to expand</p>
+
+<script>
+var data = [
+  { cat: "9.1 Cash vs Credit Transactions", color: "purple", hot: false, items: [
+    { term: "Cash transaction", def: "A transaction where payment is made immediately at the time goods or services change hands.", eg: "A customer pays $220 cash at the counter for a portrait session — Bank increases immediately." },
+    { term: "Credit transaction", def: "A transaction where goods or services change hands now but payment is made at a later date.", eg: "Snap It Up issues invoice 44 to Albert Park College for $990 — no cash received yet, Accounts Receivable increases." },
+    { term: "Trade credit", def: "An agreement between businesses allowing the buyer to receive goods or services now and pay within an agreed period (e.g. 30 days).", eg: "Equipment and Co sends invoice X84 for a tripod on 30-day credit terms — Finishing Touch has 30 days to pay." },
+    { term: "Credit terms", def: "The agreed timeframe within which a credit customer must pay. Shown on invoices as n/30 (net 30 days) or n/60.", eg: "VVR Computers invoice shows Terms: n/30 — meaning full payment is due within 30 days of invoice date." }
+  ]},
+  { cat: "9.2 Accounts Receivable", color: "teal", hot: true, items: [
+    { term: "Accounts Receivable", def: "Money owed TO the business by credit customers. It is a current asset because it is expected to be collected within 12 months.", eg: "Snap It Up has $2,000 Accounts Receivable from APC on 1 April — APC owes this money for past credit sales.", note: "Always classify as a Current Asset — it will be received within 12 months." },
+    { term: "Debtor", def: "Another name for a credit customer — a person or business that owes money to the business.", eg: "Albert Park College is a debtor of Snap It Up because it has not yet paid invoice 44." },
+    { term: "Sales Journal (SJ)", def: "The journal used to record all credit sales transactions. It does NOT record cash sales — those go in the Cash Receipts Journal.", eg: "When Snap It Up issues invoice 44 to Albert Park College for $990, this is recorded in the Sales Journal.", note: "Never record cash sales in the Sales Journal — cash sales go in the CRJ." },
+    { term: "Sales Journal columns", def: "Date, Accounts Receivable (debtor name), Invoice No., Sales, GST, Accounts Receivable ($). The final Accounts Receivable column must equal Sales + GST.", eg: "Invoice 44: Sales = $900, GST = $90, Acc. Receivable = $990. Check: 900 + 90 = 990 &#10003;" },
+    { term: "Invoice (issued)", def: "A source document issued BY the business to a credit customer, requesting payment for goods or services provided.", eg: "Snap It Up issues invoice 44 to Albert Park College for a photography event — this triggers a Sales Journal entry." }
+  ]},
+  { cat: "9.3 Accounts Payable", color: "coral", hot: true, items: [
+    { term: "Accounts Payable", def: "Money owed BY the business to credit suppliers. It is a current liability because it must be paid within 12 months.", eg: "After receiving invoice X84 from Equipment and Co for $363, Accounts Payable increases by $363.", note: "Always classify as a Current Liability — it will be paid within 12 months." },
+    { term: "Creditor", def: "Another name for a credit supplier — a business that is owed money by the business.", eg: "Equipment and Co is a creditor of Snap It Up until invoice X84 is paid." },
+    { term: "Purchases Journal (PJ)", def: "The journal used to record all credit purchases of goods or assets. It does NOT record cash purchases — those go in the Cash Payments Journal.", eg: "When Snap It Up receives invoice X84 for a tripod on credit, this is recorded in the Purchases Journal.", note: "Never record cash purchases in the Purchases Journal — cash purchases go in the CPJ." },
+    { term: "Purchases Journal columns", def: "Date, Accounts Payable (supplier name), Invoice No., then columns for each type of item purchased (e.g. Equipment, Supplies), GST, Accounts Payable ($). Final column must equal all others combined.", eg: "Invoice X84: Equipment $330 + GST $33 = Acc. Payable $363. Check: 330 + 33 = 363 &#10003;" },
+    { term: "Purchase invoice (received)", def: "A source document received FROM a supplier, showing what was bought on credit and the amount owed. This is the source document for the Purchases Journal.", eg: "VVR Computers sends invoice B76 to Finishing Touch for a laptop — this is the source document for a Purchases Journal entry." }
+  ]},
+  { cat: "9.4 GST in Credit Transactions", color: "amber", hot: true, items: [
+    { term: "GST Payable", def: "GST collected from credit customers on sales. It is a current liability — the business owes this money to the ATO.", eg: "Snap It Up charges $90 GST on invoice 44 — GST Payable increases by $90 as this must be remitted to the ATO.", note: "GST Payable arises from SALES (both cash and credit) — it is always a liability." },
+    { term: "GST Receivable", def: "GST paid to credit suppliers on purchases. It is a current asset — the ATO owes this back to the business.", eg: "Snap It Up pays $33 GST on the tripod purchase invoice X84 — GST Receivable increases by $33.", note: "GST Receivable arises from PURCHASES (both cash and credit) — it is always an asset." },
+    { term: "GST balance calculation", def: "Opening GST balance + GST in CRJ + GST in SJ - GST in CPJ - GST in PJ. A positive result means GST Receivable (asset). A negative result means GST Payable (liability).", eg: "Opening $550 + CRJ $22 + SJ $150 - CPJ $80 - PJ $33 = $609. Positive so GST Receivable = Current Asset.", note: "If the result is positive = GST Receivable (asset). If negative = GST Payable (liability)." },
+    { term: "Extracting GST from inclusive price", def: "Divide the GST-inclusive price by 11 to find the GST component. Subtract GST to find the exclusive price.", eg: "$660 incl. GST: GST = 660 / 11 = $60. Sales excl. GST = 660 - 60 = $600.", note: "Divide by 11 for inclusive prices. Multiply by 0.10 for exclusive prices." },
+    { term: "ATO refund of GST", def: "When GST Receivable exceeds GST Payable, the ATO refunds the difference to the business. This is received as cash and recorded in the Cash Receipts Journal under Sundries.", eg: "Snap It Up receives a $550 GST refund via EFT on 15 April — recorded in CRJ: Bank $550, Sundries $550." }
+  ]},
+  { cat: "9.5 Source Documents for Credit Transactions", color: "blue", hot: true, items: [
+    { term: "Sales invoice (issued)", def: "Created by the business and sent to the credit customer. It is the source document for the Sales Journal. The business keeps a copy.", eg: "Snap It Up issues invoice 44 to Albert Park College for a photography event worth $990 incl. GST." },
+    { term: "Purchase invoice (received)", def: "Created by the supplier and sent to the business. It is the source document for the Purchases Journal. The business files the original.", eg: "VVR Computers sends invoice B76 to Finishing Touch for a laptop — Finishing Touch files this as its Purchases Journal source document." },
+    { term: "Credit note", def: "Issued when a previously invoiced sale is reversed or reduced — e.g. goods returned. It reduces the Accounts Receivable balance.", eg: "Albert Park College returns faulty equipment — Snap It Up issues a credit note reducing the amount APC owes." },
+    { term: "Duplicate invoice", def: "A copy of the original invoice provided to the customer. The word Duplicate appears on the document — it does not create a new transaction.", eg: "VVR Computers invoice B76 is marked Duplicate — this is just a copy of the original already recorded." },
+    { term: "Verifiable (QC)", def: "A qualitative characteristic requiring that accounting information can be checked back to source documents. Using original invoices and receipts satisfies this characteristic.", eg: "Snap It Up keeps all purchase invoices so that any amount recorded can be traced back to the original supplier document.", note: "Source documents make reports verifiable — always link source documents to the Verifiable qualitative characteristic in exam answers." }
+  ]},
+  { cat: "9.6 Column Headings in Journals", color: "pink", hot: false, items: [
+    { term: "How column headings are determined", def: "Column headings in journals are based on the types of transactions the business regularly performs. Frequent transaction types get their own column; infrequent ones go in Sundries.", eg: "A photography business regularly buys equipment so Equipment gets its own column in the Purchases Journal. A one-off legal fee goes in Sundries." },
+    { term: "Sundries column", def: "Used for transactions that do not fit into any named column, or for items that occur infrequently. Every journal has a Sundries column as a catch-all.", eg: "The ATO GST refund received by Snap It Up does not fit Sales or Acc. Receivable — it goes in Sundries in the CRJ." },
+    { term: "Why separate journals are used", def: "Separate journals for cash and credit transactions allow the business to clearly distinguish between what has been paid and what is still outstanding.", eg: "Snap It Up can look at the Sales Journal to see all unpaid invoices, and the CRJ to see all cash already received." }
+  ]},
+  { cat: "9.7 Ethics in Credit Transactions", color: "gray", hot: false, items: [
+    { term: "Business Entity assumption and credit", def: "The business is treated as separate from its owner. Only transactions of the business are recorded, not personal transactions of the owner.", eg: "Georgie withdrawing $58 for personal petrol is recorded as Drawings — not as a business expense, because of the Business Entity assumption." },
+    { term: "Ethical recording of credit transactions", def: "Businesses must record all credit transactions honestly and use legitimate source documents. Falsifying invoices or omitting credit sales is unethical and illegal.", eg: "Snap It Up must record all invoices issued, including those to small clients — omitting them to reduce GST Payable would be fraudulent." },
+    { term: "Responsibility to creditors", def: "A business has an ethical obligation to pay its creditors on time as agreed in credit terms. Consistently late payment damages business relationships.", eg: "Finishing Touch received invoice B76 on 18 May with terms n/30 — it has an ethical responsibility to pay VVR Computers by 17 June." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic — appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>
