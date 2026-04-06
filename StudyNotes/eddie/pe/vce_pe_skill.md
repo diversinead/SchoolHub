@@ -654,11 +654,306 @@ function toggleModel(btn) {
 | Classification of joints button in wrong section | Always check: image goes in the section it BELONGS TO conceptually, not wherever convenient |
 | Knee anatomy button in joint types instead of synovial structure | Knee anatomy shows internal joint STRUCTURE — belongs in 1.2.6, not 1.2.5 |
 | Tendons missing from synovial joint structure table | Tendons are critical — always include in any joint structure section |
+| SVG diagram removed that user wanted kept | Never remove an SVG concept diagram just because a textbook image exists — keep BOTH; SVG explains the concept, textbook image shows the real figure |
+| Image button placed in wrong section (fibre arrangements in hierarchy diagram) | Image buttons must be placed in the section whose CONTENT matches the image — not wherever is convenient to put them |
+| Stray image button left in a panel with no matching image | Only add image buttons when the user has confirmed the image filename. Never leave a button pointing to a file that does not exist |
+| Two different images assigned the same filename | Always confirm exact filenames with the user before building — never assume or invent filenames |
+| Muscle types (cardiac/smooth/skeletal) missing from muscular system section | Always include three types of muscle tissue in section 1.3.1 — this is core content that is commonly examined |
+| Fibre arrangement image (Fig 1.17) misidentified as fibre types image | Confirm what each uploaded image actually shows before assigning filenames |
+
+---
+
+## Image Management Rules (learned from Chapter 1)
+
+These rules prevent the most common image-related mistakes:
+
+1. **Always confirm filenames with the user** before building any file. Never invent or assume filenames — ask the user what they have saved and what each file shows.
+
+2. **Never assign the same filename to two different images.** If two buttons in the same section point to the same filename, they show the same image — check this before delivering.
+
+3. **Place each image button in the section whose content it illustrates:**
+   - Skeleton diagram → Major bones section
+   - Vertebral column → Vertebral column section
+   - Joint classification → Joint types section (NOT bone types section)
+   - Knee anatomy → Synovial joint STRUCTURE section (not joint types)
+   - Muscle belly cross-section → Muscle structure section
+   - Fibre arrangements → Muscle structure section (not fibre types section)
+
+4. **Keep SVG concept diagrams even when a textbook image button exists.** The SVG explains the concept visually; the textbook image shows the real anatomical figure. They serve different purposes — use both.
+
+5. **If the user does not have an image for a section, do not add a placeholder button.** Simply omit it. A button pointing to a missing file confuses the user even though an error message appears.
+
+6. **When the user uploads images mid-conversation**, look at the image carefully before assigning it. Do not rely on the filename the user chose — they may have named it incorrectly. Confirm what the image actually shows and which section it belongs in.
+
+7. **Suggested filename convention for Ch2 onwards:**
+   - `fig[chapter]_[section]_[descriptor].png`
+   - Example: `fig2_3_ricer_protocol.png`, `fig2_5_soft_tissue_injury.png`
+   - Always use lowercase, underscores not spaces, no special characters
+
+---
+
+## Content Lessons Learned — Chapter 1
+
+These content gaps were identified during Chapter 1 and must not be repeated:
+
+- **Three types of muscle tissue** (skeletal, cardiac, smooth) must always be included in any muscular system section. Key distinctions: voluntary/involuntary, striated/non-striated. Smooth = only non-striated type.
+- **Tendons** must always be included in any joint structure or muscular system section. They are a critical connective tissue that students frequently confuse with ligaments.
+- **Muscle fibre arrangements** (pennate, fusiform, convergent etc.) are a separate concept from muscle fibre TYPES (Type I, IIa, IIx) — do not confuse these two topics.
+- **Reciprocal inhibition** should be included in any section covering muscle roles — it explains the automatic relaxation of the antagonist when the agonist contracts.
+- **Stretch-shortening cycle (SSC)** belongs in the contractions section alongside eccentric/concentric/isometric — it is commonly examined in the context of jumping and sprinting.
+- **DOMS** (delayed onset muscle soreness) must be linked specifically to eccentric contractions — students frequently and incorrectly link it to concentric or general exercise.
+- **Force production ranking** (Eccentric > Isometric > Concentric) is a standalone exam topic — always include it in the contractions section with a reason.
+- **Sarcolemma and T-tubules** are often omitted from sliding filament theory explanations — always include them as the pathway between the action potential and Ca2+ release.
+
+---
+
+## Chapter 1 File Summary (completed)
+
+| File | Content |
+|------|---------|
+| `vce_pe_ch1_partA_skeletal.html` | Sections 1.1–1.2: Overview, skeletal system, joints, movements |
+| `vce_pe_ch1_partA_quiz.html` | Quiz and exam practice for Part A |
+| `vce_pe_ch1_partB_muscular.html` | Sections 1.3–1.4: Muscular system, fibre types, sliding filament |
+| `vce_pe_ch1_partB_quiz.html` | Quiz and exam practice for Part B |
+| `vce_pe_ch1_partC_neural_contractions.html` | Sections 1.5–1.6: Neural control, contraction types |
+| `vce_pe_ch1_partC_quiz.html` | Quiz and exam practice for Part C |
+
+**HOT TOPIC sections confirmed for Chapter 1:**
+- 1.2.5 Joints (types + structure)
+- 1.2.8 Movement terminology
+- 1.3.4 Muscle roles (agonist/antagonist)
+- 1.4.2 Sliding filament theory
+- 1.4.1 Muscle fibre types
+- 1.4.3 Motor unit recruitment (size principle)
+- 1.5.3 Neuromuscular junction
+- 1.5.4 Motor unit recruitment
+- 1.6.1 Contraction types (concentric/eccentric/isometric)
+
+---
+
+## Colour Scheme Update (applied from Chapter 2 onwards)
+
+All files from Chapter 2 onwards use a teal/slate palette instead of red.
+**Never use red as a primary accent colour in new files.**
+
+| Was (red) | Now (teal/slate) |
+|-----------|-----------------|
+| `#c0392b` | `#2c5f6e` |
+| `#922b21` | `#1a3d48` |
+| `#e74c3c` | `#2c5f6e` |
+| `#8b3318` | `#1a3d48` |
+| `#fde8e8` | `#eaf4f7` |
+| `#fdeaea` | `#eaf4f7` |
+
+### Header / subtitle
+```css
+h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); }
+.subtitle { background: #1a3d48; color: #d6eef3; }
+```
+
+### Nav pills
+```css
+.nav-pill { background: #eaf4f7; color: #1a3d48; border-color: #2c5f6e; }
+.nav-pill:hover { background: #2c5f6e; color: #fff; }
+```
+
+### Section labels
+```css
+.section-label { background: #2c5f6e; }
+```
+
+### HOT badge
+```css
+.hot-badge { background: #2c5f6e; }
+```
+
+### Accordion headers — use reduced opacity backgrounds
+```css
+.cat-wrap.coral .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
+/* All other colours: use 0.12–0.18 opacity, never 0.28–0.35 */
+```
+
+### Accordion borders — use lightened/pastel versions
+```css
+.cat-wrap.coral { border-color: #e8a48a; }  /* not #D85A30 */
+.cat-wrap.blue  { border-color: #90bce6; }  /* not #378ADD */
+/* etc — all borders use pastel versions */
+```
+
+### Box/diagram wrap headers — near-white backgrounds
+```css
+.box-head    { background: #f5faf8; }  /* not #e8faf4 */
+.diagram-head { background: #f5faf8; } /* not #e8faf4 */
+```
+
+### Tables — neutral header, not coloured
+```css
+th { background: #4a4a5a; }           /* not #c0392b */
+tr:nth-child(even) td { background: #f8f8f8; }
+tr:hover td { background: #f2f2f4; }
+```
+
+### Highlight / tip boxes — pale backgrounds, left border only
+```css
+.highlight-box { background: #fafafa; border-left: 4px solid #c8a84b; }
+.highlight-box.red   { border-left-color: #2c5f6e; } /* no red */
+.highlight-box.teal  { border-left-color: #5DCAA5; }
+.highlight-box.slate { border-left-color: #2c5f6e; }
+.tip-box { background: #fafafa; border: 1px solid #ccc; border-left: 4px solid #5DCAA5; }
+```
+
+### Compare cards — left border accent only, no coloured fill
+```css
+.compare-card { background: #fafafa; border: 1px solid #ddd; }
+.compare-card.coral { border-left: 4px solid #D85A30; }
+.compare-card.blue  { border-left: 4px solid #378ADD; }
+```
+
+### Quiz files — wrong answer styling uses teal not red
+```css
+.q-card.wrong       { border-color: #9adcc5; background: #f0f7f9; }
+.opt-btn.selected-wrong { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+.feedback.wrong-fb  { background: #deeef2; border-left: 4px solid #2c5f6e; }
+```
+
+---
+
+## Search Fix (apply to ALL new files — critical)
+
+The search in early Chapter 2 files was broken. Every new file must use this exact pattern:
+```javascript
+var currentQuery = '';
+
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildList(filtered) {
+  // ...
+  var isSearching = currentQuery !== '';
+  var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+  var arrow     = isSearching ? '&#9650;'       : '&#9660;';
+  // Use highlight() on term name and def when isSearching is true
+  var displayName = isSearching ? highlight(t.name, currentQuery) : t.name;
+  var displayDef  = isSearching ? highlight(t.def,  currentQuery) : t.def;
+}
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  if (currentQuery === '') { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].name.toLowerCase().indexOf(val) !== -1 ||
+        terms[i].def.toLowerCase().indexOf(val) !== -1) {
+      filtered.push(terms[i]);
+    }
+  }
+  buildList(filtered);
+  countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) { listEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  buildList(terms);
+}
+```
+
+**Key rules:**
+- `currentQuery` is a global variable — always declare it before `buildList`
+- When `isSearching`, accordion bodies render with `cat-body open` and arrow `▲` so results are immediately visible
+- `highlight()` wraps matches in `<mark>` tags — the `mark` CSS rule must be present
+- `clearSearch()` must reset `currentQuery` to `''` before calling `buildList`
+
+---
+
+## SVG Diagram Spacing Rule (critical — learned from Chapter 2)
+
+**Every child box in an SVG diagram must have its own unique, non-overlapping x-coordinates.**
+
+### The problem that kept occurring
+Child boxes were calculated relative to a shared parent centre, causing them to overlap:
+```svg
+<!-- WRONG — boxes share x-start values, they overlap -->
+<rect x="42" y="148" width="96" .../>   <!-- ends at x=138 -->
+<rect x="102" y="148" width="96" .../>  <!-- starts at x=102 — OVERLAP -->
+```
+
+### The correct approach
+Calculate each box's x position explicitly with a guaranteed gap:
+```svg
+<!-- CORRECT — each box has unique non-overlapping x, with gap between -->
+<rect x="14"  y="174" width="92" .../>  <!-- ends at x=106 -->
+<rect x="114" y="174" width="92" .../>  <!-- starts at x=114 — 8px gap -->
+<rect x="214" y="174" width="92" .../>  <!-- starts at x=214 — 8px gap -->
+```
+
+### Rules
+1. Calculate: `next_x = prev_x + box_width + gap` (minimum gap = 6px)
+2. Widen the `viewBox` to fit all boxes — never squeeze boxes into a fixed width
+3. Use `text-anchor="middle"` with `x = box_x + (box_width / 2)` for centred text
+4. Always verify: `last_box_x + last_box_width <= viewBox_width - margin`
+5. Prefer wider viewBoxes (860–960px) for diagrams with 3+ child columns
+
+---
+
+## Chapter 2 File Summary (completed)
+
+| File | Content |
+|------|---------|
+| `vce_pe_u1_aos1a_ch2_partA_injuries.html` | 2A — Soft tissue injuries, hard tissue injuries, spinal injuries & postural conditions |
+| `vce_pe_u1_aos1a_ch2_partA_quiz.html` | Quiz & exam practice for Part A |
+| `vce_pe_u1_aos1a_ch2_partB_illnesses_spinal.html` | 2A — Musculoskeletal illnesses: arthritis (OA & RA), osteoporosis |
+| `vce_pe_u1_aos1a_ch2_partB_quiz.html` | Quiz & exam practice for Part B |
+| `vce_pe_u1_aos1a_ch2_partC_prevention_rehab.html` | 2B — Injury prevention & rehabilitation: fitness requirements, warm-up, cool-down, RICER, HARM, TOTAPS, rehab phases |
+| `vce_pe_u1_aos1a_ch2_partC_quiz.html` | Quiz & exam practice for Part C |
+| `vce_pe_u1_aos1a_ch2_partD_keeping_safe.html` | 2C — Keeping the body safe: protective equipment, taping & bracing, concussion & GRTP |
+| `vce_pe_u1_aos1a_ch2_partD_quiz.html` | Quiz & exam practice for Part D |
+| `vce_pe_u1_aos1a_ch2_partE_permitted_prohibited.html` | 2D — Permitted & prohibited practices: WADA, training, creatine, protein, AAS, HGH, EPO |
+| `vce_pe_u1_aos1a_ch2_partE_quiz.html` | Quiz & exam practice for Part E |
+
+**HOT TOPIC sections confirmed for Chapter 2:**
+- Sprain vs strain distinction (most commonly confused pair)
+- Fracture type classification and mechanisms
+- OA (degenerative) vs RA (autoimmune) — morning stiffness duration is key differentiator
+- Osteoporosis risk factors and Wolff's Law / weight-bearing exercise
+- RICER and HARM (applied together — what to do and what to avoid)
+- TOTAPS on-field assessment
+- Dynamic vs static stretching (dynamic = warm-up; static = cool-down)
+- Taping mechanisms: mechanical restriction degrades with activity; proprioception is maintained
+- Concussion: no same-day return; GRTP 6 stages; second impact syndrome
+- WADA: 2 of 3 criteria; strict liability
+- Creatine = PERMITTED (not a steroid — common exam confusion)
+- AAS: mechanism (androgen receptor → MPS), sex-specific harms, all 3 WADA criteria met
+
+---
+
+## AOS2 Structure (upcoming)
+
+**Unit 1 AOS2: What role does the cardiorespiratory system play in movement?**
+
+| Chapter | Title | Key content |
+|---------|-------|-------------|
+| Ch3 | The Cardiovascular System | Heart structure & function, cardiac output, stroke volume, heart rate, blood pressure, vascular system, responses to exercise |
+| Ch4 | The Respiratory System | Lung structure, ventilation, gas exchange, oxygen transport, haemoglobin, responses to exercise |
+| Ch5 | Improving the Cardiorespiratory System | Training adaptations, training principles, training methods (continuous, interval, fartlek, circuit), VO2max |
+
+**File naming for AOS2:**
+`vce_pe_u1_aos2_ch[N]_part[X]_[topic].html`
+Example: `vce_pe_u1_aos2_ch3_partA_cardiovascular.html`
 
 ---
 
 ## Prompt to Activate This Skill in a New Conversation
 
-Paste the following at the start of a new chat, then attach this skill document:
+Paste the following at the start of a new chat, then attach the updated skill document:
 
-> "I am creating interactive HTML study notes and quiz files for VCE Physical Education Units 1 & 2 using the Live it Up 5th edition textbook. Please use the attached skill document to generate each chapter section as two files: a study notes file and a paired quiz/exam practice file. I will provide the chapter number, section headings, and any textbook image filenames. Follow all rules, patterns and known fixes in the skill document exactly."
+> "I am creating interactive HTML study notes and quiz files for VCE Physical Education Units 1 & 2 using the Live it Up 5th edition textbook. Please use the attached skill document to generate each chapter section as two files: a study notes file and a paired quiz/exam practice file. I will provide the chapter number, section headings, and any textbook image filenames. Follow all rules, patterns and known fixes in the skill document exactly. We are continuing from Chapter 2 (completed) and moving into AOS2: Chapter 3 — The Cardiovascular System."

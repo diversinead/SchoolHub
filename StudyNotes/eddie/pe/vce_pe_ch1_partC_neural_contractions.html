@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Ch1 Part C: Neural Control &amp; Muscular Contractions</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4px; letter-spacing: -0.5px; }
+.subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 6px; font-style: italic; }
+.nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 10px 12px 16px; }
+.nav-pill { background: #fff; border: 1.5px solid #ccc; border-radius: 20px; padding: 4px 12px; font-size: 0.8em; cursor: pointer; color: #444; transition: all 0.15s; }
+.nav-pill:hover { background: #3C3489; color: #fff; border-color: #3C3489; }
+
+/* SEARCH */
+.search-wrap { display: flex; align-items: center; gap: 8px; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; }
+#search { flex: 1; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; font-family: Georgia, serif; }
+#search:focus { outline: none; border-color: #3C3489; }
+#search-clear { display: none; background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; cursor: pointer; font-weight: 700; font-family: Georgia, serif; }
+#search-clear.visible { display: block; }
+#search-count { font-size: 12px; color: #888; white-space: nowrap; min-width: 60px; }
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+.section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
+
+/* ACCORDION */
+.cat { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: visible; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; gap: 8px; }
+.cat-head-text { font-weight: 700; font-size: 0.95em; flex: 1; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head-right small { font-size: 11px; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+.cat-body { padding: 6px 10px 10px; }
+.cat-body.collapsed { display: none; }
+.term { border-radius: 7px; margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 0.9em; background: rgba(255,255,255,0.55); gap: 8px; }
+.term-title:hover { background: rgba(255,255,255,0.85); }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 11px; color: #888; flex-shrink: 0; }
+.term-body { display: none; padding: 10px 14px 11px; background: rgba(255,255,255,0.4); font-size: 0.87em; }
+.term-body.open { display: block; }
+.term-def { margin-bottom: 5px; }
+.term-eg { display: block; font-style: italic; color: #555; margin-top: 4px; }
+.term-note { display: block; margin-top: 7px; font-style: italic; font-size: 0.91em; color: #7B3C00; background: #FFF7EE; border-left: 3px solid #BA7517; padding: 4px 8px; border-radius: 3px; }
+.hl { background: #FFE066; border-radius: 2px; padding: 0 1px; }
+
+/* HOT BADGE */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 200px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* COLOUR THEMES */
+.cat.purple { border-color: #AFA9EC; } .cat.purple .cat-head { background: rgba(206,203,246,0.35); } .cat.purple .term-body { background: rgba(238,237,254,0.5); }
+.cat.teal { border-color: #5DCAA5; } .cat.teal .cat-head { background: rgba(159,225,203,0.28); } .cat.teal .term-body { background: rgba(225,245,238,0.5); }
+.cat.coral { border-color: #D85A30; } .cat.coral .cat-head { background: rgba(240,153,123,0.22); } .cat.coral .term-body { background: rgba(250,236,231,0.5); }
+.cat.amber { border-color: #BA7517; } .cat.amber .cat-head { background: rgba(239,159,39,0.20); } .cat.amber .term-body { background: rgba(250,238,218,0.5); }
+.cat.blue { border-color: #378ADD; } .cat.blue .cat-head { background: rgba(133,183,235,0.25); } .cat.blue .term-body { background: rgba(230,241,251,0.5); }
+.cat.pink { border-color: #D4537E; } .cat.pink .cat-head { background: rgba(237,147,177,0.22); } .cat.pink .term-body { background: rgba(251,234,240,0.5); }
+.cat.gray { border-color: #888780; } .cat.gray .cat-head { background: rgba(180,178,169,0.20); } .cat.gray .term-body { background: rgba(241,239,232,0.5); }
+
+/* BOX PANELS */
+.box-wrap { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; } .box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; } .box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; } .box-wrap.pink { border-color: #D4537E; }
+.box-wrap.coral { border-color: #D85A30; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 700; font-size: 0.93em; user-select: none; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.30); }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.35); }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.22); }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.30); }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.28); }
+.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.22); }
+.box-wrap.coral .box-toggle { background: rgba(240,153,123,0.25); }
+.box-body { display: none; padding: 14px; background: #fff; }
+.box-body.open { display: block; }
+.box-note { margin-top: 10px; font-style: italic; font-size: 0.86em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
+.exam-tip { margin: 8px 0; font-size: 0.86em; color: #4A1B0C; background: #FAECE7; border-left: 4px solid #D85A30; padding: 7px 11px; border-radius: 4px; }
+
+/* TABLES */
+.ct { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.ct th { background: #2C2C2A; color: #fff; padding: 8px 10px; text-align: left; }
+.ct td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; text-align: left; }
+.ct tr:last-child td { border-bottom: none; }
+.ct tr:nth-child(even) td { background: #F7F6F0; }
+.mt { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.mt th { background: #085041; color: #fff; padding: 8px 10px; text-align: left; }
+.mt td { padding: 6px 10px; border-bottom: 1px solid #e0ede9; vertical-align: top; text-align: left; }
+.mt tr:nth-child(even) td { background: #F0FAF6; }
+.mt tr:last-child td { border-bottom: none; }
+.pt { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.pt th { background: #3C3489; color: #fff; padding: 8px 10px; text-align: left; }
+.pt td { padding: 7px 10px; border-bottom: 1px solid #e8e8f8; vertical-align: top; text-align: left; }
+.pt tr:nth-child(even) td { background: #F4F3FE; }
+.pt tr:last-child td { border-bottom: none; }
+
+/* DIAGRAM WRAPPER */
+.diagram-wrap { margin: 0 12px 12px; border-radius: 10px; overflow: hidden; border: 2px solid #5DCAA5; background: #fff; }
+.diagram-wrap.blue { border-color: #378ADD; }
+.diagram-wrap.purple { border-color: #AFA9EC; }
+.diagram-wrap.amber { border-color: #BA7517; }
+.diagram-wrap.coral { border-color: #D85A30; }
+.diagram-head { background: rgba(159,225,203,0.30); padding: 10px 14px; font-weight: 700; font-size: 0.93em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+.diagram-head.blue { background: rgba(133,183,235,0.28); }
+.diagram-head.purple { background: rgba(206,203,246,0.35); }
+.diagram-head.amber { background: rgba(239,159,39,0.22); }
+.diagram-head.coral { background: rgba(240,153,123,0.25); }
+.diagram-body { display: none; padding: 16px 12px 12px; background: #fff; }
+.diagram-body.open { display: block; }
+.diagram-caption { font-size: 0.81em; color: #555; font-style: italic; text-align: center; margin-top: 8px; line-height: 1.5; }
+svg text { font-family: Georgia, serif; }
+
+/* LIGHTBOX */
+.fig-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; margin-right: 6px; background: #3C3489; color: #fff; border: none; border-radius: 7px; padding: 7px 14px; font-size: 0.84em; font-family: Georgia, serif; cursor: pointer; font-weight: 700; }
+.fig-btn:hover { background: #2A2460; }
+.lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+.lightbox-overlay.open { display: flex; }
+.lightbox-box { position: relative; background: #fff; border-radius: 12px; padding: 14px; max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; align-items: center; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+.lightbox-box img { max-width: 100%; max-height: 76vh; border-radius: 6px; object-fit: contain; }
+.lightbox-caption { font-size: 0.82em; color: #555; margin-top: 8px; font-style: italic; text-align: center; }
+.lightbox-close { position: absolute; top: -14px; right: -14px; background: #E24B4A; color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.lightbox-filename { font-size: 0.78em; color: #aaa; margin-top: 5px; font-family: monospace; }
+.lightbox-error { color: #E24B4A; font-size: 0.88em; margin-top: 10px; text-align: center; display: none; }
+.lightbox-error.show { display: block; }
+#no-results { display: none; text-align: center; color: #999; padding: 30px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1 Part C &middot; Sections 1.5&ndash;1.6: Neural Control &amp; Muscular Contractions &middot; Live it Up 5th ed.</p>
+
+<!-- NAV PILLS -->
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('sec15')">1.5 Neural Control</span>
+  <span class="nav-pill" onclick="jumpTo('sec151')">1.5.1 Nervous System</span>
+  <span class="nav-pill" onclick="jumpTo('sec152')">1.5.2 Motor Neuron</span>
+  <span class="nav-pill" onclick="jumpTo('sec153')">1.5.3 NMJ</span>
+  <span class="nav-pill" onclick="jumpTo('sec154')">1.5.4 Recruitment</span>
+  <span class="nav-pill" onclick="jumpTo('sec16')">1.6 Contractions</span>
+  <span class="nav-pill" onclick="jumpTo('sec161')">1.6.1 Contraction Types</span>
+  <span class="nav-pill" onclick="jumpTo('sec162')">1.6.2 Isotonic/Isometric</span>
+  <span class="nav-pill" onclick="jumpTo('sec163')">1.6.3 Force-Velocity</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ============================================================
+     SECTION 1.5 NEURAL CONTROL
+     ============================================================ -->
+<p class="section-label" id="sec15">&#9889; 1.5 Neural Control of Muscles</p>
+
+<!-- 1.5.1 NERVOUS SYSTEM OVERVIEW -->
+<p class="section-label" id="sec151" style="padding-top:4px;">The Nervous System and Muscle Control</p>
+
+<!-- SVG: Nervous system pathway -->
+<div class="diagram-wrap blue">
+  <div class="diagram-head blue" onclick="toggleB(this)">
+    <span>&#9889; Diagram: Nervous Control of Muscular Movement — Pathway</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 580 320" xmlns="http://www.w3.org/2000/svg" style="max-width:580px;width:100%;display:inline-block;">
+        <!-- BRAIN -->
+        <ellipse cx="290" cy="50" rx="70" ry="42" fill="#EEF3FB" stroke="#378ADD" stroke-width="2"/>
+        <text x="290" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#042C53">Brain</text>
+        <text x="290" y="62" text-anchor="middle" font-size="10" fill="#378ADD">Initiates movement signal</text>
+        <!-- step 1 badge -->
+        <circle cx="340" cy="28" r="12" fill="#E24B4A"/>
+        <text x="340" y="33" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">1</text>
+
+        <!-- arrow down -->
+        <line x1="290" y1="92" x2="290" y2="118" stroke="#378ADD" stroke-width="2"/>
+        <polygon points="290,122 284,112 296,112" fill="#378ADD"/>
+
+        <!-- SPINAL CORD -->
+        <rect x="250" y="124" width="80" height="36" rx="8" fill="#D6EAF8" stroke="#378ADD" stroke-width="1.5"/>
+        <text x="290" y="138" text-anchor="middle" font-size="11" font-weight="bold" fill="#042C53">Spinal cord</text>
+        <text x="290" y="152" text-anchor="middle" font-size="9" fill="#378ADD">Signal branches out</text>
+        <circle cx="340" cy="128" r="12" fill="#E24B4A"/>
+        <text x="340" y="133" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">2</text>
+
+        <!-- arrow down -->
+        <line x1="290" y1="160" x2="290" y2="186" stroke="#378ADD" stroke-width="2"/>
+        <polygon points="290,190 284,180 296,180" fill="#378ADD"/>
+
+        <!-- MOTOR NERVE / NEURONS -->
+        <rect x="220" y="192" width="140" height="36" rx="8" fill="#C8E6F8" stroke="#378ADD" stroke-width="1.5"/>
+        <text x="290" y="206" text-anchor="middle" font-size="11" font-weight="bold" fill="#042C53">Motor neurons</text>
+        <text x="290" y="220" text-anchor="middle" font-size="9" fill="#378ADD">Signal travels down axon</text>
+        <circle cx="370" cy="196" r="12" fill="#E24B4A"/>
+        <text x="370" y="201" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">3</text>
+
+        <!-- branching arrows to NMJ -->
+        <line x1="260" y1="228" x2="200" y2="262" stroke="#5DCAA5" stroke-width="1.5"/>
+        <line x1="275" y1="228" x2="255" y2="262" stroke="#5DCAA5" stroke-width="1.5"/>
+        <line x1="290" y1="228" x2="290" y2="262" stroke="#5DCAA5" stroke-width="1.5"/>
+        <line x1="305" y1="228" x2="325" y2="262" stroke="#5DCAA5" stroke-width="1.5"/>
+        <line x1="320" y1="228" x2="380" y2="262" stroke="#5DCAA5" stroke-width="1.5"/>
+
+        <!-- NMJ / MUSCLE FIBRES -->
+        <rect x="160" y="264" width="260" height="40" rx="8" fill="#A8D8C0" stroke="#085041" stroke-width="2"/>
+        <text x="290" y="281" text-anchor="middle" font-size="11" font-weight="bold" fill="#042C18">Neuromuscular junction (NMJ)</text>
+        <text x="290" y="296" text-anchor="middle" font-size="9" fill="#085041">ACh crosses gap; all connected fibres contract</text>
+        <circle cx="430" cy="268" r="12" fill="#E24B4A"/>
+        <text x="430" y="273" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">4</text>
+
+        <!-- LEGEND -->
+        <rect x="10" y="10" width="190" height="100" rx="8" fill="#F9F7EE" stroke="#BA7517" stroke-width="1.2"/>
+        <text x="105" y="28" text-anchor="middle" font-size="10" font-weight="bold" fill="#412402">Stages of Nervous Control</text>
+        <text x="22" y="46" font-size="9" fill="#333">&#10102; Brain initiates the movement message</text>
+        <text x="22" y="62" font-size="9" fill="#333">&#10103; Signal branches from spinal cord</text>
+        <text x="22" y="76" font-size="9" fill="#333">&#10104; Message passes into motor neurons</text>
+        <text x="22" y="92" font-size="9" fill="#333">&#10105; Signal arrives at NMJ; ACh released;</text>
+        <text x="30" y="104" font-size="9" fill="#333">all connected fibres contract</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">The nervous system controls muscle contraction via a 4-stage pathway: Brain &#8594; Spinal cord &#8594; Motor neurons &#8594; NMJ &#8594; Muscle fibres contract.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_5_1_nervous_control_muscular_movement.png','Figure 1.22 — Nervous control of muscular movement (Live it Up 5th ed.)')">&#128247; Nervous control of muscular movement (Fig 1.22)</button>
+  </div>
+</div>
+
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9889; Divisions of the Nervous System</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Division</th><th>Function</th><th>Relevance to movement</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Central nervous system (CNS)</strong></td><td>Brain and spinal cord — processes information and coordinates responses</td><td>Brain decides to move; spinal cord relays the signal to motor neurons</td></tr>
+          <tr><td><strong>Peripheral nervous system (PNS)</strong></td><td>All nerves outside the CNS — connects the CNS to muscles, organs and sensory receptors</td><td>Motor neurons carry signals from spinal cord to muscles</td></tr>
+          <tr><td><strong>Somatic nervous system</strong></td><td>Controls voluntary skeletal muscle movement</td><td>Responsible for all conscious, deliberate movement in sport</td></tr>
+          <tr><td><strong>Autonomic nervous system</strong></td><td>Controls involuntary functions (cardiac muscle, smooth muscle, glands)</td><td>Regulates heart rate, breathing rate and blood vessel diameter during exercise</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Skeletal muscle is controlled by the SOMATIC nervous system (voluntary). Cardiac and smooth muscle are controlled by the AUTONOMIC nervous system (involuntary).</p>
+  </div>
+</div>
+
+<!-- 1.5.2 MOTOR NEURON STRUCTURE -->
+<p class="section-label" id="sec152" style="padding-top:4px;">The Motor Neuron</p>
+
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129504; Motor Neuron Structure and Function</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Structure</th><th>Description</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Soma (cell body)</strong></td><td>The main body of the neuron containing the nucleus</td><td>Houses the genetic material; integrates incoming signals</td></tr>
+          <tr><td><strong>Dendrites</strong></td><td>Short branching projections from the soma</td><td>Receive incoming signals from other neurons</td></tr>
+          <tr><td><strong>Axon</strong></td><td>Long single projection from the soma that transmits signals away from the cell body</td><td>Carries the electrical action potential toward the muscle fibre</td></tr>
+          <tr><td><strong>Myelin sheath</strong></td><td>Fatty insulating layer wrapped around the axon in segments, with gaps called nodes of Ranvier</td><td>Speeds up electrical conduction by allowing the signal to jump between nodes (saltatory conduction)</td></tr>
+          <tr><td><strong>Axon terminals</strong></td><td>Branching endings of the axon that form the presynaptic side of the NMJ</td><td>Release acetylcholine (ACh) into the synaptic cleft when an action potential arrives</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The myelin sheath is critical for fast signal transmission. Demyelinating diseases (e.g. multiple sclerosis) slow or block nerve conduction, causing muscle weakness and coordination problems.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_5_1_motor_unit_stimulation.png','Figure 1.23 — Motor neuron and neuromuscular junction (Live it Up 5th ed.)')">&#128247; Motor neuron and NMJ (Fig 1.23)</button>
+  </div>
+</div>
+
+<!-- 1.5.3 NEUROMUSCULAR JUNCTION -->
+<p class="section-label" id="sec153" style="padding-top:4px;">The Neuromuscular Junction</p>
+
+<!-- SVG: NMJ detail -->
+<div class="diagram-wrap purple">
+  <div class="diagram-head purple" onclick="toggleB(this)">
+    <span>&#129528; Diagram: The Neuromuscular Junction — Detail</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;display:inline-block;">
+        <!-- AXON TERMINAL -->
+        <path d="M 200 10 Q 240 10 260 30 L 280 80 Q 290 100 270 110 L 240 115 Q 220 118 200 115 L 170 110 Q 150 100 160 80 L 180 30 Q 190 10 200 10 Z" fill="#D6EAF8" stroke="#378ADD" stroke-width="2"/>
+        <text x="215" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#042C53">Axon terminal</text>
+        <!-- vesicles -->
+        <circle cx="185" cy="75" r="8" fill="#7BAAE8" stroke="#378ADD" stroke-width="1.2"/>
+        <circle cx="205" cy="80" r="8" fill="#7BAAE8" stroke="#378ADD" stroke-width="1.2"/>
+        <circle cx="225" cy="75" r="8" fill="#7BAAE8" stroke="#378ADD" stroke-width="1.2"/>
+        <circle cx="245" cy="80" r="8" fill="#7BAAE8" stroke="#378ADD" stroke-width="1.2"/>
+        <text x="380" y="75" font-size="10" fill="#042C53" font-weight="bold">ACh vesicles</text>
+        <line x1="265" y1="78" x2="372" y2="75" stroke="#378ADD" stroke-width="1"/>
+
+        <!-- SYNAPTIC CLEFT -->
+        <rect x="150" y="115" width="130" height="22" rx="0" fill="rgba(200,230,255,0.4)" stroke="#AFA9EC" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="215" y="130" text-anchor="middle" font-size="10" fill="#3C3489" font-weight="bold">Synaptic cleft</text>
+        <!-- ACh dots in cleft -->
+        <circle cx="170" cy="124" r="4" fill="#E29020"/>
+        <circle cx="185" cy="128" r="4" fill="#E29020"/>
+        <circle cx="200" cy="122" r="4" fill="#E29020"/>
+        <circle cx="215" cy="127" r="4" fill="#E29020"/>
+        <circle cx="230" cy="123" r="4" fill="#E29020"/>
+        <circle cx="250" cy="126" r="4" fill="#E29020"/>
+        <text x="380" y="125" font-size="10" fill="#784212" font-weight="bold">ACh molecules</text>
+        <line x1="263" y1="125" x2="372" y2="125" stroke="#E29020" stroke-width="1"/>
+
+        <!-- MUSCLE FIBRE MEMBRANE -->
+        <rect x="140" y="137" width="150" height="16" rx="4" fill="#A8D8C0" stroke="#5DCAA5" stroke-width="1.5"/>
+        <text x="215" y="149" text-anchor="middle" font-size="10" fill="#085041" font-weight="bold">Motor end plate (sarcolemma)</text>
+        <text x="380" y="149" font-size="10" fill="#085041" font-weight="bold">ACh receptors here</text>
+        <line x1="293" y1="149" x2="372" y2="149" stroke="#5DCAA5" stroke-width="1"/>
+
+        <!-- MUSCLE FIBRE BODY -->
+        <rect x="100" y="153" width="230" height="80" rx="8" fill="#E1F5EE" stroke="#085041" stroke-width="1.5"/>
+        <text x="215" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#042C18">Muscle fibre</text>
+        <text x="215" y="191" text-anchor="middle" font-size="10" fill="#085041">Action potential spreads along sarcolemma</text>
+        <text x="215" y="207" text-anchor="middle" font-size="10" fill="#085041">and down T-tubules to SR</text>
+        <text x="215" y="223" text-anchor="middle" font-size="10" fill="#085041">&#8594; Ca2+ released &#8594; contraction begins</text>
+
+        <!-- AXON coming in from top -->
+        <rect x="195" y="0" width="20" height="12" rx="3" fill="#9BBCE0" stroke="#378ADD" stroke-width="1.5"/>
+        <text x="100" y="8" font-size="10" fill="#042C53" font-weight="bold">Axon</text>
+        <line x1="130" y1="6" x2="193" y2="6" stroke="#378ADD" stroke-width="1"/>
+
+        <!-- Myelin label -->
+        <text x="380" y="20" font-size="10" fill="#3C3489" font-weight="bold">Myelin sheath</text>
+        <line x1="372" y1="18" x2="215" y2="5" stroke="#3C3489" stroke-width="1"/>
+      </svg>
+    </div>
+    <p class="diagram-caption">At the NMJ: nerve impulse arrives at axon terminal &#8594; ACh vesicles fuse with membrane and release ACh into the synaptic cleft &#8594; ACh binds receptors on the motor end plate &#8594; action potential generated in the muscle fibre &#8594; Ca2+ released from SR &#8594; contraction.</p>
+  </div>
+</div>
+
+<!-- 1.5.4 MOTOR UNIT RECRUITMENT -->
+<p class="section-label" id="sec154" style="padding-top:4px;">Motor Unit Recruitment</p>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Motor Unit Recruitment — Summary Table</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Concept</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Motor unit</strong></td><td>One motor neuron and ALL the muscle fibres it innervates. All fibres in the unit contract simultaneously when the neuron fires (all-or-nothing)</td><td>The soleus contains large motor units (many fibres per neuron) for sustained postural force</td></tr>
+          <tr><td><strong>Size principle</strong></td><td>Motor units always recruited smallest to largest: Type I first, Type IIa second, Type IIx last. This order is fixed and cannot be reversed</td><td>Light jogging: only Type I recruited. Sprint finish: Type I + IIa + IIx all recruited</td></tr>
+          <tr><td><strong>Recruitment</strong></td><td>Activating more motor units to increase total force output</td><td>Increasing barbell weight requires more motor units to be recruited</td></tr>
+          <tr><td><strong>Rate coding</strong></td><td>Increasing the frequency of nerve impulses to a motor unit to increase the force it produces (firing more times per second)</td><td>Firing at 50 Hz produces more force than the same unit firing at 20 Hz</td></tr>
+          <tr><td><strong>Tetanus</strong></td><td>Sustained maximal force from a motor unit produced by high-frequency stimulation — the muscle cannot relax between impulses</td><td>Maximal isometric contractions (e.g. arm wrestling) involve near-tetanic stimulation</td></tr>
+          <tr><td><strong>Twitch</strong></td><td>The mechanical response of a motor unit to a single nerve impulse — a brief contraction followed by relaxation</td><td>A single isolated muscle twitch lasts milliseconds; movement requires repeated twitches (tetanus)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Force is graded by TWO mechanisms: (1) recruiting MORE motor units, and (2) increasing the firing RATE of already-active units. Both work together during exercise.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_5_1_motor_unit_recruitment.png','Figure 1.25 — Motor unit recruitment (Live it Up 5th ed.)')">&#128247; Motor unit recruitment chart (Fig 1.25)</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.6 TYPES OF MUSCULAR CONTRACTIONS
+     ============================================================ -->
+<p class="section-label" id="sec16">&#128170; 1.6 Types of Muscular Contractions</p>
+
+<!-- 1.6.1 CONTRACTION TYPES -->
+<p class="section-label" id="sec161" style="padding-top:4px;">Concentric, Eccentric and Isometric</p>
+
+<!-- SVG: Three contraction types -->
+<div class="diagram-wrap coral">
+  <div class="diagram-head coral" onclick="toggleB(this)">
+    <span>&#128170; Diagram: Three Types of Muscle Contraction</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg" style="max-width:580px;width:100%;display:inline-block;">
+        <!-- CONCENTRIC -->
+        <rect x="10" y="10" width="175" height="240" rx="12" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="2"/>
+        <rect x="10" y="10" width="175" height="38" rx="12" fill="#085041"/>
+        <text x="97" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">CONCENTRIC</text>
+        <text x="97" y="44" text-anchor="middle" font-size="10" fill="#A8D8C0">Shortening contraction</text>
+        <!-- muscle shortening visual -->
+        <rect x="40" y="62" width="114" height="28" rx="10" fill="#5DCAA5" stroke="#085041" stroke-width="1.5"/>
+        <text x="97" y="81" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">Muscle SHORTENS</text>
+        <!-- arrows pointing inward -->
+        <line x1="40" y1="108" x2="90" y2="108" stroke="#085041" stroke-width="2"/>
+        <polygon points="90,108 80,103 80,113" fill="#085041"/>
+        <line x1="154" y1="108" x2="104" y2="108" stroke="#085041" stroke-width="2"/>
+        <polygon points="104,108 114,103 114,113" fill="#085041"/>
+        <text x="97" y="135" text-anchor="middle" font-size="10" fill="#085041">Force exceeds load</text>
+        <text x="97" y="160" text-anchor="middle" font-size="10" fill="#085041" font-weight="bold">Examples:</text>
+        <text x="97" y="176" text-anchor="middle" font-size="10" fill="#085041">Bicep curl — lifting phase</text>
+        <text x="97" y="191" text-anchor="middle" font-size="10" fill="#085041">Squat — upward phase</text>
+        <text x="97" y="206" text-anchor="middle" font-size="10" fill="#085041">Kicking a ball</text>
+        <text x="97" y="230" text-anchor="middle" font-size="10" fill="#5DCAA5" font-style="italic">Most common in sport</text>
+
+        <!-- ECCENTRIC -->
+        <rect x="202" y="10" width="175" height="240" rx="12" fill="#FAECE7" stroke="#D85A30" stroke-width="2"/>
+        <rect x="202" y="10" width="175" height="38" rx="12" fill="#4A1B0C"/>
+        <text x="289" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">ECCENTRIC</text>
+        <text x="289" y="44" text-anchor="middle" font-size="10" fill="#F0A888">Lengthening contraction</text>
+        <!-- muscle lengthening visual -->
+        <rect x="224" y="62" width="130" height="28" rx="10" fill="#E8854A" stroke="#4A1B0C" stroke-width="1.5"/>
+        <text x="289" y="81" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">Muscle LENGTHENS</text>
+        <!-- arrows pointing outward -->
+        <line x1="260" y1="108" x2="218" y2="108" stroke="#D85A30" stroke-width="2"/>
+        <polygon points="218,108 228,103 228,113" fill="#D85A30"/>
+        <line x1="318" y1="108" x2="360" y2="108" stroke="#D85A30" stroke-width="2"/>
+        <polygon points="360,108 350,103 350,113" fill="#D85A30"/>
+        <text x="289" y="135" text-anchor="middle" font-size="10" fill="#4A1B0C">Load exceeds force</text>
+        <text x="289" y="160" text-anchor="middle" font-size="10" fill="#4A1B0C" font-weight="bold">Examples:</text>
+        <text x="289" y="176" text-anchor="middle" font-size="10" fill="#4A1B0C">Bicep curl — lowering phase</text>
+        <text x="289" y="191" text-anchor="middle" font-size="10" fill="#4A1B0C">Squat — downward phase</text>
+        <text x="289" y="206" text-anchor="middle" font-size="10" fill="#4A1B0C">Landing from a jump</text>
+        <text x="289" y="230" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">Causes most DOMS</text>
+
+        <!-- ISOMETRIC -->
+        <rect x="394" y="10" width="175" height="240" rx="12" fill="#FAEEDA" stroke="#BA7517" stroke-width="2"/>
+        <rect x="394" y="10" width="175" height="38" rx="12" fill="#412402"/>
+        <text x="481" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">ISOMETRIC</text>
+        <text x="481" y="44" text-anchor="middle" font-size="10" fill="#E8C87A">Static contraction</text>
+        <!-- muscle static visual -->
+        <rect x="414" y="62" width="134" height="28" rx="10" fill="#BA7517" stroke="#412402" stroke-width="1.5"/>
+        <text x="481" y="81" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">NO LENGTH CHANGE</text>
+        <!-- arrows balanced -->
+        <line x1="452" y1="108" x2="418" y2="108" stroke="#BA7517" stroke-width="2"/>
+        <polygon points="418,108 428,103 428,113" fill="#BA7517"/>
+        <line x1="510" y1="108" x2="544" y2="108" stroke="#BA7517" stroke-width="2"/>
+        <polygon points="544,108 534,103 534,113" fill="#BA7517"/>
+        <text x="481" y="125" text-anchor="middle" font-size="9" fill="#412402">(forces balanced; no movement)</text>
+        <text x="481" y="148" text-anchor="middle" font-size="10" fill="#412402">Force = load</text>
+        <text x="481" y="168" text-anchor="middle" font-size="10" fill="#412402" font-weight="bold">Examples:</text>
+        <text x="481" y="184" text-anchor="middle" font-size="10" fill="#412402">Holding a plank</text>
+        <text x="481" y="199" text-anchor="middle" font-size="10" fill="#412402">Wall sit</text>
+        <text x="481" y="214" text-anchor="middle" font-size="10" fill="#412402">Gripping a rope in tug-of-war</text>
+        <text x="481" y="233" text-anchor="middle" font-size="10" fill="#BA7517" font-style="italic">No joint movement occurs</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; Eccentric contractions cause the greatest muscle damage and DOMS because the muscle is being forcibly lengthened against its contraction. Students often incorrectly describe eccentric contractions as the muscle "relaxing" — it is still actively contracting.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_6_1_contraction_types.png','Types of muscular contraction — concentric, eccentric, isometric (Live it Up 5th ed.)')">&#128247; Types of muscular contraction</button>
+  </div>
+</div>
+
+<!-- 1.6.2 ISOTONIC, ISOKINETIC -->
+<p class="section-label" id="sec162" style="padding-top:4px;">Isotonic and Isokinetic Contractions</p>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; All Contraction Types — Full Comparison</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Type</th><th>Muscle length</th><th>Force vs load</th><th>Joint movement</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Concentric</strong></td><td>Shortens</td><td>Force exceeds load</td><td>Yes — joint angle decreases (flexion) or increases (extension)</td><td>Lifting phase of bicep curl; kicking a football</td></tr>
+          <tr><td><strong>Eccentric</strong></td><td>Lengthens</td><td>Load exceeds force</td><td>Yes — controlled by the muscle as it lengthens</td><td>Lowering phase of bicep curl; landing from a jump; downward squat</td></tr>
+          <tr><td><strong>Isometric</strong></td><td>No change</td><td>Force equals load</td><td>No — no joint movement occurs</td><td>Holding a plank; wall sit; gripping a bar</td></tr>
+          <tr><td><strong>Isotonic</strong></td><td>Changes</td><td>Constant force applied</td><td>Yes — encompasses both concentric and eccentric phases</td><td>Any free-weight exercise (e.g. dumbbell curl has both phases)</td></tr>
+          <tr><td><strong>Isokinetic</strong></td><td>Changes</td><td>Varies to maintain constant speed</td><td>Yes — at a controlled constant velocity</td><td>Specialised rehabilitation machines; competitive swimming</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Isotonic simply means the same (iso) force (tonic) is applied — it includes both concentric AND eccentric phases of a movement. Do not confuse isotonic with isometric (no movement).</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_6_2_isotonic_isokinetic.png','Isotonic and isokinetic contractions (Live it Up 5th ed.)')">&#128247; Isotonic and isokinetic contractions</button>
+  </div>
+</div>
+
+<!-- 1.6.3 FORCE-VELOCITY & DOMS -->
+<p class="section-label" id="sec163" style="padding-top:4px;">Force Production and DOMS</p>
+
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9888;&#65039; Eccentric Contractions, DOMS and Force Production</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Concept</th><th>Explanation</th><th>Sport application</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Force production ranking</strong></td><td>Eccentric contractions produce the MOST force, followed by isometric, then concentric. This is because during eccentric loading, the sarcomere is stretched and cross-bridge tension increases.</td><td>This is why lowering weights (eccentric) can be done with heavier loads than lifting the same weight (concentric)</td></tr>
+          <tr><td><strong>DOMS (Delayed Onset Muscle Soreness)</strong></td><td>Muscle soreness and stiffness appearing 24-72 hours after unaccustomed exercise, primarily caused by eccentric contractions creating microtrauma (small tears) in muscle fibres and connective tissue</td><td>Downhill running, landing drills and new strength training programs cause significant DOMS due to high eccentric loading</td></tr>
+          <tr><td><strong>Repeated bout effect</strong></td><td>After an initial bout of eccentric exercise causes DOMS, subsequent bouts of the same exercise cause significantly less damage and soreness — the muscle adapts</td><td>Athletes experience less soreness from the second week of a new training program compared to the first</td></tr>
+          <tr><td><strong>Stretch-shortening cycle (SSC)</strong></td><td>A rapid eccentric pre-stretch immediately followed by a concentric contraction, storing elastic energy in the muscle-tendon unit and releasing it to enhance force output</td><td>Jumping, sprinting and throwing all utilise the SSC — the countermovement in a jump stores energy that augments the push-off</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The force production ranking (Eccentric &gt; Isometric &gt; Concentric) is a common exam question. Remember the acronym EIC — Eccentric Is Clearly strongest.</p>
+  </div>
+</div>
+
+<!-- KEY TERMS -->
+<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search. Try a different keyword.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch1 Part C: Neural Control &amp; Muscular Contractions &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-box">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">&#10005;</button>
+    <img id="lightbox-img" src="" alt="Textbook figure">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <p class="lightbox-filename" id="lightbox-filename"></p>
+    <p class="lightbox-error" id="lightbox-error">&#9888; Image not found. Check the filename matches exactly and is saved in the same folder as this HTML file.</p>
+  </div>
+</div>
+
+<script>
+var data = [
+  { cat: "1.5.1 The Nervous System", color: "blue", hot: false, items: [
+    { term: "Central nervous system (CNS)", def: "The brain and spinal cord. Processes all incoming sensory information and coordinates outgoing motor responses.", eg: "When an AFL player decides to kick, the motor cortex of the brain generates the movement signal that travels down the spinal cord." },
+    { term: "Peripheral nervous system (PNS)", def: "All nervous tissue outside the brain and spinal cord — includes all motor neurons travelling to muscles and sensory neurons carrying information back to the CNS.", eg: "The sciatic nerve, which runs from the lumbar spine to the leg muscles, is part of the PNS." },
+    { term: "Somatic nervous system", def: "The division of the PNS responsible for VOLUNTARY control of skeletal muscle. Motor neurons carry signals from the spinal cord to skeletal muscles.", eg: "Choosing to accelerate in a sprint involves the somatic nervous system commanding the quadriceps and gluteus maximus to contract more forcefully." },
+    { term: "Autonomic nervous system", def: "The division of the PNS controlling INVOLUNTARY functions including cardiac muscle, smooth muscle and glands. Divided into sympathetic (fight or flight) and parasympathetic (rest and digest) branches.", eg: "During exercise, the sympathetic branch increases heart rate and dilates arterioles to active muscles without conscious effort." }
+  ]},
+  { cat: "1.5.2 The Motor Neuron", color: "purple", hot: false, items: [
+    { term: "Motor neuron", def: "A nerve cell that carries electrical impulses from the spinal cord to a group of muscle fibres (a motor unit). Also called an efferent neuron.", eg: "A single motor neuron may innervate anywhere from a few (fine motor — fingers) to thousands of muscle fibres (large muscles — quadriceps)." },
+    { term: "Axon", def: "The long projection of a motor neuron that transmits the electrical action potential away from the cell body toward the muscle fibre.", eg: "The axon of a motor neuron innervating the gastrocnemius may travel over a metre from the lumbar spinal cord to the lower leg." },
+    { term: "Myelin sheath", def: "A fatty insulating layer wrapped in segments around the axon of a motor neuron. Speeds up conduction by allowing the electrical signal to jump between nodes of Ranvier (saltatory conduction).", eg: "Myelinated motor neurons conduct signals at up to 120 m/s, allowing near-instantaneous muscle response to brain commands.", note: "Demyelinating diseases like multiple sclerosis destroy the myelin sheath, slowing conduction and causing muscle weakness — a good example of why the sheath matters." },
+    { term: "Action potential", def: "An electrical signal generated when a neuron or muscle fibre is sufficiently stimulated. It travels along the axon at constant amplitude (all-or-nothing) and triggers events at the NMJ.", eg: "An action potential in the motor neuron triggers ACh release at the NMJ; an action potential in the muscle fibre triggers Ca2+ release from the SR." }
+  ]},
+  { cat: "1.5.3 The Neuromuscular Junction (NMJ)", color: "teal", hot: true, items: [
+    { term: "Neuromuscular junction (NMJ)", def: "The specialised synapse between a motor neuron axon terminal and the membrane of a muscle fibre (sarcolemma). The site where the electrical nerve signal is converted to a chemical signal (ACh) that triggers contraction.", eg: "Each muscle fibre has one NMJ, located approximately at the midpoint of the fibre's length.", note: "The NMJ is the bridge between the nervous and muscular systems. Know the 4-stage process: nerve impulse arrives > ACh released > action potential in fibre > Ca2+ released > contraction." },
+    { term: "Synaptic cleft", def: "The microscopic gap between the axon terminal and the muscle fibre membrane at the NMJ. ACh diffuses across this gap to bind receptors on the muscle.", eg: "The synaptic cleft is only about 20-50 nanometres wide, allowing ACh to diffuse across in milliseconds." },
+    { term: "Motor end plate", def: "The specialised region of the muscle fibre membrane (sarcolemma) directly beneath the axon terminal. Contains the ACh receptors that trigger the muscle fibre action potential.", eg: "When ACh binds to receptors on the motor end plate, it causes the muscle fibre membrane to depolarise, generating an action potential." },
+    { term: "Acetylcholine (ACh)", def: "The neurotransmitter released from vesicles in the axon terminal into the synaptic cleft. Binds to receptors on the motor end plate and triggers an action potential in the muscle fibre.", eg: "ACh is broken down by the enzyme acetylcholinesterase after binding, clearing the synapse to allow the muscle to relax when stimulation stops." },
+    { term: "T-tubules (transverse tubules)", def: "Extensions of the sarcolemma that penetrate deep into the muscle fibre, carrying the action potential to the interior of the fibre where it triggers Ca2+ release from the sarcoplasmic reticulum.", eg: "Without T-tubules, the action potential could only activate the outer layers of the fibre — T-tubules ensure the entire fibre contracts simultaneously." }
+  ]},
+  { cat: "1.5.4 Motor Unit Recruitment", color: "amber", hot: true, items: [
+    { term: "Motor unit", def: "One motor neuron and ALL the muscle fibres it innervates. All fibres contract simultaneously when the neuron fires (all-or-nothing law). The fundamental unit of motor control.", eg: "A motor unit in the biceps brachii may control 750+ fibres; a motor unit in the extraocular (eye) muscles may control only 10 fibres for precision." },
+    { term: "All-or-nothing law", def: "An individual muscle fibre contracts maximally or not at all — partial contractions within a single fibre do not occur. Total muscle force is graded by recruiting MORE motor units.", eg: "Gripping a pen lightly uses few small motor units; crushing a can uses nearly all motor units in the forearm flexors." },
+    { term: "Size principle (Henneman)", def: "Motor units are always recruited in order from smallest to largest as exercise intensity increases: Type I slow twitch units first, Type IIa next, Type IIx last. This order cannot be reversed.", eg: "A competitive rower paddling steadily uses mainly Type I units; the explosive sprint to the finish line recruits all available Type IIx units.", note: "The size principle is FIXED. You cannot selectively activate Type IIx without first activating Type I and IIa. This is frequently misunderstood in exam answers." },
+    { term: "Rate coding", def: "Increasing the frequency of nerve impulses (firing rate) to a motor unit to increase the force it produces. Works alongside recruitment to fine-tune force output.", eg: "A motor unit firing at 50 impulses per second produces significantly more force than the same unit firing at 15 impulses per second." },
+    { term: "Tetanus", def: "Sustained maximum force from a motor unit produced when nerve impulses arrive so rapidly that the muscle cannot relax between stimuli. Required for most functional movements.", eg: "Holding a heavy bag of groceries involves near-tetanic stimulation of motor units in the forearm and biceps to maintain grip." },
+    { term: "Twitch", def: "The brief mechanical response (contraction then relaxation) of a motor unit to a single nerve impulse. The building block of all muscle force.", eg: "A single twitch lasts only 20-100 milliseconds depending on fibre type — smooth movement requires repeated twitches that sum to produce tetanus." }
+  ]},
+  { cat: "1.6.1 Concentric, Eccentric and Isometric", color: "coral", hot: true, items: [
+    { term: "Concentric contraction", def: "A contraction in which the muscle shortens as it generates force — the muscle overcomes the load. The most common type of contraction in sport and exercise.", eg: "The quadriceps contract concentrically during the upward phase of a squat, shortening as they push the body upward against gravity.", note: "Always specify WHICH muscle is contracting concentrically and WHICH movement is occurring. Do not just write concentric without context." },
+    { term: "Eccentric contraction", def: "A contraction in which the muscle lengthens under tension — the load overcomes the muscle force. The muscle acts as a brake, controlling movement speed and absorbing force.", eg: "The quadriceps contract eccentrically during the downward phase of a squat, lengthening under load to control the rate of descent.", note: "Eccentric contractions produce MORE force than concentric and cause the most DOMS (delayed onset muscle soreness) due to greater microtrauma. Eccentric is NOT relaxation — the muscle is still actively contracting." },
+    { term: "Isometric contraction", def: "A contraction in which the muscle generates force but does NOT change length. No joint movement occurs. Force produced equals the load.", eg: "Holding the bottom position of a wall sit — the quadriceps are isometrically contracting at a fixed length to support body weight." },
+    { term: "DOMS (Delayed Onset Muscle Soreness)", def: "Muscle pain and stiffness that develops 24-72 hours after unaccustomed exercise, especially eccentric exercise. Caused by microtrauma (microscopic tears) in muscle fibres and connective tissue, followed by inflammation.", eg: "A runner who does their first downhill run will experience significant DOMS in their quadriceps 1-2 days later due to the high eccentric load of braking on descent." }
+  ]},
+  { cat: "1.6.2 Isotonic and Isokinetic Contractions", color: "amber", hot: false, items: [
+    { term: "Isotonic contraction", def: "A contraction in which the same (iso) force (tonic) is applied throughout and the muscle changes length. Encompasses both the concentric and eccentric phases of movement.", eg: "A dumbbell bicep curl is isotonic — the concentric phase (lifting) and eccentric phase (lowering) both occur under the same load." },
+    { term: "Isokinetic contraction", def: "A contraction that occurs at a constant velocity throughout the range of motion. Resistance automatically adjusts to match the force produced at every angle. Requires specialised equipment.", eg: "Cybex and Biodex isokinetic dynamometers are used in sports science labs and rehabilitation to test and train at a controlled constant speed." },
+    { term: "Force production ranking", def: "Eccentric contractions produce the greatest force, followed by isometric, then concentric. This occurs because eccentric loading stretches the sarcomere, increasing cross-bridge tension and elastic energy storage.", eg: "A weightlifter can lower (eccentric) significantly more weight than they can lift (concentric) — this is why eccentric overloading is used in strength training." },
+    { term: "Stretch-shortening cycle (SSC)", def: "A rapid eccentric pre-stretch of the muscle-tendon unit immediately followed by a concentric contraction. The elastic energy stored during the eccentric phase is released in the concentric phase, enhancing total force output.", eg: "The countermovement jump (bending knees before jumping) utilises the SSC — the eccentric loading phase stores energy that augments the explosive concentric push-off." }
+  ]}
+];
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function openLightbox(filename, caption) {
+  var overlay = document.getElementById("lightbox");
+  var img = document.getElementById("lightbox-img");
+  var cap = document.getElementById("lightbox-caption");
+  var fn = document.getElementById("lightbox-filename");
+  var err = document.getElementById("lightbox-error");
+  img.src = filename;
+  cap.textContent = caption;
+  fn.textContent = "File: " + filename;
+  err.className = "lightbox-error";
+  img.onerror = function() { err.className = "lightbox-error show"; };
+  img.onload = function() { err.className = "lightbox-error"; };
+  overlay.className = "lightbox-overlay open";
+  document.body.style.overflow = "hidden";
+}
+function closeLightboxBtn() {
+  document.getElementById("lightbox").className = "lightbox-overlay";
+  document.body.style.overflow = "";
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById("lightbox")) { closeLightboxBtn(); }
+}
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { closeLightboxBtn(); }
+});
+
+function highlight(text, q) {
+  if (!q) return text;
+  var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+  return text.replace(re, '<span class="hl">$1</span>');
+}
+
+function build(source, q) {
+  var list = document.getElementById("list");
+  var noRes = document.getElementById("no-results");
+  list.innerHTML = "";
+  var total = 0;
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items || !cat.items.length) continue;
+    total += cat.items.length;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    if (q) body.classList.remove("collapsed");
+    else body.classList.add("collapsed");
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + highlight(item.note, q) + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + highlight(item.term, q) + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + highlight(item.def, q) + '</p><span class="term-eg">Eg: ' + highlight(item.eg, q) + '</span>' + note + '</div>';
+      if (q) t.querySelector(".term-body").classList.add("open");
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+  noRes.style.display = (total === 0) ? "block" : "none";
+  return total;
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function doSearch(q) {
+  q = q.trim();
+  var clearBtn = document.getElementById("search-clear");
+  var countEl = document.getElementById("search-count");
+  clearBtn.className = q ? "visible" : "";
+  if (!q) { build(data, ""); countEl.textContent = ""; return; }
+  var ql = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (item.term.toLowerCase().indexOf(ql) > -1 ||
+          item.def.toLowerCase().indexOf(ql) > -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(ql) > -1) ||
+          (item.note && item.note.toLowerCase().indexOf(ql) > -1)) {
+        items.push(item);
+      }
+    }
+    if (items.length) filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  var count = build(filtered, q);
+  countEl.textContent = count + " result" + (count !== 1 ? "s" : "");
+}
+
+function clearSearch() {
+  document.getElementById("search").value = "";
+  doSearch("");
+}
+
+build(data, "");
+</script>
+</body>
+</html>

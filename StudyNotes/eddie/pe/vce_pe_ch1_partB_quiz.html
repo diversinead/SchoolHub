@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Ch1 Part B: Quiz &amp; Exam Practice</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.6em; color: #1C1C1A; padding: 24px 16px 4px; }
+.subtitle { text-align: center; color: #666; font-size: 0.9em; font-style: italic; padding-bottom: 16px; }
+
+/* TABS */
+.tab-bar-wrap { margin: 0 12px; }
+.tab-bar { display: flex; gap: 0; border-bottom: 3px solid #3C3489; }
+.tab-btn { flex: 1; padding: 11px 10px; font-size: 0.95em; font-family: Georgia, serif; font-weight: 700; background: #E8E6F8; border: 2px solid #AFA9EC; border-bottom: none; border-radius: 8px 8px 0 0; cursor: pointer; color: #3C3489; margin-right: 4px; transition: background 0.15s; }
+.tab-btn:last-child { margin-right: 0; }
+.tab-btn.active { background: #3C3489; color: #fff; border-color: #3C3489; }
+.tab-btn:hover:not(.active) { background: #D0CCF0; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* SCORE BAR */
+.score-bar { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 2px solid #AFA9EC; border-radius: 10px; margin: 16px 12px 16px; padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+.score-label { font-size: 0.88em; color: #3C3489; font-weight: 700; }
+.score-val { font-size: 1.3em; font-weight: 700; color: #3C3489; }
+.btn-reset { background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; font-family: Georgia, serif; font-weight: 700; }
+.btn-reset:hover { background: #C03030; }
+.progress-wrap { width: 100%; height: 8px; background: #E8E6F8; border-radius: 4px; overflow: hidden; }
+.progress-bar { height: 8px; background: #3C3489; border-radius: 4px; transition: width 0.4s; }
+
+/* SECTION LABELS */
+.section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 6px; }
+
+/* QUESTION CARDS */
+.q-card { background: #fff; border: 2px solid #ccc; border-radius: 10px; margin: 0 12px 14px; padding: 16px; }
+.q-card.correct { border-color: #5DCAA5; background: #F0FAF6; }
+.q-card.incorrect { border-color: #E24B4A; background: #FEF0F0; }
+.q-num { font-size: 0.75em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+.q-text { font-size: 0.97em; font-weight: 700; color: #1C1C1A; margin-bottom: 12px; line-height: 1.5; }
+
+/* MULTIPLE CHOICE */
+.mc-options { display: flex; flex-direction: column; gap: 7px; }
+.mc-opt { display: flex; align-items: flex-start; gap: 10px; background: #F5F4EF; border: 1.5px solid #ddd; border-radius: 7px; padding: 9px 12px; cursor: pointer; font-size: 0.9em; transition: all 0.12s; }
+.mc-opt:hover:not(.locked) { background: #E8E6F8; border-color: #AFA9EC; }
+.mc-opt.selected-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; font-weight: 700; }
+.mc-opt.selected-incorrect { background: #FADBD8; border-color: #E24B4A; color: #7B241C; font-weight: 700; }
+.mc-opt.reveal-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.mc-opt.locked { cursor: default; }
+.opt-letter { font-weight: 700; color: #3C3489; flex-shrink: 0; min-width: 18px; }
+
+/* TRUE/FALSE */
+.tf-options { display: flex; gap: 10px; }
+.tf-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background: #F5F4EF; cursor: pointer; font-size: 0.95em; font-family: Georgia, serif; font-weight: 700; text-align: center; transition: all 0.12s; }
+.tf-btn:hover:not(.locked) { background: #E8E6F8; border-color: #AFA9EC; }
+.tf-btn.selected-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.tf-btn.selected-incorrect { background: #FADBD8; border-color: #E24B4A; color: #7B241C; }
+.tf-btn.reveal-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.tf-btn.locked { cursor: default; }
+
+/* MATCHING */
+.match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.match-col-head { font-size: 0.78em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; padding-bottom: 4px; }
+.match-term { background: #EEF3FB; border: 1.5px solid #9BBCE0; border-radius: 7px; padding: 8px 11px; font-size: 0.88em; font-weight: 700; color: #042C53; margin-bottom: 6px; }
+.match-select { width: 100%; padding: 8px 10px; border: 1.5px solid #ddd; border-radius: 7px; font-size: 0.88em; font-family: Georgia, serif; background: #F5F4EF; cursor: pointer; margin-bottom: 6px; }
+.match-select.correct-sel { border-color: #5DCAA5; background: #D4EDDA; color: #155724; }
+.match-select.incorrect-sel { border-color: #E24B4A; background: #FADBD8; color: #7B241C; }
+.match-check-btn { background: #3C3489; color: #fff; border: none; border-radius: 7px; padding: 8px 18px; font-size: 0.88em; font-family: Georgia, serif; font-weight: 700; cursor: pointer; margin-top: 4px; }
+.match-check-btn:hover { background: #2A2460; }
+.match-check-btn:disabled { background: #aaa; cursor: default; }
+
+/* FEEDBACK */
+.q-feedback { margin-top: 10px; font-size: 0.88em; padding: 8px 12px; border-radius: 6px; display: none; line-height: 1.5; }
+.q-feedback.show { display: block; }
+.q-feedback.fb-correct { background: #D4EDDA; color: #155724; border-left: 4px solid #5DCAA5; }
+.q-feedback.fb-incorrect { background: #FADBD8; color: #7B241C; border-left: 4px solid #E24B4A; }
+
+/* EXAM QUESTIONS */
+.eq-card { background: #fff; border: 2px solid #BA7517; border-radius: 10px; margin: 0 12px 16px; overflow: hidden; }
+.eq-head { background: rgba(239,159,39,0.18); padding: 12px 16px; }
+.eq-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.eq-type { font-size: 0.72em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: #412402; color: #fff; border-radius: 4px; padding: 2px 8px; }
+.eq-marks { font-size: 0.78em; font-weight: 700; color: #412402; background: #FAEEDA; border: 1px solid #BA7517; border-radius: 4px; padding: 2px 8px; }
+.eq-q { font-size: 0.96em; font-weight: 700; color: #1C1C1A; line-height: 1.5; padding: 12px 16px 0; }
+.eq-stimulus { font-size: 0.88em; color: #555; font-style: italic; background: #F9F7EE; border-left: 3px solid #BA7517; padding: 8px 12px; margin: 10px 16px 0; border-radius: 4px; }
+.eq-body { padding: 0 16px 14px; }
+.eq-answer-area { margin-top: 10px; width: 100%; min-height: 80px; padding: 10px; border: 1.5px solid #ddd; border-radius: 7px; font-family: Georgia, serif; font-size: 0.9em; resize: vertical; background: #FFFDF8; }
+.eq-answer-area:focus { outline: none; border-color: #BA7517; }
+.eq-reveal-btn { margin-top: 10px; background: #BA7517; color: #fff; border: none; border-radius: 7px; padding: 8px 18px; font-size: 0.88em; font-family: Georgia, serif; font-weight: 700; cursor: pointer; }
+.eq-reveal-btn:hover { background: #8B5500; }
+.eq-model { display: none; margin-top: 12px; }
+.eq-model.open { display: block; }
+.eq-model-head { font-size: 0.78em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #085041; margin-bottom: 6px; }
+.eq-model-body { background: #E1F5EE; border: 1.5px solid #5DCAA5; border-radius: 7px; padding: 12px 14px; font-size: 0.88em; line-height: 1.7; }
+.eq-model-body p { margin-bottom: 6px; }
+.eq-model-body p:last-child { margin-bottom: 0; }
+.mark-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.mark-tick { color: #5DCAA5; font-weight: 700; flex-shrink: 0; }
+.examiner-tip { margin-top: 10px; font-size: 0.86em; color: #4A1B0C; background: #FAECE7; border-left: 4px solid #D85A30; padding: 8px 11px; border-radius: 4px; }
+.examiner-tip strong { display: block; margin-bottom: 3px; }
+
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1 Part B &middot; Quiz &amp; Exam Practice &middot; Sections 1.3&ndash;1.4</p>
+
+<div class="tab-bar-wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('quiz')">&#127299; Quiz</button>
+    <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+  </div>
+</div>
+
+<!-- ================================================================
+     TAB 1: QUIZ
+     ================================================================ -->
+<div id="tab-quiz" class="tab-pane active">
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Score</div>
+      <div class="score-val"><span id="score-correct">0</span> / <span id="score-total">0</span> answered</div>
+    </div>
+    <div style="flex:1; min-width:120px;">
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <button class="btn-reset" onclick="resetQuiz()">&#8635; Reset All</button>
+  </div>
+
+  <!-- MULTIPLE CHOICE -->
+  <p class="section-label">&#127358; Multiple Choice</p>
+
+  <!-- Q1 -->
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following correctly describes the role of the sarcoplasmic reticulum?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> It produces ATP to power the power stroke during muscle contraction</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> It stores and releases calcium ions that trigger cross-bridge formation</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> It wraps individual muscle fibres to deliver blood and nutrients</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> It connects the muscle belly to the bone at each end</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">During a squat, the quadriceps lower the body under control on the way down. What type of contraction is this?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> Concentric — the quadriceps shorten as they generate force</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> Isometric — the quadriceps generate force without changing length</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> Eccentric — the quadriceps lengthen under tension to control the descent</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> Isokinetic — the quadriceps contract at constant speed</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">A marathon runner relies heavily on which muscle fibre type and why?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Type IIx — because they produce the most force per contraction</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> Type IIa — because they use both aerobic and anaerobic pathways</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> Type I — because they are highly fatigue resistant and use aerobic metabolism</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> Type IIx — because they have the highest mitochondrial density</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">Which connective tissue layer wraps individual muscle fibres?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Epimysium</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> Perimysium</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> Endomysium</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> Epiphysium</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">According to the size principle, in what order are motor units recruited as exercise intensity increases?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> Type IIx first, then Type IIa, then Type I</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> Type I first, then Type IIa, then Type IIx</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> Type IIa first, then Type I, then Type IIx</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> All types are recruited simultaneously regardless of intensity</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">What is the role of ATP in the cross-bridge cycle?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> ATP triggers the release of calcium from the sarcoplasmic reticulum</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> ATP binds to troponin to expose the myosin binding sites on actin</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> ATP is required to break the cross-bridge and re-cock the myosin head</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> ATP wraps around the actin filament to prevent unwanted contractions</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">Which muscle type is involuntary AND striated?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> Skeletal muscle</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> Smooth muscle</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> Cardiac muscle</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> Both smooth and cardiac muscle</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">During the push-off phase of running, the hamstrings act as the antagonist to the quadriceps. What does this mean?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> The hamstrings concentrically contract to assist knee extension</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> The hamstrings eccentrically contract to control the speed of knee extension</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> The hamstrings are completely relaxed and inactive during push-off</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> The hamstrings stabilise the origin of the quadriceps during contraction</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <!-- TRUE/FALSE -->
+  <p class="section-label">&#9989; True or False</p>
+
+  <!-- TF1 -->
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">The sarcomere is the functional unit of muscle contraction, located between two Z-lines.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <!-- TF2 -->
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">Type IIx muscle fibres have a high density of mitochondria and are very resistant to fatigue.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <!-- TF3 -->
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">Smooth muscle is the only muscle type that is not striated.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <!-- TF4 -->
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Rigor mortis occurs because, without ATP, myosin heads cannot detach from actin after the power stroke.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <!-- TF5 -->
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">A motor unit consists of a single muscle fibre and all the motor neurons that supply it.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <!-- TF6 -->
+  <div class="q-card" id="tf6">
+    <div class="q-num">Question 14 &mdash; True or False</div>
+    <div class="q-text">Eccentric contractions generate more force than concentric contractions and are the primary cause of DOMS.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf6',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf6',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf6"></div>
+  </div>
+
+  <!-- TF7 -->
+  <div class="q-card" id="tf7">
+    <div class="q-num">Question 15 &mdash; True or False</div>
+    <div class="q-text">The perimysium is the outermost connective tissue layer that wraps the entire muscle belly.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf7',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf7',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf7"></div>
+  </div>
+
+  <!-- MATCHING -->
+  <p class="section-label">&#128279; Matching</p>
+
+  <!-- MATCH 1: Connective tissue layers -->
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each connective tissue layer to what it wraps.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Layer</div>
+          <div class="match-term">Epimysium</div>
+          <div class="match-term">Perimysium</div>
+          <div class="match-term">Endomysium</div>
+          <div class="match-term">Tendon</div>
+          <div class="match-term">Sarcolemma</div>
+        </div>
+        <div>
+          <div class="match-col-head">What it wraps / connects</div>
+          <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Individual muscle fibre</option><option>Entire muscle belly</option><option>Bundle of fibres (fascicle)</option><option>Muscle to bone</option><option>Plasma membrane of muscle fibre</option></select>
+          <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Individual muscle fibre</option><option>Entire muscle belly</option><option>Bundle of fibres (fascicle)</option><option>Muscle to bone</option><option>Plasma membrane of muscle fibre</option></select>
+          <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Individual muscle fibre</option><option>Entire muscle belly</option><option>Bundle of fibres (fascicle)</option><option>Muscle to bone</option><option>Plasma membrane of muscle fibre</option></select>
+          <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Individual muscle fibre</option><option>Entire muscle belly</option><option>Bundle of fibres (fascicle)</option><option>Muscle to bone</option><option>Plasma membrane of muscle fibre</option></select>
+          <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Individual muscle fibre</option><option>Entire muscle belly</option><option>Bundle of fibres (fascicle)</option><option>Muscle to bone</option><option>Plasma membrane of muscle fibre</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <!-- MATCH 2: Muscle fibre types -->
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 17 &mdash; Matching</div>
+    <div class="q-text">Match each muscle fibre characteristic to the correct fibre type.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Characteristic</div>
+          <div class="match-term">High fatigue resistance, aerobic</div>
+          <div class="match-term">Very high force, anaerobic, pale</div>
+          <div class="match-term">Uses both aerobic and anaerobic</div>
+          <div class="match-term">First recruited (size principle)</div>
+          <div class="match-term">Last recruited, fatigues rapidly</div>
+        </div>
+        <div>
+          <div class="match-col-head">Fibre Type</div>
+          <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Type I (slow twitch)</option><option>Type IIa (fast oxidative)</option><option>Type IIx (fast glycolytic)</option></select>
+          <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Type I (slow twitch)</option><option>Type IIa (fast oxidative)</option><option>Type IIx (fast glycolytic)</option></select>
+          <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Type I (slow twitch)</option><option>Type IIa (fast oxidative)</option><option>Type IIx (fast glycolytic)</option></select>
+          <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Type I (slow twitch)</option><option>Type IIa (fast oxidative)</option><option>Type IIx (fast glycolytic)</option></select>
+          <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Type I (slow twitch)</option><option>Type IIa (fast oxidative)</option><option>Type IIx (fast glycolytic)</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <!-- MATCH 3: Sliding filament steps -->
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 18 &mdash; Matching</div>
+    <div class="q-text">Match each step of the sliding filament theory to the correct event.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Step</div>
+          <div class="match-term">Step 1</div>
+          <div class="match-term">Step 2</div>
+          <div class="match-term">Step 3</div>
+          <div class="match-term">Step 4</div>
+          <div class="match-term">Step 5</div>
+        </div>
+        <div>
+          <div class="match-col-head">Event</div>
+          <select class="match-select" id="m3-1"><option value="">-- select --</option><option>ACh released; action potential in fibre</option><option>ATP breaks cross-bridge; muscle relaxes</option><option>Nerve impulse arrives at NMJ</option><option>Myosin binds actin; power stroke occurs</option><option>Ca2+ released; tropomyosin moves aside</option></select>
+          <select class="match-select" id="m3-2"><option value="">-- select --</option><option>ACh released; action potential in fibre</option><option>ATP breaks cross-bridge; muscle relaxes</option><option>Nerve impulse arrives at NMJ</option><option>Myosin binds actin; power stroke occurs</option><option>Ca2+ released; tropomyosin moves aside</option></select>
+          <select class="match-select" id="m3-3"><option value="">-- select --</option><option>ACh released; action potential in fibre</option><option>ATP breaks cross-bridge; muscle relaxes</option><option>Nerve impulse arrives at NMJ</option><option>Myosin binds actin; power stroke occurs</option><option>Ca2+ released; tropomyosin moves aside</option></select>
+          <select class="match-select" id="m3-4"><option value="">-- select --</option><option>ACh released; action potential in fibre</option><option>ATP breaks cross-bridge; muscle relaxes</option><option>Nerve impulse arrives at NMJ</option><option>Myosin binds actin; power stroke occurs</option><option>Ca2+ released; tropomyosin moves aside</option></select>
+          <select class="match-select" id="m3-5"><option value="">-- select --</option><option>ACh released; action potential in fibre</option><option>ATP breaks cross-bridge; muscle relaxes</option><option>Nerve impulse arrives at NMJ</option><option>Myosin binds actin; power stroke occurs</option><option>Ca2+ released; tropomyosin moves aside</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end tab-quiz -->
+
+<!-- ================================================================
+     TAB 2: EXAM PRACTICE
+     ================================================================ -->
+<div id="tab-exam" class="tab-pane">
+
+  <p class="section-label">&#128221; Short Answer Questions</p>
+
+  <!-- SA1 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">2 marks</span></div></div>
+    <div class="eq-q">Distinguish between the roles of the agonist and antagonist muscles during movement. Use an example to support your answer.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The <strong>agonist</strong> (prime mover) is the muscle primarily responsible for producing the movement, typically contracting concentrically. For example, during knee extension in a drop punt kick, the quadriceps are the agonist. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The <strong>antagonist</strong> opposes the agonist and must relax or eccentrically contract to allow smooth, controlled movement. In the same example, the hamstrings are the antagonist — they eccentrically control the speed of knee extension. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always name BOTH muscles in the pair and specify the joint and movement. Writing only "the agonist contracts and the antagonist relaxes" is too vague — you must name the muscles for full marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA2 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div></div>
+    <div class="eq-q">Describe the three types of muscle tissue. For each, state whether it is voluntary or involuntary and striated or non-striated.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Skeletal muscle</strong> — voluntary, striated. Found attached to bones. Responsible for all movement, posture and heat production. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Cardiac muscle</strong> — involuntary, striated. Found only in the heart. Contracts rhythmically and continuously without fatigue. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Smooth muscle</strong> — involuntary, non-striated. Found in walls of blood vessels and hollow organs. Controls internal functions such as vasodilation during exercise. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Smooth muscle is the only non-striated type — this is commonly tested. Each answer must include voluntary/involuntary AND striated/non-striated to score the mark.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA3 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div></div>
+    <div class="eq-q">Outline the five steps of the sliding filament theory of muscle contraction.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:6px;"><em>4 marks — award 1 mark per two correct steps (or 1 per step if only 4 steps asked):</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Step 1:</strong> A nerve impulse travels down the motor neuron and arrives at the neuromuscular junction (NMJ).</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Step 2:</strong> Acetylcholine (ACh) is released into the synaptic cleft, triggering an action potential that spreads along the muscle fibre membrane (sarcolemma) and into the T-tubules.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Step 3:</strong> Calcium ions (Ca2+) are released from the sarcoplasmic reticulum. Ca2+ binds to troponin, moving tropomyosin aside to expose the myosin-binding sites on actin.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Step 4:</strong> Myosin heads bind to actin, forming cross-bridges. The power stroke occurs — myosin pivots and pulls actin toward the centre of the sarcomere, shortening it.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Step 5:</strong> ATP binds to the myosin head, breaking the cross-bridge and re-cocking the myosin head. Ca2+ is pumped back to the SR and the muscle relaxes — unless another nerve impulse arrives.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The most commonly dropped mark is Step 5 — students forget that ATP is needed to BREAK the cross-bridge, not just form it. Also note that Ca2+ must be returned to the SR for relaxation to occur.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA4 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div></div>
+    <div class="eq-q">Compare Type I and Type IIx muscle fibres across FOUR characteristics. For each characteristic, explain how the difference affects athletic performance.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:6px;"><em>1 mark per characteristic with performance link (any four):</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Fatigue resistance:</strong> Type I = high; Type IIx = low. Type I fibres allow prolonged sustained effort (e.g. marathon), while Type IIx exhaust rapidly, limiting their use to short explosive bursts.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Force production:</strong> Type I = low; Type IIx = very high. Type IIx generate the powerful contractions needed for sprinting and jumping, while Type I cannot produce the force required for explosive movements.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Energy system:</strong> Type I = aerobic; Type IIx = anaerobic. Type I are suited to oxygen-dependent activities; Type IIx rely on glycolysis and phosphocreatine, making them ideal for high-intensity short-duration efforts.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Mitochondria density:</strong> Type I = many; Type IIx = few. High mitochondria in Type I support aerobic ATP production, enabling endurance performance. Low mitochondria in Type IIx limits their aerobic capacity.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Myoglobin / colour:</strong> Type I = high myoglobin (red); Type IIx = low myoglobin (pale). High myoglobin improves oxygen storage and delivery within the fibre, supporting the aerobic demands of endurance sport.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Listing characteristics without linking to performance will not score full marks. The key phrase is "which means..." or "therefore..." — always explain WHY the difference matters for an athlete.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">&#128221; Extended Response Questions</p>
+
+  <!-- ER1 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div></div>
+    <div class="eq-stimulus">During a 100m sprint, an athlete accelerates from the blocks, reaches maximum speed at 60m, then maintains speed to the finish line.</div>
+    <div class="eq-q">Using your knowledge of muscle fibre types and the size principle, explain how the muscular system responds to produce and sustain maximum sprint performance. In your answer, refer to at least TWO fibre types and the concept of motor unit recruitment.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:120px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:8px;"><em>Award marks across four areas:</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Size principle and recruitment order (2 marks):</strong> As the athlete leaves the blocks, motor units are recruited from smallest to largest according to the size principle. Type I (slow twitch) motor units are activated first, followed by Type IIa and then Type IIx as the demand for force and speed increases during acceleration. By maximum speed, near-maximal recruitment of all fibre types has occurred.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Role of Type IIx fibres (2 marks):</strong> Type IIx (fast glycolytic) fibres are critical to sprint performance because they produce very high force and contract extremely rapidly. They rely on anaerobic metabolism (phosphocreatine and glycolysis) to generate ATP quickly. However, their low fatigue resistance means their contribution begins to diminish as the race progresses and metabolic by-products accumulate.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Role of Type IIa fibres (1 mark):</strong> Type IIa fibres contribute significantly during the maintenance phase (60-100m), as they can use both aerobic and anaerobic pathways, offering a combination of speed and moderate endurance to sustain near-maximal effort.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Fatigue considerations (1 mark):</strong> The rapid depletion of phosphocreatine and accumulation of metabolic by-products from anaerobic glycolysis in Type IIx fibres contributes to the velocity decline that many sprinters experience in the final 20-30m of a 100m race.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Extended responses must apply knowledge to the specific context — in this case the 100m sprint. Generic statements about fibre types without linking to acceleration, maximum speed, or the phases of the sprint will score poorly. Always use the stimulus to frame your answer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ER2 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div></div>
+    <div class="eq-q">Using a physical activity or sport of your choice, analyse the muscular system during ONE specific movement. In your answer, identify the joint, joint type, movement occurring, agonist, antagonist, type of contraction for the agonist, and the muscle fibre types most likely recruited.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:120px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer — Example: Kicking a football (drop punt)</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Joint and type (1 mark):</strong> The knee joint — a hinge joint formed by the femur and tibia.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Movement (1 mark):</strong> Knee extension — the angle at the knee joint increases as the lower leg swings forward to contact the ball.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Agonist and antagonist (1 mark):</strong> The quadriceps femoris is the agonist (prime mover) for knee extension. The hamstrings are the antagonist, eccentrically contracting to control the speed of extension and protect the joint.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Type of contraction (1 mark):</strong> The quadriceps perform a concentric contraction — they shorten as they generate force to accelerate the lower leg forward.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Fibre types recruited (2 marks):</strong> A powerful, explosive kick requires rapid force production, so Type IIx (fast glycolytic) fibres are predominantly recruited. Type IIa fibres also contribute. According to the size principle, Type I fibres are recruited first but are insufficient alone for the high force demands of kicking — Type II units are essential for generating the speed and power required.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This style of question has a checklist of required elements — joint, joint type, movement, agonist, antagonist, contraction type, fibre types. Missing any element costs marks. Practice applying this template to multiple movements: throwing, swimming freestyle, jumping, rowing.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-exam -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch1 Part B Quiz &amp; Exam Practice &middot; Live it Up 5th ed.</p>
+
+<script>
+/* TABS */
+function switchTab(name) {
+  var panes = document.querySelectorAll(".tab-pane");
+  var btns = document.querySelectorAll(".tab-btn");
+  for (var i = 0; i < panes.length; i++) { panes[i].className = "tab-pane"; }
+  for (var i = 0; i < btns.length; i++) { btns[i].className = "tab-btn"; }
+  document.getElementById("tab-" + name).className = "tab-pane active";
+  if (name === "quiz") { btns[0].className = "tab-btn active"; }
+  else { btns[1].className = "tab-btn active"; }
+}
+
+/* SCORE */
+var totalQ = 18;
+var answered = 0;
+var correctCount = 0;
+
+function updateScore(gotIt) {
+  answered++;
+  if (gotIt) correctCount++;
+  document.getElementById("score-correct").textContent = correctCount;
+  document.getElementById("score-total").textContent = answered;
+  var pct = Math.round((answered / totalQ) * 100);
+  document.getElementById("progress-bar").style.width = pct + "%";
+}
+
+/* MC ANSWERS */
+var mcAnswers = {
+  mc1: { correct: "B", explanation: "The sarcoplasmic reticulum (SR) stores calcium ions (Ca2+) and releases them when stimulated by an action potential. Ca2+ binds troponin, moving tropomyosin aside to allow cross-bridge formation. It does not produce ATP (A), wrap fibres (C), or connect muscle to bone (D)." },
+  mc2: { correct: "C", explanation: "Lowering into a squat requires the quadriceps to lengthen under tension to control the descent — this is an ECCENTRIC contraction. Concentric = shortening (upward phase). Isometric = no length change. This is why squats cause DOMS — eccentric contractions cause the most muscle damage." },
+  mc3: { correct: "C", explanation: "Marathon runners rely on Type I (slow twitch) fibres because they have high mitochondrial density, abundant myoglobin, rich capillary supply and exceptional fatigue resistance — all essential for hours of continuous aerobic effort. Type IIx (A, D) fatigue rapidly and have FEW mitochondria, not many." },
+  mc4: { correct: "C", explanation: "Endomysium wraps each INDIVIDUAL muscle fibre. Epimysium = entire muscle belly. Perimysium = bundle of fibres (fascicle). Epiphysium is not a real term — do not confuse with epiphysis (bone end)." },
+  mc5: { correct: "B", explanation: "The size principle (Henneman) states that motor units are always recruited smallest to largest: Type I first, then Type IIa, then Type IIx. This order is fixed — you cannot choose to activate Type IIx without first recruiting Type I and IIa." },
+  mc6: { correct: "C", explanation: "ATP is required to BREAK the cross-bridge (detach the myosin head from actin) and re-cock the myosin head for the next cycle. Without ATP, myosin stays attached to actin — this is why rigor mortis occurs. ATP does not trigger Ca2+ release (A) or bind troponin (B)." },
+  mc7: { correct: "C", explanation: "Cardiac muscle is BOTH involuntary (controlled by the autonomic nervous system) AND striated (it has the same alternating band structure as skeletal muscle). Skeletal = voluntary + striated. Smooth = involuntary + non-striated." },
+  mc8: { correct: "B", explanation: "The antagonist eccentrically contracts to control the speed of the agonist's movement and protect the joint from damage. It does NOT assist the movement (A) — that is the synergist. It is not completely inactive (C). Stabilising the origin (D) describes the fixator role." }
+};
+
+function checkMC(opt, cardId, letter) {
+  var card = document.getElementById(cardId);
+  if (card.classList.contains("correct") || card.classList.contains("incorrect")) return;
+  var opts = card.querySelectorAll(".mc-opt");
+  var data = mcAnswers[cardId];
+  var correct = (letter === data.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("locked");
+    var l = opts[i].querySelector(".opt-letter").textContent;
+    if (l === data.correct) opts[i].classList.add("reveal-correct");
+  }
+  opt.classList.remove("reveal-correct");
+  opt.classList.add(correct ? "selected-correct" : "selected-incorrect");
+  card.classList.add(correct ? "correct" : "incorrect");
+  var fb = document.getElementById("fb-" + cardId);
+  fb.innerHTML = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.className = "q-feedback show " + (correct ? "fb-correct" : "fb-incorrect");
+  updateScore(correct);
+}
+
+/* TF ANSWERS */
+var tfAnswers = {
+  tf1: { correct: true, explanation: "TRUE. The sarcomere is the FUNCTIONAL unit of muscle contraction — it is the segment of a myofibril between two Z-lines, containing the interdigitating actin and myosin filaments that slide past each other." },
+  tf2: { correct: false, explanation: "FALSE. Type IIx fibres have VERY FEW mitochondria and LOW fatigue resistance — they fatigue rapidly. It is Type I (slow twitch) fibres that have high mitochondrial density and excellent fatigue resistance." },
+  tf3: { correct: true, explanation: "TRUE. Smooth muscle is the only non-striated type. Both skeletal and cardiac muscle are striated (they have visible alternating dark and light bands under a microscope)." },
+  tf4: { correct: true, explanation: "TRUE. ATP is required to detach the myosin head from actin (break the cross-bridge) and re-cock it. After death, ATP is absent, so myosin heads remain permanently attached to actin, causing the rigid stiffness of rigor mortis." },
+  tf5: { correct: false, explanation: "FALSE. A motor unit is ONE motor neuron and ALL the muscle fibres it innervates — not the other way around. One neuron controls many fibres. When that neuron fires, all its fibres contract simultaneously (all-or-nothing law)." },
+  tf6: { correct: true, explanation: "TRUE. Eccentric contractions generate MORE force than concentric contractions (the muscle is being forcibly lengthened while active). They cause greater microtrauma to muscle fibres, making them the primary cause of delayed onset muscle soreness (DOMS)." },
+  tf7: { correct: false, explanation: "FALSE. The EPIMYSIUM is the outermost layer that wraps the entire muscle belly. Perimysium wraps bundles of fibres (fascicles). Endomysium wraps individual fibres. Remember: Epi (outside) > Peri (around bundles) > Endo (inside, around each fibre)." }
+};
+
+function checkTF(btn, cardId, userSaidTrue) {
+  var card = document.getElementById(cardId);
+  if (card.classList.contains("correct") || card.classList.contains("incorrect")) return;
+  var data = tfAnswers[cardId];
+  var correct = (userSaidTrue === data.correct);
+  var btns = card.querySelectorAll(".tf-btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add("locked");
+    var isTrue = (btns[i].textContent === "True");
+    if (isTrue === data.correct) btns[i].classList.add("reveal-correct");
+  }
+  btn.classList.remove("reveal-correct");
+  btn.classList.add(correct ? "selected-correct" : "selected-incorrect");
+  card.classList.add(correct ? "correct" : "incorrect");
+  var fb = document.getElementById("fb-" + cardId);
+  fb.innerHTML = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.className = "q-feedback show " + (correct ? "fb-correct" : "fb-incorrect");
+  updateScore(correct);
+}
+
+/* MATCHING */
+function checkMatch(matchId, answers, feedbackId) {
+  var card = document.getElementById(matchId);
+  var allCorrect = true;
+  var score = 0;
+  for (var key in answers) {
+    var sel = document.getElementById(key);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[key]) {
+      sel.className = "match-select correct-sel";
+      score++;
+    } else {
+      sel.className = "match-select incorrect-sel";
+      allCorrect = false;
+    }
+  }
+  var total = Object.keys(answers).length;
+  var fb = document.getElementById(feedbackId);
+  var msg = score + " / " + total + " correct. ";
+  if (score === total) {
+    msg += "Perfect score!";
+    fb.className = "q-feedback show fb-correct";
+    card.classList.add("correct");
+  } else {
+    msg += "Incorrect answers are highlighted in red. Review your study notes for the correct answers.";
+    fb.className = "q-feedback show fb-incorrect";
+    card.classList.add("incorrect");
+  }
+  fb.textContent = msg;
+  var btn = card.querySelector(".match-check-btn");
+  if (btn) btn.disabled = true;
+  updateScore(score === total);
+}
+
+function checkMatch1() {
+  checkMatch("match1", {
+    "m1-1": "Entire muscle belly",
+    "m1-2": "Bundle of fibres (fascicle)",
+    "m1-3": "Individual muscle fibre",
+    "m1-4": "Muscle to bone",
+    "m1-5": "Plasma membrane of muscle fibre"
+  }, "fb-match1");
+}
+
+function checkMatch2() {
+  checkMatch("match2", {
+    "m2-1": "Type I (slow twitch)",
+    "m2-2": "Type IIx (fast glycolytic)",
+    "m2-3": "Type IIa (fast oxidative)",
+    "m2-4": "Type I (slow twitch)",
+    "m2-5": "Type IIx (fast glycolytic)"
+  }, "fb-match2");
+}
+
+function checkMatch3() {
+  checkMatch("match3", {
+    "m3-1": "Nerve impulse arrives at NMJ",
+    "m3-2": "ACh released; action potential in fibre",
+    "m3-3": "Ca2+ released; tropomyosin moves aside",
+    "m3-4": "Myosin binds actin; power stroke occurs",
+    "m3-5": "ATP breaks cross-bridge; muscle relaxes"
+  }, "fb-match3");
+}
+
+/* MODEL ANSWER TOGGLE */
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle("open");
+  btn.innerHTML = open ? "&#128065; Hide Model Answer" : "&#128065; Show Model Answer";
+}
+
+/* RESET */
+function resetQuiz() {
+  if (!confirm("Reset all quiz answers? This cannot be undone.")) return;
+  answered = 0;
+  correctCount = 0;
+  document.getElementById("score-correct").textContent = "0";
+  document.getElementById("score-total").textContent = "0";
+  document.getElementById("progress-bar").style.width = "0%";
+  var cards = document.querySelectorAll(".q-card");
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove("correct", "incorrect");
+    var opts = cards[i].querySelectorAll(".mc-opt");
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].classList.remove("locked", "selected-correct", "selected-incorrect", "reveal-correct");
+    }
+    var tfBtns = cards[i].querySelectorAll(".tf-btn");
+    for (var j = 0; j < tfBtns.length; j++) {
+      tfBtns[j].classList.remove("locked", "selected-correct", "selected-incorrect", "reveal-correct");
+    }
+    var sels = cards[i].querySelectorAll(".match-select");
+    for (var j = 0; j < sels.length; j++) {
+      sels[j].className = "match-select";
+      sels[j].disabled = false;
+      sels[j].value = "";
+    }
+    var checkBtns = cards[i].querySelectorAll(".match-check-btn");
+    for (var j = 0; j < checkBtns.length; j++) {
+      checkBtns[j].disabled = false;
+    }
+    var fbs = cards[i].querySelectorAll(".q-feedback");
+    for (var j = 0; j < fbs.length; j++) {
+      fbs[j].className = "q-feedback";
+      fbs[j].textContent = "";
+    }
+  }
+}
+</script>
+</body>
+</html>

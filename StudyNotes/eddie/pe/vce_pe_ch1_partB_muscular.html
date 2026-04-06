@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Ch1 Part B: Muscular System &amp; Fibre Types</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4px; letter-spacing: -0.5px; }
+.subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 6px; font-style: italic; }
+.nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 10px 12px 16px; }
+.nav-pill { background: #fff; border: 1.5px solid #ccc; border-radius: 20px; padding: 4px 12px; font-size: 0.8em; cursor: pointer; color: #444; transition: all 0.15s; }
+.nav-pill:hover { background: #3C3489; color: #fff; border-color: #3C3489; }
+
+/* SEARCH */
+.search-wrap { display: flex; align-items: center; gap: 8px; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; }
+#search { flex: 1; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; font-family: Georgia, serif; }
+#search:focus { outline: none; border-color: #3C3489; }
+#search-clear { display: none; background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; cursor: pointer; font-weight: 700; font-family: Georgia, serif; }
+#search-clear.visible { display: block; }
+#search-count { font-size: 12px; color: #888; white-space: nowrap; min-width: 60px; }
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+.section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
+
+/* ACCORDION */
+.cat { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: visible; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; gap: 8px; }
+.cat-head-text { font-weight: 700; font-size: 0.95em; flex: 1; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head-right small { font-size: 11px; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+.cat-body { padding: 6px 10px 10px; }
+.cat-body.collapsed { display: none; }
+.term { border-radius: 7px; margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 0.9em; background: rgba(255,255,255,0.55); gap: 8px; }
+.term-title:hover { background: rgba(255,255,255,0.85); }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 11px; color: #888; flex-shrink: 0; }
+.term-body { display: none; padding: 10px 14px 11px; background: rgba(255,255,255,0.4); font-size: 0.87em; }
+.term-body.open { display: block; }
+.term-def { margin-bottom: 5px; }
+.term-eg { display: block; font-style: italic; color: #555; margin-top: 4px; }
+.term-note { display: block; margin-top: 7px; font-style: italic; font-size: 0.91em; color: #7B3C00; background: #FFF7EE; border-left: 3px solid #BA7517; padding: 4px 8px; border-radius: 3px; }
+.hl { background: #FFE066; border-radius: 2px; padding: 0 1px; }
+
+/* HOT BADGE */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 200px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* COLOUR THEMES */
+.cat.purple { border-color: #AFA9EC; } .cat.purple .cat-head { background: rgba(206,203,246,0.35); } .cat.purple .term-body { background: rgba(238,237,254,0.5); }
+.cat.teal { border-color: #5DCAA5; } .cat.teal .cat-head { background: rgba(159,225,203,0.28); } .cat.teal .term-body { background: rgba(225,245,238,0.5); }
+.cat.coral { border-color: #D85A30; } .cat.coral .cat-head { background: rgba(240,153,123,0.22); } .cat.coral .term-body { background: rgba(250,236,231,0.5); }
+.cat.amber { border-color: #BA7517; } .cat.amber .cat-head { background: rgba(239,159,39,0.20); } .cat.amber .term-body { background: rgba(250,238,218,0.5); }
+.cat.blue { border-color: #378ADD; } .cat.blue .cat-head { background: rgba(133,183,235,0.25); } .cat.blue .term-body { background: rgba(230,241,251,0.5); }
+.cat.pink { border-color: #D4537E; } .cat.pink .cat-head { background: rgba(237,147,177,0.22); } .cat.pink .term-body { background: rgba(251,234,240,0.5); }
+.cat.gray { border-color: #888780; } .cat.gray .cat-head { background: rgba(180,178,169,0.20); } .cat.gray .term-body { background: rgba(241,239,232,0.5); }
+
+/* BOX PANELS */
+.box-wrap { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; } .box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; } .box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; } .box-wrap.pink { border-color: #D4537E; }
+.box-wrap.coral { border-color: #D85A30; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 700; font-size: 0.93em; user-select: none; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.30); }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.35); }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.22); }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.30); }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.28); }
+.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.22); }
+.box-wrap.coral .box-toggle { background: rgba(240,153,123,0.25); }
+.box-body { display: none; padding: 14px; background: #fff; }
+.box-body.open { display: block; }
+.box-note { margin-top: 10px; font-style: italic; font-size: 0.86em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
+.exam-tip { margin: 8px 0; font-size: 0.86em; color: #4A1B0C; background: #FAECE7; border-left: 4px solid #D85A30; padding: 7px 11px; border-radius: 4px; }
+
+/* TABLES */
+.ct { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.ct th { background: #2C2C2A; color: #fff; padding: 8px 10px; text-align: left; }
+.ct td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; text-align: left; }
+.ct tr:last-child td { border-bottom: none; }
+.ct tr:nth-child(even) td { background: #F7F6F0; }
+.mt { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.mt th { background: #085041; color: #fff; padding: 8px 10px; text-align: left; }
+.mt td { padding: 6px 10px; border-bottom: 1px solid #e0ede9; vertical-align: top; text-align: left; }
+.mt tr:nth-child(even) td { background: #F0FAF6; }
+.mt tr:last-child td { border-bottom: none; }
+.pt { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.pt th { background: #3C3489; color: #fff; padding: 8px 10px; text-align: left; }
+.pt td { padding: 7px 10px; border-bottom: 1px solid #e8e8f8; vertical-align: top; text-align: left; }
+.pt tr:nth-child(even) td { background: #F4F3FE; }
+.pt tr:last-child td { border-bottom: none; }
+
+/* DIAGRAM WRAPPER */
+.diagram-wrap { margin: 0 12px 12px; border-radius: 10px; overflow: hidden; border: 2px solid #5DCAA5; background: #fff; }
+.diagram-wrap.blue { border-color: #378ADD; }
+.diagram-wrap.purple { border-color: #AFA9EC; }
+.diagram-wrap.amber { border-color: #BA7517; }
+.diagram-wrap.pink { border-color: #D4537E; }
+.diagram-wrap.coral { border-color: #D85A30; }
+.diagram-head { background: rgba(159,225,203,0.30); padding: 10px 14px; font-weight: 700; font-size: 0.93em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+.diagram-head.blue { background: rgba(133,183,235,0.28); }
+.diagram-head.purple { background: rgba(206,203,246,0.35); }
+.diagram-head.amber { background: rgba(239,159,39,0.22); }
+.diagram-head.pink { background: rgba(237,147,177,0.22); }
+.diagram-head.coral { background: rgba(240,153,123,0.25); }
+.diagram-body { display: none; padding: 16px 12px 12px; background: #fff; }
+.diagram-body.open { display: block; }
+.diagram-caption { font-size: 0.81em; color: #555; font-style: italic; text-align: center; margin-top: 8px; line-height: 1.5; }
+svg text { font-family: Georgia, serif; }
+
+/* LIGHTBOX */
+.fig-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; margin-right: 6px; background: #3C3489; color: #fff; border: none; border-radius: 7px; padding: 7px 14px; font-size: 0.84em; font-family: Georgia, serif; cursor: pointer; font-weight: 700; }
+.fig-btn:hover { background: #2A2460; }
+.lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+.lightbox-overlay.open { display: flex; }
+.lightbox-box { position: relative; background: #fff; border-radius: 12px; padding: 14px; max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; align-items: center; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+.lightbox-box img { max-width: 100%; max-height: 76vh; border-radius: 6px; object-fit: contain; }
+.lightbox-caption { font-size: 0.82em; color: #555; margin-top: 8px; font-style: italic; text-align: center; }
+.lightbox-close { position: absolute; top: -14px; right: -14px; background: #E24B4A; color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.lightbox-filename { font-size: 0.78em; color: #aaa; margin-top: 5px; font-family: monospace; }
+.lightbox-error { color: #E24B4A; font-size: 0.88em; margin-top: 10px; text-align: center; display: none; }
+.lightbox-error.show { display: block; }
+
+/* NO RESULTS */
+#no-results { display: none; text-align: center; color: #999; padding: 30px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1 Part B &middot; Sections 1.3&ndash;1.4: Muscular System &amp; Muscle Fibre Types &middot; Live it Up 5th ed.</p>
+
+<!-- NAV PILLS -->
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('sec13')">1.3 Muscular System</span>
+  <span class="nav-pill" onclick="jumpTo('sec131')">1.3.1 Functions</span>
+  <span class="nav-pill" onclick="jumpTo('sec132')">1.3.2 Muscle Structure</span>
+  <span class="nav-pill" onclick="jumpTo('sec133')">1.3.3 Major Muscles</span>
+  <span class="nav-pill" onclick="jumpTo('sec134')">1.3.4 Muscle Roles</span>
+  <span class="nav-pill" onclick="jumpTo('sec14')">1.4 Fibre Types</span>
+  <span class="nav-pill" onclick="jumpTo('sec141')">1.4.1 Fibre Characteristics</span>
+  <span class="nav-pill" onclick="jumpTo('sec142')">1.4.2 Sliding Filament</span>
+  <span class="nav-pill" onclick="jumpTo('sec143')">1.4.3 Motor Units</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ============================================================
+     SECTION 1.3 MUSCULAR SYSTEM
+     ============================================================ -->
+<p class="section-label" id="sec13">&#128170; 1.3 The Structure and Function of the Muscular System</p>
+
+<!-- 1.3.1 FUNCTIONS -->
+<p class="section-label" id="sec131" style="padding-top:4px;">Functions of the Muscular System</p>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Functions of the Muscular System</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Function</th><th>Description</th><th>Sport Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Movement</strong></td><td>Muscles contract to pull on bones, producing movement at joints via the lever system</td><td>Quadriceps extend the knee to kick a football</td></tr>
+          <tr><td><strong>Posture and stability</strong></td><td>Continuous low-level muscle contractions maintain body position against gravity</td><td>Core muscles hold a gymnast upright on the beam</td></tr>
+          <tr><td><strong>Heat production</strong></td><td>Muscle contractions generate heat as a by-product of metabolism — critical for thermoregulation</td><td>Shivering is involuntary muscle contraction to generate warmth</td></tr>
+          <tr><td><strong>Protection</strong></td><td>Muscles surrounding joints and organs provide a protective layer against impact</td><td>Abdominal muscles protect internal organs during contact sport</td></tr>
+          <tr><td><strong>Assist circulation</strong></td><td>Skeletal muscle contractions in the legs compress veins and assist venous return of blood to the heart</td><td>Calf muscles act as a peripheral pump during running</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Movement is the primary function examiners focus on. Always link it to the lever system — muscles provide the FORCE on the bone (lever) to produce movement at the joint (fulcrum).</p>
+  </div>
+</div>
+
+<!-- THREE TYPES OF MUSCLE -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128170; Three Types of Muscle Tissue</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Type</th><th>Location</th><th>Control</th><th>Appearance</th><th>Key feature</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Skeletal muscle</strong></td>
+            <td>Attached to bones via tendons; throughout the body</td>
+            <td>Voluntary (conscious control)</td>
+            <td>Striated (striped) — alternating dark and light bands</td>
+            <td>Produces movement, posture and heat. The focus of this AOS.</td>
+          </tr>
+          <tr>
+            <td><strong>Cardiac muscle</strong></td>
+            <td>Heart wall only</td>
+            <td>Involuntary (autonomic nervous system)</td>
+            <td>Striated; branched, interconnected fibres with intercalated discs</td>
+            <td>Never fatigues under normal conditions; contracts rhythmically and continuously for life</td>
+          </tr>
+          <tr>
+            <td><strong>Smooth muscle</strong></td>
+            <td>Walls of hollow organs — blood vessels, stomach, intestines, bladder</td>
+            <td>Involuntary (autonomic nervous system)</td>
+            <td>Non-striated (no visible striations); spindle-shaped cells</td>
+            <td>Controls internal organ function — e.g. vasoconstriction/dilation of blood vessels during exercise</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Only SKELETAL muscle is under voluntary control and is the focus of this chapter. Cardiac and smooth muscle are involuntary. All three are striated EXCEPT smooth muscle.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_3_1_muscle_types.png','Three types of muscle tissue — skeletal, cardiac and smooth (Live it Up 5th ed.)')">&#128247; Three types of muscle tissue</button>
+  </div>
+</div>
+
+<!-- 1.3.2 MUSCLE STRUCTURE -->
+<p class="section-label" id="sec132" style="padding-top:4px;">Muscle Structure</p>
+
+<!-- SVG: Muscle Hierarchy Diagram -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#129344; Diagram: From Muscle to Sarcomere — Structural Hierarchy</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg" style="max-width:620px;width:100%;display:inline-block;">
+        <!-- Level 1: Muscle -->
+        <rect x="10" y="70" width="100" height="60" rx="10" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="2"/>
+        <text x="60" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">Muscle</text>
+        <text x="60" y="110" text-anchor="middle" font-size="10" fill="#085041">e.g. Biceps</text>
+        <text x="60" y="124" text-anchor="middle" font-size="9" fill="#555">Epimysium</text>
+        <!-- arrow -->
+        <polygon points="118,100 130,94 130,106" fill="#5DCAA5"/>
+        <line x1="110" y1="100" x2="130" y2="100" stroke="#5DCAA5" stroke-width="2"/>
+        <!-- Level 2: Fascicle -->
+        <rect x="132" y="70" width="110" height="60" rx="10" fill="#D4EDDA" stroke="#5DCAA5" stroke-width="2"/>
+        <text x="187" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">Fascicle</text>
+        <text x="187" y="108" text-anchor="middle" font-size="10" fill="#085041">Bundle of fibres</text>
+        <text x="187" y="122" text-anchor="middle" font-size="9" fill="#555">Perimysium</text>
+        <!-- arrow -->
+        <polygon points="250,100 262,94 262,106" fill="#5DCAA5"/>
+        <line x1="242" y1="100" x2="262" y2="100" stroke="#5DCAA5" stroke-width="2"/>
+        <!-- Level 3: Muscle Fibre -->
+        <rect x="264" y="70" width="110" height="60" rx="10" fill="#A8D8C0" stroke="#085041" stroke-width="2"/>
+        <text x="319" y="91" text-anchor="middle" font-size="12" font-weight="bold" fill="#042C18">Muscle Fibre</text>
+        <text x="319" y="105" text-anchor="middle" font-size="10" fill="#042C18">Single muscle cell</text>
+        <text x="319" y="119" text-anchor="middle" font-size="9" fill="#555">Endomysium</text>
+        <!-- arrow -->
+        <polygon points="382,100 394,94 394,106" fill="#085041"/>
+        <line x1="374" y1="100" x2="394" y2="100" stroke="#085041" stroke-width="2"/>
+        <!-- Level 4: Myofibril -->
+        <rect x="396" y="70" width="100" height="60" rx="10" fill="#5DCAA5" stroke="#085041" stroke-width="2"/>
+        <text x="446" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Myofibril</text>
+        <text x="446" y="108" text-anchor="middle" font-size="10" fill="#fff">Actin + myosin</text>
+        <text x="446" y="122" text-anchor="middle" font-size="9" fill="#D4F0E4">filaments</text>
+        <!-- arrow -->
+        <polygon points="504,100 516,94 516,106" fill="#085041"/>
+        <line x1="496" y1="100" x2="516" y2="100" stroke="#085041" stroke-width="2"/>
+        <!-- Level 5: Sarcomere -->
+        <rect x="518" y="70" width="90" height="60" rx="10" fill="#085041" stroke="#042C18" stroke-width="2"/>
+        <text x="563" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Sarcomere</text>
+        <text x="563" y="108" text-anchor="middle" font-size="10" fill="#A8D8C0">Functional unit</text>
+        <text x="563" y="122" text-anchor="middle" font-size="9" fill="#A8D8C0">Z-line to Z-line</text>
+        <!-- labels below -->
+        <text x="60" y="160" text-anchor="middle" font-size="9" fill="#888">Largest</text>
+        <text x="563" y="160" text-anchor="middle" font-size="9" fill="#888">Smallest</text>
+        <line x1="60" y1="148" x2="563" y2="148" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+        <polygon points="60,148 68,144 68,152" fill="#ccc"/>
+        <polygon points="563,148 555,144 555,152" fill="#ccc"/>
+        <!-- connective tissue labels -->
+        <text x="60" y="22" text-anchor="middle" font-size="9" fill="#5DCAA5" font-weight="bold">Epimysium</text>
+        <text x="187" y="22" text-anchor="middle" font-size="9" fill="#5DCAA5" font-weight="bold">Perimysium</text>
+        <text x="319" y="22" text-anchor="middle" font-size="9" fill="#085041" font-weight="bold">Endomysium</text>
+        <text x="60" y="36" text-anchor="middle" font-size="9" fill="#888">(wraps whole muscle)</text>
+        <text x="187" y="36" text-anchor="middle" font-size="9" fill="#888">(wraps fascicle)</text>
+        <text x="319" y="36" text-anchor="middle" font-size="9" fill="#888">(wraps each fibre)</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Muscle organisation: Epimysium wraps the whole muscle &rarr; Perimysium wraps fascicles (fibre bundles) &rarr; Endomysium wraps individual fibres &rarr; Myofibrils contain actin and myosin &rarr; Sarcomere is the functional unit of contraction.</p>
+  </div>
+</div>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129344; Muscle Structural Components</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Structure</th><th>Description</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Epimysium</strong></td><td>Outer connective tissue sheath wrapping the entire muscle belly</td><td>Holds the muscle together; merges with the tendon at each end</td></tr>
+          <tr><td><strong>Perimysium</strong></td><td>Connective tissue wrapping bundles of muscle fibres (fascicles)</td><td>Groups fibres; carries blood vessels and nerves to the fascicle</td></tr>
+          <tr><td><strong>Endomysium</strong></td><td>Connective tissue surrounding each individual muscle fibre (cell)</td><td>Carries capillaries and nerves directly to each fibre</td></tr>
+          <tr><td><strong>Fascicle</strong></td><td>A bundle of muscle fibres wrapped in perimysium</td><td>Organisational unit between whole muscle and individual fibre</td></tr>
+          <tr><td><strong>Muscle fibre (myocyte)</strong></td><td>Single, long, multinucleated muscle cell containing myofibrils</td><td>The contractile unit visible to the naked eye</td></tr>
+          <tr><td><strong>Myofibril</strong></td><td>Thread-like structures within a fibre containing actin (thin) and myosin (thick) filaments</td><td>Contains the contractile proteins; site of the sliding filament mechanism</td></tr>
+          <tr><td><strong>Sarcomere</strong></td><td>The segment between two Z-lines within a myofibril; contains actin and myosin arranged in overlapping filaments</td><td>Functional unit of muscle contraction — shortens during contraction</td></tr>
+          <tr><td><strong>Actin</strong></td><td>Thin protein filament with binding sites for myosin heads; regulated by troponin and tropomyosin</td><td>Slides toward the centre of the sarcomere during contraction</td></tr>
+          <tr><td><strong>Myosin</strong></td><td>Thick protein filament with globular heads that bind actin and perform the power stroke</td><td>Pulls actin filaments inward using ATP-powered cross-bridge cycling</td></tr>
+          <tr><td><strong>Tendon</strong></td><td>Dense connective tissue attaching muscle to bone; formed by the merging of epimysium at each muscle end</td><td>Transmits force of contraction to the skeleton to produce joint movement</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The connective tissue layers (epi-, peri-, endomysium) all merge at the muscle ends to form the tendon. Understanding this helps explain how force is transmitted from fibre to bone.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_3_3_muscle_anatomy.png','Figure 1.18 — The muscle belly in cross-section showing epimysium, perimysium and endomysium (Live it Up 5th ed.)')">&#128247; Muscle belly cross-section (Fig 1.18)</button>
+    <button class="fig-btn" onclick="openLightbox('fig1_4_1_fibre_types.png','Figure 1.17 — Skeletal muscle fibre arrangements: parallel, pennate, convergent (Live it Up 5th ed.)')">&#128247; Skeletal muscle fibre arrangements (Fig 1.17)</button>
+  </div>
+</div>
+
+<!-- 1.3.3 MAJOR SKELETAL MUSCLES -->
+<p class="section-label" id="sec133" style="padding-top:4px;">Major Skeletal Muscles</p>
+
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129346; Major Skeletal Muscles — Location, Action &amp; Sport Examples</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Muscle</th><th>Location</th><th>Primary Action (agonist for)</th><th>Antagonist</th><th>Sport Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Quadriceps femoris</strong></td><td>Anterior thigh (4 heads: rectus femoris, vastus lateralis, medialis, intermedius)</td><td>Knee extension; hip flexion (rectus femoris)</td><td>Hamstrings</td><td>Kicking, squatting, running</td></tr>
+          <tr><td><strong>Hamstrings</strong></td><td>Posterior thigh (biceps femoris, semitendinosus, semimembranosus)</td><td>Knee flexion; hip extension</td><td>Quadriceps</td><td>Sprinting, jumping, deadlift</td></tr>
+          <tr><td><strong>Gluteus maximus</strong></td><td>Posterior hip/buttock</td><td>Hip extension; lateral rotation</td><td>Iliopsoas (hip flexors)</td><td>Sprinting, cycling, jumping</td></tr>
+          <tr><td><strong>Gastrocnemius</strong></td><td>Posterior lower leg (superficial calf)</td><td>Plantarflexion; assists knee flexion</td><td>Tibialis anterior</td><td>Running, jumping, cycling</td></tr>
+          <tr><td><strong>Soleus</strong></td><td>Posterior lower leg (deep to gastrocnemius)</td><td>Plantarflexion (primary during slow/standing activity)</td><td>Tibialis anterior</td><td>Walking, standing on toes</td></tr>
+          <tr><td><strong>Tibialis anterior</strong></td><td>Anterior lower leg</td><td>Dorsiflexion; inversion</td><td>Gastrocnemius/soleus</td><td>Running (swing/heel strike phase)</td></tr>
+          <tr><td><strong>Biceps brachii</strong></td><td>Anterior upper arm</td><td>Elbow flexion; forearm supination</td><td>Triceps brachii</td><td>Throwing, rowing, pull-ups</td></tr>
+          <tr><td><strong>Triceps brachii</strong></td><td>Posterior upper arm</td><td>Elbow extension</td><td>Biceps brachii</td><td>Pushing, throwing follow-through</td></tr>
+          <tr><td><strong>Deltoid</strong></td><td>Shoulder (anterior, middle, posterior heads)</td><td>Shoulder abduction (middle); flexion (anterior); extension (posterior)</td><td>Latissimus dorsi</td><td>Swimming, throwing, overhead press</td></tr>
+          <tr><td><strong>Pectoralis major</strong></td><td>Anterior chest</td><td>Shoulder horizontal adduction; flexion; medial rotation</td><td>Posterior deltoid</td><td>Freestyle swimming, bench press, throwing</td></tr>
+          <tr><td><strong>Latissimus dorsi</strong></td><td>Broad posterior mid/lower back</td><td>Shoulder extension; adduction; medial rotation</td><td>Deltoid</td><td>Rowing, swimming backstroke, pull-ups</td></tr>
+          <tr><td><strong>Trapezius</strong></td><td>Posterior neck and upper back</td><td>Scapular elevation, retraction, depression; neck extension</td><td>Serratus anterior</td><td>Shrugging, rowing, throwing</td></tr>
+          <tr><td><strong>Rectus abdominis</strong></td><td>Anterior abdomen</td><td>Trunk flexion (spinal flexion)</td><td>Erector spinae</td><td>Sit-ups, gymnastics, rowing</td></tr>
+          <tr><td><strong>Erector spinae</strong></td><td>Deep posterior spine (bilateral)</td><td>Spinal extension; postural support</td><td>Rectus abdominis</td><td>Deadlift, rowing, posture during running</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Focus on antagonist pairs for movement analysis: quadriceps/hamstrings (knee), biceps/triceps (elbow), gastrocnemius/tibialis anterior (ankle), deltoid/latissimus dorsi (shoulder). These are the most commonly tested in exam movement analysis questions.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_3_1_muscle_structure.png','Major skeletal muscles — anterior and posterior views (Live it Up 5th ed.)')">&#128247; Major skeletal muscles — anterior &amp; posterior</button>
+  </div>
+</div>
+
+<!-- 1.3.4 MUSCLE ROLES -->
+<p class="section-label" id="sec134" style="padding-top:4px;">Muscle Roles During Movement</p>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Muscle Roles — Agonist, Antagonist, Synergist, Fixator</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Role</th><th>Definition</th><th>Example — Bicep Curl (upward phase)</th><th>Example — Drop Punt Kick</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agonist (prime mover)</strong></td><td>The muscle primarily responsible for producing the movement; typically contracts concentrically</td><td>Biceps brachii (elbow flexion)</td><td>Quadriceps (knee extension)</td></tr>
+          <tr><td><strong>Antagonist</strong></td><td>Opposes the agonist; must relax or eccentrically contract to allow smooth, controlled movement</td><td>Triceps brachii (relaxes/eccentrically controls)</td><td>Hamstrings (eccentrically control knee extension speed)</td></tr>
+          <tr><td><strong>Synergist</strong></td><td>Assists the agonist to fine-tune or support the movement; reduces unwanted joint actions</td><td>Brachialis, brachioradialis</td><td>Iliopsoas (assists hip flexion in backswing)</td></tr>
+          <tr><td><strong>Fixator (stabiliser)</strong></td><td>Stabilises the origin bone of the agonist so it can pull effectively on the insertion</td><td>Deltoid stabilises the shoulder joint</td><td>Core muscles stabilise the trunk and pelvis</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="exam-tip">&#9888; In ANY movement analysis exam question, always identify BOTH the agonist AND the antagonist. A common error is identifying only the agonist. You should also name the joint, joint type, and movement occurring.</p>
+  </div>
+</div>
+
+<!-- SVG: Movement Analysis Example -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#9654;&#65039; Diagram: Movement Analysis — Running Stride</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" style="max-width:640px;width:100%;display:inline-block;">
+        <!-- Phase 1: Push-off -->
+        <rect x="10" y="10" width="190" height="240" rx="10" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="2"/>
+        <text x="105" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">Push-Off Phase</text>
+        <text x="105" y="50" text-anchor="middle" font-size="10" fill="#085041">Ankle: Plantarflexion</text>
+        <rect x="25" y="60" width="160" height="22" rx="5" fill="#D4EDDA"/>
+        <text x="105" y="75" text-anchor="middle" font-size="10" fill="#155724">Agonist: Gastrocnemius</text>
+        <rect x="25" y="86" width="160" height="22" rx="5" fill="#FADBD8"/>
+        <text x="105" y="101" text-anchor="middle" font-size="10" fill="#7B241C">Antagonist: Tibialis anterior</text>
+        <text x="105" y="128" text-anchor="middle" font-size="10" fill="#085041">Knee: Extension</text>
+        <rect x="25" y="136" width="160" height="22" rx="5" fill="#D4EDDA"/>
+        <text x="105" y="151" text-anchor="middle" font-size="10" fill="#155724">Agonist: Quadriceps</text>
+        <rect x="25" y="158" width="160" height="22" rx="5" fill="#FADBD8"/>
+        <text x="105" y="173" text-anchor="middle" font-size="10" fill="#7B241C">Antagonist: Hamstrings</text>
+        <text x="105" y="198" text-anchor="middle" font-size="10" fill="#085041">Hip: Extension</text>
+        <rect x="25" y="206" width="160" height="22" rx="5" fill="#D4EDDA"/>
+        <text x="105" y="221" text-anchor="middle" font-size="10" fill="#155724">Agonist: Gluteus maximus</text>
+        <rect x="25" y="230" width="160" height="16" rx="5" fill="#FADBD8"/>
+        <text x="105" y="242" text-anchor="middle" font-size="10" fill="#7B241C">Antagonist: Iliopsoas</text>
+
+        <!-- Phase 2: Swing -->
+        <rect x="225" y="10" width="190" height="240" rx="10" fill="#EEF3FB" stroke="#378ADD" stroke-width="2"/>
+        <text x="320" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#042C53">Swing Phase</text>
+        <text x="320" y="50" text-anchor="middle" font-size="10" fill="#042C53">Ankle: Dorsiflexion</text>
+        <rect x="240" y="60" width="160" height="22" rx="5" fill="#D4EDDA"/>
+        <text x="320" y="75" text-anchor="middle" font-size="10" fill="#155724">Agonist: Tibialis anterior</text>
+        <rect x="240" y="86" width="160" height="22" rx="5" fill="#FADBD8"/>
+        <text x="320" y="101" text-anchor="middle" font-size="10" fill="#7B241C">Antagonist: Gastrocnemius</text>
+        <text x="320" y="128" text-anchor="middle" font-size="10" fill="#042C53">Knee: Flexion</text>
+        <rect x="240" y="136" width="160" height="22" rx="5" fill="#D4EDDA"/>
+        <text x="320" y="151" text-anchor="middle" font-size="10" fill="#155724">Agonist: Hamstrings</text>
+        <rect x="240" y="158" width="160" height="22" rx="5" fill="#FADBD8"/>
+        <text x="320" y="173" text-anchor="middle" font-size="10" fill="#7B241C">Antagonist: Quadriceps</text>
+        <text x="320" y="198" text-anchor="middle" font-size="10" fill="#042C53">Hip: Flexion</text>
+        <rect x="240" y="206" width="160" height="22" rx="5" fill="#D4EDDA"/>
+        <text x="320" y="221" text-anchor="middle" font-size="10" fill="#155724">Agonist: Iliopsoas</text>
+        <rect x="240" y="230" width="160" height="16" rx="5" fill="#FADBD8"/>
+        <text x="320" y="242" text-anchor="middle" font-size="10" fill="#7B241C">Antagonist: Gluteus maximus</text>
+
+        <!-- LEGEND -->
+        <rect x="440" y="10" width="185" height="100" rx="10" fill="#F9F7EE" stroke="#BA7517" stroke-width="1.5"/>
+        <text x="532" y="30" text-anchor="middle" font-size="11" font-weight="bold" fill="#412402">Movement Analysis</text>
+        <text x="532" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#412402">Template:</text>
+        <text x="452" y="62" font-size="9" fill="#555">1. Joint name</text>
+        <text x="452" y="76" font-size="9" fill="#555">2. Joint type</text>
+        <text x="452" y="90" font-size="9" fill="#555">3. Movement occurring</text>
+        <text x="452" y="104" font-size="9" fill="#555">4. Agonist + antagonist</text>
+        <rect x="440" y="122" width="185" height="128" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1.5"/>
+        <text x="532" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#4A1B0C">&#9888; Common Errors</text>
+        <text x="452" y="160" font-size="9" fill="#4A1B0C">&#10007; Naming only the agonist</text>
+        <text x="452" y="176" font-size="9" fill="#4A1B0C">&#10007; Forgetting the joint type</text>
+        <text x="452" y="192" font-size="9" fill="#4A1B0C">&#10007; Writing "flexion" without</text>
+        <text x="452" y="206" font-size="9" fill="#4A1B0C">   specifying the joint</text>
+        <text x="452" y="222" font-size="9" fill="#4A1B0C">&#10007; Confusing dorsiflexion</text>
+        <text x="452" y="236" font-size="9" fill="#4A1B0C">   with plantarflexion</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Running uses alternating push-off (extension dominant) and swing (flexion dominant) phases. Note how agonist/antagonist roles REVERSE between phases — the hamstrings are antagonist during push-off but agonist during swing.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.4 MUSCLE FIBRE TYPES
+     ============================================================ -->
+<p class="section-label" id="sec14">&#128170; 1.4 Muscle Fibre Characteristics and Functions</p>
+
+<!-- 1.4.1 FIBRE TYPES -->
+<p class="section-label" id="sec141" style="padding-top:4px;">Fibre Type Characteristics</p>
+
+<!-- SVG: Fibre Type Comparison -->
+<div class="diagram-wrap pink">
+  <div class="diagram-head pink" onclick="toggleB(this)">
+    <span>&#128170; Diagram: Muscle Fibre Type Comparison</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 580 290" xmlns="http://www.w3.org/2000/svg" style="max-width:580px;width:100%;display:inline-block;">
+        <!-- TYPE I -->
+        <rect x="10" y="10" width="175" height="270" rx="12" fill="rgba(230,241,251,0.5)" stroke="#378ADD" stroke-width="2"/>
+        <rect x="10" y="10" width="175" height="40" rx="12" fill="#378ADD"/>
+        <text x="97" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">TYPE I</text>
+        <text x="97" y="46" text-anchor="middle" font-size="10" fill="#fff">Slow Twitch (SO)</text>
+        <!-- fibre visual: thin red fibres -->
+        <line x1="35" y1="62" x2="35" y2="110" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="48" y1="60" x2="48" y2="108" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="61" y1="62" x2="61" y2="110" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="74" y1="60" x2="74" y2="108" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="87" y1="62" x2="87" y2="110" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="100" y1="60" x2="100" y2="108" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="113" y1="62" x2="113" y2="110" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="126" y1="60" x2="126" y2="108" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="139" y1="62" x2="139" y2="110" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="152" y1="60" x2="152" y2="108" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="165" y1="62" x2="165" y2="110" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="97" y="126" text-anchor="middle" font-size="9" fill="#666">Many thin fibres (red)</text>
+        <text x="97" y="148" text-anchor="middle" font-size="10" fill="#042C53">Fatigue resistance: HIGH</text>
+        <text x="97" y="164" text-anchor="middle" font-size="10" fill="#042C53">Force output: LOW</text>
+        <text x="97" y="180" text-anchor="middle" font-size="10" fill="#042C53">Contraction speed: SLOW</text>
+        <text x="97" y="196" text-anchor="middle" font-size="10" fill="#042C53">Energy system: AEROBIC</text>
+        <text x="97" y="212" text-anchor="middle" font-size="10" fill="#042C53">Mitochondria: MANY</text>
+        <text x="97" y="228" text-anchor="middle" font-size="10" fill="#042C53">Myoglobin: HIGH (red)</text>
+        <text x="97" y="248" text-anchor="middle" font-size="10" fill="#C0392B" font-style="italic">Marathon, triathlon,</text>
+        <text x="97" y="262" text-anchor="middle" font-size="10" fill="#C0392B" font-style="italic">distance cycling</text>
+
+        <!-- TYPE IIa -->
+        <rect x="202" y="10" width="175" height="270" rx="12" fill="rgba(250,238,218,0.5)" stroke="#BA7517" stroke-width="2"/>
+        <rect x="202" y="10" width="175" height="40" rx="12" fill="#BA7517"/>
+        <text x="289" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">TYPE IIa</text>
+        <text x="289" y="46" text-anchor="middle" font-size="10" fill="#fff">Fast Oxidative (FOG)</text>
+        <!-- medium red-pink fibres -->
+        <line x1="222" y1="62" x2="222" y2="110" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="240" y1="60" x2="240" y2="108" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="258" y1="62" x2="258" y2="110" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="276" y1="60" x2="276" y2="108" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="294" y1="62" x2="294" y2="110" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="312" y1="60" x2="312" y2="108" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="330" y1="62" x2="330" y2="110" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="348" y1="60" x2="348" y2="108" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="366" y1="62" x2="366" y2="110" stroke="#D85A30" stroke-width="5.5" stroke-linecap="round"/>
+        <text x="289" y="126" text-anchor="middle" font-size="9" fill="#666">Medium fibres</text>
+        <text x="289" y="148" text-anchor="middle" font-size="10" fill="#412402">Fatigue resistance: MOD</text>
+        <text x="289" y="164" text-anchor="middle" font-size="10" fill="#412402">Force output: HIGH</text>
+        <text x="289" y="180" text-anchor="middle" font-size="10" fill="#412402">Contraction speed: FAST</text>
+        <text x="289" y="196" text-anchor="middle" font-size="10" fill="#412402">Energy: AEROBIC + ANAEROBIC</text>
+        <text x="289" y="212" text-anchor="middle" font-size="10" fill="#412402">Mitochondria: MANY</text>
+        <text x="289" y="228" text-anchor="middle" font-size="10" fill="#412402">Myoglobin: HIGH</text>
+        <text x="289" y="248" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">800m, 1500m,</text>
+        <text x="289" y="262" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">team sports</text>
+
+        <!-- TYPE IIx -->
+        <rect x="394" y="10" width="175" height="270" rx="12" fill="rgba(250,236,231,0.5)" stroke="#D85A30" stroke-width="2"/>
+        <rect x="394" y="10" width="175" height="40" rx="12" fill="#D85A30"/>
+        <text x="481" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">TYPE IIx</text>
+        <text x="481" y="46" text-anchor="middle" font-size="10" fill="#fff">Fast Glycolytic (FG)</text>
+        <!-- thick pale fibres -->
+        <line x1="414" y1="62" x2="414" y2="110" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <line x1="436" y1="60" x2="436" y2="108" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <line x1="458" y1="62" x2="458" y2="110" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <line x1="480" y1="60" x2="480" y2="108" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <line x1="502" y1="62" x2="502" y2="110" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <line x1="524" y1="60" x2="524" y2="108" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <line x1="546" y1="62" x2="546" y2="110" stroke="#E8C0A8" stroke-width="10" stroke-linecap="round"/>
+        <text x="481" y="126" text-anchor="middle" font-size="9" fill="#666">Few thick pale fibres</text>
+        <text x="481" y="148" text-anchor="middle" font-size="10" fill="#4A1B0C">Fatigue resistance: LOW</text>
+        <text x="481" y="164" text-anchor="middle" font-size="10" fill="#4A1B0C">Force output: VERY HIGH</text>
+        <text x="481" y="180" text-anchor="middle" font-size="10" fill="#4A1B0C">Contraction speed: VERY FAST</text>
+        <text x="481" y="196" text-anchor="middle" font-size="10" fill="#4A1B0C">Energy: ANAEROBIC</text>
+        <text x="481" y="212" text-anchor="middle" font-size="10" fill="#4A1B0C">Mitochondria: FEW</text>
+        <text x="481" y="228" text-anchor="middle" font-size="10" fill="#4A1B0C">Myoglobin: LOW (pale)</text>
+        <text x="481" y="248" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">100m sprint,</text>
+        <text x="481" y="262" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">powerlifting</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; The key exam distinguishers are FATIGUE RESISTANCE and ENERGY SYSTEM. Type I = endurance (red, aerobic). Type IIx = power/speed (pale, anaerobic). Type IIa = intermediate. Fibre colour reflects myoglobin content.</p>
+  </div>
+</div>
+
+<div class="box-wrap pink">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Fibre Type Summary Table</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr>
+          <th>Characteristic</th>
+          <th>Type I (Slow Twitch)</th>
+          <th>Type IIa (Fast Oxidative)</th>
+          <th>Type IIx (Fast Glycolytic)</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Contraction speed</strong></td><td>Slow</td><td>Fast</td><td>Very fast</td></tr>
+          <tr><td><strong>Force production</strong></td><td>Low</td><td>High</td><td>Very high</td></tr>
+          <tr><td><strong>Fatigue resistance</strong></td><td>High (very resistant)</td><td>Moderate</td><td>Low (fatigues quickly)</td></tr>
+          <tr><td><strong>Primary energy system</strong></td><td>Aerobic (oxidative)</td><td>Both aerobic + anaerobic</td><td>Anaerobic (glycolytic)</td></tr>
+          <tr><td><strong>Mitochondria density</strong></td><td>Very high</td><td>High</td><td>Low</td></tr>
+          <tr><td><strong>Myoglobin content</strong></td><td>High (red/dark)</td><td>High (red)</td><td>Low (pale/white)</td></tr>
+          <tr><td><strong>Capillary density</strong></td><td>High</td><td>Moderate-high</td><td>Low</td></tr>
+          <tr><td><strong>Glycogen stores</strong></td><td>Moderate</td><td>High</td><td>Very high</td></tr>
+          <tr><td><strong>Fibre diameter</strong></td><td>Small</td><td>Medium</td><td>Large</td></tr>
+          <tr><td><strong>Also called</strong></td><td>SO (slow oxidative)</td><td>FOG (fast oxidative glycolytic)</td><td>FG (fast glycolytic)</td></tr>
+          <tr><td><strong>Sport/activity</strong></td><td>Marathon, triathlon, long distance cycling</td><td>800m, 1500m, team sports (AFL, netball)</td><td>100m sprint, shot put, powerlifting</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Remember the acronym SO-FOG-FG for the three fibre types. The key distinguishers in exams are fatigue resistance and energy system — know these cold.</p>
+  </div>
+</div>
+
+<!-- 1.4.2 SLIDING FILAMENT THEORY -->
+<p class="section-label" id="sec142" style="padding-top:4px;">Sliding Filament Theory</p>
+
+<!-- SVG: 5-step sliding filament -->
+<div class="diagram-wrap amber">
+  <div class="diagram-head amber" onclick="toggleB(this)">
+    <span>&#9881;&#65039; Diagram: Sliding Filament Theory — 5 Steps</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 580 220" xmlns="http://www.w3.org/2000/svg" style="max-width:580px;width:100%;display:inline-block;">
+        <!-- STEP 1 -->
+        <rect x="10" y="30" width="100" height="150" rx="8" fill="#EEF3FB" stroke="#378ADD" stroke-width="1.5"/>
+        <rect x="10" y="30" width="100" height="32" rx="8" fill="#378ADD"/>
+        <text x="60" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 1</text>
+        <text x="60" y="76" text-anchor="middle" font-size="10" fill="#042C53">Nerve impulse</text>
+        <text x="60" y="90" text-anchor="middle" font-size="10" fill="#042C53">travels to</text>
+        <text x="60" y="104" text-anchor="middle" font-size="10" fill="#042C53">neuromuscular</text>
+        <text x="60" y="118" text-anchor="middle" font-size="10" fill="#042C53">junction</text>
+        <text x="60" y="152" text-anchor="middle" font-size="9" fill="#378ADD" font-style="italic">Motor neuron fires</text>
+        <polygon points="114,105 126,99 126,111" fill="#888"/>
+
+        <!-- STEP 2 -->
+        <rect x="130" y="30" width="100" height="150" rx="8" fill="#F4F3FE" stroke="#AFA9EC" stroke-width="1.5"/>
+        <rect x="130" y="30" width="100" height="32" rx="8" fill="#3C3489"/>
+        <text x="180" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 2</text>
+        <text x="180" y="76" text-anchor="middle" font-size="10" fill="#3C3489">ACh released</text>
+        <text x="180" y="90" text-anchor="middle" font-size="10" fill="#3C3489">into synaptic</text>
+        <text x="180" y="104" text-anchor="middle" font-size="10" fill="#3C3489">cleft; action</text>
+        <text x="180" y="118" text-anchor="middle" font-size="10" fill="#3C3489">potential in</text>
+        <text x="180" y="132" text-anchor="middle" font-size="10" fill="#3C3489">muscle fibre</text>
+        <text x="180" y="152" text-anchor="middle" font-size="9" fill="#3C3489" font-style="italic">Acetylcholine (ACh)</text>
+        <polygon points="234,105 246,99 246,111" fill="#888"/>
+
+        <!-- STEP 3 -->
+        <rect x="250" y="30" width="100" height="150" rx="8" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="1.5"/>
+        <rect x="250" y="30" width="100" height="32" rx="8" fill="#085041"/>
+        <text x="300" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 3</text>
+        <text x="300" y="76" text-anchor="middle" font-size="10" fill="#085041">Ca2+ released</text>
+        <text x="300" y="90" text-anchor="middle" font-size="10" fill="#085041">from SR; binds</text>
+        <text x="300" y="104" text-anchor="middle" font-size="10" fill="#085041">troponin;</text>
+        <text x="300" y="118" text-anchor="middle" font-size="10" fill="#085041">tropomyosin</text>
+        <text x="300" y="132" text-anchor="middle" font-size="10" fill="#085041">moves aside</text>
+        <text x="300" y="152" text-anchor="middle" font-size="9" fill="#085041" font-style="italic">Sarcoplasmic reticulum</text>
+        <polygon points="354,105 366,99 366,111" fill="#888"/>
+
+        <!-- STEP 4 -->
+        <rect x="370" y="30" width="100" height="150" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+        <rect x="370" y="30" width="100" height="32" rx="8" fill="#412402"/>
+        <text x="420" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 4</text>
+        <text x="420" y="76" text-anchor="middle" font-size="10" fill="#412402">Myosin heads</text>
+        <text x="420" y="90" text-anchor="middle" font-size="10" fill="#412402">bind actin;</text>
+        <text x="420" y="104" text-anchor="middle" font-size="10" fill="#412402">cross-bridges</text>
+        <text x="420" y="118" text-anchor="middle" font-size="10" fill="#412402">form; power</text>
+        <text x="420" y="132" text-anchor="middle" font-size="10" fill="#412402">stroke occurs</text>
+        <text x="420" y="152" text-anchor="middle" font-size="9" fill="#BA7517" font-style="italic">Actin slides inward</text>
+        <polygon points="474,105 486,99 486,111" fill="#888"/>
+
+        <!-- STEP 5 -->
+        <rect x="490" y="30" width="84" height="150" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1.5"/>
+        <rect x="490" y="30" width="84" height="32" rx="8" fill="#4A1B0C"/>
+        <text x="532" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 5</text>
+        <text x="532" y="76" text-anchor="middle" font-size="10" fill="#4A1B0C">ATP breaks</text>
+        <text x="532" y="90" text-anchor="middle" font-size="10" fill="#4A1B0C">cross-bridge;</text>
+        <text x="532" y="104" text-anchor="middle" font-size="10" fill="#4A1B0C">myosin re-cocks</text>
+        <text x="532" y="118" text-anchor="middle" font-size="10" fill="#4A1B0C">Ca2+ returned</text>
+        <text x="532" y="132" text-anchor="middle" font-size="10" fill="#4A1B0C">to SR; muscle</text>
+        <text x="532" y="146" text-anchor="middle" font-size="10" fill="#4A1B0C">relaxes</text>
+        <text x="532" y="164" text-anchor="middle" font-size="9" fill="#D85A30" font-style="italic">ATP essential here</text>
+
+        <!-- BOTTOM SUMMARY -->
+        <text x="290" y="205" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Nerve impulse &#8594; ACh &#8594; Ca2+ &#8594; Cross-bridge formation &#8594; Power stroke &#8594; ATP breaks cross-bridge &#8594; Repeat or relax</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; Critical exam point: ATP is needed to BREAK cross-bridges (detach myosin from actin and re-cock the myosin head), NOT just to form them. This is why rigor mortis occurs — no ATP means cross-bridges cannot detach.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_4_3_sarcomere.png','Figure 1.19 — Arrangement of sarcomeres within the muscle fibre: sarcolemma, myofibril, Z-line, actin, myosin, crossbridges (Live it Up 5th ed.)')">&#128247; Sarcomere structure (Fig 1.19)</button>
+  </div>
+</div>
+
+<!-- 1.4.3 MOTOR UNITS & RECRUITMENT -->
+<p class="section-label" id="sec143" style="padding-top:4px;">Motor Units &amp; Recruitment</p>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9889; Motor Units and the Size Principle</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Concept</th><th>Description</th><th>Sport Application</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Motor unit</strong></td><td>A single motor neuron and ALL the muscle fibres it innervates. When the neuron fires, ALL its fibres contract (all-or-nothing)</td><td>Fine motor tasks use small motor units; maximal effort uses large ones</td></tr>
+          <tr><td><strong>All-or-nothing law</strong></td><td>A muscle fibre either contracts fully or not at all — there is no partial contraction within one fibre. Force is graded by recruiting MORE motor units</td><td>Gripping a pen (few units) vs gripping a barbell maximally (all units)</td></tr>
+          <tr><td><strong>Size principle</strong></td><td>Motor units are recruited in order from SMALLEST to LARGEST as intensity increases: Type I first, then Type IIa, then Type IIx</td><td>Light jogging recruits only Type I; a maximal sprint recruits all types including Type IIx</td></tr>
+          <tr><td><strong>Motor unit recruitment</strong></td><td>The process of activating more motor units to increase total muscle force output</td><td>Increasing barbell weight requires recruiting more and larger motor units</td></tr>
+          <tr><td><strong>Rate coding</strong></td><td>Increasing the FREQUENCY of nerve impulses to a motor unit to increase force — firing faster produces more force from the same unit</td><td>The nervous system uses both recruitment AND rate coding to fine-tune force output</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The size principle explains why endurance exercise feels easy at first — only slow twitch Type I units are working. As intensity increases, the body progressively adds IIa then IIx units. This is why sprinting feels exponentially harder than jogging.</p>
+  </div>
+</div>
+
+<!-- KEY TERMS ACCORDION -->
+<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search. Try a different keyword.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch1 Part B: Muscular System &amp; Fibre Types &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-box">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">&#10005;</button>
+    <img id="lightbox-img" src="" alt="Textbook figure">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <p class="lightbox-filename" id="lightbox-filename"></p>
+    <p class="lightbox-error" id="lightbox-error">&#9888; Image not found. Check the filename matches exactly and is saved in the same folder as this HTML file.</p>
+  </div>
+</div>
+
+<script>
+var data = [
+  { cat: "1.3.1 Functions and Types of Muscle", color: "teal", hot: false, items: [
+    { term: "Skeletal muscle", def: "Voluntary, striated muscle attached to bones via tendons. The only muscle type under conscious control. Responsible for movement, posture, heat production and assisting circulation.", eg: "The quadriceps, hamstrings, gastrocnemius and biceps brachii are all skeletal muscles." },
+    { term: "Cardiac muscle", def: "Involuntary, striated muscle found only in the heart wall. Contracts rhythmically and continuously without fatigue. Fibres are branched and connected by intercalated discs.", eg: "The heart beats 60-100 times per minute at rest and up to 200+ times during maximal exercise — all without voluntary control." },
+    { term: "Smooth muscle", def: "Involuntary, non-striated muscle found in the walls of hollow organs and blood vessels. Controls internal functions such as blood vessel diameter.", eg: "Smooth muscle in arterial walls dilates blood vessels during exercise to increase blood flow to working muscles.", note: "Smooth muscle is the only type that is NOT striated. Skeletal and cardiac are both striated." },
+    { term: "Movement", def: "The primary function of the muscular system — muscles contract to pull on bones, acting as levers to produce movement at joints.", eg: "The quadriceps contract to extend the knee and kick a football. The gastrocnemius plantarflexes the ankle to push off during sprinting." },
+    { term: "Posture and stability", def: "Continuous low-level tonic muscle contractions maintain upright body position against the force of gravity.", eg: "The erector spinae muscles maintain an upright trunk during a long-distance run." },
+    { term: "Heat production", def: "Muscle contractions are only approximately 25% efficient — the remaining 75% of energy is released as heat, helping maintain core body temperature.", eg: "Shivering is rapid involuntary muscle contraction that generates heat to warm the body in cold conditions." },
+    { term: "Assist venous return", def: "Contractions of skeletal muscles, especially the calf muscles, compress veins and push blood back toward the heart against gravity.", eg: "The calf muscles act as a peripheral pump during running, squeezing the deep veins of the leg with each stride." }
+  ]},
+  { cat: "1.3.2 Muscle Structure — Connective Tissue Layers", color: "blue", hot: false, items: [
+    { term: "Epimysium", def: "The outer connective tissue sheath that wraps the entire muscle belly. Merges with the tendon at each end of the muscle.", eg: "The epimysium of the biceps brachii holds all its fascicles together as a single functional unit." },
+    { term: "Perimysium", def: "Connective tissue that wraps bundles of muscle fibres (fascicles) within the muscle. Contains blood vessels and nerves supplying each fascicle.", eg: "Each fascicle of the quadriceps is individually wrapped in perimysium." },
+    { term: "Endomysium", def: "The innermost connective tissue layer, surrounding each individual muscle fibre (cell). Contains capillaries and nerve fibres.", eg: "The endomysium delivers oxygen-rich blood directly to each slow-twitch fibre during an endurance run." },
+    { term: "Fascicle", def: "A bundle of muscle fibres grouped together and wrapped in perimysium. The arrangement of fascicles determines a muscle's force and range of movement.", eg: "The gastrocnemius has pennate (angled) fascicles that allow more fibres to attach to the tendon, generating greater force." },
+    { term: "Muscle fibre (myocyte)", def: "A single, long, cylindrical, multinucleated muscle cell. Contains hundreds of myofibrils running along its length. The basic cellular unit of muscle.", eg: "A single fibre in the vastus lateralis can run almost the entire length of the thigh muscle." },
+    { term: "Myofibril", def: "Thread-like structures running the length of the muscle fibre, containing alternating arrays of actin (thin) and myosin (thick) filaments arranged into sarcomeres.", eg: "Each myofibril contains thousands of sarcomeres in series — when all shorten simultaneously, the entire muscle shortens." },
+    { term: "Sarcomere", def: "The functional unit of muscle contraction — the segment of a myofibril between two Z-lines. Contains interdigitating actin and myosin filaments that slide past each other during contraction.", eg: "A single muscle fibre contains thousands of sarcomeres in series; when each shortens by a fraction of a millimetre, the combined effect produces centimetres of movement at the joint.", note: "The sarcomere is the FUNCTIONAL unit of contraction. Students sometimes write myofibril — that is the structural unit, not the functional one." },
+    { term: "Actin", def: "Thin protein filament in the sarcomere with binding sites for myosin heads. Regulated by troponin and tropomyosin proteins. Slides toward the centre during contraction.", eg: "Actin filaments are pulled inward by myosin during every stride of a sprint, shortening the sarcomere." },
+    { term: "Myosin", def: "Thick protein filament with globular heads that bind actin and perform the power stroke using energy from ATP hydrolysis. The molecular motor of muscle contraction.", eg: "Myosin heads in the soleus fire repeatedly during a marathon, each cycling through thousands of cross-bridge cycles per minute." }
+  ]},
+  { cat: "1.3.3 & 1.3.4 Muscle Roles", color: "teal", hot: true, items: [
+    { term: "Agonist (prime mover)", def: "The muscle primarily responsible for producing a movement. Typically contracts concentrically (shortening) during the action phase.", eg: "The hamstrings are the agonist during knee flexion in the swing phase of running.", note: "Always name BOTH the agonist AND antagonist in movement analysis questions — naming only one halves your marks." },
+    { term: "Antagonist", def: "The muscle that opposes the agonist. Must relax or eccentrically contract to allow smooth, controlled movement and prevent joint damage.", eg: "The quadriceps are the antagonist during knee flexion — they eccentrically control the speed of flexion to protect the knee joint." },
+    { term: "Synergist", def: "A muscle that assists the agonist to produce a movement, or prevents unwanted joint actions that the agonist alone would cause.", eg: "The brachialis is a synergist during elbow flexion, assisting the biceps brachii and stabilising the joint." },
+    { term: "Fixator (stabiliser)", def: "A muscle that stabilises the origin bone (proximal attachment) of the agonist, preventing it from moving so the force is transmitted effectively to the insertion.", eg: "The rotator cuff muscles act as fixators of the shoulder joint during a throwing action, keeping the humeral head in the glenoid socket while the pectorals and deltoid generate power." },
+    { term: "Reciprocal inhibition", def: "The automatic relaxation of the antagonist muscle when the agonist contracts, coordinated by the nervous system to allow smooth movement.", eg: "When the quadriceps contract powerfully to kick a ball, the hamstrings automatically relax via reciprocal inhibition — conscious effort is not required." }
+  ]},
+  { cat: "1.4.1 Muscle Fibre Types", color: "pink", hot: true, items: [
+    { term: "Type I — slow twitch (SO)", def: "Slow oxidative muscle fibres with high mitochondria density, abundant myoglobin, rich capillary supply, and exceptional fatigue resistance. Small diameter, low force, slow contraction speed.", eg: "Distance runners and cyclists have a high proportion of Type I fibres in their leg muscles, enabling hours of continuous effort.", note: "Type I fibres are recruited FIRST (size principle). They power all light and moderate activity — Type IIx only activate during maximal efforts." },
+    { term: "Type IIa — fast oxidative glycolytic (FOG)", def: "Intermediate fast twitch fibres with high mitochondria, good myoglobin, and moderate fatigue resistance. Use both aerobic and anaerobic pathways. Medium force and contraction speed.", eg: "800m and 1500m runners rely heavily on Type IIa fibres — they need speed AND endurance across the race." },
+    { term: "Type IIx — fast glycolytic (FG)", def: "Fast glycolytic fibres with few mitochondria, low myoglobin (pale appearance), very large diameter, extremely high force and speed, but rapid fatigue due to anaerobic metabolism.", eg: "A 100m sprinter depends on Type IIx fibres for maximal power output — their phosphocreatine and glycogen stores are exhausted within seconds.", note: "Type IIx fibres are the LAST recruited (size principle). They are only activated during near-maximal or maximal efforts. Fatigue is rapid." },
+    { term: "Myoglobin", def: "An oxygen-binding protein within muscle fibres that stores and transports oxygen from the capillary to the mitochondria. High myoglobin = red/dark fibre appearance.", eg: "Type I fibres appear dark red due to high myoglobin content. Type IIx fibres appear white/pale because they have little myoglobin.", note: "Do not confuse myoglobin (in muscle) with haemoglobin (in red blood cells). Both bind oxygen but in different locations." },
+    { term: "Fibre type distribution", def: "The proportion of Type I and Type II fibres in a person's muscles, which is largely genetically determined but can be partially modified by training.", eg: "Elite marathon runners typically have 70-80% Type I fibres in their leg muscles. Elite sprinters may have 70-80% Type II fibres." }
+  ]},
+  { cat: "1.4.2 Sliding Filament Theory", color: "amber", hot: true, items: [
+    { term: "Sliding filament theory", def: "The mechanism of muscle contraction: myosin heads bind actin filaments, form cross-bridges, and pull actin toward the centre of the sarcomere in a power stroke, causing the sarcomere (and muscle) to shorten.", eg: "During a bicep curl, millions of sarcomeres shorten simultaneously as actin slides over myosin filaments, producing the elbow flexion movement.", note: "Know the full 5-step sequence: nerve impulse > ACh > Ca2+ release from SR > cross-bridge formation + power stroke > ATP breaks cross-bridge. The whole sequence must be recalled in order." },
+    { term: "Neuromuscular junction (NMJ)", def: "The specialised synapse where a motor neuron communicates with a muscle fibre. The site where the electrical nerve impulse is converted to a chemical signal (ACh) that triggers contraction.", eg: "When the motor neuron innervating the gastrocnemius fires during push-off, ACh is released at each NMJ along the muscle fibre." },
+    { term: "Acetylcholine (ACh)", def: "Neurotransmitter released from the motor neuron terminal into the synaptic cleft at the NMJ. Binds receptors on the muscle fibre membrane, triggering an action potential that spreads along and into the fibre.", eg: "ACh release is the bridge between the nervous system and the muscular system — no ACh means no contraction." },
+    { term: "Sarcoplasmic reticulum (SR)", def: "A network of membranous tubes within the muscle fibre that stores calcium ions (Ca2+). Releases Ca2+ into the sarcoplasm when stimulated by an action potential spreading down the T-tubules.", eg: "When the action potential reaches the SR during a sprint start, Ca2+ floods out and triggers contraction within milliseconds." },
+    { term: "Troponin and tropomyosin", def: "Regulatory proteins on the actin filament. At rest, tropomyosin physically blocks the myosin-binding sites on actin. Ca2+ binds troponin, which moves tropomyosin aside, exposing the binding sites for cross-bridge formation.", eg: "Without Ca2+, tropomyosin acts like a lock on the actin filament — no myosin can bind, and contraction cannot occur." },
+    { term: "Cross-bridge", def: "The temporary physical link formed between a myosin head and a binding site on an actin filament. The cross-bridge cycle (attachment, power stroke, detachment, re-cocking) is the molecular basis of movement.", eg: "During a maximal sprint, billions of cross-bridges form and cycle every second across all active muscle fibres." },
+    { term: "Power stroke", def: "The step in the cross-bridge cycle where the myosin head pivots and pulls the actin filament toward the centre of the sarcomere, converting chemical energy (ATP) into mechanical movement.", eg: "Each power stroke moves the actin filament about 5-10 nanometres — tiny individually, but collectively producing whole-limb movement." },
+    { term: "ATP in contraction", def: "ATP (adenosine triphosphate) is required at TWO key points: (1) to power the power stroke by providing energy for myosin head movement, and (2) to BREAK the cross-bridge (detach myosin from actin) and re-cock the myosin head for the next cycle.", eg: "Rigor mortis occurs because ATP is absent after death — myosin heads bind actin and cannot detach, causing rigid muscles.", note: "ATP breaks cross-bridges — it does NOT form them. This distinction is the single most commonly tested detail of sliding filament theory. Do not write that ATP is only needed to make muscles contract — it is equally needed for relaxation." }
+  ]},
+  { cat: "1.4.3 Motor Units and Recruitment", color: "coral", hot: true, items: [
+    { term: "Motor unit", def: "A single motor neuron and all the muscle fibres it innervates. All fibres in a motor unit contract simultaneously when the neuron fires (all-or-nothing law).", eg: "The soleus contains large motor units (many fibres per neuron) for generating sustained postural force. The finger flexors have small motor units for fine motor control." },
+    { term: "All-or-nothing law", def: "An individual muscle fibre either contracts maximally or not at all — there is no partial contraction within a single fibre. Force is graded by recruiting more motor units (and via rate coding).", eg: "A single motor unit cannot produce a half-strength contraction — it is always full force or nothing when stimulated above threshold." },
+    { term: "Size principle (Henneman)", def: "Motor units are recruited in a consistent order from smallest to largest as exercise intensity increases. Type I (slow twitch) motor units are always recruited first; Type IIa next; Type IIx only at near-maximal intensities.", eg: "During a rowing race, Type I units carry the load at moderate pace. As the sprint finish begins, Type IIa then IIx units are progressively recruited.", note: "The size principle is fixed — the nervous system always recruits in this order. You cannot choose to activate Type IIx without first recruiting Type I and IIa." },
+    { term: "Rate coding", def: "Increasing the frequency (rate) of nerve impulses to a motor unit to increase the force it produces. Higher firing rates cause the muscle fibres to sustain contraction more strongly (tetanus).", eg: "A motor unit firing at 20 Hz (20 impulses/sec) produces less force than the same unit firing at 50 Hz." },
+    { term: "Tetanus", def: "Sustained muscle contraction produced by high-frequency nerve impulses arriving so rapidly that the muscle cannot relax between stimuli. Results in maximum force output from that motor unit.", eg: "A maximal isometric contraction — such as holding a very heavy weight static — involves near-tetanic stimulation of the active motor units." }
+  ]}
+];
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function openLightbox(filename, caption) {
+  var overlay = document.getElementById("lightbox");
+  var img = document.getElementById("lightbox-img");
+  var cap = document.getElementById("lightbox-caption");
+  var fn = document.getElementById("lightbox-filename");
+  var err = document.getElementById("lightbox-error");
+  img.src = filename;
+  cap.textContent = caption;
+  fn.textContent = "File: " + filename;
+  err.className = "lightbox-error";
+  img.onerror = function() { err.className = "lightbox-error show"; };
+  img.onload = function() { err.className = "lightbox-error"; };
+  overlay.className = "lightbox-overlay open";
+  document.body.style.overflow = "hidden";
+}
+function closeLightboxBtn() {
+  document.getElementById("lightbox").className = "lightbox-overlay";
+  document.body.style.overflow = "";
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById("lightbox")) { closeLightboxBtn(); }
+}
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { closeLightboxBtn(); }
+});
+
+function highlight(text, q) {
+  if (!q) return text;
+  var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+  return text.replace(re, '<span class="hl">$1</span>');
+}
+
+function build(source, q) {
+  var list = document.getElementById("list");
+  var noRes = document.getElementById("no-results");
+  list.innerHTML = "";
+  var total = 0;
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items || !cat.items.length) continue;
+    total += cat.items.length;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    if (q) body.classList.remove("collapsed");
+    else body.classList.add("collapsed");
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + highlight(item.note, q) + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + highlight(item.term, q) + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + highlight(item.def, q) + '</p><span class="term-eg">Eg: ' + highlight(item.eg, q) + '</span>' + note + '</div>';
+      if (q) t.querySelector(".term-body").classList.add("open");
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+  noRes.style.display = (total === 0) ? "block" : "none";
+  return total;
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function doSearch(q) {
+  q = q.trim();
+  var clearBtn = document.getElementById("search-clear");
+  var countEl = document.getElementById("search-count");
+  clearBtn.className = q ? "visible" : "";
+  if (!q) { build(data, ""); countEl.textContent = ""; return; }
+  var ql = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (item.term.toLowerCase().indexOf(ql) > -1 ||
+          item.def.toLowerCase().indexOf(ql) > -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(ql) > -1) ||
+          (item.note && item.note.toLowerCase().indexOf(ql) > -1)) {
+        items.push(item);
+      }
+    }
+    if (items.length) filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  var count = build(filtered, q);
+  countEl.textContent = count + " result" + (count !== 1 ? "s" : "");
+}
+
+function clearSearch() {
+  document.getElementById("search").value = "";
+  doSearch("");
+}
+
+build(data, "");
+</script>
+</body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part D: Permitted &amp; Prohibited Practices</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; letter-spacing: 0.5px; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #fff; border-bottom: 2px solid #e0e0e0; }
+    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1.5px solid #2c5f6e; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e8e8e8; }
+    #search { flex: 1; padding: 8px 12px; border: 1.5px solid #c0c0c0; border-radius: 20px; font-size: 0.9em; outline: none; }
+    #search:focus { border-color: #2c5f6e; }
+    #search-clear { background: #2c5f6e; color: #fff; border: none; border-radius: 16px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; }
+    #search-count { font-size: 0.82em; color: #888; min-width: 80px; }
+    .section-label { font-size: 1.12em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 10px 18px; margin: 18px 14px 8px; border-radius: 8px; }
+
+    /* ACCORDION */
+    .cat-wrap { margin: 8px 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ddd; }
+    .cat-wrap.purple { border-color: #c8c5e8; }
+    .cat-wrap.teal   { border-color: #9adcc5; }
+    .cat-wrap.coral  { border-color: #e8a48a; }
+    .cat-wrap.amber  { border-color: #d4a854; }
+    .cat-wrap.blue   { border-color: #90bce6; }
+    .cat-wrap.pink   { border-color: #e096b4; }
+    .cat-wrap.gray   { border-color: #b8b6b0; }
+    .cat-head { padding: 11px 16px; font-weight: 700; cursor: pointer; font-size: 0.97em; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.18); color: #4a3fa0; }
+    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #1a7a58; }
+    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
+    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12); color: #7a4d0a; }
+    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.14); color: #1a4f8a; }
+    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #8b2050; }
+    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.12); color: #444440; }
+    .cat-body { display: none; padding: 14px 16px; background: #fff; }
+    .cat-body.open { display: block; }
+
+    /* TERMS */
+    .term-row { border-bottom: 1px solid #f0f0f0; padding: 9px 4px; display: flex; gap: 10px; align-items: flex-start; }
+    .term-row:last-child { border-bottom: none; }
+    .term-name { font-weight: 700; min-width: 200px; color: #1a1a2e; font-size: 0.93em; }
+    .term-def { color: #333; font-size: 0.91em; flex: 1; }
+    .hot-badge { display: inline-block; background: #2c5f6e; color: #fff; font-size: 0.68em; font-weight: 700; border-radius: 10px; padding: 2px 7px; margin-left: 6px; position: relative; cursor: default; letter-spacing: 0.4px; }
+    .hot-badge .tooltip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a1a2e; color: #fff; font-size: 0.82em; border-radius: 6px; padding: 5px 9px; white-space: nowrap; z-index: 99; font-weight: 400; }
+    .hot-badge:hover .tooltip { display: block; }
+    mark { background: #ffe066; border-radius: 3px; padding: 0 2px; }
+
+    /* DIAGRAM / BOX WRAP */
+    .diagram-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .diagram-wrap.blue   { border-color: #90bce6; }
+    .diagram-wrap.amber  { border-color: #d4a854; }
+    .diagram-wrap.purple { border-color: #c8c5e8; }
+    .diagram-wrap.pink   { border-color: #e096b4; }
+    .diagram-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .diagram-wrap.blue   .diagram-head { background: #f3f7fd; color: #1a4f8a; }
+    .diagram-wrap.amber  .diagram-head { background: #fdf8f0; color: #7a4d0a; }
+    .diagram-wrap.purple .diagram-head { background: #f5f4fc; color: #4a3fa0; }
+    .diagram-wrap.pink   .diagram-head { background: #fdf5f8; color: #8b2050; }
+    .diagram-body { display: none; padding: 14px; background: #fff; }
+    .diagram-body.open { display: block; }
+
+    .box-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .box-wrap.blue   { border-color: #90bce6; }
+    .box-wrap.purple { border-color: #c8c5e8; }
+    .box-wrap.teal   { border-color: #9adcc5; }
+    .box-wrap.amber  { border-color: #d4a854; }
+    .box-wrap.coral  { border-color: #e8a48a; }
+    .box-wrap.pink   { border-color: #e096b4; }
+    .box-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .box-wrap.blue   .box-head { background: #f3f7fd; color: #1a4f8a; }
+    .box-wrap.purple .box-head { background: #f5f4fc; color: #4a3fa0; }
+    .box-wrap.amber  .box-head { background: #fdf8f0; color: #7a4d0a; }
+    .box-wrap.coral  .box-head { background: #fdf6f3; color: #7a3010; }
+    .box-wrap.pink   .box-head { background: #fdf5f8; color: #8b2050; }
+    .box-body { display: none; padding: 14px; background: #fff; }
+    .box-body.open { display: block; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; margin-top: 8px; }
+    th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; font-size: 0.9em; }
+    td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8f8f8; }
+    tr:hover td { background: #f2f2f4; }
+
+    /* HIGHLIGHT / TIP BOXES */
+    .highlight-box { background: #fafafa; border-left: 4px solid #c8a84b; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 0.9em; }
+    .highlight-box.teal  { border-left-color: #5DCAA5; }
+    .highlight-box.blue  { border-left-color: #378ADD; }
+    .highlight-box.slate { border-left-color: #2c5f6e; }
+    .highlight-box.pink  { border-left-color: #D4537E; }
+    .tip-box { background: #fafafa; border: 1px solid #ccc; border-left: 4px solid #5DCAA5; border-radius: 8px; padding: 10px 14px; margin: 10px 0; font-size: 0.89em; }
+
+    /* PERMITTED / PROHIBITED PILL LABELS */
+    .pill-permitted   { display: inline-block; background: #eafaf1; color: #1a7a58; border: 1px solid #9adcc5; border-radius: 12px; padding: 2px 10px; font-size: 0.78em; font-weight: 700; margin-left: 6px; }
+    .pill-prohibited  { display: inline-block; background: #fdf5f8; color: #8b2050; border: 1px solid #e096b4; border-radius: 12px; padding: 2px 10px; font-size: 0.78em; font-weight: 700; margin-left: 6px; }
+
+    svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    #no-results { display: none; text-align: center; color: #2c5f6e; padding: 18px; font-style: italic; }
+    ul { padding-left: 20px; margin: 6px 0; }
+    ul li { margin-bottom: 4px; }
+    ol { padding-left: 20px; margin: 6px 0; }
+    ol li { margin-bottom: 4px; }
+    p { margin: 6px 0; }
+    strong { color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1b</h1>
+<p class="subtitle">Chapter 2 Part D &middot; 2D: Permitted &amp; Prohibited Practices to Enhance Performance &middot; Live it Up 5th ed.</p>
+
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('secWADA')">WADA</span>
+  <span class="nav-pill" onclick="jumpTo('secPermitted')">Permitted Practices</span>
+  <span class="nav-pill" onclick="jumpTo('secProhibited')">Prohibited Substances</span>
+  <span class="nav-pill" onclick="jumpTo('secEthics')">Ethics</span>
+  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128216; Key Terms</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- WADA -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secWADA">&#129657; WADA &mdash; World Anti-Doping Agency</p>
+
+<div class="diagram-wrap blue">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Permitted vs Prohibited: Overview Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Title -->
+      <rect x="260" y="8" width="340" height="38" rx="10" fill="#2c5f6e" stroke="#1a3d48" stroke-width="2"/>
+      <text x="430" y="32" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Practices to Enhance MS Performance</text>
+
+      <!-- Branch -->
+      <line x1="430" y1="46" x2="430" y2="66" stroke="#555" stroke-width="1.8"/>
+      <line x1="215" y1="66" x2="645" y2="66" stroke="#555" stroke-width="1.8"/>
+      <line x1="215" y1="66" x2="215" y2="84" stroke="#555" stroke-width="1.8"/>
+      <line x1="645" y1="66" x2="645" y2="84" stroke="#555" stroke-width="1.8"/>
+
+      <!-- Permitted -->
+      <rect x="40" y="84" width="350" height="40" rx="8" fill="#eafaf1" stroke="#9adcc5" stroke-width="2"/>
+      <text x="215" y="109" text-anchor="middle" fill="#1a7a58" font-size="13" font-weight="bold">&#10003; PERMITTED</text>
+
+      <!-- Prohibited -->
+      <rect x="470" y="84" width="350" height="40" rx="8" fill="#fdf5f8" stroke="#e096b4" stroke-width="2"/>
+      <text x="645" y="109" text-anchor="middle" fill="#8b2050" font-size="13" font-weight="bold">&#10007; PROHIBITED (WADA)</text>
+
+      <!-- Permitted children: 3 boxes -->
+      <line x1="120" y1="124" x2="120" y2="144" stroke="#9adcc5" stroke-width="1.5"/>
+      <line x1="215" y1="124" x2="215" y2="144" stroke="#9adcc5" stroke-width="1.5"/>
+      <line x1="310" y1="124" x2="310" y2="144" stroke="#9adcc5" stroke-width="1.5"/>
+
+      <rect x="44" y="144" width="152" height="68" rx="7" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="120" y="164" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Training</text>
+      <text x="120" y="180" text-anchor="middle" fill="#555" font-size="10">Resistance, plyometric</text>
+      <text x="120" y="194" text-anchor="middle" fill="#555" font-size="10">flexibility, sport-specific</text>
+      <text x="120" y="206" text-anchor="middle" fill="#555" font-size="10">conditioning programs</text>
+
+      <rect x="139" y="144" width="152" height="68" rx="7" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="215" y="164" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Nutrition</text>
+      <text x="215" y="180" text-anchor="middle" fill="#555" font-size="10">Protein, carbohydrate</text>
+      <text x="215" y="194" text-anchor="middle" fill="#555" font-size="10">periodisation, hydration</text>
+      <text x="215" y="206" text-anchor="middle" fill="#555" font-size="10">caffeine (under limit)</text>
+
+      <rect x="234" y="144" width="152" height="68" rx="7" fill="#fdf8f0" stroke="#d4a854" stroke-width="1.5"/>
+      <text x="310" y="164" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">Creatine</text>
+      <text x="310" y="180" text-anchor="middle" fill="#555" font-size="10">Legal supplement;</text>
+      <text x="310" y="194" text-anchor="middle" fill="#555" font-size="10">enhances short-burst</text>
+      <text x="310" y="206" text-anchor="middle" fill="#555" font-size="10">high-power output</text>
+
+      <!-- Prohibited children: 3 boxes -->
+      <line x1="550" y1="124" x2="550" y2="144" stroke="#e096b4" stroke-width="1.5"/>
+      <line x1="645" y1="124" x2="645" y2="144" stroke="#e096b4" stroke-width="1.5"/>
+      <line x1="740" y1="124" x2="740" y2="144" stroke="#e096b4" stroke-width="1.5"/>
+
+      <rect x="474" y="144" width="152" height="68" rx="7" fill="#fdf5f8" stroke="#e096b4" stroke-width="1.5"/>
+      <text x="550" y="164" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Anabolic</text>
+      <text x="550" y="178" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Steroids</text>
+      <text x="550" y="194" text-anchor="middle" fill="#555" font-size="10">Synthetic testosterone</text>
+      <text x="550" y="206" text-anchor="middle" fill="#555" font-size="10">derivatives; banned</text>
+
+      <rect x="569" y="144" width="152" height="68" rx="7" fill="#fdf5f8" stroke="#e096b4" stroke-width="1.5"/>
+      <text x="645" y="164" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Peptide</text>
+      <text x="645" y="178" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Hormones</text>
+      <text x="645" y="194" text-anchor="middle" fill="#555" font-size="10">HGH, EPO, insulin</text>
+      <text x="645" y="206" text-anchor="middle" fill="#555" font-size="10">IGF-1; banned</text>
+
+      <rect x="664" y="144" width="152" height="68" rx="7" fill="#fdf5f8" stroke="#e096b4" stroke-width="1.5"/>
+      <text x="740" y="164" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Other</text>
+      <text x="740" y="180" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Prohibited</text>
+      <text x="740" y="194" text-anchor="middle" fill="#555" font-size="10">Blood doping, diuretics</text>
+      <text x="740" y="206" text-anchor="middle" fill="#555" font-size="10">stimulants (over limit)</text>
+
+      <!-- WADA criteria banner -->
+      <rect x="20" y="224" width="820" height="46" rx="7" fill="#fafafa" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="430" y="242" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">WADA Prohibited List Criteria: Substance is banned if it meets 2 of 3 criteria:</text>
+      <text x="215" y="262" text-anchor="middle" fill="#555" font-size="11">1. Enhances or has potential to enhance performance</text>
+      <text x="430" y="262" text-anchor="middle" fill="#555" font-size="11">2. Represents a real or potential health risk</text>
+      <text x="660" y="262" text-anchor="middle" fill="#555" font-size="11">3. Violates the spirit of sport</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap blue">
+  <div class="cat-head" onclick="toggleC(this)">&#128218; WADA: Role, Structure and the Prohibited List <span class="hot-badge">HOT TOPIC<span class="tooltip">WADA criteria and role are commonly examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>The <strong>World Anti-Doping Agency (WADA)</strong> is an independent international organisation established in 1999 to lead the global effort against doping in sport. It sets the rules, maintains the Prohibited List and coordinates testing across all sports and countries.</p>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; WADA&rsquo;s Key Functions <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Function</th><th>Detail</th></tr>
+          <tr><td><strong>Maintain the Prohibited List</strong></td><td>Updated annually; lists all banned substances and methods in and out of competition. Athletes are responsible for knowing what is on the list.</td></tr>
+          <tr><td><strong>Set the World Anti-Doping Code</strong></td><td>The framework that harmonises anti-doping policies across all sports and countries; adopted by all Olympic sports</td></tr>
+          <tr><td><strong>Coordinate testing</strong></td><td>Works with national anti-doping agencies (ASADA in Australia) to conduct in-competition and out-of-competition testing</td></tr>
+          <tr><td><strong>Therapeutic Use Exemptions (TUEs)</strong></td><td>Athletes with legitimate medical needs can apply for a TUE to use a prohibited substance therapeutically (e.g. asthma medication)</td></tr>
+          <tr><td><strong>Research and education</strong></td><td>Funds research into detection methods; provides athlete education on anti-doping</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; WADA Prohibited List: Criteria for Banning a Substance <span>&#9660;</span></div>
+      <div class="box-body">
+        <p>A substance or method is placed on the Prohibited List if it meets <strong>two of the following three criteria:</strong></p>
+        <table>
+          <tr><th>Criterion</th><th>Explanation</th></tr>
+          <tr><td><strong>1. Performance enhancement</strong></td><td>The substance has the potential to enhance or enhances sport performance</td></tr>
+          <tr><td><strong>2. Health risk</strong></td><td>The substance represents a real or potential health risk to the athlete</td></tr>
+          <tr><td><strong>3. Spirit of sport</strong></td><td>Use of the substance violates the spirit of sport &mdash; the core values of fair play, honesty, health, excellence and respect</td></tr>
+        </table>
+        <div class="highlight-box" style="margin-top:10px;">
+          <strong>&#128161; Key point:</strong> Only TWO of the three criteria need to be met for a substance to be banned. A substance can be banned even if it does not definitively enhance performance, as long as it poses a health risk AND violates the spirit of sport.
+        </div>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Strict Liability and Athlete Responsibility <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>Strict liability</strong> is a fundamental principle of anti-doping. It means that athletes are responsible for any prohibited substance found in their body, regardless of how it got there. The principle applies even if the athlete:</p>
+        <ul>
+          <li>Did not intentionally take the substance</li>
+          <li>Was unaware the supplement contained a prohibited ingredient</li>
+          <li>Was given the substance by a coach, doctor or trainer without their knowledge</li>
+        </ul>
+        <div class="highlight-box slate" style="margin-top:8px;">
+          <strong>&#9888; Implication for athletes:</strong> Athletes must verify every substance they consume &mdash; food, supplements, medications &mdash; before ingesting it. Ignorance is not a defence under strict liability. This is why the phrase &ldquo;an athlete is responsible for what goes into their body&rdquo; is a central tenet of anti-doping.
+        </div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>&#9888; Exam tip:</strong> WADA criteria questions often ask you to identify which TWO of three criteria a substance meets. Always address all three criteria and then state which two apply.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PERMITTED PRACTICES -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secPermitted">&#129657; Permitted Practices &mdash; Training and Nutrition</p>
+
+<div class="cat-wrap teal">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Permitted: Training Methods to Enhance MS Performance <span class="pill-permitted">PERMITTED</span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>Training is the primary, universally permitted method of enhancing musculoskeletal performance. The most relevant training types for the musculoskeletal system are resistance training, plyometric training and flexibility training.</p>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Resistance Training <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>Resistance training</strong> (also called strength or weight training) involves exercising muscles against an external resistance to improve muscular strength, power and endurance.</p>
+        <table>
+          <tr><th>Adaptation</th><th>Mechanism</th><th>Benefit</th></tr>
+          <tr><td><strong>Muscle hypertrophy</strong></td><td>Repeated mechanical stress triggers muscle protein synthesis (MPS), increasing myofibril size and number within muscle fibres</td><td>Greater cross-sectional area &rarr; greater force production capacity</td></tr>
+          <tr><td><strong>Neural adaptations</strong></td><td>Improved motor unit recruitment, rate coding and inter-muscular coordination (early gains)</td><td>Faster, more forceful muscle contractions without hypertrophy &mdash; important for power</td></tr>
+          <tr><td><strong>Increased tendon stiffness</strong></td><td>Mechanical loading stimulates collagen synthesis in tendons</td><td>Stiffer tendons transmit force more efficiently &mdash; improved power transfer and reduced tendon injury risk</td></tr>
+          <tr><td><strong>Increased bone density</strong></td><td>Mechanical loading stimulates osteoblast activity (Wolff&rsquo;s Law)</td><td>Reduced stress fracture risk; protection against osteoporosis</td></tr>
+          <tr><td><strong>Improved joint stability</strong></td><td>Stronger muscles provide greater support and control of joint position</td><td>Reduced ligament and cartilage injury risk</td></tr>
+        </table>
+        <div class="highlight-box teal" style="margin-top:10px;">
+          <strong>&#128161; Progressive overload in resistance training:</strong> To continue making gains, training load must be progressively increased. This can be achieved by increasing weight, repetitions, sets, frequency or decreasing rest periods.
+        </div>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Plyometric Training <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>Plyometric training</strong> involves rapid, explosive movements that use the stretch-shortening cycle (SSC) &mdash; a rapid eccentric loading followed immediately by a concentric contraction &mdash; to develop power, speed and reactive strength.</p>
+        <table>
+          <tr><th>Adaptation</th><th>Mechanism</th><th>Benefit</th></tr>
+          <tr><td><strong>Improved SSC efficiency</strong></td><td>Training improves the storage and reuse of elastic energy in tendons and the speed of reflex muscle activation</td><td>Greater power output with less metabolic cost &mdash; jumping, sprinting, throwing</td></tr>
+          <tr><td><strong>Increased rate of force development (RFD)</strong></td><td>Neural adaptations improve the speed of motor unit recruitment</td><td>Faster, more explosive muscle contractions &mdash; critical for reactive sports</td></tr>
+          <tr><td><strong>Improved neuromuscular coordination</strong></td><td>Repeated exposure to rapid loading patterns improves motor control and landing mechanics</td><td>Reduced ACL and ankle injury risk through better landing patterns</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong>Examples:</strong> Box jumps, depth jumps, bounding, medicine ball throws, hurdle hops.</p>
+      </div>
+    </div>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Flexibility Training <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>Flexibility training</strong> improves the range of motion available at joints through systematic stretching of muscles, tendons and connective tissue.</p>
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Best Use</th></tr>
+          <tr><td><strong>Static stretching</strong></td><td>Hold at end-range 20&ndash;60 sec; passive or active</td><td>Cool-down; long-term flexibility development</td></tr>
+          <tr><td><strong>Dynamic stretching</strong></td><td>Active movement through full ROM</td><td>Warm-up; sport-specific preparation</td></tr>
+          <tr><td><strong>PNF (proprioceptive neuromuscular facilitation)</strong></td><td>Contract-relax technique; uses reflex relaxation to achieve greater ROM</td><td>Maximum flexibility gains; physiotherapy</td></tr>
+          <tr><td><strong>Ballistic stretching</strong></td><td>Bouncing at end range; uses momentum</td><td>Sport-specific preparation for high-velocity movements; injury risk if used incorrectly</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong>Benefits:</strong> Reduced strain/sprain risk; improved movement efficiency; reduced DOMS; better posture and joint health.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap amber">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Permitted: Nutritional Supplements &mdash; Protein and Creatine <span class="pill-permitted">PERMITTED</span> <span class="hot-badge">HOT TOPIC<span class="tooltip">Benefits and harms of creatine are frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Nutritional supplements</strong> are products consumed in addition to a regular diet to improve performance, health or recovery. Two key supplements relevant to the musculoskeletal system are <strong>protein supplements</strong> and <strong>creatine</strong>. Both are currently permitted by WADA.</p>
+    <div class="box-wrap amber">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Protein Supplements <span>&#9660;</span></div>
+      <div class="box-body">
+        <p>Protein is essential for muscle repair, growth and immune function. Protein supplements (whey, casein, plant-based) allow athletes to conveniently meet increased protein requirements during heavy training.</p>
+        <table>
+          <tr><th>Aspect</th><th>Detail</th></tr>
+          <tr><td><strong>Mechanism</strong></td><td>Provides amino acids (building blocks) for muscle protein synthesis (MPS) after resistance training. Whey protein is rapidly digested &mdash; ideal post-exercise. Casein is slow-release &mdash; ideal before sleep.</td></tr>
+          <tr><td><strong>Benefits</strong></td><td>Supports muscle hypertrophy; accelerates recovery between sessions; maintains lean muscle mass during energy restriction</td></tr>
+          <tr><td><strong>Recommended intake</strong></td><td>1.6&ndash;2.2 g/kg body weight per day for strength/power athletes; spread across 3&ndash;5 meals (20&ndash;40 g per serving)</td></tr>
+          <tr><td><strong>Risks / harms</strong></td><td>Excessive intake (&gt;3 g/kg/day) may stress kidneys in those with pre-existing renal conditions; expensive; can displace whole food nutrition; quality/contamination concerns with unregulated products</td></tr>
+          <tr><td><strong>WADA status</strong></td><td>&#10003; Permitted &mdash; not on the Prohibited List</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap amber">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Creatine Supplementation <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>Creatine</strong> is a naturally occurring compound found in meat and fish and synthesised in the liver, kidneys and pancreas. Supplementation with creatine monohydrate is the most extensively researched sports supplement, with strong evidence of efficacy for high-intensity, short-duration activities.</p>
+        <table>
+          <tr><th>Aspect</th><th>Detail</th></tr>
+          <tr><td><strong>Mechanism</strong></td><td>Increases phosphocreatine (PCr) stores in muscle. PCr is used to rapidly regenerate ATP during high-intensity effort (CP system). More PCr &rarr; sustained power output for longer before fatigue</td></tr>
+          <tr><td><strong>Performance benefits</strong></td><td>Improved maximal strength and power; increased work capacity in repeated sprint or lifting efforts; accelerated recovery between high-intensity bouts; supports greater training volume over time &rarr; greater long-term hypertrophy</td></tr>
+          <tr><td><strong>Most effective for</strong></td><td>Activities lasting 1&ndash;30 seconds (sprinting, jumping, weightlifting, throws, team sport repeated sprints)</td></tr>
+          <tr><td><strong>Less effective for</strong></td><td>Aerobic endurance activities (&gt;3 min) &mdash; the CP system is not the primary energy source</td></tr>
+          <tr><td><strong>Loading protocol</strong></td><td>Loading: 20 g/day for 5&ndash;7 days; Maintenance: 3&ndash;5 g/day. Alternatively: 3&ndash;5 g/day for 28 days (slower saturation, same endpoint)</td></tr>
+          <tr><td><strong>Side effects / harms</strong></td><td>Weight gain from water retention (1&ndash;2 kg); gastrointestinal discomfort at high doses; theoretical concern re: kidney stress in those with pre-existing conditions; risk of contamination with banned substances in unregulated products</td></tr>
+          <tr><td><strong>WADA status</strong></td><td>&#10003; Permitted &mdash; NOT on the WADA Prohibited List. Legal in all sports.</td></tr>
+        </table>
+        <div class="highlight-box" style="margin-top:10px;">
+          <strong>&#128161; Creatine exam trap:</strong> Students frequently confuse creatine (permitted) with anabolic steroids (prohibited). Creatine is a naturally occurring compound and a legal supplement. It does NOT mimic or contain testosterone and is NOT banned by WADA.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PROHIBITED SUBSTANCES -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secProhibited">&#129657; Prohibited Substances &mdash; Steroids and Hormones</p>
+
+<div class="diagram-wrap pink">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Anabolic Steroids vs Peptide Hormones: Comparison Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 240" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Headers -->
+      <rect x="20" y="10" width="390" height="40" rx="8" fill="#fdf5f8" stroke="#e096b4" stroke-width="2"/>
+      <text x="215" y="35" text-anchor="middle" fill="#8b2050" font-size="13" font-weight="bold">Anabolic Androgenic Steroids (AAS)</text>
+
+      <rect x="450" y="10" width="390" height="40" rx="8" fill="#fdf5f8" stroke="#c8c5e8" stroke-width="2"/>
+      <text x="645" y="35" text-anchor="middle" fill="#4a3fa0" font-size="13" font-weight="bold">Peptide Hormones (HGH, EPO)</text>
+
+      <!-- AAS details -->
+      <rect x="20" y="60" width="390" height="164" rx="8" fill="#fafafa" stroke="#e096b4" stroke-width="1.5"/>
+      <text x="40" y="82" fill="#8b2050" font-size="11" font-weight="bold">Type:</text>
+      <text x="100" y="82" fill="#555" font-size="11">Synthetic derivatives of testosterone</text>
+      <text x="40" y="100" fill="#8b2050" font-size="11" font-weight="bold">Mechanism:</text>
+      <text x="110" y="100" fill="#555" font-size="11">Bind to androgen receptors; increase MPS</text>
+      <text x="40" y="118" fill="#8b2050" font-size="11" font-weight="bold">MS benefit:</text>
+      <text x="110" y="118" fill="#555" font-size="11">Rapid muscle hypertrophy; increased strength</text>
+      <text x="40" y="136" fill="#8b2050" font-size="11" font-weight="bold">Harms (male):</text>
+      <text x="115" y="136" fill="#555" font-size="11">Testicular atrophy, infertility, gynaecomastia</text>
+      <text x="40" y="154" fill="#8b2050" font-size="11" font-weight="bold">Harms (female):</text>
+      <text x="117" y="154" fill="#555" font-size="11">Virilisation, menstrual disruption, clitoral growth</text>
+      <text x="40" y="172" fill="#8b2050" font-size="11" font-weight="bold">Harms (both):</text>
+      <text x="115" y="172" fill="#555" font-size="11">Liver damage, cardiovascular disease, acne, aggression</text>
+      <text x="40" y="190" fill="#8b2050" font-size="11" font-weight="bold">Youth risk:</text>
+      <text x="105" y="190" fill="#555" font-size="11">Premature growth plate closure; stunted height</text>
+      <text x="40" y="208" fill="#8b2050" font-size="11" font-weight="bold">WADA:</text>
+      <text x="93" y="208" fill="#555" font-size="11">&#10007; Prohibited in and out of competition</text>
+
+      <!-- Peptide details -->
+      <rect x="450" y="60" width="390" height="164" rx="8" fill="#fafafa" stroke="#c8c5e8" stroke-width="1.5"/>
+      <text x="470" y="82" fill="#4a3fa0" font-size="11" font-weight="bold">Types:</text>
+      <text x="520" y="82" fill="#555" font-size="11">HGH (growth hormone), EPO, insulin, IGF-1</text>
+      <text x="470" y="100" fill="#4a3fa0" font-size="11" font-weight="bold">HGH mechanism:</text>
+      <text x="560" y="100" fill="#555" font-size="11">Stimulates IGF-1; increases protein synthesis, fat metabolism</text>
+      <text x="470" y="118" fill="#4a3fa0" font-size="11" font-weight="bold">EPO mechanism:</text>
+      <text x="555" y="118" fill="#555" font-size="11">Stimulates red blood cell production; improves O2 delivery</text>
+      <text x="470" y="136" fill="#4a3fa0" font-size="11" font-weight="bold">MS benefit:</text>
+      <text x="543" y="136" fill="#555" font-size="11">HGH: muscle repair, recovery; EPO: less relevant to MS</text>
+      <text x="470" y="154" fill="#4a3fa0" font-size="11" font-weight="bold">HGH harms:</text>
+      <text x="547" y="154" fill="#555" font-size="11">Acromegaly, diabetes, carpal tunnel, organ growth</text>
+      <text x="470" y="172" fill="#4a3fa0" font-size="11" font-weight="bold">EPO harms:</text>
+      <text x="543" y="172" fill="#555" font-size="11">Increased blood viscosity; stroke, heart attack risk; death</text>
+      <text x="470" y="190" fill="#4a3fa0" font-size="11" font-weight="bold">Insulin harms:</text>
+      <text x="548" y="190" fill="#555" font-size="11">Hypoglycaemia (coma, death if dose incorrect)</text>
+      <text x="470" y="208" fill="#4a3fa0" font-size="11" font-weight="bold">WADA:</text>
+      <text x="523" y="208" fill="#555" font-size="11">&#10007; All prohibited in and out of competition</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap pink">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Anabolic Androgenic Steroids (AAS) <span class="pill-prohibited">PROHIBITED</span> <span class="hot-badge">HOT TOPIC<span class="tooltip">Benefits AND harms must both be known for exam answers</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Anabolic androgenic steroids (AAS)</strong> are synthetic derivatives of the male hormone testosterone. They have both <em>anabolic</em> (tissue-building) and <em>androgenic</em> (masculinising) effects. They are prohibited by WADA in and out of competition.</p>
+    <div class="box-wrap pink">
+      <div class="box-head" onclick="toggleB(this)">&#9658; How AAS Work: Mechanism <span>&#9660;</span></div>
+      <div class="box-body">
+        <ol>
+          <li>AAS enter muscle cells and bind to androgen receptors in the cell nucleus</li>
+          <li>This activates gene expression for muscle protein synthesis (MPS)</li>
+          <li>Increased MPS leads to greater accrual of contractile proteins (actin and myosin)</li>
+          <li>Muscle fibres increase in size (hypertrophy) and number (hyperplasia in some studies)</li>
+          <li>AAS also reduce recovery time by decreasing muscle damage and accelerating repair</li>
+          <li>Androgenic effects include increased aggression (&ldquo;roid rage&rdquo;) and masculinisation</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Benefits and Harms of AAS <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Benefits (performance)</th><th>Harms</th></tr>
+          <tr><td>Rapid and significant muscle hypertrophy</td><td><strong>Liver:</strong> peliosis hepatis, hepatocellular carcinoma (liver cancer), jaundice</td></tr>
+          <tr><td>Increased muscular strength and power</td><td><strong>Cardiovascular:</strong> left ventricular hypertrophy, reduced HDL cholesterol, increased LDL, hypertension, stroke, heart attack</td></tr>
+          <tr><td>Accelerated recovery between sessions &mdash; allows greater training volume</td><td><strong>Reproductive (male):</strong> testicular atrophy, reduced sperm production, infertility, gynaecomastia (breast tissue growth)</td></tr>
+          <tr><td>Reduced muscle damage from intense training</td><td><strong>Reproductive (female):</strong> virilisation (masculine characteristics), menstrual irregularity/cessation, clitoral enlargement, deepened voice, facial hair</td></tr>
+          <tr><td>Possible psychological &ldquo;benefit&rdquo; of increased aggression and drive</td><td><strong>Psychological:</strong> mood swings, aggression (&ldquo;roid rage&rdquo;), depression, dependence</td></tr>
+          <tr><td></td><td><strong>Skin:</strong> severe acne, male-pattern baldness</td></tr>
+          <tr><td></td><td><strong>Youth-specific:</strong> premature closure of growth plates &mdash; permanently stunted height</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box pink">
+      <strong>&#9888; Why AAS are prohibited (WADA criteria met):</strong><br>
+      &#10003; Criterion 1 &mdash; Performance enhancement: Significant muscle hypertrophy and strength gains<br>
+      &#10003; Criterion 2 &mdash; Health risk: Liver damage, cardiovascular disease, reproductive harm, psychological effects<br>
+      &#10003; Criterion 3 &mdash; Spirit of sport: Artificial physiological advantage violates fair competition and the natural athlete ideal<br>
+      All three criteria are met &mdash; AAS are clearly prohibited.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap purple">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Peptide Hormones: HGH, EPO, Insulin and IGF-1 <span class="pill-prohibited">PROHIBITED</span> <span class="hot-badge">HOT TOPIC<span class="tooltip">HGH and EPO benefits and harms are examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Peptide hormones</strong> are naturally occurring hormones that regulate growth, metabolism and red blood cell production. Exogenous (externally administered) use is prohibited by WADA as it provides unfair advantage and poses significant health risks.</p>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Human Growth Hormone (HGH) <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Aspect</th><th>Detail</th></tr>
+          <tr><td><strong>Natural role</strong></td><td>Produced by pituitary gland; stimulates growth, cell reproduction and IGF-1 production. Peaks during puberty and sleep.</td></tr>
+          <tr><td><strong>Mechanism of doping</strong></td><td>Exogenous HGH stimulates IGF-1 production, increases protein synthesis, promotes fat metabolism and supports muscle hypertrophy and repair</td></tr>
+          <tr><td><strong>Performance benefits</strong></td><td>Accelerated muscle repair and recovery; increased lean muscle mass; reduced body fat; improved power output over time</td></tr>
+          <tr><td><strong>Harms</strong></td><td>Acromegaly (abnormal bone/organ growth &mdash; enlarged jaw, hands, feet); type 2 diabetes; carpal tunnel syndrome; joint pain; potential increased cancer risk; cardiovascular complications; irreversible if started before growth plate closure</td></tr>
+          <tr><td><strong>WADA status</strong></td><td>&#10007; Prohibited in and out of competition</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Erythropoietin (EPO) <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Aspect</th><th>Detail</th></tr>
+          <tr><td><strong>Natural role</strong></td><td>Produced by the kidneys in response to low oxygen; stimulates bone marrow to produce more red blood cells (RBCs)</td></tr>
+          <tr><td><strong>Mechanism of doping</strong></td><td>Exogenous EPO dramatically increases RBC count and haemoglobin concentration, improving oxygen-carrying capacity of the blood</td></tr>
+          <tr><td><strong>Performance benefits</strong></td><td>Greater aerobic capacity (VO2max); delayed onset of fatigue in endurance activity; improved recovery. More relevant to aerobic performance than musculoskeletal power per se.</td></tr>
+          <tr><td><strong>Harms</strong></td><td>Increased blood viscosity (blood becomes thicker) &mdash; significantly elevated risk of blood clots, stroke, heart attack and death (particularly during sleep when heart rate is low). Several professional cyclists have died from EPO-related causes.</td></tr>
+          <tr><td><strong>WADA status</strong></td><td>&#10007; Prohibited in and out of competition</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Insulin and IGF-1 <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Hormone</th><th>Natural Role</th><th>Doping Use</th><th>Harms</th></tr>
+          <tr><td><strong>Insulin</strong></td><td>Regulates blood glucose; drives amino acid and glucose uptake into cells</td><td>Drives glucose and amino acids into muscle cells post-training, enhancing recovery and potentially hypertrophy</td><td>Hypoglycaemia &mdash; incorrect dosing causes dangerously low blood sugar, potentially coma and death. Extremely dangerous without medical supervision.</td></tr>
+          <tr><td><strong>IGF-1 (Insulin-like Growth Factor 1)</strong></td><td>Mediates many of HGH&rsquo;s effects; promotes cell growth and muscle protein synthesis</td><td>Directly stimulates muscle hypertrophy and satellite cell activation independent of HGH</td><td>Potential increased risk of cancer (stimulates cell growth indiscriminately); acromegaly-like effects; cardiovascular risk</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ETHICS -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secEthics">&#129657; Ethical Considerations</p>
+
+<div class="cat-wrap gray">
+  <div class="cat-head" onclick="toggleC(this)">&#128218; The Ethics of Performance Enhancement <span class="hot-badge">HOT TOPIC<span class="tooltip">Ethical arguments for and against are frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>Beyond legality, performance-enhancing substances raise important <strong>ethical</strong> questions about the nature of sport, fair competition and athlete welfare. VCE PE requires students to be able to evaluate these arguments.</p>
+    <div class="box-wrap gray">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Arguments Against Doping (Why Prohibition is Justified) <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Argument</th><th>Explanation</th></tr>
+          <tr><td><strong>Unfair competitive advantage</strong></td><td>Doping artificially and inequitably enhances performance, undermining the principle that sport should reward natural talent, training and effort</td></tr>
+          <tr><td><strong>Health harm to athletes</strong></td><td>Prohibited substances carry serious short and long-term health risks. Sport has a duty of care to athlete health.</td></tr>
+          <tr><td><strong>Coercive effect on clean athletes</strong></td><td>If doping is widespread, clean athletes face a choice between doping or being unable to compete at elite level &mdash; an unacceptable coercion</td></tr>
+          <tr><td><strong>Violation of the spirit of sport</strong></td><td>The spirit of sport celebrates natural human excellence. Doping replaces athletic achievement with pharmacological achievement.</td></tr>
+          <tr><td><strong>Role model effect</strong></td><td>Elite athletes are role models for young people. Doping normalises drug use and sends harmful messages to youth</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Arguments Sometimes Made in Favour (and Counter-Arguments) <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Argument</th><th>Counter-argument</th></tr>
+          <tr><td>Athletes have autonomy over their own bodies &mdash; why shouldn&rsquo;t they choose to use substances?</td><td>Autonomy is limited by harm to others (coercion of clean athletes, harm to youth) and the implicit social contract of sport</td></tr>
+          <tr><td>Many legal supplements (protein, creatine, caffeine) also enhance performance &mdash; the line between permitted and prohibited is arbitrary</td><td>WADA&rsquo;s two-of-three criteria provides a principled, evidence-based framework for drawing this line &mdash; it is not arbitrary</td></tr>
+          <tr><td>Elite sport is already unfair due to genetics, wealth and access to resources</td><td>Pre-existing inequalities are not a justification for adding further artificial and dangerous ones</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box slate">
+      <strong>&#128161; Exam approach to ethics questions:</strong> VCE examiners want to see <em>both sides</em> of the ethical argument. Present arguments against doping clearly, then acknowledge counter-arguments, then provide a reasoned conclusion. A one-sided answer will not achieve full marks on an &ldquo;evaluate&rdquo; or &ldquo;discuss&rdquo; question.
+    </div>
+  </div>
+</div>
+
+<!-- KEY TERMS -->
+<p class="section-label" id="secTerms">&#128216; Key Terms &mdash; Chapter 2 Part D</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1b &middot; Ch2 Part D &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var terms = [
+  { name: "World Anti-Doping Agency (WADA)", def: "The independent international body that leads the global effort against doping in sport. Maintains the Prohibited List, sets the World Anti-Doping Code and coordinates testing worldwide.", hot: true, tip: "WADA role and criteria are a common exam question" },
+  { name: "WADA Prohibited List", def: "The annually updated list of banned substances and methods in sport. A substance is banned if it meets 2 of 3 criteria: enhances performance, poses a health risk, or violates the spirit of sport.", hot: true, tip: "Must know all three criteria and that only TWO are required" },
+  { name: "Strict liability", def: "The anti-doping principle that athletes are responsible for any prohibited substance found in their body, regardless of how it got there. Ignorance is not a defence.", hot: true, tip: "Very commonly examined &mdash; even accidental use = violation" },
+  { name: "Therapeutic Use Exemption (TUE)", def: "Permission granted to an athlete by WADA/national body to use a prohibited substance for a documented legitimate medical reason (e.g. corticosteroids for asthma).", hot: false },
+  { name: "Spirit of sport", def: "The core values that define sport: excellence, fair play, honesty, health, fun, teamwork, courage and respect. One of the three WADA criteria for prohibition.", hot: false },
+  { name: "Resistance training", def: "Exercise against an external resistance to improve muscular strength, power and endurance. Adaptations include hypertrophy, neural improvements, increased tendon stiffness and bone density.", hot: true, tip: "Know the specific adaptations, not just that it builds muscle" },
+  { name: "Muscle hypertrophy", def: "An increase in muscle fibre size due to increased myofibril content, resulting from resistance training and adequate protein intake. The primary structural adaptation to heavy resistance training.", hot: false },
+  { name: "Muscle protein synthesis (MPS)", def: "The cellular process of building new muscle protein. Stimulated by resistance training and amino acid availability (protein intake). The mechanism of hypertrophy.", hot: false },
+  { name: "Plyometric training", def: "Training using rapid, explosive movements that exploit the stretch-shortening cycle to develop power, speed and reactive strength. Examples: box jumps, bounding, depth jumps.", hot: false },
+  { name: "Stretch-shortening cycle (SSC)", def: "A rapid eccentric contraction (muscle lengthens) immediately followed by a concentric contraction (muscle shortens). Stores and releases elastic energy, producing greater power output than concentric alone.", hot: true, tip: "SSC is the mechanism behind plyometric training" },
+  { name: "PNF stretching", def: "Proprioceptive neuromuscular facilitation. A stretching technique using a contract-relax method to exploit reflex relaxation, achieving greater ROM than passive static stretching.", hot: false },
+  { name: "Creatine", def: "A naturally occurring compound that increases phosphocreatine stores in muscle, improving ATP regeneration during short, high-intensity efforts. Permitted by WADA. Most effective for 1-30 second activities.", hot: true, tip: "Creatine is PERMITTED &mdash; not the same as steroids. Must know mechanism and who benefits most." },
+  { name: "Phosphocreatine (PCr)", def: "A high-energy compound stored in muscle that rapidly regenerates ATP during maximal effort lasting up to ~10 seconds. The basis for creatine supplementation.", hot: false },
+  { name: "Protein supplement", def: "A product (whey, casein, plant-based) providing amino acids to support muscle protein synthesis and recovery. Permitted by WADA. Most effective post-exercise and pre-sleep.", hot: false },
+  { name: "Anabolic androgenic steroids (AAS)", def: "Synthetic derivatives of testosterone that bind to androgen receptors, dramatically increasing muscle protein synthesis and hypertrophy. Prohibited by WADA in and out of competition.", hot: true, tip: "Must know mechanism, benefits AND all harms (sex-specific and general)" },
+  { name: "Androgen receptor", def: "A receptor in muscle cell nuclei that AAS bind to, activating gene expression for muscle protein synthesis. The molecular mechanism of anabolic steroid action.", hot: false },
+  { name: "Virilisation", def: "The development of male characteristics in females due to excess androgen exposure (e.g. from AAS use). Includes facial hair, voice deepening, clitoral enlargement and menstrual disruption.", hot: false },
+  { name: "Gynaecomastia", def: "The development of breast tissue in males due to AAS use. Caused by conversion of excess testosterone to oestrogen (aromatisation).", hot: false },
+  { name: "Growth plate closure", def: "Premature fusion of the epiphyseal growth plates in adolescents caused by AAS, permanently stunting height. A specific youth-related harm of steroid use.", hot: true, tip: "Youth-specific harm of AAS &mdash; commonly examined" },
+  { name: "Human Growth Hormone (HGH)", def: "A peptide hormone naturally produced by the pituitary gland. Exogenous use stimulates IGF-1 and muscle protein synthesis. Prohibited by WADA. Harms include acromegaly, diabetes and cardiovascular disease.", hot: true, tip: "HGH mechanism and harms (especially acromegaly) are frequently asked" },
+  { name: "Acromegaly", def: "A condition of abnormal bone and organ growth caused by excess HGH (or exogenous HGH use). Symptoms include enlarged jaw, hands, feet and internal organs.", hot: false },
+  { name: "Erythropoietin (EPO)", def: "A naturally occurring peptide hormone that stimulates red blood cell production. Prohibited by WADA. Doping use increases oxygen-carrying capacity but causes dangerous blood thickening, raising stroke and heart attack risk.", hot: true, tip: "EPO = blood thickening = clot/stroke/death risk" },
+  { name: "Blood viscosity", def: "The thickness of blood. EPO doping increases red blood cell concentration, thickening the blood and dramatically elevating clotting risk, particularly during rest/sleep.", hot: false },
+  { name: "IGF-1 (Insulin-like Growth Factor 1)", def: "A peptide hormone that mediates HGH effects, directly stimulating muscle protein synthesis and satellite cell activation. Prohibited by WADA.", hot: false },
+  { name: "Insulin (doping)", def: "A peptide hormone normally regulating blood glucose. Used illicitly to drive glucose and amino acids into muscle cells. Prohibited by WADA. Incorrect dosing causes potentially fatal hypoglycaemia.", hot: false },
+  { name: "Doping", def: "The use of prohibited substances or methods to artificially enhance athletic performance, in violation of the spirit of sport and WADA regulations.", hot: false }
+];
+
+var colorMap = {
+  "blue":   ["World Anti-Doping Agency (WADA)","WADA Prohibited List","Strict liability","Therapeutic Use Exemption (TUE)","Spirit of sport"],
+  "teal":   ["Resistance training","Muscle hypertrophy","Muscle protein synthesis (MPS)","Plyometric training","Stretch-shortening cycle (SSC)","PNF stretching"],
+  "amber":  ["Creatine","Phosphocreatine (PCr)","Protein supplement"],
+  "pink":   ["Anabolic androgenic steroids (AAS)","Androgen receptor","Virilisation","Gynaecomastia","Growth plate closure"],
+  "purple": ["Human Growth Hormone (HGH)","Acromegaly","Erythropoietin (EPO)","Blood viscosity","IGF-1 (Insulin-like Growth Factor 1)","Insulin (doping)"],
+  "gray":   ["Doping"]
+};
+
+var labelMap = {
+  'blue':   '&#9878; WADA &amp; Anti-Doping Framework',
+  'teal':   '&#128170; Permitted Training Methods',
+  'amber':  '&#9679; Permitted Supplements',
+  'pink':   '&#10007; Anabolic Steroids (Prohibited)',
+  'purple': '&#10007; Peptide Hormones (Prohibited)',
+  'gray':   '&#128216; General Terms'
+};
+
+var currentQuery = '';
+
+function getColor(name) {
+  for (var c in colorMap) {
+    if (colorMap[c].indexOf(name) !== -1) return c;
+  }
+  return 'gray';
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildList(filtered) {
+  var container = document.getElementById('list');
+  var noResults = document.getElementById('no-results');
+  if (!filtered || filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  var byColor = {};
+  for (var i = 0; i < filtered.length; i++) {
+    var c = getColor(filtered[i].name);
+    if (!byColor[c]) byColor[c] = [];
+    byColor[c].push(filtered[i]);
+  }
+  var colorOrder = ['blue','teal','amber','pink','purple','gray'];
+  var isSearching = currentQuery !== '';
+  var html = '';
+  for (var ci = 0; ci < colorOrder.length; ci++) {
+    var col = colorOrder[ci];
+    if (!byColor[col] || byColor[col].length === 0) continue;
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    html += '<div class="cat-wrap ' + col + '" style="margin-top:10px;">';
+    html += '<div class="cat-head" onclick="toggleC(this)">' + labelMap[col] + ' <span>' + arrow + '</span></div>';
+    html += '<div class="' + bodyClass + '">';
+    for (var j = 0; j < byColor[col].length; j++) {
+      var t = byColor[col][j];
+      var displayName = isSearching ? highlight(t.name, currentQuery) : t.name;
+      var displayDef  = isSearching ? highlight(t.def,  currentQuery) : t.def;
+      html += '<div class="term-row"><span class="term-name">' + displayName;
+      if (t.hot) { html += '<span class="hot-badge">HOT<span class="tooltip">' + (t.tip || 'Commonly examined') + '</span></span>'; }
+      html += '</span><span class="term-def">' + displayDef + '</span></div>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+buildList(terms);
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  if (currentQuery === '') { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].name.toLowerCase().indexOf(val) !== -1 || terms[i].def.toLowerCase().indexOf(val) !== -1) {
+      filtered.push(terms[i]);
+    }
+  }
+  buildList(filtered);
+  countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) { listEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  buildList(terms);
+}
+
+function toggleC(head) {
+  var body = head.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = head.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function toggleB(trigger) {
+  var body = trigger.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = trigger.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+</script>
+</body>
+</html>

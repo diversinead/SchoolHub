@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part B Quiz: Prevention &amp; Rehabilitation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .tab-bar { display: flex; background: #fff; border-bottom: 3px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 13px 8px; text-align: center; font-weight: 700; font-size: 0.92em; cursor: pointer; color: #888; border: none; background: none; }
+    .tab-btn.active { color: #2c5f6e; border-bottom: 3px solid #2c5f6e; margin-bottom: -3px; background: #eaf4f7; }
+    .tab-btn:hover { background: #f0f8fa; }
+    .tab-panel { display: none; padding: 18px 16px; }
+    .tab-panel.active { display: block; }
+    .score-bar { background: #fff; border: 2px solid #2c5f6e; border-radius: 10px; padding: 12px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .score-display { font-size: 1.3em; font-weight: 700; color: #2c5f6e; }
+    .score-label { font-size: 0.85em; color: #666; }
+    .reset-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.88em; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #1a3d48; }
+    .progress-wrap { background: #e0e0e0; border-radius: 10px; height: 10px; margin-top: 6px; overflow: hidden; width: 200px; }
+    .progress-bar { height: 10px; background: linear-gradient(90deg, #5DCAA5, #2c5f6e); border-radius: 10px; transition: width 0.4s; }
+    .q-section { font-size: 1.05em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 9px 16px; border-radius: 8px; margin: 20px 0 10px; }
+    .q-card { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #27ae60; background: #f0faf4; }
+    .q-card.wrong   { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num  { font-size: 0.78em; font-weight: 700; color: #2c5f6e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .q-text { font-weight: 600; font-size: 0.97em; margin-bottom: 12px; }
+    .options { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { text-align: left; background: #f8f9fc; border: 1.5px solid #ddd; border-radius: 8px; padding: 9px 14px; font-size: 0.91em; cursor: pointer; transition: background 0.15s; }
+    .opt-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .opt-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; font-weight: 700; color: #145a32; }
+    .opt-btn.selected-wrong   { background: #deeef2; border-color: #2c5f6e; font-weight: 700; color: #1a3d48; }
+    .opt-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .opt-btn[disabled]        { cursor: default; }
+    .feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: #d5f5e3; color: #145a32; border-left: 4px solid #27ae60; }
+    .feedback.wrong-fb   { background: #deeef2; color: #1a3d48; border-left: 4px solid #2c5f6e; }
+    .tf-options { display: flex; gap: 10px; margin-top: 8px; }
+    .tf-btn { flex: 1; padding: 10px; border: 1.5px solid #ddd; border-radius: 8px; background: #f8f9fc; font-weight: 700; font-size: 0.95em; cursor: pointer; text-align: center; }
+    .tf-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .tf-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; color: #145a32; }
+    .tf-btn.selected-wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .tf-btn[disabled]        { cursor: default; }
+    .match-container { overflow-x: auto; }
+    table.match-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    table.match-table th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; }
+    table.match-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+    table.match-table tr:nth-child(even) td { background: #f8f8f8; }
+    select.match-sel { width: 100%; padding: 6px 8px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.88em; background: #fff; }
+    select.match-sel.correct-sel { border-color: #27ae60; background: #eafaf1; }
+    select.match-sel.wrong-sel   { border-color: #2c5f6e; background: #deeef2; }
+    .match-check-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-weight: 700; font-size: 0.88em; cursor: pointer; margin-top: 12px; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .match-feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .match-feedback.show { display: block; background: #fafafa; border-left: 4px solid #d4a854; color: #7a4d0a; }
+    .exam-card { background: #fff; border: 2px solid #90bce6; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+    .exam-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .exam-type-badge { background: #2c5f6e; color: #fff; font-size: 0.75em; font-weight: 700; border-radius: 12px; padding: 3px 10px; }
+    .exam-marks { background: #fafafa; color: #7a4d0a; font-size: 0.8em; font-weight: 700; border-radius: 10px; padding: 3px 10px; border: 1.5px solid #d4a854; }
+    .exam-q { font-weight: 700; font-size: 0.97em; margin-bottom: 10px; line-height: 1.5; }
+    .exam-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.9em; font-style: italic; color: #1a3d48; }
+    .writing-area { width: 100%; min-height: 90px; border: 1.5px solid #ccc; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; font-family: inherit; resize: vertical; color: #1a1a2e; }
+    .writing-area:focus { outline: none; border-color: #2c5f6e; }
+    .model-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.85em; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .model-btn:hover { background: #1a3d48; }
+    .model-answer { display: none; margin-top: 12px; background: #f0faf4; border: 1.5px solid #27ae60; border-radius: 8px; padding: 14px 16px; font-size: 0.88em; }
+    .model-answer.open { display: block; }
+    .model-answer ul { padding-left: 20px; }
+    .model-answer ul li { margin-bottom: 5px; }
+    .mark-tick { color: #27ae60; font-weight: 700; margin-right: 4px; }
+    .examiner-tip { background: #fafafa; border-left: 4px solid #d4a854; border-radius: 6px; padding: 9px 12px; margin-top: 10px; font-size: 0.87em; }
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    ul.answer-list { padding-left: 20px; margin-top: 4px; }
+    ul.answer-list li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Ch2 Part B Quiz</h1>
+<p class="subtitle">2B: Injury Prevention &amp; Rehabilitation &middot; Unit 1 AOS1a &middot; Live it Up 5th ed.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('quiz',this)">&#9998; Interactive Quiz</button>
+  <button class="tab-btn" onclick="showTab('exam',this)">&#128196; Exam Practice</button>
+</div>
+
+<!-- ══════════════ QUIZ TAB ══════════════ -->
+<div class="tab-panel active" id="tab-quiz">
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Quiz Score</div>
+      <div class="score-display"><span id="score-num">0</span> / <span id="score-total">0</span></div>
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset Quiz</button>
+  </div>
+
+  <div class="q-section">Part 1 &mdash; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following BEST explains how muscular strength prevents musculoskeletal injury?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">A) Strong muscles increase the heart rate, improving blood flow to joints</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,true)">B) Strong muscles support and stabilise joints, absorbing impact forces and reducing stress on ligaments</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">C) Strong muscles make tendons less flexible, preventing overstretching</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">D) Strong muscles increase body temperature, warming the joints</button>
+    </div>
+    <div class="feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 of 8 &mdash; Multiple Choice (Trap)</div>
+    <div class="q-text">A coach instructs her athletes to hold each muscle stretch for 30 seconds before a game to prevent injury. Based on current evidence, this practice is:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">A) Correct &mdash; static stretching before activity is the best way to prevent muscle strains</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,true)">B) Incorrect &mdash; pre-activity static stretching does not reduce acute injury risk and may impair force production</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">C) Correct &mdash; any form of stretching before activity reduces injury risk equally</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">D) Incorrect &mdash; athletes should not stretch at all before competition</button>
+    </div>
+    <div class="feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which physiological effect of a warm-up MOST directly reduces the risk of a muscle strain?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc3',this,true)">A) Increased muscle temperature makes muscle fibres more extensible and less prone to tearing</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">B) Increased heart rate delivers more calcium to muscle fibres</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">C) Increased sweating removes metabolic waste from muscles</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">D) Increased breathing rate raises blood oxygen levels above resting</button>
+    </div>
+    <div class="feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">In the RICER protocol, what is the primary purpose of COMPRESSION?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">A) To increase blood flow to speed healing</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">B) To numb the pain at the injury site</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,true)">C) To limit swelling by reducing fluid accumulation in the injured tissue</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">D) To immobilise the joint to prevent dislocation</button>
+    </div>
+    <div class="feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is included in HARM and should be AVOIDED in the first 48 hours after an acute ankle sprain?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">A) Applying an ice pack for 20 minutes</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">B) Elevating the ankle above heart level</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,true)">C) Applying a heat pack to ease stiffness</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">D) Wearing a compression bandage</button>
+    </div>
+    <div class="feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">An athlete has recovered from a hamstring strain and wants to return to playing football. According to the TOTAPS protocol, the FINAL step before clearing them to return is:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">A) Observing the injury site for residual bruising</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">B) Passively moving the hamstring through its full range of motion</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">C) Asking the athlete if they feel ready to play</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,true)">D) Having the athlete perform sport-specific skills such as sprinting and changing direction</button>
+    </div>
+    <div class="feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which rehabilitation phase focuses on rebuilding strength, power and neuromuscular control to pre-injury levels?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">A) Acute / Protection phase</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">B) Sub-acute / Repair phase</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,true)">C) Remodelling / Strength phase</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">D) Return to sport phase</button>
+    </div>
+    <div class="feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Why is a cool-down important for preventing post-exercise dizziness or fainting?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">A) It raises blood pressure back to resting levels quickly</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,true)">B) Continued low-intensity movement maintains venous return, preventing blood pooling in the lower limbs</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">C) It increases adrenaline release to maintain alertness</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">D) It re-activates the sympathetic nervous system after exercise</button>
+    </div>
+    <div class="feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section">Part 2 &mdash; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">True or False 1</div>
+    <div class="q-text">Dynamic stretching is recommended during the warm-up because it increases range of motion without reducing muscle force production.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf1',this,true,'TRUE. Dynamic stretching actively moves joints through their range of motion, increasing ROM and activating the neuromuscular system without the inhibitory effect on force production that static stretching produces before activity.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf1',this,false,'TRUE. Dynamic stretching actively moves joints through their range of motion, increasing ROM and activating the neuromuscular system without the inhibitory effect on force production that static stretching produces before activity.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">True or False 2</div>
+    <div class="q-text">Massage should be applied immediately to a bruised muscle to break up the haematoma and speed recovery.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf2',this,false,'FALSE. Massage is part of HARM and must be AVOIDED in the first 48-72 hours after acute injury. Massaging the injury site disrupts clot formation, increases bleeding and worsens bruising. Massage is appropriate later in rehabilitation once the acute phase has passed.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf2',this,true,'FALSE. Massage is part of HARM and must be AVOIDED in the first 48-72 hours after acute injury. Massaging the injury site disrupts clot formation, increases bleeding and worsens bruising. Massage is appropriate later in rehabilitation once the acute phase has passed.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">True or False 3</div>
+    <div class="q-text">An athlete should be cleared to return to sport as soon as they are pain-free at rest, even if they have not yet completed sport-specific training.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf3',this,false,'FALSE. Being pain-free at rest is a criterion for progressing from Phase 1 to Phase 2 &mdash; not for returning to sport. Return to sport requires passing all TOTAPS steps, completing sport-specific training, demonstrating symmetrical strength and receiving medical clearance. Returning too early based on pain alone is a leading cause of re-injury.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf3',this,true,'FALSE. Being pain-free at rest is a criterion for progressing from Phase 1 to Phase 2 &mdash; not for returning to sport. Return to sport requires passing all TOTAPS steps, completing sport-specific training, demonstrating symmetrical strength and receiving medical clearance. Returning too early based on pain alone is a leading cause of re-injury.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">True or False 4</div>
+    <div class="q-text">DOMS is caused primarily by concentric muscle contractions and is unrelated to eccentric exercise.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf4',this,false,'FALSE. DOMS (delayed onset muscle soreness) is caused specifically by ECCENTRIC contractions, which generate the highest mechanical stress on muscle fibres as they lengthen under load. Concentric contractions produce minimal DOMS. This is a very commonly tested distinction in VCE PE.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf4',this,true,'FALSE. DOMS (delayed onset muscle soreness) is caused specifically by ECCENTRIC contractions, which generate the highest mechanical stress on muscle fibres as they lengthen under load. Concentric contractions produce minimal DOMS. This is a very commonly tested distinction in VCE PE.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">True or False 5</div>
+    <div class="q-text">Elevation of an injured limb above the level of the heart helps reduce swelling by using gravity to limit fluid accumulation at the injury site.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf5',this,true,'TRUE. Elevation is the E in RICER. Raising the injured limb above heart level uses gravity to reduce venous and lymphatic pressure at the injury site, decreasing the accumulation of inflammatory fluid (oedema) and thus limiting swelling.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf5',this,false,'TRUE. Elevation is the E in RICER. Raising the injured limb above heart level uses gravity to reduce venous and lymphatic pressure at the injury site, decreasing the accumulation of inflammatory fluid (oedema) and thus limiting swelling.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-card" id="tf6">
+    <div class="q-num">True or False 6</div>
+    <div class="q-text">A warm-up increases the production of synovial fluid, improving joint lubrication and reducing cartilage friction.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf6',this,true,'TRUE. Joint movement during a warm-up stimulates the synovial membrane to produce more synovial fluid. This lubricates articular surfaces, reduces friction between cartilage surfaces and helps distribute nutrients to avascular cartilage.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf6',this,false,'TRUE. Joint movement during a warm-up stimulates the synovial membrane to produce more synovial fluid. This lubricates articular surfaces, reduces friction between cartilage surfaces and helps distribute nutrients to avascular cartilage.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf6"></div>
+  </div>
+
+  <div class="q-card" id="tf7">
+    <div class="q-num">True or False 7</div>
+    <div class="q-text">The rehabilitation principle of specificity means that late-stage rehabilitation exercises must replicate the exact movements and intensities of the athlete&rsquo;s sport.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf7',this,true,'TRUE. The principle of specificity in rehabilitation requires that as the athlete progresses, exercises increasingly mirror the demands of their sport. A footballer must eventually practise kicking, sprinting and change of direction at full speed before being cleared to play &mdash; generic gym exercises alone are insufficient for return to sport.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf7',this,false,'TRUE. The principle of specificity in rehabilitation requires that as the athlete progresses, exercises increasingly mirror the demands of their sport. A footballer must eventually practise kicking, sprinting and change of direction at full speed before being cleared to play &mdash; generic gym exercises alone are insufficient for return to sport.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf7"></div>
+  </div>
+
+  <div class="q-section">Part 3 &mdash; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Matching Set 1 &mdash; RICER: Letter to Purpose</div>
+    <div class="q-text">Match each RICER component to its primary purpose.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>RICER Component</th><th>Your Answer</th></tr>
+        <tr><td>Rest</td><td><select class="match-sel" id="m1_1"><option value="">-- Select --</option><option>Prevents further tissue damage</option><option>Reduces bleeding via vasoconstriction</option><option>Limits swelling by reducing fluid accumulation</option><option>Uses gravity to reduce swelling</option><option>Ensures accurate diagnosis</option></select></td></tr>
+        <tr><td>Ice</td><td><select class="match-sel" id="m1_2"><option value="">-- Select --</option><option>Prevents further tissue damage</option><option>Reduces bleeding via vasoconstriction</option><option>Limits swelling by reducing fluid accumulation</option><option>Uses gravity to reduce swelling</option><option>Ensures accurate diagnosis</option></select></td></tr>
+        <tr><td>Compression</td><td><select class="match-sel" id="m1_3"><option value="">-- Select --</option><option>Prevents further tissue damage</option><option>Reduces bleeding via vasoconstriction</option><option>Limits swelling by reducing fluid accumulation</option><option>Uses gravity to reduce swelling</option><option>Ensures accurate diagnosis</option></select></td></tr>
+        <tr><td>Elevation</td><td><select class="match-sel" id="m1_4"><option value="">-- Select --</option><option>Prevents further tissue damage</option><option>Reduces bleeding via vasoconstriction</option><option>Limits swelling by reducing fluid accumulation</option><option>Uses gravity to reduce swelling</option><option>Ensures accurate diagnosis</option></select></td></tr>
+        <tr><td>Referral</td><td><select class="match-sel" id="m1_5"><option value="">-- Select --</option><option>Prevents further tissue damage</option><option>Reduces bleeding via vasoconstriction</option><option>Limits swelling by reducing fluid accumulation</option><option>Uses gravity to reduce swelling</option><option>Ensures accurate diagnosis</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m1',match1Answers,'fb-match1')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Matching Set 2 &mdash; Warm-Up Phase to Description</div>
+    <div class="q-text">Match each warm-up phase to its correct description.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Phase</th><th>Your Answer</th></tr>
+        <tr><td>Phase 1 &mdash; General Aerobic</td><td><select class="match-sel" id="m2_1"><option value="">-- Select --</option><option>Light jogging/cycling to raise heart rate and core temperature</option><option>Active movements through full ROM (leg swings, arm circles)</option><option>Low-intensity drills mimicking game movements</option><option>Full-speed practice of sport-specific skills</option><option>Static stretching of major muscle groups</option></select></td></tr>
+        <tr><td>Phase 2 &mdash; Dynamic Stretching</td><td><select class="match-sel" id="m2_2"><option value="">-- Select --</option><option>Light jogging/cycling to raise heart rate and core temperature</option><option>Active movements through full ROM (leg swings, arm circles)</option><option>Low-intensity drills mimicking game movements</option><option>Full-speed practice of sport-specific skills</option><option>Static stretching of major muscle groups</option></select></td></tr>
+        <tr><td>Phase 3 &mdash; Sport-Specific</td><td><select class="match-sel" id="m2_3"><option value="">-- Select --</option><option>Light jogging/cycling to raise heart rate and core temperature</option><option>Active movements through full ROM (leg swings, arm circles)</option><option>Low-intensity drills mimicking game movements</option><option>Full-speed practice of sport-specific skills</option><option>Static stretching of major muscle groups</option></select></td></tr>
+        <tr><td>Phase 4 &mdash; Skill Rehearsal</td><td><select class="match-sel" id="m2_4"><option value="">-- Select --</option><option>Light jogging/cycling to raise heart rate and core temperature</option><option>Active movements through full ROM (leg swings, arm circles)</option><option>Low-intensity drills mimicking game movements</option><option>Full-speed practice of sport-specific skills</option><option>Static stretching of major muscle groups</option></select></td></tr>
+        <tr><td>Cool-Down Stretching</td><td><select class="match-sel" id="m2_5"><option value="">-- Select --</option><option>Light jogging/cycling to raise heart rate and core temperature</option><option>Active movements through full ROM (leg swings, arm circles)</option><option>Low-intensity drills mimicking game movements</option><option>Full-speed practice of sport-specific skills</option><option>Static stretching of major muscle groups</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m2',match2Answers,'fb-match2')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Matching Set 3 &mdash; TOTAPS Step to Purpose</div>
+    <div class="q-text">Match each TOTAPS step to its purpose.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>TOTAPS Step</th><th>Your Answer</th></tr>
+        <tr><td>Talk</td><td><select class="match-sel" id="m3_1"><option value="">-- Select --</option><option>Gather injury history and mechanism</option><option>Visual check for deformity and swelling</option><option>Localise injury by palpation</option><option>Assess ROM without muscle activation</option><option>Check functional readiness for sport</option></select></td></tr>
+        <tr><td>Observe</td><td><select class="match-sel" id="m3_2"><option value="">-- Select --</option><option>Gather injury history and mechanism</option><option>Visual check for deformity and swelling</option><option>Localise injury by palpation</option><option>Assess ROM without muscle activation</option><option>Check functional readiness for sport</option></select></td></tr>
+        <tr><td>Touch</td><td><select class="match-sel" id="m3_3"><option value="">-- Select --</option><option>Gather injury history and mechanism</option><option>Visual check for deformity and swelling</option><option>Localise injury by palpation</option><option>Assess ROM without muscle activation</option><option>Check functional readiness for sport</option></select></td></tr>
+        <tr><td>Passive movement</td><td><select class="match-sel" id="m3_4"><option value="">-- Select --</option><option>Gather injury history and mechanism</option><option>Visual check for deformity and swelling</option><option>Localise injury by palpation</option><option>Assess ROM without muscle activation</option><option>Check functional readiness for sport</option></select></td></tr>
+        <tr><td>Skills test</td><td><select class="match-sel" id="m3_5"><option value="">-- Select --</option><option>Gather injury history and mechanism</option><option>Visual check for deformity and swelling</option><option>Localise injury by palpation</option><option>Assess ROM without muscle activation</option><option>Check functional readiness for sport</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m3',match3Answers,'fb-match3')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end quiz tab -->
+
+<!-- ══════════════ EXAM TAB ══════════════ -->
+<div class="tab-panel" id="tab-exam">
+
+  <p style="background:#fafafa; border-left:4px solid #d4a854; border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:0.9em;">
+    <strong>&#128196; Exam Practice Tips:</strong> Write your answer before revealing the model. Each &#10003; = one mark.
+  </p>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">2 marks</span></div>
+    <div class="exam-q">Distinguish between RICER and HARM in the management of an acute soft tissue injury.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>RICER</strong> is a protocol of actions to apply immediately after an acute soft tissue injury: Rest, Ice, Compression, Elevation and Referral. These actions work together to minimise bleeding, swelling and further tissue damage.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>HARM</strong> identifies actions to avoid in the first 48&ndash;72 hours: Heat, Alcohol, Running and Massage. All four cause vasodilation or mechanical disruption that increases bleeding and swelling, worsening the injury.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> A common error is giving only the acronym letters without explaining the purpose. For both RICER and HARM you must state what each letter stands for AND why it either helps or harms recovery to score full marks.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">4 marks</span></div>
+    <div class="exam-q">Explain FOUR physiological effects of a warm-up and for each effect, describe how it reduces the risk of musculoskeletal injury.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Increased muscle temperature</strong> &mdash; metabolic activity generates heat in working muscles, making muscle fibres more extensible (pliable), reducing the risk of tearing during rapid or forceful movements (reduces strain risk).</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Increased blood flow to muscles</strong> &mdash; vasodilation delivers more oxygen and removes metabolic waste, allowing muscles to function more efficiently and reducing the likelihood of fatigue-related coordination failures that cause injury.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Increased nerve conduction velocity</strong> &mdash; warmer tissues conduct electrical signals faster, improving reaction time and the speed of protective muscle activation in response to unexpected forces, reducing ligament and joint injury risk.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Increased synovial fluid production</strong> &mdash; joint movement stimulates the synovial membrane to produce lubricating fluid, reducing friction between articular cartilage surfaces and decreasing cartilage wear during activity.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Each mark requires both the effect AND the injury prevention link. Writing only &ldquo;increases blood flow&rdquo; without explaining how that reduces injury risk is worth zero marks. Use the structure: effect &rarr; mechanism &rarr; injury benefit.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer &mdash; Stimulus</span><span class="exam-marks">3 marks</span></div>
+    <div class="exam-stimulus">
+      Jayden is a 17-year-old basketball player who rolled his ankle during a game. The team trainer suspects a Grade II lateral ankle sprain. Jayden wants to return to training as quickly as possible and asks the trainer if he can jog on it later that evening.
+    </div>
+    <div class="exam-q">Using your knowledge of RICER and HARM, advise Jayden on the correct immediate management of his injury and explain why jogging should be avoided.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>RICER advice:</strong> Jayden should immediately Rest (stop activity, no weight-bearing), apply Ice (20 min every 2 hours) to reduce bleeding and pain, apply Compression (firm bandage) to limit swelling, Elevate the ankle above heart level, and seek Referral to a physiotherapist or doctor for diagnosis and management planning.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Why jogging must be avoided (HARM):</strong> Running/jogging is the R in HARM &mdash; it increases blood flow and mechanical stress through the damaged ankle ligament, worsening bleeding into the tissue, increasing swelling, and risking further tearing of the partially torn ATFL fibres.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Link to stimulus:</strong> Despite Jayden&rsquo;s desire to return quickly, jogging the same evening would constitute a HARM action. The Grade II sprain involves partial tearing &mdash; the ligament fibres are structurally compromised and cannot tolerate loading for at least 48&ndash;72 hours. Early return risks converting the Grade II injury into a Grade III complete rupture.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always reference the specific injury from the stimulus (Grade II lateral ankle sprain, ATFL). Generic RICER/HARM answers without linking to the scenario miss the highest-order marks.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Extended Response</span><span class="exam-marks">6 marks</span></div>
+    <div class="exam-q">Explain how meeting minimum fitness requirements can prevent musculoskeletal injury in sport. In your response, discuss at least THREE specific fitness components and link each to a clear injury prevention mechanism.</div>
+    <textarea class="writing-area" style="min-height:140px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Muscular strength:</strong> Adequate strength in the muscles surrounding a joint allows them to absorb and dissipate impact forces, stabilise the joint and reduce the load transferred to ligaments and tendons. For example, strong quadriceps reduce anterior tibial translation during landing, decreasing ACL stress and sprain risk.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Muscular endurance:</strong> When muscles fatigue, their ability to generate force rapidly and maintain coordination deteriorates. Fatigued muscles can no longer protect joints from abnormal forces, increasing the risk of strains and sprains particularly in the final stages of competition. High muscular endurance delays this fatigue threshold, maintaining protective muscle function throughout activity.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Flexibility:</strong> Adequate flexibility allows joints to move through their full intended range of motion without placing excessive tension on muscles or tendons at end range. Athletes with poor hip flexor flexibility, for example, are at greater risk of lumbar and hamstring injuries as the restricted hip movement increases load on adjacent structures.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Neuromuscular control / proprioception:</strong> The ability to rapidly detect and respond to changes in joint position is critical for preventing injuries from unexpected forces. Athletes with poor proprioception (often following a previous injury) are significantly more likely to re-sprain a joint because protective muscle activation is delayed. Balance training specifically targets this component.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Cardiovascular fitness:</strong> A high aerobic fitness level delays general fatigue, maintaining concentration and movement mechanics across the full duration of training or competition. Breakdowns in running technique late in a game &mdash; such as foot strike pattern or trunk stability &mdash; are a common cause of ankle, knee and lower back injuries in fatigued athletes.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Conclusion / overall principle:</strong> When an athlete does not meet the minimum fitness requirements for their sport, they are more likely to fatigue rapidly, lose movement quality and expose joints to uncontrolled forces &mdash; the combination of which dramatically elevates injury risk. A well-designed pre-season conditioning program that targets all relevant fitness components is therefore a primary injury prevention strategy.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Vague answers like &ldquo;being fitter means less chance of getting hurt&rdquo; score zero. Each fitness component must be linked to a SPECIFIC mechanism (e.g. muscle absorbs load, fatigue impairs coordination). Use sport-specific examples to demonstrate application of knowledge.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Extended Response</span><span class="exam-marks">7 marks</span></div>
+    <div class="exam-stimulus">
+      Sarah is a 22-year-old netball player who suffered a Grade III ACL tear eight weeks ago and has undergone surgical reconstruction. She is now beginning her rehabilitation program and is aiming to return to competition in 9&ndash;12 months.
+    </div>
+    <div class="exam-q">Outline the four phases of rehabilitation Sarah will progress through on her return to sport. For each phase, describe the goals, key activities and criteria she must meet before progressing to the next phase.</div>
+    <textarea class="writing-area" style="min-height:160px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Phase 1 &mdash; Acute / Protection:</strong> Goal: control post-surgical inflammation, protect the graft and manage pain. Activities: RICER principles, pain-free gentle ROM exercises (heel slides), crutch use to offload. Criteria to progress: swelling reducing, pain at rest minimal, able to perform straight leg raise without pain.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Phase 2 &mdash; Sub-Acute / Repair:</strong> Goal: restore full pain-free ROM, begin light loading, maintain cardiovascular fitness. Activities: hydrotherapy (pool walking/running), gentle closed-chain strengthening (mini squats, leg press), stationary cycling. Criteria: full pain-free ROM, no swelling with activity, normal walking gait restored.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Phase 3 &mdash; Remodelling / Strength:</strong> Goal: rebuild quadriceps and hamstring strength, power and neuromuscular control to pre-injury levels. Activities: progressive resistance training, proprioception exercises (wobble board, single-leg balance), plyometric progression (jumping, hopping, landing mechanics). Criteria: quadriceps strength &ge;90% of uninjured leg (limb symmetry index), normal movement patterns, pain-free with loading.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Phase 4 &mdash; Return to Sport:</strong> Goal: restore full sport-specific function, confidence and integration into team training. Activities: netball-specific drills (cutting, pivoting, jumping for ball), contact practice, full training sessions, match simulation. Criteria: pass return-to-sport testing (hop tests, agility), psychological readiness, medical clearance from surgeon and physiotherapist.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Criteria-based progression principle:</strong> Sarah must meet the functional criteria for each phase before advancing &mdash; not just reach a calendar date. Given the ACL graft takes 12&ndash;18 months to fully mature (ligamentisation), her 9&ndash;12 month timeline must be guided by objective testing, not symptoms alone.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Rehabilitation principles applied:</strong> Progressive overload ensures each phase incrementally challenges the healing graft. Specificity means late-stage drills must replicate netball&rsquo;s cutting and pivoting demands. Reversibility means Sarah&rsquo;s overall fitness (cardiovascular, upper body) must also be maintained throughout rehabilitation, not just the ACL-specific work.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Link to stimulus:</strong> As a Grade III tear requiring surgical reconstruction, Sarah&rsquo;s rehabilitation is more complex than a conservative injury. The graft is initially at its weakest point around 6&ndash;12 weeks post-surgery (the period Sarah is currently in), making careful Phase 2 management critical to avoid graft failure before progressing to heavy loading in Phase 3.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This question has four named components (goals, activities, criteria, all four phases) &mdash; tick off each as you write. Students who only describe activities without stating goals and criteria miss multiple marks. Reference the ACL graft and surgical reconstruction from the stimulus to demonstrate higher-order application.</div>
+    </div>
+  </div>
+
+</div><!-- end exam tab -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part B Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var answered = {};
+var score = 0;
+var totalAnswered = 0;
+
+var mcFeedbacks = {
+  'mc1': { c: 'Correct! Strong muscles act as shock absorbers around joints, reducing the load transferred to the more vulnerable ligaments and tendons.', w: 'Incorrect. Muscular strength prevents injury by supporting and stabilising joints and absorbing impact forces, reducing stress on ligaments and tendons. It does not work through raising heart rate or warming joints.' },
+  'mc2': { c: 'Correct! This is one of the most important evidence-based messages in injury prevention. Dynamic stretching should replace static stretching before activity.', w: 'Incorrect. Pre-activity static stretching does NOT reduce acute injury risk and research shows it temporarily impairs force production. Dynamic stretching is the evidence-based choice for warm-up.' },
+  'mc3': { c: 'Correct! Increased muscle temperature is the key mechanism &mdash; warmer muscles are more extensible and elastic, meaning they can tolerate greater stretch before tearing.', w: 'Incorrect. The most direct protective mechanism against muscle strains is increased muscle temperature, which makes fibres more extensible (pliable) and less likely to tear when rapidly stretched.' },
+  'mc4': { c: 'Correct! Compression limits the accumulation of inflammatory fluid (oedema) in the tissue spaces surrounding the injury, directly reducing swelling.', w: 'Incorrect. The purpose of compression is to LIMIT SWELLING by applying external pressure that reduces fluid accumulation in injured tissue. Ice (not compression) is primarily responsible for vasoconstriction.' },
+  'mc5': { c: 'Correct! Heat is the H in HARM &mdash; it causes vasodilation, increasing blood flow to the injury and worsening bleeding and swelling.', w: 'Incorrect. Applying a heat pack is H in HARM &mdash; it causes vasodilation that increases blood flow, worsening bleeding and swelling. Ice, elevation and compression are all correct RICER actions.' },
+  'mc6': { c: 'Correct! The Skills test (S) is the final TOTAPS step. The athlete must demonstrate they can perform the functional movements of their sport without pain or limitation before being cleared.', w: 'Incorrect. The S in TOTAPS stands for Skills test &mdash; the final step where the athlete performs sport-specific movements (jogging, sprinting, change of direction). All steps must be passed before return to play.' },
+  'mc7': { c: 'Correct! Phase 3 (Remodelling) is when progressive resistance training, plyometrics and proprioception exercises rebuild the strength and neuromuscular control needed for sport.', w: 'Incorrect. Phase 3 (Remodelling / Strength) is focused on rebuilding strength, power and neuromuscular control. Phase 1 manages acute inflammation, Phase 2 restores ROM, and Phase 4 is sport-specific return.' },
+  'mc8': { c: 'Correct! Stopping exercise abruptly causes blood to pool in the dilated vessels of the lower limbs. A cool-down maintains venous return (blood back to the heart), preventing this drop in blood pressure.', w: 'Incorrect. Abrupt cessation of exercise causes blood pooling in dilated lower limb vessels, dropping blood pressure. A cool-down maintains venous return by keeping muscles pumping blood back to the heart, preventing dizziness.' }
+};
+
+function showTab(name, btn) {
+  var panels = document.querySelectorAll('.tab-panel');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateScore() {
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-total').textContent = totalAnswered;
+  var pct = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function answerMC(cardId, btn, isCorrect) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.opt-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; ' + mcFeedbacks[cardId].c;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; ' + mcFeedbacks[cardId].w;
+    for (var k = 0; k < allBtns.length; k++) {
+      var oc = allBtns[k].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true)') !== -1) { allBtns[k].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+function answerTF(cardId, btn, isCorrect, explanation) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; Correct! ' + explanation;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; Incorrect. ' + explanation;
+    for (var j = 0; j < allBtns.length; j++) {
+      var oc = allBtns[j].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true,') !== -1) { allBtns[j].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+var match1Answers = ['Prevents further tissue damage','Reduces bleeding via vasoconstriction','Limits swelling by reducing fluid accumulation','Uses gravity to reduce swelling','Ensures accurate diagnosis'];
+var match2Answers = ['Light jogging/cycling to raise heart rate and core temperature','Active movements through full ROM (leg swings, arm circles)','Low-intensity drills mimicking game movements','Full-speed practice of sport-specific skills','Static stretching of major muscle groups'];
+var match3Answers = ['Gather injury history and mechanism','Visual check for deformity and swelling','Localise injury by palpation','Assess ROM without muscle activation','Check functional readiness for sport'];
+
+function checkMatch(prefix, answers, fbId) {
+  var correct = 0;
+  var total = answers.length;
+  for (var i = 1; i <= total; i++) {
+    var sel = document.getElementById(prefix + '_' + i);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[i - 1]) {
+      sel.className = 'match-sel correct-sel';
+      correct++;
+    } else {
+      sel.className = 'match-sel wrong-sel';
+    }
+  }
+  var fb = document.getElementById(fbId);
+  fb.className = 'match-feedback show';
+  if (correct === total) {
+    fb.innerHTML = '&#10003; All ' + total + ' correct! Excellent work.';
+    fb.style.background = '#d5f5e3';
+    fb.style.borderLeftColor = '#27ae60';
+    fb.style.color = '#145a32';
+  } else {
+    fb.innerHTML = correct + ' of ' + total + ' correct. Review incorrect answers (red) in your study notes.';
+  }
+  if (!answered['match-' + fbId]) {
+    answered['match-' + fbId] = true;
+    totalAnswered++;
+    if (correct === total) score++;
+    updateScore();
+  }
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetQuiz() {
+  answered = {}; score = 0; totalAnswered = 0; updateScore();
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('correct','wrong'); }
+  var optBtns = document.querySelectorAll('.opt-btn');
+  for (var j = 0; j < optBtns.length; j++) { optBtns[j].disabled = false; optBtns[j].classList.remove('selected-correct','selected-wrong','reveal-correct'); }
+  var tfBtns = document.querySelectorAll('.tf-btn');
+  for (var k = 0; k < tfBtns.length; k++) { tfBtns[k].disabled = false; tfBtns[k].classList.remove('selected-correct','selected-wrong','reveal-correct'); }
+  var feedbacks = document.querySelectorAll('.feedback');
+  for (var m = 0; m < feedbacks.length; m++) { feedbacks[m].className = 'feedback'; feedbacks[m].innerHTML = ''; }
+  var sels = document.querySelectorAll('.match-sel');
+  for (var n = 0; n < sels.length; n++) { sels[n].disabled = false; sels[n].className = 'match-sel'; sels[n].value = ''; }
+  var matchFbs = document.querySelectorAll('.match-feedback');
+  for (var p = 0; p < matchFbs.length; p++) { matchFbs[p].className = 'match-feedback'; matchFbs[p].innerHTML = ''; }
+}
+</script>
+</body>
+</html>

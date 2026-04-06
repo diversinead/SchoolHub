@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part B: Musculoskeletal Illnesses</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; letter-spacing: 0.5px; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #fff; border-bottom: 2px solid #e0e0e0; }
+    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1.5px solid #2c5f6e; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e8e8e8; }
+    #search { flex: 1; padding: 8px 12px; border: 1.5px solid #c0c0c0; border-radius: 20px; font-size: 0.9em; outline: none; }
+    #search:focus { border-color: #2c5f6e; }
+    #search-clear { background: #2c5f6e; color: #fff; border: none; border-radius: 16px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; }
+    #search-count { font-size: 0.82em; color: #888; min-width: 80px; }
+    .section-label { font-size: 1.12em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 10px 18px; margin: 18px 14px 8px; border-radius: 8px; letter-spacing: 0.3px; }
+
+    /* ACCORDION */
+    .cat-wrap { margin: 8px 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ddd; }
+    .cat-wrap.purple { border-color: #c8c5e8; }
+    .cat-wrap.teal   { border-color: #9adcc5; }
+    .cat-wrap.coral  { border-color: #e8a48a; }
+    .cat-wrap.amber  { border-color: #d4a854; }
+    .cat-wrap.blue   { border-color: #90bce6; }
+    .cat-wrap.pink   { border-color: #e096b4; }
+    .cat-wrap.gray   { border-color: #b8b6b0; }
+    .cat-head { padding: 11px 16px; font-weight: 700; cursor: pointer; font-size: 0.97em; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.18); color: #4a3fa0; }
+    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #1a7a58; }
+    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #1a3d48; }
+    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12); color: #7a4d0a; }
+    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.14); color: #1a4f8a; }
+    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #8b2050; }
+    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.12); color: #444440; }
+    .cat-body { display: none; padding: 14px 16px; background: #fff; }
+    .cat-body.open { display: block; }
+
+    /* TERMS */
+    .term-row { border-bottom: 1px solid #f0f0f0; padding: 9px 4px; display: flex; gap: 10px; align-items: flex-start; }
+    .term-row:last-child { border-bottom: none; }
+    .term-name { font-weight: 700; min-width: 190px; color: #1a1a2e; font-size: 0.93em; }
+    .term-def { color: #333; font-size: 0.91em; flex: 1; }
+    .hot-badge { display: inline-block; background: #2c5f6e; color: #fff; font-size: 0.68em; font-weight: 700; border-radius: 10px; padding: 2px 7px; margin-left: 6px; position: relative; cursor: default; letter-spacing: 0.4px; }
+    .hot-badge .tooltip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a1a2e; color: #fff; font-size: 0.82em; border-radius: 6px; padding: 5px 9px; white-space: nowrap; z-index: 99; font-weight: 400; }
+    .hot-badge:hover .tooltip { display: block; }
+    mark { background: #ffe066; border-radius: 3px; padding: 0 2px; }
+
+    /* DIAGRAM WRAP */
+    .diagram-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .diagram-wrap.blue   { border-color: #90bce6; }
+    .diagram-wrap.purple { border-color: #c8c5e8; }
+    .diagram-wrap.coral  { border-color: #e8a48a; }
+    .diagram-wrap.amber  { border-color: #d4a854; }
+    .diagram-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .diagram-wrap.blue   .diagram-head { background: #f3f7fd; color: #1a4f8a; }
+    .diagram-wrap.purple .diagram-head { background: #f5f4fc; color: #4a3fa0; }
+    .diagram-wrap.coral  .diagram-head { background: #fdf6f3; color: #1a3d48; }
+    .diagram-wrap.amber  .diagram-head { background: #fdf8f0; color: #7a4d0a; }
+    .diagram-body { display: none; padding: 14px; background: #fff; }
+    .diagram-body.open { display: block; }
+
+    /* BOX WRAP */
+    .box-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .box-wrap.blue   { border-color: #90bce6; }
+    .box-wrap.purple { border-color: #c8c5e8; }
+    .box-wrap.teal   { border-color: #9adcc5; }
+    .box-wrap.amber  { border-color: #d4a854; }
+    .box-wrap.green  { border-color: #6dca8a; }
+    .box-wrap.coral  { border-color: #e8a48a; }
+    .box-wrap.pink   { border-color: #e096b4; }
+    .box-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .box-wrap.blue   .box-head { background: #f3f7fd; color: #1a4f8a; }
+    .box-wrap.purple .box-head { background: #f5f4fc; color: #4a3fa0; }
+    .box-wrap.amber  .box-head { background: #fdf8f0; color: #7a4d0a; }
+    .box-wrap.green  .box-head { background: #f2faf5; color: #1a6b38; }
+    .box-wrap.coral  .box-head { background: #fdf6f3; color: #1a3d48; }
+    .box-wrap.pink   .box-head { background: #fdf5f8; color: #8b2050; }
+    .box-body { display: none; padding: 14px; background: #fff; }
+    .box-body.open { display: block; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; margin-top: 8px; }
+    th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; font-size: 0.9em; }
+    td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8f8f8; }
+    tr:hover td { background: #f2f2f4; }
+
+    /* HIGHLIGHT / TIP BOXES */
+    .highlight-box { background: #fafafa; border-left: 4px solid #c8a84b; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 0.9em; }
+    .highlight-box.red  { background: #fafafa; border-left-color: #2c5f6e; }
+    .highlight-box.teal { background: #fafafa; border-left-color: #5DCAA5; }
+    .highlight-box.blue { background: #fafafa; border-left-color: #378ADD; }
+    .tip-box { background: #fafafa; border: 1px solid #ccc; border-left: 4px solid #5DCAA5; border-radius: 8px; padding: 10px 14px; margin: 10px 0; font-size: 0.89em; }
+
+    /* COMPARE GRID */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+    .compare-card { border-radius: 8px; padding: 12px 14px; font-size: 0.88em; background: #fafafa; border: 1px solid #ddd; }
+    .compare-card.coral { border-left: 4px solid #5DCAA5; }
+    .compare-card.blue  { border-left: 4px solid #378ADD; }
+    .compare-card.amber { border-left: 4px solid #BA7517; }
+    .compare-card.teal  { border-left: 4px solid #5DCAA5; }
+    .compare-card h4 { font-size: 0.93em; margin-bottom: 6px; }
+    .compare-card ul { padding-left: 16px; }
+    .compare-card ul li { margin-bottom: 3px; }
+
+    svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+    /* IMAGE BUTTON */
+    .img-btn { display: inline-block; background: #2980b9; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.84em; cursor: pointer; margin: 6px 4px 4px 0; }
+    .img-btn:hover { background: #1a5f8a; }
+
+    /* LIGHTBOX */
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 1000; justify-content: center; align-items: center; }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-inner { position: relative; max-width: 92vw; max-height: 88vh; }
+    .lightbox-inner img { max-width: 92vw; max-height: 84vh; border-radius: 8px; border: 3px solid #fff; display: block; }
+    .lightbox-close { position: absolute; top: -14px; right: -14px; background: #2c5f6e; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.1em; cursor: pointer; font-weight: 700; }
+    .lightbox-caption { color: #fff; text-align: center; margin-top: 8px; font-size: 0.88em; }
+
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    #no-results { display: none; text-align: center; color: #2c5f6e; padding: 18px; font-style: italic; }
+    ul { padding-left: 20px; margin: 6px 0; }
+    ul li { margin-bottom: 4px; }
+    p { margin: 6px 0; }
+    strong { color: #1a1a2e; }
+    ol { padding-left: 20px; margin: 6px 0; }
+    ol li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 2 Part B &middot; 2A: Musculoskeletal Illnesses &middot; Live it Up 5th ed.</p>
+
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('sec24')">2.4 Illnesses Overview</span>
+  <span class="nav-pill" onclick="jumpTo('sec241')">2.4.1 Arthritis</span>
+  <span class="nav-pill" onclick="jumpTo('sec242')">2.4.2 Osteoporosis</span>
+  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128216; Key Terms</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2.4 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="sec24">&#129657; Section 2.4 &mdash; Musculoskeletal Illnesses</p>
+
+<div class="cat-wrap purple">
+  <div class="cat-head" onclick="toggleC(this)">&#128218; 2.4 Overview: Illnesses vs Injuries <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Musculoskeletal illnesses</strong> are conditions that affect the bones, joints and connective tissues but arise from <strong>disease processes, degeneration or systemic factors</strong> rather than a single traumatic or overuse event. The two most commonly examined in VCE PE are <strong>arthritis</strong> and <strong>osteoporosis</strong>.</p>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Injury vs Illness: Key Distinction <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Musculoskeletal Injury</th><th>Musculoskeletal Illness</th></tr>
+          <tr><td>Cause</td><td>Traumatic event or repetitive overuse</td><td>Disease, degeneration, systemic/immune process, or nutritional deficit</td></tr>
+          <tr><td>Onset</td><td>Acute (sudden) or chronic (overuse)</td><td>Typically gradual and progressive</td></tr>
+          <tr><td>Examples</td><td>Sprain, strain, fracture, dislocation</td><td>Osteoarthritis, rheumatoid arthritis, osteoporosis</td></tr>
+          <tr><td>Reversibility</td><td>Often heals with appropriate management</td><td>Usually chronic and manageable but not fully reversible</td></tr>
+          <tr><td>Treatment focus</td><td>Repair, rehabilitation, return to sport</td><td>Management, symptom control, maintaining function</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>&#9888; Exam tip:</strong> Students frequently blur the line between injury and illness. If a question asks you to identify whether a condition is an injury or illness, look for the <em>cause</em> &mdash; traumatic/overuse = injury; degenerative/systemic = illness.
+    </div>
+  </div>
+</div>
+
+<!-- ─── ARTHRITIS ─── -->
+<p class="section-label" id="sec241">&#129657; Section 2.4.1 &mdash; Arthritis</p>
+
+<div class="diagram-wrap coral">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Osteoarthritis vs Rheumatoid Arthritis: Comparison Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+
+      <!-- TITLE -->
+      <rect x="280" y="10" width="300" height="38" rx="10" fill="#5DCAA5" stroke="#1a3d48" stroke-width="2"/>
+      <text x="430" y="34" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Arthritis</text>
+
+      <!-- OA column header -->
+      <rect x="30" y="64" width="360" height="40" rx="8" fill="#f0f7f9" stroke="#5DCAA5" stroke-width="2"/>
+      <text x="210" y="80" text-anchor="middle" fill="#1a3d48" font-size="13" font-weight="bold">Osteoarthritis (OA)</text>
+      <text x="210" y="96" text-anchor="middle" fill="#1a3d48" font-size="10">Degenerative / &ldquo;wear and tear&rdquo;</text>
+
+      <!-- RA column header -->
+      <rect x="470" y="64" width="360" height="40" rx="8" fill="#e8f2fd" stroke="#378ADD" stroke-width="2"/>
+      <text x="650" y="80" text-anchor="middle" fill="#1a4f8a" font-size="13" font-weight="bold">Rheumatoid Arthritis (RA)</text>
+      <text x="650" y="96" text-anchor="middle" fill="#1a4f8a" font-size="10">Autoimmune / inflammatory</text>
+
+      <!-- Divider label -->
+      <rect x="392" y="64" width="68" height="40" rx="8" fill="#f0f0f0" stroke="#888" stroke-width="1.5"/>
+      <text x="426" y="88" text-anchor="middle" fill="#555" font-size="11" font-weight="bold">VS</text>
+
+      <!-- Row 1: Cause -->
+      <rect x="14" y="120" width="76" height="30" rx="5" fill="#555"/>
+      <text x="52" y="140" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">CAUSE</text>
+      <rect x="100" y="120" width="290" height="30" rx="5" fill="#fff5f3" stroke="#5DCAA5" stroke-width="1"/>
+      <text x="245" y="140" text-anchor="middle" fill="#555" font-size="11">Cartilage breakdown from age/use</text>
+      <rect x="456" y="120" width="390" height="30" rx="5" fill="#eaf2fd" stroke="#378ADD" stroke-width="1"/>
+      <text x="651" y="140" text-anchor="middle" fill="#555" font-size="11">Immune system attacks synovial membrane</text>
+
+      <!-- Row 2: Affected -->
+      <rect x="14" y="156" width="76" height="30" rx="5" fill="#666"/>
+      <text x="52" y="171" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">AFFECTS</text>
+      <rect x="100" y="156" width="290" height="30" rx="5" fill="#fff5f3" stroke="#5DCAA5" stroke-width="1"/>
+      <text x="245" y="176" text-anchor="middle" fill="#555" font-size="11">Articular cartilage &amp; underlying bone</text>
+      <rect x="456" y="156" width="390" height="30" rx="5" fill="#eaf2fd" stroke="#378ADD" stroke-width="1"/>
+      <text x="651" y="176" text-anchor="middle" fill="#555" font-size="11">Synovial membrane (spreads to cartilage/bone)</text>
+
+      <!-- Row 3: Onset -->
+      <rect x="14" y="192" width="76" height="30" rx="5" fill="#555"/>
+      <text x="52" y="212" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">ONSET</text>
+      <rect x="100" y="192" width="290" height="30" rx="5" fill="#fff5f3" stroke="#5DCAA5" stroke-width="1"/>
+      <text x="245" y="212" text-anchor="middle" fill="#555" font-size="11">Gradual &mdash; typically over 50, weight-bearing joints</text>
+      <rect x="456" y="192" width="390" height="30" rx="5" fill="#eaf2fd" stroke="#378ADD" stroke-width="1"/>
+      <text x="651" y="212" text-anchor="middle" fill="#555" font-size="11">Any age; often symmetric joint involvement</text>
+
+      <!-- Row 4: Symptoms -->
+      <rect x="14" y="228" width="76" height="30" rx="5" fill="#666"/>
+      <text x="52" y="243" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">SYMPTOMS</text>
+      <rect x="100" y="228" width="290" height="30" rx="5" fill="#fff5f3" stroke="#5DCAA5" stroke-width="1"/>
+      <text x="245" y="248" text-anchor="middle" fill="#555" font-size="11">Pain, stiffness, crepitus, reduced ROM</text>
+      <rect x="456" y="228" width="390" height="30" rx="5" fill="#eaf2fd" stroke="#378ADD" stroke-width="1"/>
+      <text x="651" y="248" text-anchor="middle" fill="#555" font-size="11">Joint pain, swelling, warmth, fatigue, morning stiffness</text>
+
+      <!-- Row 5: Common joints -->
+      <rect x="14" y="264" width="76" height="30" rx="5" fill="#555"/>
+      <text x="52" y="279" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">JOINTS</text>
+      <rect x="100" y="264" width="290" height="30" rx="5" fill="#fff5f3" stroke="#5DCAA5" stroke-width="1"/>
+      <text x="245" y="284" text-anchor="middle" fill="#555" font-size="11">Knee, hip, hands, spine</text>
+      <rect x="456" y="264" width="390" height="30" rx="5" fill="#eaf2fd" stroke="#378ADD" stroke-width="1"/>
+      <text x="651" y="284" text-anchor="middle" fill="#555" font-size="11">Hands (MCP, PIP), wrists, knees &mdash; symmetrical</text>
+
+      <!-- Key distinction banner -->
+      <rect x="14" y="302" width="832" height="30" rx="6" fill="#fef9e7" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="430" y="322" text-anchor="middle" fill="#7a4d0a" font-size="11" font-weight="bold">&#9888; OA = degenerative (wear &amp; tear)  |  RA = autoimmune (immune attacks own joints)  |  Both cause joint pain and reduced ROM</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap coral">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.4.1 Osteoarthritis (OA) <span class="hot-badge">HOT TOPIC<span class="tooltip">OA vs RA distinction is a common exam question</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Osteoarthritis</strong> is a degenerative joint disease characterised by the progressive breakdown of <strong>articular cartilage</strong> and the underlying bone, leading to pain, stiffness and loss of joint function. It is the most common form of arthritis.</p>
+    <button class="img-btn" onclick="openLightbox('ch2_arthritis.png', 'Fig 2 &mdash; Osteoarthritis: Joint Changes (Live it Up 5th ed.)')">&#128247; Fig &mdash; Osteoarthritis</button>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Causes and Risk Factors <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Category</th><th>Risk Factors</th></tr>
+          <tr><td>Age</td><td>Most common after age 50 &mdash; cartilage loses its ability to repair with age</td></tr>
+          <tr><td>Previous injury</td><td>History of joint injury (e.g. ACL rupture, meniscal tear) accelerates cartilage breakdown &mdash; &ldquo;post-traumatic OA&rdquo;</td></tr>
+          <tr><td>Obesity / excess body weight</td><td>Increases compressive load on weight-bearing joints (knee, hip)</td></tr>
+          <tr><td>Repetitive joint loading</td><td>Occupational or sporting activities involving repetitive impact or heavy loads</td></tr>
+          <tr><td>Genetics</td><td>Family history increases risk, particularly for hand and knee OA</td></tr>
+          <tr><td>Sex</td><td>Women are at higher risk, particularly after menopause</td></tr>
+          <tr><td>Muscle weakness</td><td>Weakness around a joint reduces its ability to absorb load, increasing cartilage stress</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Pathophysiology: What Happens in OA <span>&#9660;</span></div>
+      <div class="box-body">
+        <ol>
+          <li>Articular cartilage begins to soften and thin (&ldquo;chondromalacia&rdquo;)</li>
+          <li>Cartilage surface becomes irregular &mdash; cracks and fissures form</li>
+          <li>Cartilage may wear away entirely, leaving bone-on-bone contact</li>
+          <li>Underlying bone responds by hardening (subchondral sclerosis) and forming bony outgrowths (osteophytes / &ldquo;bone spurs&rdquo;)</li>
+          <li>Synovial membrane becomes inflamed &mdash; fluid accumulation in joint (effusion)</li>
+          <li>Result: pain, stiffness, crepitus, reduced range of motion, loss of function</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Signs, Symptoms and Management <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Signs &amp; Symptoms</th><th>Management Strategies</th></tr>
+          <tr><td>Joint pain (worse with activity, eases with rest)</td><td>Low-impact exercise (swimming, cycling) to maintain joint mobility and muscle strength</td></tr>
+          <tr><td>Morning stiffness (typically &lt;30 minutes)</td><td>Weight management to reduce joint load</td></tr>
+          <tr><td>Crepitus (grinding sensation in joint)</td><td>Physiotherapy: strengthening exercises, joint protection techniques</td></tr>
+          <tr><td>Reduced range of motion</td><td>Pain management: anti-inflammatory medications (NSAIDs)</td></tr>
+          <tr><td>Joint swelling and warmth</td><td>Surgical intervention (total joint replacement) in severe cases</td></tr>
+          <tr><td>Muscle weakness around affected joint</td><td>Heat/cold therapy for symptom relief</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box teal">
+      <strong>&#128161; Physical activity and OA:</strong> Regular low-impact exercise is <em>beneficial</em> for people with OA &mdash; it maintains cartilage nutrition (via synovial fluid), strengthens supporting muscles and reduces joint load. Complete rest is counterproductive.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap blue">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.4.2 Rheumatoid Arthritis (RA) <span class="hot-badge">HOT TOPIC<span class="tooltip">Must distinguish RA (autoimmune) from OA (degenerative)</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Rheumatoid arthritis</strong> is a <strong>chronic autoimmune disease</strong> in which the body&rsquo;s immune system mistakenly attacks the <strong>synovial membrane</strong> lining the joints, causing inflammation, pain and eventual joint destruction.</p>
+    <button class="img-btn" onclick="openLightbox('ch2_arthritis_rheumatoid.png', 'Fig 2 &mdash; Rheumatoid Arthritis: Joint Changes (Live it Up 5th ed.)')">&#128247; Fig &mdash; Rheumatoid Arthritis</button>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Pathophysiology: What Happens in RA <span>&#9660;</span></div>
+      <div class="box-body">
+        <ol>
+          <li>Immune system produces antibodies that attack the synovial membrane (autoimmune response)</li>
+          <li>Synovial membrane becomes thickened and inflamed (synovitis) &mdash; joint swells, becomes warm and painful</li>
+          <li>Pannus (abnormal inflammatory tissue) forms and invades articular cartilage</li>
+          <li>Cartilage and underlying bone eroded by inflammatory enzymes</li>
+          <li>Joint deformity develops over time if untreated (e.g. ulnar deviation of fingers)</li>
+          <li>Systemic effects: fatigue, anaemia, fever &mdash; RA affects the whole body</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Key Features of RA <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Detail</th></tr>
+          <tr><td>Cause</td><td>Autoimmune &mdash; immune system attacks own synovial membrane</td></tr>
+          <tr><td>Age of onset</td><td>Any age &mdash; peak onset 30&ndash;60 years; also occurs in children (juvenile RA)</td></tr>
+          <tr><td>Joint pattern</td><td><strong>Symmetrical</strong> &mdash; same joints on both sides of body affected simultaneously</td></tr>
+          <tr><td>Joints most affected</td><td>Small joints of hands (MCP, PIP joints), wrists, feet, knees</td></tr>
+          <tr><td>Morning stiffness</td><td>Prolonged &mdash; typically <strong>more than 1 hour</strong> (distinguishes from OA)</td></tr>
+          <tr><td>Systemic features</td><td>Fatigue, weight loss, low-grade fever, anaemia &mdash; OA does NOT have systemic features</td></tr>
+          <tr><td>Rheumatoid nodules</td><td>Firm lumps under the skin near affected joints</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card coral">
+        <h4 style="color:#1a3d48;">&#9650; OA &mdash; Remember</h4>
+        <ul>
+          <li>Degenerative / wear and tear</li>
+          <li>Cartilage breaks down</li>
+          <li>Usually older adults</li>
+          <li>Weight-bearing joints</li>
+          <li>Morning stiffness &lt;30 min</li>
+          <li>No systemic symptoms</li>
+        </ul>
+      </div>
+      <div class="compare-card blue">
+        <h4 style="color:#1a4f8a;">&#9650; RA &mdash; Remember</h4>
+        <ul>
+          <li>Autoimmune &mdash; immune attack</li>
+          <li>Synovial membrane attacked first</li>
+          <li>Any age; often younger</li>
+          <li>Symmetrical small joints</li>
+          <li>Morning stiffness &gt;1 hour</li>
+          <li>Systemic symptoms (fatigue, fever)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box red">
+      <strong>&#9888; Most common exam error:</strong> Students describe RA as a &ldquo;wear and tear&rdquo; condition &mdash; this is wrong. RA is <em>autoimmune</em>. The immune system attacks the synovial membrane. OA is the wear and tear condition.
+    </div>
+  </div>
+</div>
+
+<!-- ─── OSTEOPOROSIS ─── -->
+<p class="section-label" id="sec242">&#129657; Section 2.4.2 &mdash; Osteoporosis</p>
+
+<div class="diagram-wrap amber">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Bone Density Across the Lifespan Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 820 280" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+
+      <!-- Title -->
+      <text x="410" y="22" text-anchor="middle" fill="#7a4d0a" font-size="14" font-weight="bold">Bone Density Across the Lifespan</text>
+
+      <!-- Axes -->
+      <line x1="70" y1="240" x2="780" y2="240" stroke="#333" stroke-width="2"/>
+      <line x1="70" y1="30"  x2="70"  y2="240" stroke="#333" stroke-width="2"/>
+
+      <!-- Y axis label -->
+      <text x="18" y="140" text-anchor="middle" fill="#555" font-size="11" transform="rotate(-90,18,140)">Bone Mineral Density</text>
+      <!-- X axis label -->
+      <text x="425" y="265" text-anchor="middle" fill="#555" font-size="11">Age (years)</text>
+
+      <!-- X axis ticks -->
+      <text x="110" y="256" text-anchor="middle" fill="#555" font-size="10">10</text>
+      <text x="200" y="256" text-anchor="middle" fill="#555" font-size="10">20</text>
+      <text x="290" y="256" text-anchor="middle" fill="#555" font-size="10">30</text>
+      <text x="380" y="256" text-anchor="middle" fill="#555" font-size="10">40</text>
+      <text x="470" y="256" text-anchor="middle" fill="#555" font-size="10">50</text>
+      <text x="560" y="256" text-anchor="middle" fill="#555" font-size="10">60</text>
+      <text x="650" y="256" text-anchor="middle" fill="#555" font-size="10">70</text>
+      <text x="740" y="256" text-anchor="middle" fill="#555" font-size="10">80</text>
+
+      <!-- Normal bone density curve (rises to peak ~30, then gradual decline) -->
+      <polyline points="70,220 110,180 160,130 200,90 245,72 290,68 335,72 380,82 425,96 470,112 515,128 560,146 605,163 650,180 695,196 740,210 780,220"
+        fill="none" stroke="#27ae60" stroke-width="3"/>
+      <text x="620" y="155" fill="#27ae60" font-size="11" font-weight="bold">Normal bone density</text>
+
+      <!-- Osteoporosis threshold line -->
+      <line x1="70" y1="175" x2="780" y2="175" stroke="#2c5f6e" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="75" y="170" fill="#2c5f6e" font-size="10" font-weight="bold">Osteoporosis threshold</text>
+
+      <!-- Osteopenia zone shading -->
+      <rect x="70" y="175" width="710" height="30" fill="rgba(240,153,123,0.15)"/>
+      <text x="590" y="196" fill="#5DCAA5" font-size="10">Osteopenia zone</text>
+
+      <!-- Peak bone mass marker -->
+      <line x1="290" y1="50" x2="290" y2="240" stroke="#BA7517" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="294" y="48" fill="#BA7517" font-size="10" font-weight="bold">Peak bone mass</text>
+      <text x="294" y="60" fill="#BA7517" font-size="10">(~25-30 yrs)</text>
+
+      <!-- Menopause marker -->
+      <line x1="470" y1="60" x2="470" y2="240" stroke="#D4537E" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="474" y="58" fill="#D4537E" font-size="10" font-weight="bold">Menopause</text>
+      <text x="474" y="70" fill="#D4537E" font-size="10">(accelerated loss)</text>
+
+      <!-- Annotations -->
+      <rect x="75" y="32" width="180" height="36" rx="6" fill="#eafaf1" stroke="#27ae60" stroke-width="1.5"/>
+      <text x="165" y="48" text-anchor="middle" fill="#145a32" font-size="10" font-weight="bold">Building phase</text>
+      <text x="165" y="62" text-anchor="middle" fill="#145a32" font-size="10">Childhood to ~30 yrs</text>
+
+      <rect x="500" y="32" width="200" height="36" rx="6" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="600" y="48" text-anchor="middle" fill="#1a3d48" font-size="10" font-weight="bold">Decline phase</text>
+      <text x="600" y="62" text-anchor="middle" fill="#1a3d48" font-size="10">Gradual loss after peak</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap amber">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.4.2 Osteoporosis <span class="hot-badge">HOT TOPIC<span class="tooltip">Risk factors and physical activity role are frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Osteoporosis</strong> is a systemic skeletal disease characterised by <strong>low bone mineral density (BMD)</strong> and deterioration of bone microarchitecture, leading to increased bone fragility and fracture risk. The word literally means &ldquo;porous bone.&rdquo;</p>
+    <button class="img-btn" onclick="openLightbox('ch2_osteoporosis.png', 'Fig 2 &mdash; Osteoporosis: Bone Structure (Live it Up 5th ed.)')">&#128247; Fig &mdash; Osteoporosis</button>
+    <button class="img-btn" onclick="openLightbox('ch2_osteoporosis_age.png', 'Fig 2 &mdash; Osteoporosis and Age: Bone Density Changes (Live it Up 5th ed.)')">&#128247; Fig &mdash; Osteoporosis &amp; Age</button>
+    <div class="box-wrap amber">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Normal Bone vs Osteoporotic Bone <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Normal (Healthy) Bone</th><th>Osteoporotic Bone</th></tr>
+          <tr><td>Structure</td><td>Dense trabecular network (like a honeycomb with thick struts)</td><td>Thinned, sparse trabeculae &mdash; large spaces between struts</td></tr>
+          <tr><td>Density</td><td>High bone mineral density (BMD)</td><td>BMD &gt;2.5 standard deviations below young adult mean (T-score &le;-2.5)</td></tr>
+          <tr><td>Fracture risk</td><td>Low &mdash; bone can absorb normal loads</td><td>High &mdash; minor trauma or even daily activities can cause fracture</td></tr>
+          <tr><td>Appearance</td><td>Solid, ivory-coloured cross-section</td><td>Honeycombed with large voids; lighter and more fragile</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong>Osteopenia</strong> = bone density below normal but not yet meeting the threshold for osteoporosis (T-score between -1.0 and -2.5). A precursor state to osteoporosis.</p>
+      </div>
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Risk Factors for Osteoporosis <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Non-modifiable</th><th>Modifiable (lifestyle)</th></tr>
+          <tr><td>Female sex (especially post-menopause)</td><td>Low calcium and vitamin D intake</td></tr>
+          <tr><td>Advancing age</td><td>Physical inactivity / sedentary lifestyle</td></tr>
+          <tr><td>Family history / genetics</td><td>Smoking</td></tr>
+          <tr><td>Small body frame</td><td>Excessive alcohol consumption</td></tr>
+          <tr><td>Early menopause (&lt;45 yrs)</td><td>Low body weight / eating disorders</td></tr>
+          <tr><td>Caucasian or Asian ethnicity</td><td>Female athlete triad (disordered eating, amenorrhea, low BMD)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Role of Physical Activity in Osteoporosis Prevention and Management <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>Bone responds to mechanical loading</strong> &mdash; when bone is stressed through weight-bearing and impact activity, osteoblasts (bone-building cells) are stimulated to lay down new bone tissue. This is called <strong>Wolff&rsquo;s Law</strong>.</p>
+        <table>
+          <tr><th>Activity Type</th><th>Effect on Bone</th><th>Examples</th></tr>
+          <tr><td><strong>Weight-bearing impact</strong></td><td>Most effective for stimulating bone formation &mdash; ground reaction forces stress bone</td><td>Running, jumping, netball, basketball, dancing</td></tr>
+          <tr><td><strong>Resistance training</strong></td><td>Muscle contractions place tension on bone attachment sites &mdash; stimulates remodelling</td><td>Weight training, bodyweight exercises</td></tr>
+          <tr><td><strong>Non-weight-bearing</strong></td><td>Minimal bone-loading benefit &mdash; but useful for cardiovascular fitness with low fracture risk</td><td>Swimming, cycling</td></tr>
+        </table>
+        <div class="highlight-box teal" style="margin-top:10px;">
+          <strong>&#128161; Peak bone mass</strong> is reached around age 25&ndash;30. Physical activity during childhood and adolescence is critical &mdash; higher peak bone mass provides a greater &ldquo;bone bank&rdquo; to draw from during the inevitable age-related decline.
+        </div>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Fractures Associated with Osteoporosis <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Fracture Site</th><th>Mechanism</th><th>Significance</th></tr>
+          <tr><td>Vertebral compression fracture</td><td>Spine collapses under normal loads &mdash; can occur without trauma</td><td>Most common osteoporotic fracture; causes height loss and kyphosis (&ldquo;dowager&rsquo;s hump&rdquo;)</td></tr>
+          <tr><td>Hip fracture (femoral neck)</td><td>Fall from standing height</td><td>Highest morbidity and mortality &mdash; 20% die within one year</td></tr>
+          <tr><td>Wrist (Colles) fracture</td><td>Fall on outstretched hand</td><td>Often the first fragility fracture &mdash; signals need for BMD assessment</td></tr>
+          <tr><td>Rib fracture</td><td>Minor trauma or even coughing</td><td>Indicates very low bone density</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- KEY TERMS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="secTerms">&#128216; Key Terms &mdash; Chapter 2 Part B</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part B &middot; Musculoskeletal Illnesses &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="lightbox-caption" id="lightbox-cap"></p>
+  </div>
+</div>
+
+<script>
+var terms = [
+  { name: "Musculoskeletal illness", def: "A condition affecting bones, joints or connective tissues arising from disease, degeneration or systemic factors rather than a single traumatic or overuse event.", hot: false },
+  { name: "Arthritis", def: "A broad term for conditions causing joint inflammation, pain and stiffness. The two main types in VCE PE are osteoarthritis (degenerative) and rheumatoid arthritis (autoimmune).", hot: true, tip: "OA vs RA is a very commonly examined distinction" },
+  { name: "Osteoarthritis (OA)", def: "A degenerative joint disease caused by progressive breakdown of articular cartilage and underlying bone. Results in pain, stiffness, crepitus and reduced ROM. Most common in weight-bearing joints after age 50.", hot: true, tip: "OA = degenerative / wear and tear. Not autoimmune." },
+  { name: "Rheumatoid arthritis (RA)", def: "A chronic autoimmune disease in which the immune system attacks the synovial membrane, causing inflammation, joint damage and systemic effects (fatigue, fever). Affects joints symmetrically.", hot: true, tip: "RA = autoimmune. Immune attacks synovial membrane. Symmetrical joints. Morning stiffness over 1 hour." },
+  { name: "Articular cartilage", def: "Smooth hyaline cartilage covering joint surfaces. Broken down in OA. Avascular, so heals poorly.", hot: false },
+  { name: "Synovial membrane", def: "The inner lining of a synovial joint capsule that produces synovial fluid. The primary target of immune attack in RA.", hot: false },
+  { name: "Osteophyte", def: "A bony outgrowth (bone spur) that forms in response to cartilage loss and bone stress in osteoarthritis.", hot: false },
+  { name: "Pannus", def: "Abnormal inflammatory granulation tissue that forms in the joint during RA, invading and eroding cartilage and bone.", hot: false },
+  { name: "Osteoporosis", def: "A systemic skeletal disease characterised by low bone mineral density (BMD) and deterioration of bone microarchitecture, increasing fracture risk. T-score at or below -2.5.", hot: true, tip: "Risk factors and role of physical activity are frequently examined" },
+  { name: "Osteopenia", def: "Bone density below normal but not yet meeting the threshold for osteoporosis (T-score between -1.0 and -2.5). A precursor to osteoporosis.", hot: false },
+  { name: "Bone mineral density (BMD)", def: "A measure of the amount of minerals (mainly calcium) in a given area of bone. Low BMD indicates weaker, more fragile bone.", hot: false },
+  { name: "Peak bone mass", def: "The maximum bone density and strength achieved during a person's lifetime, typically reached around ages 25-30. A higher peak bone mass reduces lifetime osteoporosis risk.", hot: true, tip: "Physical activity during youth maximises peak bone mass" },
+  { name: "Wolff's Law", def: "The principle that bone adapts to the mechanical loads placed upon it: weight-bearing and impact activity stimulates osteoblasts to build new bone tissue.", hot: true, tip: "Used to explain why weight-bearing exercise prevents osteoporosis" },
+  { name: "Osteoblast", def: "A bone-forming cell responsible for synthesising new bone matrix. Stimulated by mechanical loading (Wolff's Law).", hot: false },
+  { name: "Osteoclast", def: "A bone-resorbing cell that breaks down old bone tissue. In osteoporosis, osteoclast activity exceeds osteoblast activity.", hot: false },
+  { name: "Female athlete triad", def: "Three interrelated conditions in female athletes: disordered eating, functional hypothalamic amenorrhea and low bone mineral density. Significantly increases osteoporosis and stress fracture risk.", hot: true, tip: "Connects nutrition, hormones and bone health" },
+];
+
+var colorMap = {
+  "coral":  ["Musculoskeletal illness","Arthritis","Osteoarthritis (OA)","Articular cartilage","Osteophyte"],
+  "blue":   ["Rheumatoid arthritis (RA)","Synovial membrane","Pannus"],
+  "amber":  ["Osteoporosis","Osteopenia","Bone mineral density (BMD)","Peak bone mass","Wolff's Law","Osteoblast","Osteoclast"],
+  "pink":   ["Female athlete triad"]
+};
+
+var labelMap = {
+  'coral':  '&#129657; Arthritis &amp; Joint Conditions',
+  'blue':   '&#9881; RA &amp; Joint Tissue',
+  'amber':  '&#9679; Osteoporosis &amp; Bone Health',
+  'pink':   '&#128165; Female Athlete Triad',
+  'gray':   '&#128216; General Terms'
+};
+
+function getColor(name) {
+  for (var c in colorMap) {
+    if (colorMap[c].indexOf(name) !== -1) return c;
+  }
+  return 'gray';
+}
+
+var currentQuery = '';
+
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildList(filtered) {
+  var container = document.getElementById('list');
+  var noResults = document.getElementById('no-results');
+  if (!filtered || filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+
+  var byColor = {};
+  for (var i = 0; i < filtered.length; i++) {
+    var c = getColor(filtered[i].name);
+    if (!byColor[c]) byColor[c] = [];
+    byColor[c].push(filtered[i]);
+  }
+
+  var colorOrder = ['coral','blue','amber','pink','gray'];
+  var isSearching = currentQuery !== '';
+  var html = '';
+  for (var ci = 0; ci < colorOrder.length; ci++) {
+    var col = colorOrder[ci];
+    if (!byColor[col] || byColor[col].length === 0) continue;
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    html += '<div class="cat-wrap ' + col + '" style="margin-top:10px;">';
+    html += '<div class="cat-head" onclick="toggleC(this)">' + labelMap[col] + ' <span>' + arrow + '</span></div>';
+    html += '<div class="' + bodyClass + '">';
+    for (var j = 0; j < byColor[col].length; j++) {
+      var t = byColor[col][j];
+      var displayName = isSearching ? highlight(t.name, currentQuery) : t.name;
+      var displayDef  = isSearching ? highlight(t.def,  currentQuery) : t.def;
+      html += '<div class="term-row">';
+      html += '<span class="term-name">' + displayName;
+      if (t.hot) {
+        html += '<span class="hot-badge">HOT<span class="tooltip">' + (t.tip || 'Commonly examined') + '</span></span>';
+      }
+      html += '</span>';
+      html += '<span class="term-def">' + displayDef + '</span>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+buildList(terms);
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  if (currentQuery === '') {
+    buildList(terms);
+    countEl.textContent = '';
+    return;
+  }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].name.toLowerCase().indexOf(val) !== -1 || terms[i].def.toLowerCase().indexOf(val) !== -1) {
+      filtered.push(terms[i]);
+    }
+  }
+  buildList(filtered);
+  countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) { listEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  buildList(terms);
+}
+
+function toggleC(head) {
+  var body = head.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = head.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function toggleB(trigger) {
+  var body = trigger.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = trigger.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function openLightbox(src, cap) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-cap').textContent = cap;
+  document.getElementById('lightbox').classList.add('active');
+}
+
+function closeLightbox(e) {
+  if (e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+}
+</script>
+</body>
+</html>

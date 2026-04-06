@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part D Quiz: Permitted &amp; Prohibited Practices</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .tab-bar { display: flex; background: #fff; border-bottom: 3px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 13px 8px; text-align: center; font-weight: 700; font-size: 0.92em; cursor: pointer; color: #888; border: none; background: none; }
+    .tab-btn.active { color: #2c5f6e; border-bottom: 3px solid #2c5f6e; margin-bottom: -3px; background: #eaf4f7; }
+    .tab-btn:hover { background: #f0f8fa; }
+    .tab-panel { display: none; padding: 18px 16px; }
+    .tab-panel.active { display: block; }
+    .score-bar { background: #fff; border: 2px solid #2c5f6e; border-radius: 10px; padding: 12px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .score-display { font-size: 1.3em; font-weight: 700; color: #2c5f6e; }
+    .score-label { font-size: 0.85em; color: #666; }
+    .reset-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.88em; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #1a3d48; }
+    .progress-wrap { background: #e0e0e0; border-radius: 10px; height: 10px; margin-top: 6px; overflow: hidden; width: 200px; }
+    .progress-bar { height: 10px; background: linear-gradient(90deg, #5DCAA5, #2c5f6e); border-radius: 10px; transition: width 0.4s; }
+    .q-section { font-size: 1.05em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 9px 16px; border-radius: 8px; margin: 20px 0 10px; }
+    .q-card { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #27ae60; background: #f0faf4; }
+    .q-card.wrong   { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num  { font-size: 0.78em; font-weight: 700; color: #2c5f6e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .q-text { font-weight: 600; font-size: 0.97em; margin-bottom: 12px; }
+    .options { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { text-align: left; background: #f8f9fc; border: 1.5px solid #ddd; border-radius: 8px; padding: 9px 14px; font-size: 0.91em; cursor: pointer; transition: background 0.15s; }
+    .opt-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .opt-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; font-weight: 700; color: #145a32; }
+    .opt-btn.selected-wrong   { background: #deeef2; border-color: #2c5f6e; font-weight: 700; color: #1a3d48; }
+    .opt-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .opt-btn[disabled]        { cursor: default; }
+    .feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: #d5f5e3; color: #145a32; border-left: 4px solid #27ae60; }
+    .feedback.wrong-fb   { background: #deeef2; color: #1a3d48; border-left: 4px solid #2c5f6e; }
+    .tf-options { display: flex; gap: 10px; margin-top: 8px; }
+    .tf-btn { flex: 1; padding: 10px; border: 1.5px solid #ddd; border-radius: 8px; background: #f8f9fc; font-weight: 700; font-size: 0.95em; cursor: pointer; text-align: center; }
+    .tf-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .tf-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; color: #145a32; }
+    .tf-btn.selected-wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .tf-btn[disabled]        { cursor: default; }
+    .match-container { overflow-x: auto; }
+    table.match-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    table.match-table th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; }
+    table.match-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+    table.match-table tr:nth-child(even) td { background: #f8f8f8; }
+    select.match-sel { width: 100%; padding: 6px 8px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.88em; background: #fff; }
+    select.match-sel.correct-sel { border-color: #27ae60; background: #eafaf1; }
+    select.match-sel.wrong-sel   { border-color: #2c5f6e; background: #deeef2; }
+    .match-check-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-weight: 700; font-size: 0.88em; cursor: pointer; margin-top: 12px; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .match-feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .match-feedback.show { display: block; background: #fafafa; border-left: 4px solid #d4a854; color: #7a4d0a; }
+    .exam-card { background: #fff; border: 2px solid #90bce6; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+    .exam-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .exam-type-badge { background: #2c5f6e; color: #fff; font-size: 0.75em; font-weight: 700; border-radius: 12px; padding: 3px 10px; }
+    .exam-marks { background: #fafafa; color: #7a4d0a; font-size: 0.8em; font-weight: 700; border-radius: 10px; padding: 3px 10px; border: 1.5px solid #d4a854; }
+    .exam-q { font-weight: 700; font-size: 0.97em; margin-bottom: 10px; line-height: 1.5; }
+    .exam-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.9em; font-style: italic; color: #1a3d48; }
+    .writing-area { width: 100%; min-height: 90px; border: 1.5px solid #ccc; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; font-family: inherit; resize: vertical; color: #1a1a2e; }
+    .writing-area:focus { outline: none; border-color: #2c5f6e; }
+    .model-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.85em; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .model-btn:hover { background: #1a3d48; }
+    .model-answer { display: none; margin-top: 12px; background: #f0faf4; border: 1.5px solid #27ae60; border-radius: 8px; padding: 14px 16px; font-size: 0.88em; }
+    .model-answer.open { display: block; }
+    .model-answer ul { padding-left: 20px; }
+    .model-answer ul li { margin-bottom: 5px; }
+    .mark-tick { color: #27ae60; font-weight: 700; margin-right: 4px; }
+    .examiner-tip { background: #fafafa; border-left: 4px solid #d4a854; border-radius: 6px; padding: 9px 12px; margin-top: 10px; font-size: 0.87em; }
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    ul.answer-list { padding-left: 20px; margin-top: 4px; }
+    ul.answer-list li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Ch2 Part D Quiz</h1>
+<p class="subtitle">2D: Permitted &amp; Prohibited Practices &middot; Unit 1 AOS1b &middot; Live it Up 5th ed.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('quiz',this)">&#9998; Interactive Quiz</button>
+  <button class="tab-btn" onclick="showTab('exam',this)">&#128196; Exam Practice</button>
+</div>
+
+<div class="tab-panel active" id="tab-quiz">
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Quiz Score</div>
+      <div class="score-display"><span id="score-num">0</span> / <span id="score-total">0</span></div>
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset Quiz</button>
+  </div>
+
+  <div class="q-section">Part 1 &mdash; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">According to WADA, how many of the three criteria must a substance meet to be placed on the Prohibited List?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">A) All three criteria must be met</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,true)">B) At least two of the three criteria must be met</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">C) Only one criterion needs to be met</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">D) The criteria apply only to in-competition testing, not out-of-competition</button>
+    </div>
+    <div class="feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 of 8 &mdash; Multiple Choice (Trap)</div>
+    <div class="q-text">An athlete unknowingly takes a supplement contaminated with a prohibited substance. Under WADA&rsquo;s strict liability principle:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">A) The athlete is not liable because they did not intentionally dope</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,true)">B) The athlete is still liable because they are responsible for everything they ingest, regardless of intent</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">C) The supplement company is solely responsible for the violation</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">D) The athlete receives no sanction if they can prove they did not know about the contamination</button>
+    </div>
+    <div class="feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Creatine supplementation is MOST beneficial for which type of activity?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">A) Marathon running (42 km at steady pace)</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">B) Open-water swimming (1500 m continuous effort)</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,true)">C) Repeated sprint efforts (e.g. team sport, weightlifting sets)</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">D) Low-intensity walking for weight management</button>
+    </div>
+    <div class="feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Anabolic androgenic steroids enhance performance PRIMARILY by:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">A) Increasing red blood cell count and oxygen-carrying capacity</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">B) Stimulating the pituitary gland to release natural growth hormone</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,true)">C) Binding to androgen receptors in muscle cells, activating gene expression for muscle protein synthesis and hypertrophy</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">D) Increasing phosphocreatine stores in muscle to regenerate ATP faster</button>
+    </div>
+    <div class="feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is a harm SPECIFIC to female athletes who use anabolic steroids?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">A) Gynaecomastia (development of breast tissue)</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">B) Testicular atrophy</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,true)">C) Virilisation (development of male characteristics)</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">D) Reduced HDL cholesterol</button>
+    </div>
+    <div class="feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">The PRIMARY danger of EPO doping is:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">A) Liver cancer caused by excess red blood cell production</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">B) Muscle wasting from suppression of natural hormone production</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,true)">C) Increased blood viscosity causing elevated risk of clots, stroke and heart attack</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">D) Premature growth plate closure in adolescent athletes</button>
+    </div>
+    <div class="feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following training methods BEST develops power through the stretch-shortening cycle?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">A) Long slow distance running</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">B) Heavy barbell back squats with a 3-second pause at the bottom</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,true)">C) Depth jumps and bounding exercises</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">D) Static stretching held for 60 seconds per muscle group</button>
+    </div>
+    <div class="feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Acromegaly is a potential harm associated with which prohibited substance?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">A) Anabolic androgenic steroids</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">B) Erythropoietin (EPO)</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,true)">C) Human Growth Hormone (HGH)</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">D) Creatine monohydrate</button>
+    </div>
+    <div class="feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section">Part 2 &mdash; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">True or False 1</div>
+    <div class="q-text">Creatine supplementation is prohibited by WADA because it provides an unfair performance advantage in high-intensity sport.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf1',this,false,'FALSE. Creatine is NOT on the WADA Prohibited List and is completely legal in all sports. While it does enhance performance in short, high-intensity activities, it is a naturally occurring compound that is widely considered a legitimate nutritional supplement. Students frequently confuse creatine (permitted) with anabolic steroids (prohibited).')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf1',this,true,'FALSE. Creatine is NOT on the WADA Prohibited List and is completely legal in all sports. While it does enhance performance in short, high-intensity activities, it is a naturally occurring compound that is widely considered a legitimate nutritional supplement. Students frequently confuse creatine (permitted) with anabolic steroids (prohibited).')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">True or False 2</div>
+    <div class="q-text">Anabolic steroids can cause premature closure of growth plates in adolescent users, permanently limiting their height.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf2',this,true,'TRUE. Elevated androgens from AAS use can accelerate the closure of epiphyseal (growth) plates before the adolescent has reached their full genetic height potential. This is an irreversible and permanent harm, making AAS use particularly dangerous in youth athletes.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf2',this,false,'TRUE. Elevated androgens from AAS use can accelerate the closure of epiphyseal (growth) plates before the adolescent has reached their full genetic height potential. This is an irreversible and permanent harm, making AAS use particularly dangerous in youth athletes.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">True or False 3</div>
+    <div class="q-text">EPO doping is most relevant to musculoskeletal power sports like weightlifting because it dramatically increases muscle size.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf3',this,false,'FALSE. EPO works by stimulating red blood cell production, which improves OXYGEN-CARRYING CAPACITY. This benefits AEROBIC ENDURANCE sports (cycling, running, cross-country skiing) &mdash; not primarily power sports. EPO does not increase muscle size. AAS or HGH are the prohibited substances more relevant to power and muscle hypertrophy.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf3',this,true,'FALSE. EPO works by stimulating red blood cell production, which improves OXYGEN-CARRYING CAPACITY. This benefits AEROBIC ENDURANCE sports (cycling, running, cross-country skiing) &mdash; not primarily power sports. EPO does not increase muscle size. AAS or HGH are the prohibited substances more relevant to power and muscle hypertrophy.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">True or False 4</div>
+    <div class="q-text">The &ldquo;spirit of sport&rdquo; is one of the three WADA criteria that can contribute to placing a substance on the Prohibited List.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf4',this,true,'TRUE. The three WADA criteria are: (1) performance enhancement, (2) health risk, and (3) violation of the spirit of sport. A substance needs to meet only 2 of these 3 criteria to be banned. The spirit of sport encompasses the values of fair play, honesty and excellence in human performance.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf4',this,false,'TRUE. The three WADA criteria are: (1) performance enhancement, (2) health risk, and (3) violation of the spirit of sport. A substance needs to meet only 2 of these 3 criteria to be banned. The spirit of sport encompasses the values of fair play, honesty and excellence in human performance.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">True or False 5</div>
+    <div class="q-text">Resistance training adaptations in the early weeks are primarily due to muscle hypertrophy rather than neural improvements.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf5',this,false,'FALSE. Early adaptations to resistance training (first 4-8 weeks) are predominantly NEURAL &mdash; improved motor unit recruitment, rate coding and inter-muscular coordination. Significant muscle hypertrophy takes longer (typically 6-12+ weeks of consistent training). This is why beginners can get much stronger quickly before any visible muscle growth occurs.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf5',this,true,'FALSE. Early adaptations to resistance training (first 4-8 weeks) are predominantly NEURAL &mdash; improved motor unit recruitment, rate coding and inter-muscular coordination. Significant muscle hypertrophy takes longer (typically 6-12+ weeks of consistent training). This is why beginners can get much stronger quickly before any visible muscle growth occurs.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-card" id="tf6">
+    <div class="q-num">True or False 6</div>
+    <div class="q-text">Gynaecomastia (development of breast tissue in males) is a potential side effect of anabolic steroid use.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf6',this,true,'TRUE. Excess testosterone from AAS use is partially converted to oestrogen through a process called aromatisation. This elevated oestrogen can stimulate breast tissue growth in males (gynaecomastia). It is one of the paradoxical harms of taking a male hormone &mdash; the body attempts to re-balance by converting excess testosterone to oestrogen.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf6',this,false,'TRUE. Excess testosterone from AAS use is partially converted to oestrogen through a process called aromatisation. This elevated oestrogen can stimulate breast tissue growth in males (gynaecomastia). It is one of the paradoxical harms of taking a male hormone &mdash; the body attempts to re-balance by converting excess testosterone to oestrogen.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf6"></div>
+  </div>
+
+  <div class="q-card" id="tf7">
+    <div class="q-num">True or False 7</div>
+    <div class="q-text">A Therapeutic Use Exemption (TUE) allows an athlete with a genuine medical condition to use a prohibited substance legally in competition.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf7',this,true,'TRUE. A TUE grants permission for an athlete to use a prohibited substance or method for a documented, legitimate medical purpose. The athlete must apply before using the substance, demonstrate medical necessity and meet WADA criteria. For example, an athlete with severe asthma may receive a TUE to use a corticosteroid inhaler that would otherwise be prohibited.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf7',this,false,'TRUE. A TUE grants permission for an athlete to use a prohibited substance or method for a documented, legitimate medical purpose. The athlete must apply before using the substance, demonstrate medical necessity and meet WADA criteria. For example, an athlete with severe asthma may receive a TUE to use a corticosteroid inhaler that would otherwise be prohibited.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf7"></div>
+  </div>
+
+  <div class="q-section">Part 3 &mdash; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Matching Set 1 &mdash; Substance to WADA Status and Effect</div>
+    <div class="q-text">Match each substance to its correct WADA status and primary performance effect.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Substance</th><th>Your Answer</th></tr>
+        <tr><td>Creatine monohydrate</td><td><select class="match-sel" id="m1_1"><option value="">-- Select --</option><option>Permitted &mdash; increases PCr stores for short burst power</option><option>Permitted &mdash; supports muscle protein synthesis and recovery</option><option>Prohibited &mdash; increases RBC count and oxygen delivery</option><option>Prohibited &mdash; binds androgen receptors to increase hypertrophy</option><option>Prohibited &mdash; causes acromegaly and muscle repair</option></select></td></tr>
+        <tr><td>Whey protein</td><td><select class="match-sel" id="m1_2"><option value="">-- Select --</option><option>Permitted &mdash; increases PCr stores for short burst power</option><option>Permitted &mdash; supports muscle protein synthesis and recovery</option><option>Prohibited &mdash; increases RBC count and oxygen delivery</option><option>Prohibited &mdash; binds androgen receptors to increase hypertrophy</option><option>Prohibited &mdash; causes acromegaly and muscle repair</option></select></td></tr>
+        <tr><td>EPO</td><td><select class="match-sel" id="m1_3"><option value="">-- Select --</option><option>Permitted &mdash; increases PCr stores for short burst power</option><option>Permitted &mdash; supports muscle protein synthesis and recovery</option><option>Prohibited &mdash; increases RBC count and oxygen delivery</option><option>Prohibited &mdash; binds androgen receptors to increase hypertrophy</option><option>Prohibited &mdash; causes acromegaly and muscle repair</option></select></td></tr>
+        <tr><td>Anabolic steroids</td><td><select class="match-sel" id="m1_4"><option value="">-- Select --</option><option>Permitted &mdash; increases PCr stores for short burst power</option><option>Permitted &mdash; supports muscle protein synthesis and recovery</option><option>Prohibited &mdash; increases RBC count and oxygen delivery</option><option>Prohibited &mdash; binds androgen receptors to increase hypertrophy</option><option>Prohibited &mdash; causes acromegaly and muscle repair</option></select></td></tr>
+        <tr><td>Human Growth Hormone</td><td><select class="match-sel" id="m1_5"><option value="">-- Select --</option><option>Permitted &mdash; increases PCr stores for short burst power</option><option>Permitted &mdash; supports muscle protein synthesis and recovery</option><option>Prohibited &mdash; increases RBC count and oxygen delivery</option><option>Prohibited &mdash; binds androgen receptors to increase hypertrophy</option><option>Prohibited &mdash; causes acromegaly and muscle repair</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m1',match1Answers,'fb-match1')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Matching Set 2 &mdash; Harm to Substance</div>
+    <div class="q-text">Match each harm or side effect to the substance most associated with it.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Harm / Side Effect</th><th>Your Answer</th></tr>
+        <tr><td>Acromegaly (enlarged jaw, hands, feet)</td><td><select class="match-sel" id="m2_1"><option value="">-- Select --</option><option>Anabolic steroids</option><option>Human Growth Hormone (HGH)</option><option>Erythropoietin (EPO)</option><option>Insulin</option><option>Creatine</option></select></td></tr>
+        <tr><td>Increased blood viscosity leading to stroke risk</td><td><select class="match-sel" id="m2_2"><option value="">-- Select --</option><option>Anabolic steroids</option><option>Human Growth Hormone (HGH)</option><option>Erythropoietin (EPO)</option><option>Insulin</option><option>Creatine</option></select></td></tr>
+        <tr><td>Virilisation in female athletes</td><td><select class="match-sel" id="m2_3"><option value="">-- Select --</option><option>Anabolic steroids</option><option>Human Growth Hormone (HGH)</option><option>Erythropoietin (EPO)</option><option>Insulin</option><option>Creatine</option></select></td></tr>
+        <tr><td>Potentially fatal hypoglycaemia from incorrect dosing</td><td><select class="match-sel" id="m2_4"><option value="">-- Select --</option><option>Anabolic steroids</option><option>Human Growth Hormone (HGH)</option><option>Erythropoietin (EPO)</option><option>Insulin</option><option>Creatine</option></select></td></tr>
+        <tr><td>Minor water retention (1&ndash;2 kg weight gain)</td><td><select class="match-sel" id="m2_5"><option value="">-- Select --</option><option>Anabolic steroids</option><option>Human Growth Hormone (HGH)</option><option>Erythropoietin (EPO)</option><option>Insulin</option><option>Creatine</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m2',match2Answers,'fb-match2')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Matching Set 3 &mdash; Training Method to Primary Adaptation</div>
+    <div class="q-text">Match each training type to its primary musculoskeletal adaptation.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Training Method</th><th>Your Answer</th></tr>
+        <tr><td>Heavy resistance training (8&ndash;12 reps)</td><td><select class="match-sel" id="m3_1"><option value="">-- Select --</option><option>Muscle hypertrophy and increased strength</option><option>Improved power via stretch-shortening cycle</option><option>Increased flexibility and ROM at joints</option><option>Improved motor unit recruitment (neural adaptation)</option><option>Increased phosphocreatine stores</option></select></td></tr>
+        <tr><td>Plyometrics (depth jumps, bounding)</td><td><select class="match-sel" id="m3_2"><option value="">-- Select --</option><option>Muscle hypertrophy and increased strength</option><option>Improved power via stretch-shortening cycle</option><option>Increased flexibility and ROM at joints</option><option>Improved motor unit recruitment (neural adaptation)</option><option>Increased phosphocreatine stores</option></select></td></tr>
+        <tr><td>PNF stretching</td><td><select class="match-sel" id="m3_3"><option value="">-- Select --</option><option>Muscle hypertrophy and increased strength</option><option>Improved power via stretch-shortening cycle</option><option>Increased flexibility and ROM at joints</option><option>Improved motor unit recruitment (neural adaptation)</option><option>Increased phosphocreatine stores</option></select></td></tr>
+        <tr><td>Creatine supplementation</td><td><select class="match-sel" id="m3_4"><option value="">-- Select --</option><option>Muscle hypertrophy and increased strength</option><option>Improved power via stretch-shortening cycle</option><option>Increased flexibility and ROM at joints</option><option>Improved motor unit recruitment (neural adaptation)</option><option>Increased phosphocreatine stores</option></select></td></tr>
+        <tr><td>Low-load resistance training (1&ndash;4 reps, max effort)</td><td><select class="match-sel" id="m3_5"><option value="">-- Select --</option><option>Muscle hypertrophy and increased strength</option><option>Improved power via stretch-shortening cycle</option><option>Increased flexibility and ROM at joints</option><option>Improved motor unit recruitment (neural adaptation)</option><option>Increased phosphocreatine stores</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m3',match3Answers,'fb-match3')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end quiz tab -->
+
+<div class="tab-panel" id="tab-exam">
+  <p style="background:#fafafa; border-left:4px solid #d4a854; border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:0.9em;">
+    <strong>&#128196; Exam Practice Tips:</strong> Write your answer before revealing the model. Each &#10003; = one mark.
+  </p>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">3 marks</span></div>
+    <div class="exam-q">Explain the role of WADA in regulating doping in sport. In your answer, identify the THREE criteria WADA uses to determine whether a substance should be placed on the Prohibited List.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>WADA&rsquo;s role:</strong> The World Anti-Doping Agency is the independent international body responsible for leading the global fight against doping in sport. It maintains the Prohibited List (updated annually), sets the World Anti-Doping Code, coordinates testing programs through national agencies (e.g. ASADA in Australia), manages Therapeutic Use Exemptions and funds anti-doping research and education.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Three criteria</strong> (a substance is banned if it meets TWO of three): (1) It has the potential to enhance or enhances athletic performance; (2) It represents a real or potential health risk to the athlete; (3) Its use violates the spirit of sport &mdash; the values of fair play, honesty, health and human excellence.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Key point &mdash; only two required:</strong> A substance does not need to meet all three criteria to be banned. For example, a substance could be banned if it enhances performance AND poses a health risk, even if the spirit of sport argument is less clear-cut.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Students frequently state that all three criteria must be met &mdash; this is wrong. Only TWO of three are required. Always state this clearly. Also, many students describe WADA&rsquo;s role as just &ldquo;making the list&rdquo; &mdash; expand to include testing coordination, TUEs and education for full marks.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">4 marks</span></div>
+    <div class="exam-q">Compare the performance benefits and health harms of anabolic androgenic steroids (AAS) and creatine supplementation. Include the WADA status of each.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>AAS &mdash; Performance benefits:</strong> Rapid and significant muscle hypertrophy through androgen receptor binding and increased MPS; greater strength and power; accelerated recovery allowing more training volume. WADA status: <strong>PROHIBITED</strong> in and out of competition.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>AAS &mdash; Health harms:</strong> Liver damage (hepatocellular carcinoma); cardiovascular disease (LVH, reduced HDL, hypertension, stroke); sex-specific harms (testicular atrophy and infertility in males; virilisation and menstrual disruption in females); psychological effects (aggression, depression); growth plate closure in adolescents.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Creatine &mdash; Performance benefits:</strong> Increases phosphocreatine stores in muscle, enhancing ATP regeneration during short, high-intensity efforts (1&ndash;30 seconds). Improves maximal strength, repeated sprint capacity and training volume over time. Most effective for power sports and team sports. WADA status: <strong>PERMITTED</strong>.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Creatine &mdash; Health harms (minimal):</strong> Short-term water retention (1&ndash;2 kg); gastrointestinal discomfort at loading doses; theoretical concern re: renal stress in those with pre-existing kidney conditions; contamination risk from unregulated products. No serious health risks in healthy individuals at recommended doses.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The most common error is confusing creatine (permitted, naturally occurring) with steroids (prohibited, synthetic). They must be kept clearly separate. For AAS harms, always distinguish between male-specific, female-specific and general harms to show depth of knowledge.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer &mdash; Stimulus</span><span class="exam-marks">3 marks</span></div>
+    <div class="exam-stimulus">
+      Jaxon is a 16-year-old elite junior sprinter hoping to make the national team. His coach suggests he begin taking a hormone supplement that will &ldquo;speed up his muscle growth and help him recover faster.&rdquo; Jaxon&rsquo;s parent looks up the supplement online and discovers it contains synthetic HGH.
+    </div>
+    <div class="exam-q">Advise Jaxon&rsquo;s family on whether he should take this supplement. Use your knowledge of HGH, WADA regulations and risks specific to adolescent athletes in your response.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>WADA status &mdash; Jaxon must not take it:</strong> Human Growth Hormone (HGH) is on the WADA Prohibited List and is banned in and out of competition. If detected in testing, Jaxon would face a doping violation, suspension and potential permanent ban &mdash; ending his athletics career before it begins. Under strict liability, he is responsible for what he ingests regardless of who recommended it.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Adolescent-specific harm:</strong> At 16, Jaxon&rsquo;s growth plates are still open. Exogenous HGH can cause premature growth plate closure, permanently stunting his height &mdash; an irreversible harm. HGH also carries risks of acromegaly (abnormal bone and organ growth), type 2 diabetes and cardiovascular complications.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Ethical dimension:</strong> Using HGH would violate the spirit of sport &mdash; replacing the legitimate outcome of training with a pharmacological shortcut. Jaxon&rsquo;s coach has given dangerously irresponsible advice. Jaxon should instead focus on legal, evidence-based methods: structured sprint training, periodised nutrition, adequate sleep and potentially creatine supplementation (which is permitted and evidence-based for sprint performance).</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This question requires application to Jaxon specifically &mdash; reference his age (adolescent, open growth plates), the strict liability principle (he is responsible) and the specific harms of HGH. A generic &ldquo;steroids are bad&rdquo; answer without linking to the stimulus will score poorly.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Extended Response</span><span class="exam-marks">8 marks</span></div>
+    <div class="exam-q">Evaluate the use of anabolic androgenic steroids (AAS) as a method of enhancing musculoskeletal performance. In your response, explain the mechanism by which AAS enhance performance, outline the health harms for both male and female athletes, apply the WADA criteria to justify their prohibition, and discuss ONE ethical argument against their use.</div>
+    <textarea class="writing-area" style="min-height:180px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Mechanism of AAS:</strong> Anabolic androgenic steroids are synthetic derivatives of testosterone. They enter muscle cells, bind to androgen receptors in the nucleus and activate gene expression for muscle protein synthesis (MPS). This increases actin and myosin content within muscle fibres, causing significant hypertrophy. AAS also reduce muscle breakdown (anti-catabolic effect) and accelerate recovery, allowing greater training volume.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Performance benefits:</strong> Rapid and dramatic muscle hypertrophy and strength increases beyond what is achievable naturally; accelerated recovery between sessions; ability to sustain higher training loads; increased aggression that may benefit certain competitive contexts.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Health harms &mdash; general (both sexes):</strong> Liver damage including peliosis hepatis and hepatocellular carcinoma; cardiovascular disease including left ventricular hypertrophy, reduced HDL, elevated LDL, hypertension, heart attack and stroke; severe acne; psychological effects including aggression, mood instability and depression; potential dependence.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Health harms &mdash; male-specific:</strong> Testicular atrophy (testes shrink due to suppression of natural testosterone production); reduced sperm production and infertility; gynaecomastia (breast tissue growth from excess testosterone converted to oestrogen).</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Health harms &mdash; female-specific:</strong> Virilisation &mdash; development of male characteristics including facial hair, voice deepening, clitoral enlargement; menstrual disruption or cessation; these changes may be irreversible even after stopping AAS.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>WADA criteria (all three met):</strong> (1) Performance enhancement &mdash; AAS clearly and substantially enhance muscular strength and power; (2) Health risk &mdash; extensive evidence of serious short and long-term health consequences; (3) Spirit of sport &mdash; the artificial pharmacological advantage fundamentally contradicts the principle that sport rewards natural talent, training and effort. Since all three criteria are met (and only two are required), AAS are unambiguously on the Prohibited List.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Ethical argument against use:</strong> AAS use creates an unacceptable coercion of clean athletes. If doping is widespread in a sport, athletes who want to compete at the elite level effectively face a choice between doping or being unable to compete. This undermines the autonomy argument sometimes made in favour of doping &mdash; when one athlete&rsquo;s choice forces others to dope to remain competitive, individual freedom becomes a collective harm. Sport has a responsibility to protect athletes from this coercion.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Conclusion / evaluation:</strong> While AAS produce genuine and significant performance benefits, the combination of serious health harms, clear violation of all three WADA criteria and fundamental ethical contradiction with the purpose of sport provides overwhelming justification for their prohibition. No performance gain justifies the documented cardiovascular, hepatic, reproductive and psychological consequences, particularly in developing athletes.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> An 8-mark evaluate question requires you to cover ALL components: mechanism, benefits, sex-specific harms, WADA criteria and ethics. Students who write only about harms without explaining the mechanism or applying WADA criteria miss several marks. &ldquo;Evaluate&rdquo; also requires a concluding judgment &mdash; state clearly whether the use is justified and why.</div>
+    </div>
+  </div>
+
+</div><!-- end exam tab -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1b &middot; Ch2 Part D Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var answered = {};
+var score = 0;
+var totalAnswered = 0;
+
+var mcFeedbacks = {
+  'mc1': { c: 'Correct! Only TWO of the three criteria need to be met for a substance to be banned. Students frequently believe all three are required &mdash; this is one of the most commonly tested facts about WADA.', w: 'Incorrect. A substance needs to meet only TWO of the three WADA criteria to be placed on the Prohibited List. All three criteria do not need to be satisfied.' },
+  'mc2': { c: 'Correct! Strict liability means the athlete is always responsible for what is in their body, regardless of how it got there. Ignorance or accident is not a valid defence under anti-doping rules.', w: 'Incorrect. Under the strict liability principle, athletes are ALWAYS responsible for any prohibited substance found in their body. Even if contamination was accidental or unknown, the athlete can still face a doping violation.' },
+  'mc3': { c: 'Correct! Creatine increases phosphocreatine (PCr) stores, which are used to rapidly regenerate ATP during short, maximal efforts. This is most beneficial for repeated sprint/power activities lasting 1-30 seconds.', w: 'Incorrect. Creatine is most effective for SHORT, HIGH-INTENSITY activities (1-30 seconds) that rely heavily on the phosphocreatine energy system. Marathon and distance swimming are primarily aerobic &mdash; the CP system contributes minimally.' },
+  'mc4': { c: 'Correct! AAS bind to androgen receptors in muscle cell nuclei, activating gene expression for muscle protein synthesis. This is the molecular mechanism underlying their hypertrophic effect.', w: 'Incorrect. AAS work by binding to ANDROGEN RECEPTORS in muscle cells, activating MPS gene expression. Increasing RBC is EPO. Stimulating natural GH release is different from exogenous HGH. Increasing PCr stores is the creatine mechanism.' },
+  'mc5': { c: 'Correct! Virilisation &mdash; the development of male characteristics &mdash; is a female-specific harm of AAS. Gynaecomastia and testicular atrophy are male-specific. Reduced HDL is a harm for both sexes.', w: 'Incorrect. Gynaecomastia and testicular atrophy are MALE-specific harms. Reduced HDL affects both sexes. VIRILISATION (masculinisation) is the female-specific harm of AAS &mdash; including facial hair, voice deepening and menstrual disruption.' },
+  'mc6': { c: 'Correct! EPO increases RBC count and haemoglobin, which thickens the blood (increases viscosity). This dramatically raises the risk of blood clots, stroke and heart attack, particularly during rest/sleep when heart rate drops.', w: 'Incorrect. The primary danger of EPO is INCREASED BLOOD VISCOSITY. More RBCs make the blood thicker, dramatically elevating clotting risk and the probability of stroke and heart attack, especially during rest when cardiac output is low.' },
+  'mc7': { c: 'Correct! Depth jumps, bounding and box jumps are plyometric exercises that use the stretch-shortening cycle &mdash; a rapid eccentric contraction immediately followed by a concentric contraction to develop explosive power.', w: 'Incorrect. The stretch-shortening cycle is trained through PLYOMETRIC exercises: depth jumps, bounding, hurdle hops. A slow squat with a pause eliminates the SSC. Static stretching and distance running do not train SSC power.' },
+  'mc8': { c: 'Correct! Acromegaly &mdash; abnormal bone and organ growth causing enlarged jaw, hands and feet &mdash; is a specific and well-known harm of excess HGH. It does not occur with AAS, EPO or creatine.', w: 'Incorrect. Acromegaly (abnormal bone/organ growth) is a specific harm of excess HUMAN GROWTH HORMONE (HGH). AAS cause liver/cardiovascular/reproductive harms. EPO causes blood viscosity. Creatine causes water retention.' }
+};
+
+function showTab(name, btn) {
+  var panels = document.querySelectorAll('.tab-panel');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateScore() {
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-total').textContent = totalAnswered;
+  var pct = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function answerMC(cardId, btn, isCorrect) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.opt-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; ' + mcFeedbacks[cardId].c;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; ' + mcFeedbacks[cardId].w;
+    for (var k = 0; k < allBtns.length; k++) {
+      var oc = allBtns[k].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true)') !== -1) { allBtns[k].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+function answerTF(cardId, btn, isCorrect, explanation) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; Correct! ' + explanation;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; Incorrect. ' + explanation;
+    for (var j = 0; j < allBtns.length; j++) {
+      var oc = allBtns[j].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true,') !== -1) { allBtns[j].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+var match1Answers = ['Permitted \u2014 increases PCr stores for short burst power','Permitted \u2014 supports muscle protein synthesis and recovery','Prohibited \u2014 increases RBC count and oxygen delivery','Prohibited \u2014 binds androgen receptors to increase hypertrophy','Prohibited \u2014 causes acromegaly and muscle repair'];
+var match2Answers = ['Human Growth Hormone (HGH)','Erythropoietin (EPO)','Anabolic steroids','Insulin','Creatine'];
+var match3Answers = ['Muscle hypertrophy and increased strength','Improved power via stretch-shortening cycle','Increased flexibility and ROM at joints','Increased phosphocreatine stores','Improved motor unit recruitment (neural adaptation)'];
+
+function checkMatch(prefix, answers, fbId) {
+  var correct = 0;
+  var total = answers.length;
+  for (var i = 1; i <= total; i++) {
+    var sel = document.getElementById(prefix + '_' + i);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[i - 1]) {
+      sel.className = 'match-sel correct-sel';
+      correct++;
+    } else {
+      sel.className = 'match-sel wrong-sel';
+    }
+  }
+  var fb = document.getElementById(fbId);
+  fb.className = 'match-feedback show';
+  if (correct === total) {
+    fb.innerHTML = '&#10003; All ' + total + ' correct! Excellent work.';
+    fb.style.background = '#d5f5e3';
+    fb.style.borderLeftColor = '#27ae60';
+    fb.style.color = '#145a32';
+  } else {
+    fb.innerHTML = correct + ' of ' + total + ' correct. Review incorrect answers and check your study notes.';
+  }
+  if (!answered['match-' + fbId]) {
+    answered['match-' + fbId] = true;
+    totalAnswered++;
+    if (correct === total) score++;
+    updateScore();
+  }
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetQuiz() {
+  answered = {}; score = 0; totalAnswered = 0; updateScore();
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('correct','wrong'); }
+  var optBtns = document.querySelectorAll('.opt-btn');
+  for (var j = 0; j < optBtns.length; j++) { optBtns[j].disabled = false; optBtns[j].classList.remove('selected-correct','selected-wrong','reveal-correct'); }
+  var tfBtns = document.querySelectorAll('.tf-btn');
+  for (var k = 0; k < tfBtns.length; k++) { tfBtns[k].disabled = false; tfBtns[k].classList.remove('selected-correct','selected-wrong','reveal-correct'); }
+  var feedbacks = document.querySelectorAll('.feedback');
+  for (var m = 0; m < feedbacks.length; m++) { feedbacks[m].className = 'feedback'; feedbacks[m].innerHTML = ''; }
+  var sels = document.querySelectorAll('.match-sel');
+  for (var n = 0; n < sels.length; n++) { sels[n].disabled = false; sels[n].className = 'match-sel'; sels[n].value = ''; }
+  var matchFbs = document.querySelectorAll('.match-feedback');
+  for (var p = 0; p < matchFbs.length; p++) { matchFbs[p].className = 'match-feedback'; matchFbs[p].innerHTML = ''; }
+}
+</script>
+</body>
+</html>

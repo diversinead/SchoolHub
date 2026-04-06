@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Ch1 Part C: Quiz &amp; Exam Practice</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.6em; color: #1C1C1A; padding: 24px 16px 4px; }
+.subtitle { text-align: center; color: #666; font-size: 0.9em; font-style: italic; padding-bottom: 16px; }
+
+/* TABS */
+.tab-bar-wrap { margin: 0 12px; }
+.tab-bar { display: flex; border-bottom: 3px solid #3C3489; }
+.tab-btn { flex: 1; padding: 11px 10px; font-size: 0.95em; font-family: Georgia, serif; font-weight: 700; background: #E8E6F8; border: 2px solid #AFA9EC; border-bottom: none; border-radius: 8px 8px 0 0; cursor: pointer; color: #3C3489; margin-right: 4px; transition: background 0.15s; }
+.tab-btn:last-child { margin-right: 0; }
+.tab-btn.active { background: #3C3489; color: #fff; border-color: #3C3489; }
+.tab-btn:hover:not(.active) { background: #D0CCF0; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* SCORE BAR */
+.score-bar { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 2px solid #AFA9EC; border-radius: 10px; margin: 16px 12px; padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+.score-label { font-size: 0.88em; color: #3C3489; font-weight: 700; }
+.score-val { font-size: 1.3em; font-weight: 700; color: #3C3489; }
+.btn-reset { background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; font-family: Georgia, serif; font-weight: 700; }
+.btn-reset:hover { background: #C03030; }
+.progress-wrap { width: 100%; height: 8px; background: #E8E6F8; border-radius: 4px; overflow: hidden; }
+.progress-bar { height: 8px; background: #3C3489; border-radius: 4px; transition: width 0.4s; }
+
+/* SECTION LABELS */
+.section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 6px; }
+
+/* QUESTION CARDS */
+.q-card { background: #fff; border: 2px solid #ccc; border-radius: 10px; margin: 0 12px 14px; padding: 16px; }
+.q-card.correct { border-color: #5DCAA5; background: #F0FAF6; }
+.q-card.incorrect { border-color: #E24B4A; background: #FEF0F0; }
+.q-num { font-size: 0.75em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+.q-text { font-size: 0.97em; font-weight: 700; color: #1C1C1A; margin-bottom: 12px; line-height: 1.5; }
+
+/* MC */
+.mc-options { display: flex; flex-direction: column; gap: 7px; }
+.mc-opt { display: flex; align-items: flex-start; gap: 10px; background: #F5F4EF; border: 1.5px solid #ddd; border-radius: 7px; padding: 9px 12px; cursor: pointer; font-size: 0.9em; transition: all 0.12s; }
+.mc-opt:hover:not(.locked) { background: #E8E6F8; border-color: #AFA9EC; }
+.mc-opt.selected-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; font-weight: 700; }
+.mc-opt.selected-incorrect { background: #FADBD8; border-color: #E24B4A; color: #7B241C; font-weight: 700; }
+.mc-opt.reveal-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.mc-opt.locked { cursor: default; }
+.opt-letter { font-weight: 700; color: #3C3489; flex-shrink: 0; min-width: 18px; }
+
+/* TF */
+.tf-options { display: flex; gap: 10px; }
+.tf-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background: #F5F4EF; cursor: pointer; font-size: 0.95em; font-family: Georgia, serif; font-weight: 700; text-align: center; transition: all 0.12s; }
+.tf-btn:hover:not(.locked) { background: #E8E6F8; border-color: #AFA9EC; }
+.tf-btn.selected-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.tf-btn.selected-incorrect { background: #FADBD8; border-color: #E24B4A; color: #7B241C; }
+.tf-btn.reveal-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.tf-btn.locked { cursor: default; }
+
+/* MATCHING */
+.match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.match-col-head { font-size: 0.78em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; padding-bottom: 4px; }
+.match-term { background: #EEF3FB; border: 1.5px solid #9BBCE0; border-radius: 7px; padding: 8px 11px; font-size: 0.88em; font-weight: 700; color: #042C53; margin-bottom: 6px; }
+.match-select { width: 100%; padding: 8px 10px; border: 1.5px solid #ddd; border-radius: 7px; font-size: 0.88em; font-family: Georgia, serif; background: #F5F4EF; cursor: pointer; margin-bottom: 6px; }
+.match-select.correct-sel { border-color: #5DCAA5; background: #D4EDDA; color: #155724; }
+.match-select.incorrect-sel { border-color: #E24B4A; background: #FADBD8; color: #7B241C; }
+.match-check-btn { background: #3C3489; color: #fff; border: none; border-radius: 7px; padding: 8px 18px; font-size: 0.88em; font-family: Georgia, serif; font-weight: 700; cursor: pointer; margin-top: 4px; }
+.match-check-btn:hover { background: #2A2460; }
+.match-check-btn:disabled { background: #aaa; cursor: default; }
+
+/* FEEDBACK */
+.q-feedback { margin-top: 10px; font-size: 0.88em; padding: 8px 12px; border-radius: 6px; display: none; line-height: 1.5; }
+.q-feedback.show { display: block; }
+.q-feedback.fb-correct { background: #D4EDDA; color: #155724; border-left: 4px solid #5DCAA5; }
+.q-feedback.fb-incorrect { background: #FADBD8; color: #7B241C; border-left: 4px solid #E24B4A; }
+
+/* EXAM */
+.eq-card { background: #fff; border: 2px solid #BA7517; border-radius: 10px; margin: 0 12px 16px; overflow: hidden; }
+.eq-head { background: rgba(239,159,39,0.18); padding: 12px 16px; }
+.eq-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.eq-type { font-size: 0.72em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: #412402; color: #fff; border-radius: 4px; padding: 2px 8px; }
+.eq-marks { font-size: 0.78em; font-weight: 700; color: #412402; background: #FAEEDA; border: 1px solid #BA7517; border-radius: 4px; padding: 2px 8px; }
+.eq-q { font-size: 0.96em; font-weight: 700; color: #1C1C1A; line-height: 1.5; padding: 12px 16px 0; }
+.eq-stimulus { font-size: 0.88em; color: #555; font-style: italic; background: #F9F7EE; border-left: 3px solid #BA7517; padding: 8px 12px; margin: 10px 16px 0; border-radius: 4px; }
+.eq-body { padding: 0 16px 14px; }
+.eq-answer-area { margin-top: 10px; width: 100%; min-height: 80px; padding: 10px; border: 1.5px solid #ddd; border-radius: 7px; font-family: Georgia, serif; font-size: 0.9em; resize: vertical; background: #FFFDF8; }
+.eq-answer-area:focus { outline: none; border-color: #BA7517; }
+.eq-reveal-btn { margin-top: 10px; background: #BA7517; color: #fff; border: none; border-radius: 7px; padding: 8px 18px; font-size: 0.88em; font-family: Georgia, serif; font-weight: 700; cursor: pointer; }
+.eq-reveal-btn:hover { background: #8B5500; }
+.eq-model { display: none; margin-top: 12px; }
+.eq-model.open { display: block; }
+.eq-model-head { font-size: 0.78em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #085041; margin-bottom: 6px; }
+.eq-model-body { background: #E1F5EE; border: 1.5px solid #5DCAA5; border-radius: 7px; padding: 12px 14px; font-size: 0.88em; line-height: 1.7; }
+.eq-model-body p { margin-bottom: 6px; }
+.eq-model-body p:last-child { margin-bottom: 0; }
+.mark-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.mark-tick { color: #5DCAA5; font-weight: 700; flex-shrink: 0; }
+.examiner-tip { margin-top: 10px; font-size: 0.86em; color: #4A1B0C; background: #FAECE7; border-left: 4px solid #D85A30; padding: 8px 11px; border-radius: 4px; }
+.examiner-tip strong { display: block; margin-bottom: 3px; }
+
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1 Part C &middot; Quiz &amp; Exam Practice &middot; Sections 1.5&ndash;1.6</p>
+
+<div class="tab-bar-wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('quiz')">&#127299; Quiz</button>
+    <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+  </div>
+</div>
+
+<!-- ================================================================
+     TAB 1: QUIZ
+     ================================================================ -->
+<div id="tab-quiz" class="tab-pane active">
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Score</div>
+      <div class="score-val"><span id="score-correct">0</span> / <span id="score-total">0</span> answered</div>
+    </div>
+    <div style="flex:1; min-width:120px;">
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <button class="btn-reset" onclick="resetQuiz()">&#8635; Reset All</button>
+  </div>
+
+  <p class="section-label">&#127358; Multiple Choice</p>
+
+  <!-- Q1 -->
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Which division of the nervous system is responsible for voluntary control of skeletal muscle?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> Autonomic nervous system</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> Central nervous system</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> Somatic nervous system</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> Sympathetic nervous system</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">What is the function of the myelin sheath on a motor neuron axon?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> It stores acetylcholine ready for release at the NMJ</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> It speeds up electrical conduction by allowing the signal to jump between nodes of Ranvier</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> It releases calcium ions into the synaptic cleft to trigger contraction</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> It connects the axon terminal to the sarcolemma at the motor end plate</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">An athlete slowly lowers a heavy barbell to their chest during a bench press. What type of contraction are the pectoralis major and anterior deltoid performing?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Concentric — the muscles shorten to lower the bar under control</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> Isometric — the muscles hold constant length throughout the lowering</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> Eccentric — the muscles lengthen under tension to control the descent of the bar</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> Isokinetic — the muscles contract at a constant velocity throughout</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following correctly describes the neuromuscular junction (NMJ)?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> The point where two motor neurons synapse with each other in the spinal cord</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> The specialised synapse between a motor neuron axon terminal and the membrane of a muscle fibre</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> The connection between the sarcolemma and the sarcoplasmic reticulum inside the fibre</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> The junction between the epimysium and the tendon at the end of the muscle</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">Which type of muscular contraction produces the GREATEST force?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> Concentric</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> Isometric</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> Isokinetic</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> Eccentric</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">T-tubules in muscle fibres perform which function?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> Store glycogen as a fuel source for ATP production during contraction</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> Carry the action potential deep into the fibre to trigger Ca2+ release from the SR</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> Transport acetylcholine from the motor neuron terminal to the muscle fibre</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> Wrap the myofibril to protect the actin and myosin filaments</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">The stretch-shortening cycle (SSC) improves jump performance because:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> The eccentric pre-stretch recruits more Type IIx fibres than a static start</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> The eccentric phase stores elastic energy in the muscle-tendon unit which is released in the concentric phase</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> The isometric phase between eccentric and concentric allows ATP to accumulate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> The SSC bypasses the size principle and directly activates large motor units first</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following best describes rate coding in relation to muscle force production?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> Activating a greater number of motor units to produce more total force</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> Increasing the size of each motor unit by adding more muscle fibres</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> Increasing the firing frequency of nerve impulses to already-active motor units</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> Switching from Type I to Type IIx fibres to increase speed of contraction</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <p class="section-label">&#9989; True or False</p>
+
+  <!-- TF1 -->
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">The autonomic nervous system controls voluntary skeletal muscle movement during sport.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <!-- TF2 -->
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">Holding a plank position for 30 seconds involves an isometric contraction of the core muscles.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <!-- TF3 -->
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">Acetylcholine is released from the sarcoplasmic reticulum to trigger muscle contraction.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <!-- TF4 -->
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">DOMS is primarily caused by concentric contractions during exercise.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <!-- TF5 -->
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">An isotonic contraction involves both concentric and eccentric phases and results in a change in muscle length.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <!-- TF6 -->
+  <div class="q-card" id="tf6">
+    <div class="q-num">Question 14 &mdash; True or False</div>
+    <div class="q-text">The signal for voluntary movement originates in the spinal cord and travels upward to the brain.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf6',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf6',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf6"></div>
+  </div>
+
+  <!-- TF7 -->
+  <div class="q-card" id="tf7">
+    <div class="q-num">Question 15 &mdash; True or False</div>
+    <div class="q-text">Tetanus in a motor unit occurs when nerve impulses arrive so rapidly that the muscle cannot fully relax between stimuli, producing sustained maximum force.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf7',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf7',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf7"></div>
+  </div>
+
+  <p class="section-label">&#128279; Matching</p>
+
+  <!-- MATCH 1: Nervous system terms -->
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each nervous system term to its correct description.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Term</div>
+          <div class="match-term">Somatic NS</div>
+          <div class="match-term">Autonomic NS</div>
+          <div class="match-term">Axon</div>
+          <div class="match-term">Myelin sheath</div>
+          <div class="match-term">Synaptic cleft</div>
+        </div>
+        <div>
+          <div class="match-col-head">Description</div>
+          <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Speeds up nerve conduction (saltatory)</option><option>Gap between axon terminal and muscle membrane</option><option>Controls involuntary cardiac and smooth muscle</option><option>Transmits signal away from neuron cell body</option><option>Controls voluntary skeletal muscle movement</option></select>
+          <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Speeds up nerve conduction (saltatory)</option><option>Gap between axon terminal and muscle membrane</option><option>Controls involuntary cardiac and smooth muscle</option><option>Transmits signal away from neuron cell body</option><option>Controls voluntary skeletal muscle movement</option></select>
+          <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Speeds up nerve conduction (saltatory)</option><option>Gap between axon terminal and muscle membrane</option><option>Controls involuntary cardiac and smooth muscle</option><option>Transmits signal away from neuron cell body</option><option>Controls voluntary skeletal muscle movement</option></select>
+          <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Speeds up nerve conduction (saltatory)</option><option>Gap between axon terminal and muscle membrane</option><option>Controls involuntary cardiac and smooth muscle</option><option>Transmits signal away from neuron cell body</option><option>Controls voluntary skeletal muscle movement</option></select>
+          <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Speeds up nerve conduction (saltatory)</option><option>Gap between axon terminal and muscle membrane</option><option>Controls involuntary cardiac and smooth muscle</option><option>Transmits signal away from neuron cell body</option><option>Controls voluntary skeletal muscle movement</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <!-- MATCH 2: Contraction types to examples -->
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 17 &mdash; Matching</div>
+    <div class="q-text">Match each contraction type to the correct sport example.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Contraction type</div>
+          <div class="match-term">Concentric</div>
+          <div class="match-term">Eccentric</div>
+          <div class="match-term">Isometric</div>
+          <div class="match-term">Isotonic</div>
+          <div class="match-term">Isokinetic</div>
+        </div>
+        <div>
+          <div class="match-col-head">Sport example</div>
+          <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Quadriceps during upward squat phase</option><option>Rehabilitation dynamometer machine</option><option>Lowering into a squat (downward phase)</option><option>Holding a wall sit position</option><option>Full dumbbell bicep curl (up and down)</option></select>
+          <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Quadriceps during upward squat phase</option><option>Rehabilitation dynamometer machine</option><option>Lowering into a squat (downward phase)</option><option>Holding a wall sit position</option><option>Full dumbbell bicep curl (up and down)</option></select>
+          <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Quadriceps during upward squat phase</option><option>Rehabilitation dynamometer machine</option><option>Lowering into a squat (downward phase)</option><option>Holding a wall sit position</option><option>Full dumbbell bicep curl (up and down)</option></select>
+          <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Quadriceps during upward squat phase</option><option>Rehabilitation dynamometer machine</option><option>Lowering into a squat (downward phase)</option><option>Holding a wall sit position</option><option>Full dumbbell bicep curl (up and down)</option></select>
+          <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Quadriceps during upward squat phase</option><option>Rehabilitation dynamometer machine</option><option>Lowering into a squat (downward phase)</option><option>Holding a wall sit position</option><option>Full dumbbell bicep curl (up and down)</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <!-- MATCH 3: NMJ sequence -->
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 18 &mdash; Matching</div>
+    <div class="q-text">Match each stage number to the correct event in nervous control of muscle action.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Stage</div>
+          <div class="match-term">Stage 1</div>
+          <div class="match-term">Stage 2</div>
+          <div class="match-term">Stage 3</div>
+          <div class="match-term">Stage 4</div>
+        </div>
+        <div>
+          <div class="match-col-head">Event</div>
+          <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Signal passes into motor neurons</option><option>Brain initiates the movement message</option><option>ACh crosses NMJ; all connected fibres contract</option><option>Nerve impulse branches from spinal cord to motor nerve</option></select>
+          <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Signal passes into motor neurons</option><option>Brain initiates the movement message</option><option>ACh crosses NMJ; all connected fibres contract</option><option>Nerve impulse branches from spinal cord to motor nerve</option></select>
+          <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Signal passes into motor neurons</option><option>Brain initiates the movement message</option><option>ACh crosses NMJ; all connected fibres contract</option><option>Nerve impulse branches from spinal cord to motor nerve</option></select>
+          <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Signal passes into motor neurons</option><option>Brain initiates the movement message</option><option>ACh crosses NMJ; all connected fibres contract</option><option>Nerve impulse branches from spinal cord to motor nerve</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end tab-quiz -->
+
+<!-- ================================================================
+     TAB 2: EXAM PRACTICE
+     ================================================================ -->
+<div id="tab-exam" class="tab-pane">
+
+  <p class="section-label">&#128221; Short Answer Questions</p>
+
+  <!-- SA1 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">2 marks</span></div></div>
+    <div class="eq-q">Distinguish between concentric and eccentric muscle contractions. Give one sporting example of each.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>A <strong>concentric contraction</strong> occurs when the muscle shortens as it generates force — the muscle force exceeds the load. Example: the quadriceps contract concentrically during the upward phase of a squat or when kicking a football. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>An <strong>eccentric contraction</strong> occurs when the muscle lengthens under tension — the load exceeds the muscle force. The muscle acts as a brake to control movement. Example: the quadriceps contract eccentrically during the downward phase of a squat, or the hamstrings eccentrically control knee extension speed when kicking. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The key distinguishing phrase is shortens vs lengthens. Students often write "the muscle relaxes" for eccentric — this is wrong. The muscle is still ACTIVELY contracting; it is just being overcome by the load.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA2 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div></div>
+    <div class="eq-q">Describe the pathway of nervous control from the brain to muscle contraction. Name the structures involved at each stage.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Stage 1-2 (1 mark):</strong> The brain (motor cortex) initiates the movement signal, which travels down the spinal cord and branches out into motor nerves.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Stage 3 (1 mark):</strong> The signal passes into individual motor neurons, travelling along the myelinated axon toward the target muscle.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Stage 4 (1 mark):</strong> At the neuromuscular junction (NMJ), the nerve impulse triggers the release of acetylcholine (ACh) from the axon terminal into the synaptic cleft. ACh binds to receptors on the motor end plate, generating an action potential in the muscle fibre that spreads via T-tubules, releasing Ca2+ from the SR and triggering contraction.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Name specific structures at each stage — brain, spinal cord, motor neurons, NMJ, ACh, sarcolemma, T-tubules, SR. Vague answers like "the signal goes to the muscle" score zero. Use the textbook 4-stage framework as your structure.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA3 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div></div>
+    <div class="eq-q">Explain the rank order of force production for the three main types of muscle contraction and provide a reason why the highest force type produces the most force.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Rank order (1 mark):</strong> Eccentric contractions produce the most force, followed by isometric, then concentric. (Eccentric &gt; Isometric &gt; Concentric)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Reason for eccentric superiority (1 mark):</strong> During eccentric contractions, the sarcomere is stretched under load, which increases cross-bridge tension and allows elastic energy to be stored in the muscle-tendon unit, generating greater total force than active contraction alone.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Practical application (1 mark):</strong> This explains why athletes can lower heavier loads than they can lift — for example, a weightlifter can eccentrically lower significantly more weight than they can concentrically press overhead.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Many students incorrectly rank isometric as producing the most force. Remember EIC — Eccentric Is Clearly the strongest. The reason (sarcomere stretch and elastic energy) is what separates a high-scoring answer from a basic one.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA4 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div></div>
+    <div class="eq-q">Explain how force is graded in skeletal muscle. In your answer, refer to both motor unit recruitment and rate coding.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Motor unit recruitment (2 marks):</strong> Force is increased by recruiting more motor units — each additional unit activates a new group of muscle fibres, adding their force to the total. According to the size principle, units are recruited smallest to largest (Type I first, then IIa, then IIx) as intensity increases. A light activity such as walking uses only a few small Type I motor units, while sprinting requires near-maximal recruitment of all available units including Type IIx.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Rate coding (2 marks):</strong> Force can also be increased by raising the firing frequency (rate) of nerve impulses to already-active motor units. At low firing rates, the muscle partially relaxes between twitches (unfused tetanus). As firing rate increases, twitches summate and the muscle sustains higher force (tetanus). A motor unit firing at 50 Hz produces substantially more force than the same unit firing at 15 Hz. Both recruitment and rate coding work simultaneously to fine-tune force output across the full range of movement intensities.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This question specifically asks for BOTH mechanisms — answering only recruitment will score a maximum of 2 marks. Use specific examples of low vs high intensity activities to contextualise your answer and demonstrate understanding.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">&#128221; Extended Response Questions</p>
+
+  <!-- ER1 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div></div>
+    <div class="eq-stimulus">A netball player performs a chest pass, followed by a lateral shuffle to defend an opponent, then lands from a jump and holds a defensive crouch position.</div>
+    <div class="eq-q">For THREE of the highlighted movements, identify the type of muscular contraction occurring at a named muscle. Justify your answer by referring to what happens to muscle length and force relative to load in each case.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:120px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:8px;"><em>2 marks per movement (contraction type + muscle + justification):</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Chest pass — push phase (Concentric):</strong> The pectoralis major and triceps brachii contract concentrically — both muscles shorten as they generate force to push the ball. The muscle force exceeds the load (ball mass + air resistance), accelerating the ball forward. The elbow extends and the shoulder horizontally adducts.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Landing from a jump (Eccentric):</strong> The quadriceps contract eccentrically upon landing — they lengthen under tension as they absorb the landing force, controlling the rate of knee flexion. The load (body weight + impact force) exceeds the muscle force, but the eccentric contraction prevents the knees from buckling. This is why landing drills cause significant DOMS.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Holding a defensive crouch (Isometric):</strong> The quadriceps contract isometrically while the player holds the semi-squat defensive position — the muscle generates force equal to the load (body weight) without changing length. No joint movement occurs at the knee. This sustained isometric contraction causes rapid fatigue due to restricted blood flow.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Each answer needs three elements: (1) name the contraction type, (2) name the muscle, (3) justify by referring to muscle length change and force vs load relationship. Missing the justification is the most common reason students score 1 out of 2 per movement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ER2 -->
+  <div class="eq-card">
+    <div class="eq-head"><div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">7 marks</span></div></div>
+    <div class="eq-q">Using your knowledge of neural control of muscles, trace the complete pathway from a voluntary decision to move, through to muscular contraction. In your answer, explain the role of the neuromuscular junction, acetylcholine and calcium ions, and describe how the nervous system grades force output to produce movements of varying intensity.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:140px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:8px;"><em>Award marks across four areas:</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Neural pathway (2 marks):</strong> A voluntary movement begins when the motor cortex of the brain initiates a signal. This travels down the spinal cord, branches into motor nerves, and passes into individual motor neurons. The myelinated axon conducts the electrical action potential rapidly (via saltatory conduction at nodes of Ranvier) toward the target muscle.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Role of NMJ and ACh (2 marks):</strong> At the neuromuscular junction (NMJ), the action potential reaches the axon terminal and triggers the release of acetylcholine (ACh) from synaptic vesicles into the synaptic cleft. ACh diffuses across and binds to receptors on the motor end plate (sarcolemma), generating an action potential in the muscle fibre that spreads along the sarcolemma and down T-tubules into the interior of the fibre.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Role of calcium ions (1 mark):</strong> The action potential in the T-tubules triggers the sarcoplasmic reticulum to release Ca2+. Ca2+ binds to troponin, moving tropomyosin aside to expose myosin-binding sites on actin, allowing cross-bridge formation and the power stroke to occur — initiating the sliding filament mechanism.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Grading force output (2 marks):</strong> The nervous system grades force using two mechanisms. First, motor unit recruitment — more motor units are activated as intensity increases, following the size principle (Type I first, then IIa, then IIx). Second, rate coding — increasing the frequency of nerve impulses to active motor units increases their force output through summation and tetanus. Together these mechanisms allow fine control from delicate tasks (threading a needle) to explosive movements (shot put).</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This is a 7-mark extended response — examiners expect depth and anatomical detail throughout. Short answers citing only "the brain sends a signal to the muscle" score very poorly. Use specific structural names at every step: motor cortex, spinal cord, motor neuron, axon, myelin sheath, NMJ, axon terminal, ACh, synaptic cleft, motor end plate, sarcolemma, T-tubules, SR, Ca2+, troponin, tropomyosin.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-exam -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch1 Part C Quiz &amp; Exam Practice &middot; Live it Up 5th ed.</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll(".tab-pane");
+  var btns = document.querySelectorAll(".tab-btn");
+  for (var i = 0; i < panes.length; i++) { panes[i].className = "tab-pane"; }
+  for (var i = 0; i < btns.length; i++) { btns[i].className = "tab-btn"; }
+  document.getElementById("tab-" + name).className = "tab-pane active";
+  if (name === "quiz") { btns[0].className = "tab-btn active"; }
+  else { btns[1].className = "tab-btn active"; }
+}
+
+var totalQ = 18;
+var answered = 0;
+var correctCount = 0;
+
+function updateScore(gotIt) {
+  answered++;
+  if (gotIt) correctCount++;
+  document.getElementById("score-correct").textContent = correctCount;
+  document.getElementById("score-total").textContent = answered;
+  var pct = Math.round((answered / totalQ) * 100);
+  document.getElementById("progress-bar").style.width = pct + "%";
+}
+
+var mcAnswers = {
+  mc1: { correct: "C", explanation: "The SOMATIC nervous system controls voluntary skeletal muscle. The autonomic NS (A) controls involuntary functions (heart, smooth muscle). The CNS (B) is brain + spinal cord — it processes signals but the somatic NS is the division that controls skeletal muscle specifically. Sympathetic (D) is a branch of the autonomic NS." },
+  mc2: { correct: "B", explanation: "The myelin sheath is a fatty insulating layer that speeds up electrical conduction by allowing the action potential to jump between nodes of Ranvier — called saltatory conduction. It does not store ACh (A), release Ca2+ (C), or physically connect the axon to the sarcolemma (D)." },
+  mc3: { correct: "C", explanation: "Lowering the bar is an ECCENTRIC contraction — the pectoralis major and anterior deltoid lengthen under tension as they control the bar descent against gravity. The load (bar weight) exceeds the muscle force, but the eccentric contraction prevents uncontrolled dropping. This is NOT concentric (A) — that is the pushing phase." },
+  mc4: { correct: "B", explanation: "The NMJ is the specialised synapse between a motor neuron axon terminal and the muscle fibre membrane (sarcolemma). It is where the electrical nerve signal is converted to a chemical signal (ACh) that triggers contraction. It is not between two neurons (A), inside the fibre (C), or at the tendon (D)." },
+  mc5: { correct: "D", explanation: "Eccentric contractions produce the MOST force (Eccentric > Isometric > Concentric). During eccentric loading, the sarcomere is stretched, increasing cross-bridge tension and storing elastic energy. This is why athletes can lower more weight than they can lift." },
+  mc6: { correct: "B", explanation: "T-tubules (transverse tubules) are extensions of the sarcolemma that penetrate deep into the muscle fibre, carrying the action potential to the sarcoplasmic reticulum. Without T-tubules, only the outer layers of the fibre would contract." },
+  mc7: { correct: "B", explanation: "The SSC works because the eccentric pre-stretch stores elastic energy in the muscle-tendon unit (like stretching a rubber band). This energy is released in the immediately following concentric contraction, adding to the total force and increasing jump height. This is why a countermovement jump is always higher than a static jump." },
+  mc8: { correct: "C", explanation: "Rate coding is increasing the FREQUENCY of nerve impulses to already-active motor units. More impulses per second = greater force from the same unit. Activating more motor units (A) is recruitment, not rate coding. You cannot add fibres to a motor unit (B). Switching fibre types (D) does not occur — type is determined by which motor unit fires." }
+};
+
+function checkMC(opt, cardId, letter) {
+  var card = document.getElementById(cardId);
+  if (card.classList.contains("correct") || card.classList.contains("incorrect")) return;
+  var opts = card.querySelectorAll(".mc-opt");
+  var data = mcAnswers[cardId];
+  var correct = (letter === data.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("locked");
+    var l = opts[i].querySelector(".opt-letter").textContent;
+    if (l === data.correct) opts[i].classList.add("reveal-correct");
+  }
+  opt.classList.remove("reveal-correct");
+  opt.classList.add(correct ? "selected-correct" : "selected-incorrect");
+  card.classList.add(correct ? "correct" : "incorrect");
+  var fb = document.getElementById("fb-" + cardId);
+  fb.innerHTML = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.className = "q-feedback show " + (correct ? "fb-correct" : "fb-incorrect");
+  updateScore(correct);
+}
+
+var tfAnswers = {
+  tf1: { correct: false, explanation: "FALSE. Voluntary skeletal muscle movement is controlled by the SOMATIC nervous system. The autonomic nervous system controls involuntary functions — cardiac muscle, smooth muscle, and glands." },
+  tf2: { correct: true, explanation: "TRUE. Holding a plank is a classic isometric contraction — the core muscles (rectus abdominis, transverse abdominis, erector spinae) generate force equal to the load without changing length. No joint movement occurs." },
+  tf3: { correct: false, explanation: "FALSE. Acetylcholine (ACh) is released from the AXON TERMINAL of the motor neuron into the synaptic cleft at the NMJ. The sarcoplasmic reticulum releases CALCIUM IONS (Ca2+), not ACh. These are two completely different structures and chemicals." },
+  tf4: { correct: false, explanation: "FALSE. DOMS is primarily caused by ECCENTRIC contractions, not concentric. Eccentric contractions stretch the sarcomere under load, causing microtrauma (microscopic tears) in muscle fibres and connective tissue, which triggers the inflammatory response responsible for soreness 24-72 hours later." },
+  tf5: { correct: true, explanation: "TRUE. Isotonic contraction means the same (iso) force (tonic) is applied and the muscle changes length. A full movement like a bicep curl involves both the concentric phase (lifting — shortening) and eccentric phase (lowering — lengthening), both under the same load. It is NOT the same as isometric." },
+  tf6: { correct: false, explanation: "FALSE. The signal for voluntary movement originates in the BRAIN (motor cortex) and travels DOWNWARD through the spinal cord to the motor neurons. This is a descending pathway — brain to spinal cord to muscle." },
+  tf7: { correct: true, explanation: "TRUE. Tetanus occurs when nerve impulses arrive at such a high frequency that the muscle has no time to relax between twitches. Individual twitches summate and the muscle produces sustained maximum force. This is how most real-life forceful contractions work." }
+};
+
+function checkTF(btn, cardId, userSaidTrue) {
+  var card = document.getElementById(cardId);
+  if (card.classList.contains("correct") || card.classList.contains("incorrect")) return;
+  var data = tfAnswers[cardId];
+  var correct = (userSaidTrue === data.correct);
+  var btns = card.querySelectorAll(".tf-btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add("locked");
+    var isTrue = (btns[i].textContent === "True");
+    if (isTrue === data.correct) btns[i].classList.add("reveal-correct");
+  }
+  btn.classList.remove("reveal-correct");
+  btn.classList.add(correct ? "selected-correct" : "selected-incorrect");
+  card.classList.add(correct ? "correct" : "incorrect");
+  var fb = document.getElementById("fb-" + cardId);
+  fb.innerHTML = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.className = "q-feedback show " + (correct ? "fb-correct" : "fb-incorrect");
+  updateScore(correct);
+}
+
+function checkMatch(matchId, answers, feedbackId) {
+  var card = document.getElementById(matchId);
+  var score = 0;
+  for (var key in answers) {
+    var sel = document.getElementById(key);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[key]) {
+      sel.className = "match-select correct-sel";
+      score++;
+    } else {
+      sel.className = "match-select incorrect-sel";
+    }
+  }
+  var total = Object.keys(answers).length;
+  var fb = document.getElementById(feedbackId);
+  var msg = score + " / " + total + " correct. ";
+  if (score === total) {
+    msg += "Perfect score!";
+    fb.className = "q-feedback show fb-correct";
+    card.classList.add("correct");
+  } else {
+    msg += "Incorrect answers are highlighted in red. Review your study notes.";
+    fb.className = "q-feedback show fb-incorrect";
+    card.classList.add("incorrect");
+  }
+  fb.textContent = msg;
+  var btn = card.querySelector(".match-check-btn");
+  if (btn) btn.disabled = true;
+  updateScore(score === total);
+}
+
+function checkMatch1() {
+  checkMatch("match1", {
+    "m1-1": "Controls voluntary skeletal muscle movement",
+    "m1-2": "Controls involuntary cardiac and smooth muscle",
+    "m1-3": "Transmits signal away from neuron cell body",
+    "m1-4": "Speeds up nerve conduction (saltatory)",
+    "m1-5": "Gap between axon terminal and muscle membrane"
+  }, "fb-match1");
+}
+
+function checkMatch2() {
+  checkMatch("match2", {
+    "m2-1": "Quadriceps during upward squat phase",
+    "m2-2": "Lowering into a squat (downward phase)",
+    "m2-3": "Holding a wall sit position",
+    "m2-4": "Full dumbbell bicep curl (up and down)",
+    "m2-5": "Rehabilitation dynamometer machine"
+  }, "fb-match2");
+}
+
+function checkMatch3() {
+  checkMatch("match3", {
+    "m3-1": "Brain initiates the movement message",
+    "m3-2": "Nerve impulse branches from spinal cord to motor nerve",
+    "m3-3": "Signal passes into motor neurons",
+    "m3-4": "ACh crosses NMJ; all connected fibres contract"
+  }, "fb-match3");
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle("open");
+  btn.innerHTML = open ? "&#128065; Hide Model Answer" : "&#128065; Show Model Answer";
+}
+
+function resetQuiz() {
+  if (!confirm("Reset all quiz answers? This cannot be undone.")) return;
+  answered = 0;
+  correctCount = 0;
+  document.getElementById("score-correct").textContent = "0";
+  document.getElementById("score-total").textContent = "0";
+  document.getElementById("progress-bar").style.width = "0%";
+  var cards = document.querySelectorAll(".q-card");
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove("correct", "incorrect");
+    var opts = cards[i].querySelectorAll(".mc-opt");
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].classList.remove("locked", "selected-correct", "selected-incorrect", "reveal-correct");
+    }
+    var tfBtns = cards[i].querySelectorAll(".tf-btn");
+    for (var j = 0; j < tfBtns.length; j++) {
+      tfBtns[j].classList.remove("locked", "selected-correct", "selected-incorrect", "reveal-correct");
+    }
+    var sels = cards[i].querySelectorAll(".match-select");
+    for (var j = 0; j < sels.length; j++) {
+      sels[j].className = "match-select";
+      sels[j].disabled = false;
+      sels[j].value = "";
+    }
+    var checkBtns = cards[i].querySelectorAll(".match-check-btn");
+    for (var j = 0; j < checkBtns.length; j++) {
+      checkBtns[j].disabled = false;
+    }
+    var fbs = cards[i].querySelectorAll(".q-feedback");
+    for (var j = 0; j < fbs.length; j++) {
+      fbs[j].className = "q-feedback";
+      fbs[j].textContent = "";
+    }
+  }
+}
+</script>
+</body>
+</html>

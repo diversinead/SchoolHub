@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part B: Injury Prevention &amp; Rehabilitation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; letter-spacing: 0.5px; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #fff; border-bottom: 2px solid #e0e0e0; }
+    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1.5px solid #2c5f6e; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e8e8e8; }
+    #search { flex: 1; padding: 8px 12px; border: 1.5px solid #c0c0c0; border-radius: 20px; font-size: 0.9em; outline: none; }
+    #search:focus { border-color: #2c5f6e; }
+    #search-clear { background: #2c5f6e; color: #fff; border: none; border-radius: 16px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; }
+    #search-count { font-size: 0.82em; color: #888; min-width: 80px; }
+    .section-label { font-size: 1.12em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 10px 18px; margin: 18px 14px 8px; border-radius: 8px; letter-spacing: 0.3px; }
+
+    /* ACCORDION */
+    .cat-wrap { margin: 8px 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ddd; }
+    .cat-wrap.purple { border-color: #c8c5e8; }
+    .cat-wrap.teal   { border-color: #9adcc5; }
+    .cat-wrap.coral  { border-color: #e8a48a; }
+    .cat-wrap.amber  { border-color: #d4a854; }
+    .cat-wrap.blue   { border-color: #90bce6; }
+    .cat-wrap.pink   { border-color: #e096b4; }
+    .cat-wrap.gray   { border-color: #b8b6b0; }
+    .cat-head { padding: 11px 16px; font-weight: 700; cursor: pointer; font-size: 0.97em; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.18); color: #4a3fa0; }
+    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #1a7a58; }
+    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
+    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12); color: #7a4d0a; }
+    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.14); color: #1a4f8a; }
+    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #8b2050; }
+    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.12); color: #444440; }
+    .cat-body { display: none; padding: 14px 16px; background: #fff; }
+    .cat-body.open { display: block; }
+
+    /* TERMS */
+    .term-row { border-bottom: 1px solid #f0f0f0; padding: 9px 4px; display: flex; gap: 10px; align-items: flex-start; }
+    .term-row:last-child { border-bottom: none; }
+    .term-name { font-weight: 700; min-width: 200px; color: #1a1a2e; font-size: 0.93em; }
+    .term-def { color: #333; font-size: 0.91em; flex: 1; }
+    .hot-badge { display: inline-block; background: #2c5f6e; color: #fff; font-size: 0.68em; font-weight: 700; border-radius: 10px; padding: 2px 7px; margin-left: 6px; position: relative; cursor: default; letter-spacing: 0.4px; }
+    .hot-badge .tooltip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a1a2e; color: #fff; font-size: 0.82em; border-radius: 6px; padding: 5px 9px; white-space: nowrap; z-index: 99; font-weight: 400; }
+    .hot-badge:hover .tooltip { display: block; }
+    mark { background: #ffe066; border-radius: 3px; padding: 0 2px; }
+
+    /* DIAGRAM WRAP */
+    .diagram-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .diagram-wrap.blue   { border-color: #90bce6; }
+    .diagram-wrap.purple { border-color: #c8c5e8; }
+    .diagram-wrap.amber  { border-color: #d4a854; }
+    .diagram-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .diagram-wrap.blue   .diagram-head { background: #f3f7fd; color: #1a4f8a; }
+    .diagram-wrap.purple .diagram-head { background: #f5f4fc; color: #4a3fa0; }
+    .diagram-wrap.amber  .diagram-head { background: #fdf8f0; color: #7a4d0a; }
+    .diagram-body { display: none; padding: 14px; background: #fff; }
+    .diagram-body.open { display: block; }
+
+    /* BOX WRAP */
+    .box-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .box-wrap.blue   { border-color: #90bce6; }
+    .box-wrap.purple { border-color: #c8c5e8; }
+    .box-wrap.teal   { border-color: #9adcc5; }
+    .box-wrap.amber  { border-color: #d4a854; }
+    .box-wrap.coral  { border-color: #e8a48a; }
+    .box-wrap.pink   { border-color: #e096b4; }
+    .box-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .box-wrap.blue   .box-head { background: #f3f7fd; color: #1a4f8a; }
+    .box-wrap.purple .box-head { background: #f5f4fc; color: #4a3fa0; }
+    .box-wrap.amber  .box-head { background: #fdf8f0; color: #7a4d0a; }
+    .box-wrap.coral  .box-head { background: #fdf6f3; color: #7a3010; }
+    .box-wrap.pink   .box-head { background: #fdf5f8; color: #8b2050; }
+    .box-body { display: none; padding: 14px; background: #fff; }
+    .box-body.open { display: block; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; margin-top: 8px; }
+    th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; font-size: 0.9em; }
+    td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8f8f8; }
+    tr:hover td { background: #f2f2f4; }
+
+    /* HIGHLIGHT / TIP BOXES */
+    .highlight-box { background: #fafafa; border-left: 4px solid #c8a84b; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 0.9em; }
+    .highlight-box.teal { background: #fafafa; border-left-color: #5DCAA5; }
+    .highlight-box.blue { background: #fafafa; border-left-color: #378ADD; }
+    .highlight-box.slate { background: #fafafa; border-left-color: #2c5f6e; }
+    .tip-box { background: #fafafa; border: 1px solid #ccc; border-left: 4px solid #5DCAA5; border-radius: 8px; padding: 10px 14px; margin: 10px 0; font-size: 0.89em; }
+
+    /* PHASE STEPS */
+    .phase-steps { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+    .phase-step { display: flex; gap: 12px; align-items: flex-start; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 14px; }
+    .phase-num { background: #2c5f6e; color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.88em; flex-shrink: 0; margin-top: 2px; }
+    .phase-content { flex: 1; }
+    .phase-title { font-weight: 700; font-size: 0.93em; color: #1a3d48; margin-bottom: 2px; }
+    .phase-detail { font-size: 0.88em; color: #444; }
+
+    svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    #no-results { display: none; text-align: center; color: #2c5f6e; padding: 18px; font-style: italic; }
+    ul { padding-left: 20px; margin: 6px 0; }
+    ul li { margin-bottom: 4px; }
+    ol { padding-left: 20px; margin: 6px 0; }
+    ol li { margin-bottom: 4px; }
+    p { margin: 6px 0; }
+    strong { color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 2 Part B &middot; 2B: Injury Prevention &amp; Rehabilitation &middot; Live it Up 5th ed.</p>
+
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('secFitness')">Fitness Requirements</span>
+  <span class="nav-pill" onclick="jumpTo('secWarmup')">Warm-Up</span>
+  <span class="nav-pill" onclick="jumpTo('secCooldown')">Cool-Down</span>
+  <span class="nav-pill" onclick="jumpTo('secRehab')">Rehabilitation</span>
+  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128216; Key Terms</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MINIMUM FITNESS REQUIREMENTS -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secFitness">&#129657; Minimum Fitness Requirements</p>
+
+<div class="diagram-wrap blue">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Fitness Components &amp; Injury Prevention Overview <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Central node -->
+      <rect x="305" y="118" width="250" height="44" rx="10" fill="#2c5f6e" stroke="#1a3d48" stroke-width="2"/>
+      <text x="430" y="136" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Minimum Fitness</text>
+      <text x="430" y="153" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Requirements</text>
+
+      <!-- 5 spokes -->
+      <!-- Muscular strength -->
+      <line x1="305" y1="135" x2="210" y2="80" stroke="#9adcc5" stroke-width="1.8"/>
+      <rect x="60" y="52" width="155" height="52" rx="8" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="137" y="73" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Muscular Strength</text>
+      <text x="137" y="89" text-anchor="middle" fill="#555" font-size="10">Supports joints, absorbs</text>
+      <text x="137" y="101" text-anchor="middle" fill="#555" font-size="10">load, reduces sprain risk</text>
+
+      <!-- Flexibility -->
+      <line x1="305" y1="155" x2="180" y2="175" stroke="#c8c5e8" stroke-width="1.8"/>
+      <rect x="20" y="150" width="155" height="52" rx="8" fill="#f5f4fc" stroke="#c8c5e8" stroke-width="1.5"/>
+      <text x="97" y="171" text-anchor="middle" fill="#4a3fa0" font-size="12" font-weight="bold">Flexibility</text>
+      <text x="97" y="187" text-anchor="middle" fill="#555" font-size="10">Full ROM prevents strains</text>
+      <text x="97" y="199" text-anchor="middle" fill="#555" font-size="10">and muscle tears</text>
+
+      <!-- Muscular endurance -->
+      <line x1="350" y1="118" x2="290" y2="30" stroke="#d4a854" stroke-width="1.8"/>
+      <rect x="180" y="6" width="175" height="52" rx="8" fill="#fdf8f0" stroke="#d4a854" stroke-width="1.5"/>
+      <text x="267" y="27" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">Muscular Endurance</text>
+      <text x="267" y="43" text-anchor="middle" fill="#555" font-size="10">Delays fatigue &mdash; tired</text>
+      <text x="267" y="55" text-anchor="middle" fill="#555" font-size="10">muscles = injury risk</text>
+
+      <!-- Cardiovascular fitness -->
+      <line x1="510" y1="118" x2="570" y2="30" stroke="#90bce6" stroke-width="1.8"/>
+      <rect x="505" y="6" width="175" height="52" rx="8" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="592" y="27" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Cardiovascular Fitness</text>
+      <text x="592" y="43" text-anchor="middle" fill="#555" font-size="10">Sustains effort; reduces</text>
+      <text x="592" y="55" text-anchor="middle" fill="#555" font-size="10">fatigue-related errors</text>
+
+      <!-- Body composition -->
+      <line x1="555" y1="140" x2="660" y2="80" stroke="#e096b4" stroke-width="1.8"/>
+      <rect x="640" y="52" width="175" height="52" rx="8" fill="#fdf5f8" stroke="#e096b4" stroke-width="1.5"/>
+      <text x="727" y="73" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Body Composition</text>
+      <text x="727" y="89" text-anchor="middle" fill="#555" font-size="10">Excess weight increases</text>
+      <text x="727" y="101" text-anchor="middle" fill="#555" font-size="10">joint load and injury risk</text>
+
+      <!-- Neuromuscular control (bottom) -->
+      <line x1="430" y1="162" x2="430" y2="220" stroke="#9adcc5" stroke-width="1.8"/>
+      <rect x="305" y="220" width="250" height="52" rx="8" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="430" y="241" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Neuromuscular Control</text>
+      <text x="430" y="257" text-anchor="middle" fill="#555" font-size="10">Proprioception and balance reduce</text>
+      <text x="430" y="269" text-anchor="middle" fill="#555" font-size="10">re-injury risk and improve joint stability</text>
+
+      <!-- Key note -->
+      <rect x="20" y="215" width="270" height="55" rx="7" fill="#fafafa" stroke="#d4a854" stroke-width="1.5"/>
+      <text x="155" y="234" text-anchor="middle" fill="#7a4d0a" font-size="11" font-weight="bold">&#9888; Key principle</text>
+      <text x="155" y="250" text-anchor="middle" fill="#555" font-size="10">Meeting minimum fitness thresholds</text>
+      <text x="155" y="264" text-anchor="middle" fill="#555" font-size="10">for a sport reduces injury risk</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap blue">
+  <div class="cat-head" onclick="toggleC(this)">&#128218; Minimum Fitness Requirements for Injury Prevention <span class="hot-badge">HOT TOPIC<span class="tooltip">Links fitness to injury prevention &mdash; key exam concept</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A minimum level of physical fitness is required to safely participate in sport and physical activity. Athletes who do not meet the fitness demands of their sport are at significantly higher risk of musculoskeletal injury, particularly as fatigue sets in during activity.</p>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Fitness Components and Their Role in Injury Prevention <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Fitness Component</th><th>How it Prevents Injury</th><th>Example</th></tr>
+          <tr><td><strong>Muscular strength</strong></td><td>Strong muscles support and stabilise joints, absorb impact forces and reduce load on ligaments and tendons</td><td>Strong quadriceps reduce stress on the ACL during landing</td></tr>
+          <tr><td><strong>Muscular endurance</strong></td><td>Delays fatigue &mdash; fatigued muscles lose coordination and protective function, increasing injury risk</td><td>Hamstring endurance prevents late-game strains in AFL</td></tr>
+          <tr><td><strong>Flexibility</strong></td><td>Adequate range of motion allows joints to move through full range without straining muscles or tendons</td><td>Hip flexor flexibility prevents lower back and hamstring strains</td></tr>
+          <tr><td><strong>Cardiovascular fitness</strong></td><td>Higher aerobic fitness delays fatigue, maintaining concentration, coordination and movement mechanics late in activity</td><td>Higher VO2max delays the breakdown in running form that causes ankle sprains</td></tr>
+          <tr><td><strong>Body composition</strong></td><td>Excess body fat increases compressive load on weight-bearing joints (knee, hip, ankle), accelerating wear and raising sprain risk</td><td>Maintaining healthy BMI reduces knee injury risk in netball</td></tr>
+          <tr><td><strong>Neuromuscular control / proprioception</strong></td><td>Joint position sense and balance allow rapid protective muscle responses to unexpected forces &mdash; critical for re-injury prevention</td><td>Balance board training reduces ankle re-sprain rate</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Fatigue and injury risk:</strong> As fatigue accumulates, muscles lose their ability to generate force rapidly and maintain coordination. This means joints become less protected, movement mechanics deteriorate, and the risk of acute injury rises sharply in the final stages of training or competition. Meeting minimum fitness requirements delays this point.
+    </div>
+    <div class="tip-box">
+      <strong>&#9888; Exam tip:</strong> When asked how fitness prevents injury, always link the specific component to a specific mechanism &mdash; e.g. &ldquo;muscular strength supports joints by absorbing load, reducing stress on ligaments.&rdquo; Generic answers like &ldquo;being fit reduces injury&rdquo; score zero.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- WARM-UP -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secWarmup">&#129657; Warm-Up</p>
+
+<div class="diagram-wrap purple">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Warm-Up Structure Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 220" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Arrow flow: 4 phases -->
+      <!-- Phase 1 -->
+      <rect x="20" y="60" width="175" height="100" rx="10" fill="#f5faf8" stroke="#9adcc5" stroke-width="2"/>
+      <text x="107" y="88" text-anchor="middle" fill="#1a7a58" font-size="13" font-weight="bold">Phase 1</text>
+      <text x="107" y="106" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">General Aerobic</text>
+      <text x="107" y="122" text-anchor="middle" fill="#555" font-size="10">Light jogging, skipping</text>
+      <text x="107" y="136" text-anchor="middle" fill="#555" font-size="10">cycling 5&ndash;10 min</text>
+      <text x="107" y="150" text-anchor="middle" fill="#555" font-size="10">Raises HR &amp; core temp</text>
+      <!-- Arrow -->
+      <polygon points="205,105 225,95 225,115" fill="#2c5f6e"/>
+      <line x1="195" y1="105" x2="225" y2="105" stroke="#2c5f6e" stroke-width="2"/>
+
+      <!-- Phase 2 -->
+      <rect x="230" y="60" width="175" height="100" rx="10" fill="#f5f4fc" stroke="#c8c5e8" stroke-width="2"/>
+      <text x="317" y="88" text-anchor="middle" fill="#4a3fa0" font-size="13" font-weight="bold">Phase 2</text>
+      <text x="317" y="106" text-anchor="middle" fill="#4a3fa0" font-size="12" font-weight="bold">Dynamic Stretching</text>
+      <text x="317" y="122" text-anchor="middle" fill="#555" font-size="10">Leg swings, arm circles</text>
+      <text x="317" y="136" text-anchor="middle" fill="#555" font-size="10">hip rotations</text>
+      <text x="317" y="150" text-anchor="middle" fill="#555" font-size="10">Increases ROM actively</text>
+      <!-- Arrow -->
+      <polygon points="415,105 435,95 435,115" fill="#2c5f6e"/>
+      <line x1="405" y1="105" x2="435" y2="105" stroke="#2c5f6e" stroke-width="2"/>
+
+      <!-- Phase 3 -->
+      <rect x="440" y="60" width="175" height="100" rx="10" fill="#fdf8f0" stroke="#d4a854" stroke-width="2"/>
+      <text x="527" y="88" text-anchor="middle" fill="#7a4d0a" font-size="13" font-weight="bold">Phase 3</text>
+      <text x="527" y="106" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">Sport-Specific</text>
+      <text x="527" y="122" text-anchor="middle" fill="#555" font-size="10">Drills mimicking game</text>
+      <text x="527" y="136" text-anchor="middle" fill="#555" font-size="10">movements at low intensity</text>
+      <text x="527" y="150" text-anchor="middle" fill="#555" font-size="10">Neural activation</text>
+      <!-- Arrow -->
+      <polygon points="625,105 645,95 645,115" fill="#2c5f6e"/>
+      <line x1="615" y1="105" x2="645" y2="105" stroke="#2c5f6e" stroke-width="2"/>
+
+      <!-- Phase 4 -->
+      <rect x="650" y="60" width="190" height="100" rx="10" fill="#f3f7fd" stroke="#90bce6" stroke-width="2"/>
+      <text x="745" y="88" text-anchor="middle" fill="#1a4f8a" font-size="13" font-weight="bold">Phase 4</text>
+      <text x="745" y="106" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Skill Rehearsal</text>
+      <text x="745" y="122" text-anchor="middle" fill="#555" font-size="10">Full-speed practice of</text>
+      <text x="745" y="136" text-anchor="middle" fill="#555" font-size="10">key skills e.g. kicking</text>
+      <text x="745" y="150" text-anchor="middle" fill="#555" font-size="10">sprinting, throwing</text>
+
+      <!-- Bottom label -->
+      <rect x="20" y="175" width="820" height="36" rx="7" fill="#fafafa" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="430" y="192" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">Intensity progressively increases across the warm-up &mdash; the body transitions from rest to competition-ready state</text>
+      <text x="430" y="207" text-anchor="middle" fill="#555" font-size="10">Static stretching during warm-up is NOT recommended &mdash; it reduces muscle force production if performed before activity</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap teal">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Warm-Up: Physiological Effects and Injury Prevention <span class="hot-badge">HOT TOPIC<span class="tooltip">Physiological effects of warm-up are a common exam question</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>warm-up</strong> is a structured period of graduated physical activity performed prior to the main training session or competition. Its purpose is to prepare the body physiologically and psychologically for the demands ahead, and to reduce injury risk.</p>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Physiological Effects of a Warm-Up <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Effect</th><th>Mechanism</th><th>Injury Prevention Benefit</th></tr>
+          <tr><td><strong>Increased muscle temperature</strong></td><td>Increased metabolic activity generates heat within working muscles</td><td>Warmer muscles are more extensible (elastic) and less prone to tearing &mdash; reduces strain risk</td></tr>
+          <tr><td><strong>Increased blood flow to muscles</strong></td><td>Vasodilation of arterioles supplying working muscles; redistribution of cardiac output</td><td>Greater oxygen and nutrient delivery; metabolic waste removal; muscles function more efficiently</td></tr>
+          <tr><td><strong>Increased nerve conduction velocity</strong></td><td>Warmer temperature speeds electrical signal transmission along motor and sensory nerves</td><td>Faster muscle activation and reaction time &mdash; reduces risk of being caught off-guard by sudden forces</td></tr>
+          <tr><td><strong>Increased joint range of motion</strong></td><td>Synovial fluid becomes less viscous with warmth; connective tissue becomes more pliable</td><td>Joints move more freely through full ROM, reducing strain and sprain risk at extremes of movement</td></tr>
+          <tr><td><strong>Increased production of synovial fluid</strong></td><td>Joint movement stimulates synovial membrane to produce lubricating fluid</td><td>Better joint lubrication reduces friction and cartilage wear</td></tr>
+          <tr><td><strong>Psychological preparation</strong></td><td>Focus, arousal regulation and mental rehearsal during warm-up</td><td>Reduces risk of errors from inattention; improves anticipation of demands</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Dynamic vs Static Stretching in Warm-Up <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Dynamic Stretching</th><th>Static Stretching</th></tr>
+          <tr><td>Description</td><td>Controlled, active movements through full ROM (e.g. leg swings, arm circles)</td><td>Holding a stretch at end range for 20&ndash;60 seconds</td></tr>
+          <tr><td>Best used</td><td>During warm-up &mdash; before activity</td><td>During cool-down &mdash; after activity</td></tr>
+          <tr><td>Effect on performance</td><td>Maintains or improves power and speed</td><td>Temporarily reduces force production if done before activity</td></tr>
+          <tr><td>Effect on injury risk</td><td>Reduces injury risk when used in warm-up</td><td>Pre-activity static stretching does NOT reduce injury risk and may impair performance</td></tr>
+          <tr><td>Neural effect</td><td>Activates neuromuscular system &mdash; improves reaction time</td><td>Inhibitory effect on motor neuron excitability if done before activity</td></tr>
+        </table>
+        <div class="highlight-box" style="margin-top:10px;">
+          <strong>&#128161; Common misconception:</strong> Many athletes still perform static stretching before activity believing it prevents injury. Research shows static stretching before activity does NOT reduce acute injury risk and may impair power output. Dynamic stretching is the evidence-based choice for warm-up.
+        </div>
+      </div>
+    </div>
+    <div class="box-wrap amber">
+      <div class="box-head" onclick="toggleB(this)">&#9658; The FIFA 11+ Program &mdash; Evidence-Based Warm-Up <span>&#9660;</span></div>
+      <div class="box-body">
+        <p>The <strong>FIFA 11+</strong> is a structured warm-up program developed to prevent injuries in football (soccer) players. It is an example of a research-backed, sport-specific warm-up protocol that has been shown to reduce lower limb injury rates by up to 30&ndash;50%.</p>
+        <table>
+          <tr><th>Part</th><th>Content</th><th>Duration</th></tr>
+          <tr><td>Part 1</td><td>Running exercises at slow speed with active stretching and controlled partner contact</td><td>~8 min</td></tr>
+          <tr><td>Part 2</td><td>Six strength, plyometric and balance exercises (varying difficulty levels)</td><td>~10 min</td></tr>
+          <tr><td>Part 3</td><td>Running exercises at moderate/high speed with cutting and bounding movements</td><td>~2 min</td></tr>
+        </table>
+        <p style="margin-top:8px;">The FIFA 11+ is widely used as a model for sport-specific warm-up programs across many sports beyond football.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- COOL-DOWN -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secCooldown">&#129657; Cool-Down</p>
+
+<div class="cat-wrap purple">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Cool-Down: Purpose, Structure and Benefits <span class="hot-badge">HOT TOPIC<span class="tooltip">Physiological effects of cool-down frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>cool-down</strong> is a period of low-intensity activity and stretching performed immediately after the main session or competition. It facilitates the body&rsquo;s transition from exercise back to a resting state and supports recovery.</p>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Physiological Effects of a Cool-Down <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Effect</th><th>Mechanism</th><th>Benefit</th></tr>
+          <tr><td><strong>Gradual reduction in heart rate and blood pressure</strong></td><td>Continued low-intensity movement maintains venous return &mdash; prevents blood pooling in lower limbs</td><td>Reduces risk of post-exercise hypotension (dizziness/fainting)</td></tr>
+          <tr><td><strong>Accelerated removal of metabolic waste</strong></td><td>Continued circulation flushes lactate and other metabolic by-products from muscles</td><td>Reduces muscle soreness and stiffness; speeds recovery</td></tr>
+          <tr><td><strong>Reduction in muscle temperature</strong></td><td>Gradual decrease in metabolic rate and heat production</td><td>Controlled cooling prevents sudden temperature drops that can cause cramping</td></tr>
+          <tr><td><strong>Restoration of muscle length</strong></td><td>Static stretching of warm muscles improves flexibility gains and restores resting length</td><td>Reduces post-exercise muscle tightness; improves long-term flexibility; reduces DOMS</td></tr>
+          <tr><td><strong>Psychological recovery</strong></td><td>Time to decompress, reflect and transition mentally from competition</td><td>Reduced psychological stress; better sleep quality</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Cool-Down Structure <span>&#9660;</span></div>
+      <div class="box-body">
+        <div class="phase-steps">
+          <div class="phase-step">
+            <div class="phase-num">1</div>
+            <div class="phase-content">
+              <div class="phase-title">Low-intensity aerobic activity (5&ndash;10 min)</div>
+              <div class="phase-detail">Light jogging transitioning to brisk walking. Maintains circulation and venous return while gradually reducing heart rate and blood pressure toward resting levels.</div>
+            </div>
+          </div>
+          <div class="phase-step">
+            <div class="phase-num">2</div>
+            <div class="phase-content">
+              <div class="phase-title">Static stretching of major muscle groups (5&ndash;10 min)</div>
+              <div class="phase-detail">Hold each stretch 20&ndash;60 seconds. Most effective when muscles are still warm from exercise &mdash; this is the optimal time for flexibility development. Target all major muscle groups used during activity.</div>
+            </div>
+          </div>
+          <div class="phase-step">
+            <div class="phase-num">3</div>
+            <div class="phase-content">
+              <div class="phase-title">Optional: foam rolling / soft tissue therapy</div>
+              <div class="phase-detail">Self-myofascial release helps reduce muscle tension and trigger points. Supports recovery and reduces next-day soreness when combined with stretching.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Warm-Up vs Cool-Down: Key Comparison <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Warm-Up</th><th>Cool-Down</th></tr>
+          <tr><td>Timing</td><td>Before activity</td><td>After activity</td></tr>
+          <tr><td>Intensity</td><td>Gradually increases toward activity level</td><td>Gradually decreases from activity level to rest</td></tr>
+          <tr><td>Stretching type</td><td>Dynamic stretching</td><td>Static stretching</td></tr>
+          <tr><td>Primary purpose</td><td>Prepare body for exercise; reduce acute injury risk</td><td>Facilitate recovery; restore resting state; improve flexibility</td></tr>
+          <tr><td>Heart rate effect</td><td>Raises HR progressively</td><td>Lowers HR gradually &mdash; prevents venous pooling</td></tr>
+          <tr><td>Muscle temperature</td><td>Increases &mdash; improves extensibility</td><td>Decreases gradually &mdash; controlled cooling</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box slate">
+      <strong>&#9888; DOMS and cool-down:</strong> Delayed onset muscle soreness (DOMS) peaks 24&ndash;48 hours after exercise involving eccentric contractions. A cool-down helps reduce DOMS by maintaining circulation and reducing metabolic waste accumulation. However, it does not eliminate DOMS entirely &mdash; adequate recovery time and nutrition are also required.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- REHABILITATION -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secRehab">&#129657; Rehabilitation</p>
+
+<div class="diagram-wrap amber">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Rehabilitation Phases Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 230" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Timeline bar -->
+      <rect x="20" y="108" width="820" height="8" rx="4" fill="#e0e0e0"/>
+      <rect x="20" y="108" width="820" height="8" rx="4" fill="url(#rehab-grad)"/>
+      <defs>
+        <linearGradient id="rehab-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#9adcc5"/>
+          <stop offset="33%" stop-color="#90bce6"/>
+          <stop offset="66%" stop-color="#c8c5e8"/>
+          <stop offset="100%" stop-color="#2c5f6e"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Phase markers -->
+      <circle cx="105" cy="112" r="12" fill="#9adcc5" stroke="#fff" stroke-width="2"/>
+      <text x="105" y="117" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">1</text>
+      <circle cx="310" cy="112" r="12" fill="#90bce6" stroke="#fff" stroke-width="2"/>
+      <text x="310" y="117" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">2</text>
+      <circle cx="515" cy="112" r="12" fill="#c8c5e8" stroke="#fff" stroke-width="2"/>
+      <text x="515" y="117" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">3</text>
+      <circle cx="720" cy="112" r="12" fill="#2c5f6e" stroke="#fff" stroke-width="2"/>
+      <text x="720" y="117" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">4</text>
+
+      <!-- Phase boxes above timeline -->
+      <rect x="20" y="14" width="175" height="80" rx="8" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="107" y="34" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Phase 1</text>
+      <text x="107" y="50" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Acute / Protection</text>
+      <text x="107" y="65" text-anchor="middle" fill="#555" font-size="10">RICER, rest, reduce</text>
+      <text x="107" y="78" text-anchor="middle" fill="#555" font-size="10">inflammation</text>
+      <text x="107" y="91" text-anchor="middle" fill="#555" font-size="10">Days 1&ndash;3</text>
+      <line x1="107" y1="94" x2="107" y2="100" stroke="#9adcc5" stroke-width="1.5"/>
+
+      <rect x="225" y="14" width="175" height="80" rx="8" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="312" y="34" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Phase 2</text>
+      <text x="312" y="50" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Sub-Acute / Repair</text>
+      <text x="312" y="65" text-anchor="middle" fill="#555" font-size="10">Gentle ROM, pain-free</text>
+      <text x="312" y="78" text-anchor="middle" fill="#555" font-size="10">movement, hydrotherapy</text>
+      <text x="312" y="91" text-anchor="middle" fill="#555" font-size="10">Days 3&ndash;21</text>
+      <line x1="312" y1="94" x2="312" y2="100" stroke="#90bce6" stroke-width="1.5"/>
+
+      <rect x="430" y="14" width="175" height="80" rx="8" fill="#f5f4fc" stroke="#c8c5e8" stroke-width="1.5"/>
+      <text x="517" y="34" text-anchor="middle" fill="#4a3fa0" font-size="12" font-weight="bold">Phase 3</text>
+      <text x="517" y="50" text-anchor="middle" fill="#4a3fa0" font-size="11" font-weight="bold">Remodelling / Strength</text>
+      <text x="517" y="65" text-anchor="middle" fill="#555" font-size="10">Progressive loading,</text>
+      <text x="517" y="78" text-anchor="middle" fill="#555" font-size="10">strength, proprioception</text>
+      <text x="517" y="91" text-anchor="middle" fill="#555" font-size="10">Weeks 3&ndash;12+</text>
+      <line x1="517" y1="94" x2="517" y2="100" stroke="#c8c5e8" stroke-width="1.5"/>
+
+      <rect x="635" y="14" width="205" height="80" rx="8" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="737" y="34" text-anchor="middle" fill="#1a3d48" font-size="12" font-weight="bold">Phase 4</text>
+      <text x="737" y="50" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">Return to Sport</text>
+      <text x="737" y="65" text-anchor="middle" fill="#555" font-size="10">Sport-specific drills,</text>
+      <text x="737" y="78" text-anchor="middle" fill="#555" font-size="10">full training, competition</text>
+      <text x="737" y="91" text-anchor="middle" fill="#555" font-size="10">Cleared by physio/doctor</text>
+      <line x1="737" y1="94" x2="737" y2="100" stroke="#2c5f6e" stroke-width="1.5"/>
+
+      <!-- Key note -->
+      <rect x="20" y="132" width="820" height="32" rx="6" fill="#fafafa" stroke="#d4a854" stroke-width="1.5"/>
+      <text x="430" y="148" text-anchor="middle" fill="#7a4d0a" font-size="11" font-weight="bold">&#9888; Progression through phases must be based on pain-free function, not time alone &mdash; returning too early risks re-injury</text>
+      <text x="430" y="162" text-anchor="middle" fill="#555" font-size="10">Each phase must be completed before progressing &mdash; the athlete must meet criteria, not just a calendar deadline</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap amber">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Rehabilitation Principles and Phases <span class="hot-badge">HOT TOPIC<span class="tooltip">RICER, HARM and rehabilitation phases are frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Rehabilitation</strong> is the structured process of restoring an injured athlete to full function and safe return to sport. Effective rehabilitation follows a progressive, criteria-based approach moving through distinct phases.</p>
+
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; RICER Protocol &mdash; Immediate Injury Management <span>&#9660;</span></div>
+      <div class="box-body">
+        <p>RICER is applied immediately after acute soft tissue injury to minimise bleeding, swelling and pain in the first 48&ndash;72 hours.</p>
+        <table>
+          <tr><th>Letter</th><th>Action</th><th>Purpose</th></tr>
+          <tr><td><strong>R &mdash; Rest</strong></td><td>Stop activity immediately; avoid weight-bearing if lower limb</td><td>Prevents further tissue damage; protects the injury</td></tr>
+          <tr><td><strong>I &mdash; Ice</strong></td><td>Apply ice pack (wrapped in cloth) for 20 min every 2 hours</td><td>Vasoconstriction reduces bleeding and swelling; numbs pain</td></tr>
+          <tr><td><strong>C &mdash; Compression</strong></td><td>Apply firm bandage over the injury site</td><td>Limits swelling by reducing fluid accumulation in tissue</td></tr>
+          <tr><td><strong>E &mdash; Elevation</strong></td><td>Raise the injured limb above heart level</td><td>Uses gravity to reduce fluid accumulation; decreases swelling</td></tr>
+          <tr><td><strong>R &mdash; Referral</strong></td><td>Seek medical assessment from doctor, physiotherapist or sports physician</td><td>Ensures accurate diagnosis; rules out fracture or serious injury</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; HARM &mdash; What to AVOID After Acute Injury <span>&#9660;</span></div>
+      <div class="box-body">
+        <p>HARM identifies actions that <strong>increase bleeding, swelling and tissue damage</strong> and must be avoided in the first 48&ndash;72 hours after acute soft tissue injury.</p>
+        <table>
+          <tr><th>Letter</th><th>Action to Avoid</th><th>Why it is Harmful</th></tr>
+          <tr><td><strong>H &mdash; Heat</strong></td><td>Hot packs, heat rubs, hot baths/showers</td><td>Vasodilation increases blood flow to the injury, worsening bleeding and swelling</td></tr>
+          <tr><td><strong>A &mdash; Alcohol</strong></td><td>Drinking alcohol</td><td>Vasodilation increases swelling; impairs healing and coordination</td></tr>
+          <tr><td><strong>R &mdash; Running</strong></td><td>Any vigorous exercise or weight-bearing activity</td><td>Increases blood flow and mechanical stress on damaged tissue</td></tr>
+          <tr><td><strong>M &mdash; Massage</strong></td><td>Massage of the injury site</td><td>Mechanical pressure disrupts clot formation and increases bleeding and bruising</td></tr>
+        </table>
+        <div class="highlight-box" style="margin-top:10px;">
+          <strong>&#128161; RICER and HARM work together:</strong> Apply RICER (what TO do) and avoid HARM (what NOT to do) simultaneously in the first 48&ndash;72 hours. Both address the same goal &mdash; minimising swelling and protecting the injured tissue.
+        </div>
+      </div>
+    </div>
+
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Four Phases of Rehabilitation <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Phase</th><th>Goals</th><th>Key Activities</th><th>Criteria to Progress</th></tr>
+          <tr>
+            <td><strong>Phase 1: Acute / Protection</strong><br><em>Days 1&ndash;3</em></td>
+            <td>Control inflammation, protect injury, manage pain</td>
+            <td>RICER, rest, pain-free gentle movement, electrotherapy (TENS, ultrasound)</td>
+            <td>Swelling reducing; pain at rest minimal; able to perform gentle active movement</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2: Sub-Acute / Repair</strong><br><em>Days 3&ndash;21</em></td>
+            <td>Restore pain-free ROM, begin light loading, maintain fitness</td>
+            <td>Gentle ROM exercises, hydrotherapy, pain-free strengthening, pool running</td>
+            <td>Full pain-free ROM; no swelling with activity; normal gait restored</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 3: Remodelling / Strength</strong><br><em>Weeks 3&ndash;12+</em></td>
+            <td>Rebuild strength, power and neuromuscular control to pre-injury levels</td>
+            <td>Progressive resistance training, proprioception/balance exercises, sport-specific movement patterns</td>
+            <td>Symmetrical strength (&ge;90% of uninjured side); normal movement patterns; no pain with loading</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 4: Return to Sport</strong><br><em>Sport clearance required</em></td>
+            <td>Restore full sport-specific function and confidence; re-integrate into team training</td>
+            <td>Sport-specific drills at full speed, contact practice, match simulation, full training</td>
+            <td>Passes return-to-sport criteria (strength, agility, psychological readiness); medical clearance</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; TOTAPS &mdash; On-Field Assessment <span>&#9660;</span></div>
+      <div class="box-body">
+        <p><strong>TOTAPS</strong> is used by coaches, trainers and first aiders to assess an injured athlete on the field and determine whether they can continue playing.</p>
+        <table>
+          <tr><th>Letter</th><th>Step</th><th>Purpose</th></tr>
+          <tr><td><strong>T &mdash; Talk</strong></td><td>Ask the athlete what happened and where it hurts</td><td>Gather history; identify mechanism of injury</td></tr>
+          <tr><td><strong>O &mdash; Observe</strong></td><td>Look for deformity, swelling, bruising, abnormal position</td><td>Visual assessment of severity</td></tr>
+          <tr><td><strong>T &mdash; Touch</strong></td><td>Gently palpate the injury site for point tenderness</td><td>Localise injury; assess severity by pain response</td></tr>
+          <tr><td><strong>A &mdash; Active movement</strong></td><td>Ask athlete to move the injured part through ROM themselves</td><td>Assess pain-free range of motion</td></tr>
+          <tr><td><strong>P &mdash; Passive movement</strong></td><td>Assessor moves the injured part through ROM</td><td>Assess ROM without muscle activation; detects ligament/joint issues</td></tr>
+          <tr><td><strong>S &mdash; Skills test</strong></td><td>Athlete performs sport-specific movements (walking, jogging, sprinting, change of direction)</td><td>Determines functional readiness to return to play</td></tr>
+        </table>
+        <div class="highlight-box slate" style="margin-top:10px;">
+          <strong>&#9888; If in doubt, sit them out:</strong> If any step of TOTAPS produces pain, the athlete should not return to play. An athlete must pass ALL steps before being cleared to continue.
+        </div>
+      </div>
+    </div>
+
+    <div class="box-wrap pink">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Principles of Rehabilitation Training <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Principle</th><th>Application in Rehabilitation</th></tr>
+          <tr><td><strong>Progressive overload</strong></td><td>Load is gradually and systematically increased as tissue heals &mdash; too much too soon causes re-injury</td></tr>
+          <tr><td><strong>Specificity</strong></td><td>Late-stage rehab must replicate the exact movements, forces and intensities of the athlete&rsquo;s sport</td></tr>
+          <tr><td><strong>Reversibility</strong></td><td>Fitness declines during injury &mdash; rehab must address strength, endurance and skill losses, not just the injury site</td></tr>
+          <tr><td><strong>Individuality</strong></td><td>Rehabilitation rate varies between athletes based on age, nutrition, sleep, injury severity and adherence</td></tr>
+          <tr><td><strong>Pain-free progression</strong></td><td>Pain is a signal to reduce load &mdash; rehabilitation should be challenging but never significantly painful</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY TERMS -->
+<p class="section-label" id="secTerms">&#128216; Key Terms &mdash; Chapter 2 B</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part B &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var terms = [
+  { name: "Minimum fitness requirements", def: "The baseline level of physical fitness needed to safely participate in a sport or physical activity without undue injury risk.", hot: true, tip: "Link each fitness component to a specific injury prevention mechanism" },
+  { name: "Muscular strength (injury prevention)", def: "Strong muscles support and stabilise joints, absorb impact forces and reduce stress on ligaments and tendons, lowering sprain and strain risk.", hot: false },
+  { name: "Muscular endurance (injury prevention)", def: "Delays muscle fatigue during prolonged activity. Fatigued muscles lose coordination and protective function, increasing injury risk late in a session.", hot: false },
+  { name: "Flexibility (injury prevention)", def: "Adequate range of motion allows joints to move through their full range without straining muscles or tendons at the end of range.", hot: false },
+  { name: "Neuromuscular control", def: "The ability of the nervous system to rapidly activate muscles in response to joint position changes. Critical for preventing re-injury through proprioception and balance.", hot: true, tip: "Proprioception and balance training is a key rehab and prevention strategy" },
+  { name: "Proprioception", def: "The body's ability to sense joint position, movement and force without visual input. Reduced after injury &mdash; must be retrained in rehabilitation.", hot: false },
+  { name: "Warm-up", def: "A structured period of graduated physical activity performed before the main session. Prepares the body physiologically and reduces acute injury risk.", hot: true, tip: "Physiological effects of warm-up are a very common exam question" },
+  { name: "Dynamic stretching", def: "Active, controlled movements through the full range of motion (e.g. leg swings, arm circles). Used during warm-up to increase ROM without reducing force production.", hot: true, tip: "Dynamic = warm-up. Static = cool-down. This distinction is commonly tested." },
+  { name: "Static stretching", def: "Holding a stretch at end range for 20-60 seconds. Used during cool-down when muscles are warm. Pre-activity static stretching may impair force production.", hot: true, tip: "Static stretching before activity does NOT reduce acute injury risk" },
+  { name: "Synovial fluid", def: "Lubricating fluid produced by the synovial membrane that reduces friction within joints. Production is stimulated by warm-up movement.", hot: false },
+  { name: "Vasodilation", def: "Widening of blood vessels during warm-up, increasing blood flow to working muscles. Delivers oxygen and nutrients while removing metabolic waste.", hot: false },
+  { name: "FIFA 11+", def: "A structured, evidence-based warm-up program for football players that reduces lower limb injury rates by up to 30-50%. Used as a model for sport-specific warm-up design.", hot: false },
+  { name: "Cool-down", def: "A period of low-intensity activity and static stretching performed after exercise to facilitate recovery and restore the body to a resting state.", hot: true, tip: "Physiological effects of cool-down are frequently examined" },
+  { name: "Venous return", def: "The flow of blood back to the heart from the muscles. A cool-down maintains venous return and prevents blood pooling in the lower limbs (post-exercise hypotension).", hot: false },
+  { name: "DOMS (delayed onset muscle soreness)", def: "Muscle soreness that peaks 24-48 hours after exercise, particularly following eccentric contractions. A cool-down helps reduce but does not eliminate DOMS.", hot: true, tip: "DOMS is caused by eccentric contractions specifically" },
+  { name: "Rehabilitation", def: "The structured, progressive process of restoring an injured athlete to full function and safe return to sport through criteria-based phases.", hot: true, tip: "Know all four phases and criteria to progress" },
+  { name: "RICER", def: "Immediate management protocol for acute soft tissue injuries: Rest, Ice, Compression, Elevation, Referral. Applied in the first 48-72 hours to minimise swelling and protect the injury.", hot: true, tip: "Must know each letter, action AND purpose for exam questions" },
+  { name: "HARM", def: "Actions to AVOID after acute soft tissue injury: Heat, Alcohol, Running, Massage. All cause vasodilation or mechanical disruption that worsens bleeding and swelling.", hot: true, tip: "HARM is the opposite of RICER &mdash; both asked in same question" },
+  { name: "TOTAPS", def: "On-field injury assessment protocol: Talk, Observe, Touch, Active movement, Passive movement, Skills test. Determines whether an injured athlete can safely return to play.", hot: true, tip: "Know each step and its purpose" },
+  { name: "Acute phase (rehabilitation)", def: "Phase 1 of rehabilitation (days 1-3). Goal: control inflammation, protect injury, manage pain. Key interventions: RICER, rest, gentle active movement.", hot: false },
+  { name: "Sub-acute phase (rehabilitation)", def: "Phase 2 of rehabilitation (days 3-21). Goal: restore pain-free ROM, begin light loading. Key interventions: gentle ROM, hydrotherapy, pain-free strengthening.", hot: false },
+  { name: "Remodelling phase (rehabilitation)", def: "Phase 3 (weeks 3-12+). Goal: rebuild strength, power and neuromuscular control to pre-injury levels. Key interventions: progressive resistance training, proprioception exercises.", hot: false },
+  { name: "Return to sport (rehabilitation)", def: "Phase 4 of rehabilitation. Goal: full sport-specific function and competition readiness. Requires medical clearance and passing sport-specific criteria.", hot: false },
+  { name: "Progressive overload (rehabilitation)", def: "The principle that rehabilitation load must be gradually and systematically increased as tissue heals. Too much too soon causes re-injury.", hot: false },
+  { name: "Criteria-based progression", def: "The principle that an athlete must meet specific functional criteria (not just a time period) before advancing to the next rehabilitation phase or returning to sport.", hot: true, tip: "Returning based on time alone is a common error that leads to re-injury" }
+];
+
+var colorMap = {
+  "blue":   ["Minimum fitness requirements","Muscular strength (injury prevention)","Muscular endurance (injury prevention)","Flexibility (injury prevention)","Neuromuscular control","Proprioception"],
+  "teal":   ["Warm-up","Dynamic stretching","Static stretching","Synovial fluid","Vasodilation","FIFA 11+"],
+  "purple": ["Cool-down","Venous return","DOMS (delayed onset muscle soreness)"],
+  "amber":  ["Rehabilitation","RICER","HARM","TOTAPS","Acute phase (rehabilitation)","Sub-acute phase (rehabilitation)","Remodelling phase (rehabilitation)","Return to sport (rehabilitation)","Progressive overload (rehabilitation)","Criteria-based progression"]
+};
+
+var labelMap = {
+  'blue':   '&#128170; Fitness Requirements &amp; Injury Prevention',
+  'teal':   '&#9650; Warm-Up',
+  'purple': '&#9660; Cool-Down',
+  'amber':  '&#129657; Rehabilitation &amp; Protocols',
+  'gray':   '&#128216; General Terms'
+};
+
+var currentQuery = '';
+
+function getColor(name) {
+  for (var c in colorMap) {
+    if (colorMap[c].indexOf(name) !== -1) return c;
+  }
+  return 'gray';
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildList(filtered) {
+  var container = document.getElementById('list');
+  var noResults = document.getElementById('no-results');
+  if (!filtered || filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  var byColor = {};
+  for (var i = 0; i < filtered.length; i++) {
+    var c = getColor(filtered[i].name);
+    if (!byColor[c]) byColor[c] = [];
+    byColor[c].push(filtered[i]);
+  }
+  var colorOrder = ['blue','teal','purple','amber','gray'];
+  var isSearching = currentQuery !== '';
+  var html = '';
+  for (var ci = 0; ci < colorOrder.length; ci++) {
+    var col = colorOrder[ci];
+    if (!byColor[col] || byColor[col].length === 0) continue;
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    html += '<div class="cat-wrap ' + col + '" style="margin-top:10px;">';
+    html += '<div class="cat-head" onclick="toggleC(this)">' + labelMap[col] + ' <span>' + arrow + '</span></div>';
+    html += '<div class="' + bodyClass + '">';
+    for (var j = 0; j < byColor[col].length; j++) {
+      var t = byColor[col][j];
+      var displayName = isSearching ? highlight(t.name, currentQuery) : t.name;
+      var displayDef  = isSearching ? highlight(t.def,  currentQuery) : t.def;
+      html += '<div class="term-row">';
+      html += '<span class="term-name">' + displayName;
+      if (t.hot) {
+        html += '<span class="hot-badge">HOT<span class="tooltip">' + (t.tip || 'Commonly examined') + '</span></span>';
+      }
+      html += '</span><span class="term-def">' + displayDef + '</span></div>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+buildList(terms);
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  if (currentQuery === '') { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].name.toLowerCase().indexOf(val) !== -1 || terms[i].def.toLowerCase().indexOf(val) !== -1) {
+      filtered.push(terms[i]);
+    }
+  }
+  buildList(filtered);
+  countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) { listEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  buildList(terms);
+}
+
+function toggleC(head) {
+  var body = head.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = head.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function toggleB(trigger) {
+  var body = trigger.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = trigger.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+</script>
+</body>
+</html>

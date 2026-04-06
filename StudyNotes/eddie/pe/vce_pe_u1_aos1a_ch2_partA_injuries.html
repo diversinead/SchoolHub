@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part A: Musculoskeletal Injuries &amp; Spinal Injuries</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; letter-spacing: 0.5px; }
+    .subtitle { text-align: center; background: #1a3d48; color: #eaf4f7; font-size: 0.88em; padding: 6px 16px 14px; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #fff; border-bottom: 2px solid #e0e0e0; }
+    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1.5px solid #2c5f6e; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e8e8e8; }
+    #search { flex: 1; padding: 8px 12px; border: 1.5px solid #c0c0c0; border-radius: 20px; font-size: 0.9em; outline: none; }
+    #search:focus { border-color: #2c5f6e; }
+    #search-clear { background: #2c5f6e; color: #fff; border: none; border-radius: 16px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; }
+    #search-count { font-size: 0.82em; color: #888; min-width: 80px; }
+    .section-label { font-size: 1.12em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 10px 18px; margin: 18px 14px 8px; border-radius: 8px; letter-spacing: 0.3px; }
+
+    /* ACCORDION */
+    .cat-wrap { margin: 8px 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ddd; }
+    .cat-wrap.purple { border-color: #AFA9EC; }
+    .cat-wrap.teal   { border-color: #5DCAA5; }
+    .cat-wrap.coral  { border-color: #D85A30; }
+    .cat-wrap.amber  { border-color: #BA7517; }
+    .cat-wrap.blue   { border-color: #378ADD; }
+    .cat-wrap.pink   { border-color: #D4537E; }
+    .cat-wrap.gray   { border-color: #888780; }
+    .cat-head { padding: 11px 16px; font-weight: 700; cursor: pointer; font-size: 0.97em; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.18); color: #4a3fa0; }
+    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #1a7a58; }
+    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #1a3d48; }
+    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12); color: #7a4d0a; }
+    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.14); color: #1a4f8a; }
+    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #8b2050; }
+    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.12); color: #444440; }
+    .cat-body { display: none; padding: 14px 16px; background: #fff; }
+    .cat-body.open { display: block; }
+
+    /* TERMS */
+    .term-row { border-bottom: 1px solid #f0f0f0; padding: 9px 4px; display: flex; gap: 10px; align-items: flex-start; }
+    .term-row:last-child { border-bottom: none; }
+    .term-name { font-weight: 700; min-width: 190px; color: #1a1a2e; font-size: 0.93em; }
+    .term-def { color: #333; font-size: 0.91em; flex: 1; }
+    .hot-badge { display: inline-block; background: #2c5f6e; color: #fff; font-size: 0.68em; font-weight: 700; border-radius: 10px; padding: 2px 7px; margin-left: 6px; position: relative; cursor: default; letter-spacing: 0.4px; }
+    .hot-badge .tooltip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a1a2e; color: #fff; font-size: 0.82em; border-radius: 6px; padding: 5px 9px; white-space: nowrap; z-index: 99; font-weight: 400; }
+    .hot-badge:hover .tooltip { display: block; }
+    mark { background: #ffe066; border-radius: 3px; padding: 0 2px; }
+
+    /* DIAGRAM WRAP */
+    .diagram-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .diagram-wrap.blue   { border-color: #378ADD; }
+    .diagram-wrap.purple { border-color: #AFA9EC; }
+    .diagram-wrap.coral  { border-color: #D85A30; }
+    .diagram-wrap.amber  { border-color: #BA7517; }
+    .diagram-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .diagram-wrap.blue   .diagram-head { background: #f3f7fd; color: #1a4f8a; }
+    .diagram-wrap.purple .diagram-head { background: #f5f4fc; color: #4a3fa0; }
+    .diagram-wrap.coral  .diagram-head { background: #f0f7f9; color: #1a3d48; }
+    .diagram-wrap.amber  .diagram-head { background: #fdf8f0; color: #7a4d0a; }
+    .diagram-body { display: none; padding: 14px; background: #fff; }
+    .diagram-body.open { display: block; }
+
+    /* BOX WRAP */
+    .box-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .box-wrap.blue   { border-color: #378ADD; }
+    .box-wrap.purple { border-color: #AFA9EC; }
+    .box-wrap.teal   { border-color: #5DCAA5; }
+    .box-wrap.amber  { border-color: #BA7517; }
+    .box-wrap.green  { border-color: #27ae60; }
+    .box-wrap.coral  { border-color: #D85A30; }
+    .box-wrap.pink   { border-color: #D4537E; }
+    .box-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .box-wrap.blue   .box-head { background: #f3f7fd; color: #1a4f8a; }
+    .box-wrap.purple .box-head { background: #f5f4fc; color: #4a3fa0; }
+    .box-wrap.amber  .box-head { background: #fdf8f0; color: #7a4d0a; }
+    .box-wrap.green  .box-head { background: #eafaf1; color: #1a6b38; }
+    .box-wrap.coral  .box-head { background: #f0f7f9; color: #1a3d48; }
+    .box-wrap.pink   .box-head { background: #fdf5f8; color: #8b2050; }
+    .box-body { display: none; padding: 14px; background: #fff; }
+    .box-body.open { display: block; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; margin-top: 8px; }
+    th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; font-size: 0.9em; }
+    td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8f8f8; }
+    tr:hover td { background: #eaf4f7; }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box { background: #fafafa; border-left: 4px solid #c8a84b; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 0.9em; }
+    .highlight-box.red { background: #f0f7f9; border-left-color: #2c5f6e; }
+    .highlight-box.teal { background: #fafafa; border-left-color: #5DCAA5; }
+    .highlight-box.blue { background: #fafafa; border-left-color: #378ADD; }
+    .tip-box { background: #fafafa; border: 1px solid #ccc; border-left: 4px solid #5DCAA5; border-radius: 8px; padding: 10px 14px; margin: 10px 0; font-size: 0.89em; }
+
+    /* SVG */
+    svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+    /* LIGHTBOX */
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 1000; justify-content: center; align-items: center; }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-inner { position: relative; max-width: 92vw; max-height: 88vh; }
+    .lightbox-inner img { max-width: 92vw; max-height: 84vh; border-radius: 8px; border: 3px solid #fff; display: block; }
+    .lightbox-close { position: absolute; top: -14px; right: -14px; background: #2c5f6e; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.1em; cursor: pointer; font-weight: 700; }
+    .lightbox-caption { color: #fff; text-align: center; margin-top: 8px; font-size: 0.88em; }
+    .img-btn { display: inline-block; background: #2980b9; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.84em; cursor: pointer; margin: 6px 4px 4px 0; }
+    .img-btn:hover { background: #1a5f8a; }
+
+    /* FOOTER */
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+
+    #no-results { display: none; text-align: center; color: #2c5f6e; padding: 18px; font-style: italic; }
+
+    ul { padding-left: 20px; margin: 6px 0; }
+    ul li { margin-bottom: 4px; }
+    p { margin: 6px 0; }
+    strong { color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 2 Part A &middot; 2A: Musculoskeletal Injuries &amp; Spinal Injuries &middot; Live it Up 5th ed.</p>
+
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('sec21')">2.1 Overview</span>
+  <span class="nav-pill" onclick="jumpTo('sec22')">2.2 Soft Tissue</span>
+  <span class="nav-pill" onclick="jumpTo('sec23')">2.3 Hard Tissue</span>
+  <span class="nav-pill" onclick="jumpTo('sec25')">2.4 Spinal Injuries</span>
+  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128216; Key Terms</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2.1 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="sec21">&#129657; Section 2.1 &mdash; Overview of Musculoskeletal Injuries</p>
+
+<div class="diagram-wrap blue">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Injury Classification Overview <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+
+      <!-- ROOT NODE -->
+      <rect x="325" y="14" width="250" height="44" rx="10" fill="#2c5f6e" stroke="#1a3d48" stroke-width="2"/>
+      <text x="450" y="38" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Musculoskeletal Injuries</text>
+
+      <!-- TRUNK LINE down from root -->
+      <line x1="450" y1="58" x2="450" y2="82" stroke="#555" stroke-width="2"/>
+
+      <!-- HORIZONTAL BRANCH linking 3 category nodes -->
+      <line x1="150" y1="82" x2="750" y2="82" stroke="#555" stroke-width="2"/>
+
+      <!-- DROP LINES to each category -->
+      <line x1="150" y1="82" x2="150" y2="104" stroke="#555" stroke-width="2"/>
+      <line x1="450" y1="82" x2="450" y2="104" stroke="#555" stroke-width="2"/>
+      <line x1="750" y1="82" x2="750" y2="104" stroke="#555" stroke-width="2"/>
+
+      <!-- CATEGORY: Soft Tissue (left, centre x=150) -->
+      <rect x="40" y="104" width="220" height="44" rx="10" fill="#D85A30" stroke="#1a3d48" stroke-width="2"/>
+      <text x="150" y="122" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Soft Tissue</text>
+      <text x="150" y="139" text-anchor="middle" fill="#fff" font-size="11">Injuries</text>
+
+      <!-- CATEGORY: Hard Tissue (centre, centre x=450) -->
+      <rect x="340" y="104" width="220" height="44" rx="10" fill="#378ADD" stroke="#1a4f8a" stroke-width="2"/>
+      <text x="450" y="122" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Hard Tissue</text>
+      <text x="450" y="139" text-anchor="middle" fill="#fff" font-size="11">Injuries</text>
+
+      <!-- CATEGORY: Overuse/Chronic (right, centre x=750) -->
+      <rect x="640" y="104" width="220" height="44" rx="10" fill="#5DCAA5" stroke="#1a7a58" stroke-width="2"/>
+      <text x="750" y="122" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Overuse /</text>
+      <text x="750" y="139" text-anchor="middle" fill="#fff" font-size="11">Chronic Injuries</text>
+
+      <!-- SOFT TISSUE CHILDREN: 3 boxes, evenly spaced under x=150 -->
+      <!-- Horizontal connector at y=178 -->
+      <line x1="150" y1="148" x2="150" y2="178" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="40" y1="178" x2="260" y2="178" stroke="#D85A30" stroke-width="1.5"/>
+      <!-- Drop lines -->
+      <line x1="40"  y1="178" x2="40"  y2="196" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="150" y1="178" x2="150" y2="196" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="260" y1="178" x2="260" y2="196" stroke="#D85A30" stroke-width="1.5"/>
+      <!-- Sprain box: centred on x=40 -->
+      <rect x="4" y="196" width="72" height="48" rx="7" fill="#f0f7f9" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="40" y="215" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">Sprain</text>
+      <text x="40" y="229" text-anchor="middle" fill="#1a3d48" font-size="10">Ligament</text>
+      <text x="40" y="241" text-anchor="middle" fill="#1a3d48" font-size="10">injury</text>
+      <!-- Strain box: centred on x=150 -->
+      <rect x="110" y="196" width="80" height="48" rx="7" fill="#f0f7f9" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="150" y="215" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">Strain</text>
+      <text x="150" y="229" text-anchor="middle" fill="#1a3d48" font-size="10">Muscle /</text>
+      <text x="150" y="241" text-anchor="middle" fill="#1a3d48" font-size="10">Tendon</text>
+      <!-- Contusion box: centred on x=260 -->
+      <rect x="214" y="196" width="92" height="48" rx="7" fill="#f0f7f9" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="260" y="215" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">Contusion</text>
+      <text x="260" y="229" text-anchor="middle" fill="#1a3d48" font-size="10">Bruise /</text>
+      <text x="260" y="241" text-anchor="middle" fill="#1a3d48" font-size="10">Haematoma</text>
+
+      <!-- HARD TISSUE CHILDREN: 3 boxes under x=450 -->
+      <line x1="450" y1="148" x2="450" y2="178" stroke="#378ADD" stroke-width="1.5"/>
+      <line x1="340" y1="178" x2="560" y2="178" stroke="#378ADD" stroke-width="1.5"/>
+      <line x1="340" y1="178" x2="340" y2="196" stroke="#378ADD" stroke-width="1.5"/>
+      <line x1="450" y1="178" x2="450" y2="196" stroke="#378ADD" stroke-width="1.5"/>
+      <line x1="560" y1="178" x2="560" y2="196" stroke="#378ADD" stroke-width="1.5"/>
+      <!-- Fracture box: centred on x=340 -->
+      <rect x="298" y="196" width="84" height="48" rx="7" fill="#e8f2fd" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="340" y="215" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Fracture</text>
+      <text x="340" y="229" text-anchor="middle" fill="#1a4f8a" font-size="10">Break in</text>
+      <text x="340" y="241" text-anchor="middle" fill="#1a4f8a" font-size="10">bone</text>
+      <!-- Dislocation box: centred on x=450 -->
+      <rect x="402" y="196" width="96" height="48" rx="7" fill="#e8f2fd" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="450" y="215" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Dislocation</text>
+      <text x="450" y="229" text-anchor="middle" fill="#1a4f8a" font-size="10">Joint surfaces</text>
+      <text x="450" y="241" text-anchor="middle" fill="#1a4f8a" font-size="10">fully separated</text>
+      <!-- Subluxation box: centred on x=560 -->
+      <rect x="510" y="196" width="100" height="48" rx="7" fill="#e8f2fd" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="560" y="215" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Subluxation</text>
+      <text x="560" y="229" text-anchor="middle" fill="#1a4f8a" font-size="10">Partial</text>
+      <text x="560" y="241" text-anchor="middle" fill="#1a4f8a" font-size="10">dislocation</text>
+
+      <!-- OVERUSE CHILDREN: 2 boxes under x=750 -->
+      <line x1="750" y1="148" x2="750" y2="178" stroke="#5DCAA5" stroke-width="1.5"/>
+      <line x1="660" y1="178" x2="840" y2="178" stroke="#5DCAA5" stroke-width="1.5"/>
+      <line x1="660" y1="178" x2="660" y2="196" stroke="#5DCAA5" stroke-width="1.5"/>
+      <line x1="840" y1="178" x2="840" y2="196" stroke="#5DCAA5" stroke-width="1.5"/>
+      <!-- Stress Fracture box: centred on x=660 -->
+      <rect x="606" y="196" width="108" height="48" rx="7" fill="#e8faf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="660" y="213" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Stress</text>
+      <text x="660" y="227" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Fracture</text>
+      <text x="660" y="241" text-anchor="middle" fill="#1a7a58" font-size="10">Repetitive load</text>
+      <!-- Tendinopathy box: centred on x=840 -->
+      <rect x="786" y="196" width="108" height="48" rx="7" fill="#e8faf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="840" y="213" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Tendinopathy</text>
+      <text x="840" y="227" text-anchor="middle" fill="#1a7a58" font-size="10">Tendon</text>
+      <text x="840" y="241" text-anchor="middle" fill="#1a7a58" font-size="10">overuse</text>
+
+      <!-- BOTTOM SUMMARY: Acute vs Chronic -->
+      <rect x="20" y="270" width="380" height="58" rx="8" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="210" y="292" text-anchor="middle" fill="#8b1a1a" font-size="12" font-weight="bold">&#9650; Acute Injuries</text>
+      <text x="210" y="310" text-anchor="middle" fill="#8b1a1a" font-size="11">Sudden onset &mdash; single traumatic event</text>
+      <text x="210" y="324" text-anchor="middle" fill="#8b1a1a" font-size="10">e.g. sprain, strain, fracture, contusion</text>
+
+      <rect x="500" y="270" width="380" height="58" rx="8" fill="#e8faf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="690" y="292" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">&#9650; Chronic / Overuse Injuries</text>
+      <text x="690" y="310" text-anchor="middle" fill="#1a7a58" font-size="11">Gradual onset &mdash; repetitive loading over time</text>
+      <text x="690" y="324" text-anchor="middle" fill="#1a7a58" font-size="10">e.g. stress fracture, tendinopathy, bursitis</text>
+
+      <!-- KEY DISTINCTION note -->
+      <rect x="20" y="344" width="860" height="58" rx="8" fill="#fef9e7" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="450" y="364" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">&#9888; Key Exam Distinction</text>
+      <text x="450" y="382" text-anchor="middle" fill="#7a4d0a" font-size="11">SPRAIN = ligament (bone-to-bone)     |     STRAIN = muscle or tendon (muscle-to-bone)</text>
+      <text x="450" y="396" text-anchor="middle" fill="#7a4d0a" font-size="10">Grade I = mild (fibres stretched)     |     Grade II = partial tear     |     Grade III = complete rupture</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap purple">
+  <div class="cat-head" onclick="toggleC(this)">&#128218; 2.1 Overview: Key Concepts <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Musculoskeletal injuries</strong> affect the bones, muscles, tendons, ligaments, cartilage and other connective tissues of the body. They are among the most common injuries in sport and physical activity.</p>
+    <button class="img-btn" onclick="openLightbox('ch2_classification_of_injuries.png', 'Fig 2 &mdash; Classification of Musculoskeletal Injuries (Live it Up 5th ed.)')">&#128247; Fig 2 &mdash; Classification of Injuries</button>
+    <div class="highlight-box">
+      <strong>&#128161; Two major categories:</strong><br>
+      <strong>Soft tissue injuries</strong> &mdash; involve muscles, tendons, ligaments, bursae and cartilage (do not involve bone)<br>
+      <strong>Hard tissue injuries</strong> &mdash; involve bone (fractures, dislocations)
+    </div>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Acute vs Chronic Injuries <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Acute Injury</th><th>Chronic / Overuse Injury</th></tr>
+          <tr><td>Onset</td><td>Sudden &mdash; single traumatic event</td><td>Gradual &mdash; builds over time</td></tr>
+          <tr><td>Cause</td><td>Direct blow, fall, collision, awkward movement</td><td>Repetitive loading, poor technique, overtraining</td></tr>
+          <tr><td>Examples</td><td>Sprained ankle, fractured tibia, hamstring strain</td><td>Stress fracture, shin splints, tendinopathy</td></tr>
+          <tr><td>Pain onset</td><td>Immediate</td><td>Builds progressively</td></tr>
+          <tr><td>Signs</td><td>Swelling, bruising, pain, reduced ROM immediately</td><td>Dull ache, stiffness, worsens with activity</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Intrinsic vs Extrinsic Risk Factors <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Intrinsic (internal &mdash; within the athlete)</th><th>Extrinsic (external &mdash; outside the athlete)</th></tr>
+          <tr><td>Age</td><td>Playing surface (hard vs soft)</td></tr>
+          <tr><td>Previous injury history</td><td>Equipment (footwear, protective gear)</td></tr>
+          <tr><td>Muscle strength and flexibility</td><td>Weather/environmental conditions</td></tr>
+          <tr><td>Fitness level</td><td>Rules of the sport</td></tr>
+          <tr><td>Body composition</td><td>Coaching quality and technique instruction</td></tr>
+          <tr><td>Structural alignment (e.g. flat feet)</td><td>Training load and volume</td></tr>
+          <tr><td>Psychological factors (risk-taking)</td><td>Referee enforcement of rules</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>&#9888; Exam tip:</strong> Intrinsic factors are those <em>within</em> the athlete &mdash; remember &ldquo;IN-trinsic = INternal.&rdquo; Extrinsic factors come from the external environment.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2.2 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="sec22">&#129657; Section 2.2 &mdash; Soft Tissue Injuries</p>
+
+<div class="diagram-wrap coral">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Soft Tissue Injury Classification Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+
+      <!-- TITLE -->
+      <rect x="330" y="10" width="300" height="38" rx="10" fill="#D85A30" stroke="#1a3d48" stroke-width="2"/>
+      <text x="480" y="34" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Soft Tissue Injuries</text>
+
+      <!-- TRUNK + HORIZONTAL BRANCH to 3 category nodes -->
+      <line x1="480" y1="48" x2="480" y2="70" stroke="#D85A30" stroke-width="2"/>
+      <line x1="160" y1="70" x2="800" y2="70" stroke="#D85A30" stroke-width="2"/>
+      <line x1="160" y1="70" x2="160" y2="88" stroke="#D85A30" stroke-width="2"/>
+      <line x1="480" y1="70" x2="480" y2="88" stroke="#D85A30" stroke-width="2"/>
+      <line x1="800" y1="70" x2="800" y2="88" stroke="#D85A30" stroke-width="2"/>
+
+      <!-- CATEGORY: SPRAIN (left, centre x=160) -->
+      <rect x="50" y="88" width="220" height="44" rx="8" fill="#f0f7f9" stroke="#D85A30" stroke-width="2"/>
+      <text x="160" y="108" text-anchor="middle" fill="#1a3d48" font-size="13" font-weight="bold">SPRAIN</text>
+      <text x="160" y="124" text-anchor="middle" fill="#1a3d48" font-size="11">Ligament injury</text>
+
+      <!-- CATEGORY: STRAIN (centre, centre x=480) -->
+      <rect x="370" y="88" width="220" height="44" rx="8" fill="#fdeef4" stroke="#D4537E" stroke-width="2"/>
+      <text x="480" y="108" text-anchor="middle" fill="#8b2050" font-size="13" font-weight="bold">STRAIN</text>
+      <text x="480" y="124" text-anchor="middle" fill="#8b2050" font-size="11">Muscle or tendon injury</text>
+
+      <!-- CATEGORY: CONTUSION/OTHER (right, centre x=800) -->
+      <rect x="690" y="88" width="220" height="44" rx="8" fill="#e8faf4" stroke="#5DCAA5" stroke-width="2"/>
+      <text x="800" y="108" text-anchor="middle" fill="#1a7a58" font-size="13" font-weight="bold">CONTUSION / OTHER</text>
+      <text x="800" y="124" text-anchor="middle" fill="#1a7a58" font-size="11">Bruise, bursitis, laceration</text>
+
+      <!-- SPRAIN GRADE CHILDREN: 3 boxes, centres at x=60, x=160, x=260 -->
+      <!-- Horizontal connector at y=158 -->
+      <line x1="160" y1="132" x2="160" y2="158" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="60"  y1="158" x2="260" y2="158" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="60"  y1="158" x2="60"  y2="174" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="160" y1="158" x2="160" y2="174" stroke="#D85A30" stroke-width="1.5"/>
+      <line x1="260" y1="158" x2="260" y2="174" stroke="#D85A30" stroke-width="1.5"/>
+      <!-- Sprain Grade I: centre x=60 -->
+      <rect x="14" y="174" width="92" height="66" rx="7" fill="#fff5f3" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="60" y="193" text-anchor="middle" fill="#D85A30" font-size="12" font-weight="bold">Grade I</text>
+      <text x="60" y="208" text-anchor="middle" fill="#555" font-size="10">Minor tearing</text>
+      <text x="60" y="221" text-anchor="middle" fill="#555" font-size="10">Fibres stretched</text>
+      <text x="60" y="234" text-anchor="middle" fill="#555" font-size="10">Mild pain/swelling</text>
+      <!-- Sprain Grade II: centre x=160 -->
+      <rect x="114" y="174" width="92" height="66" rx="7" fill="#fff5f3" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="160" y="193" text-anchor="middle" fill="#D85A30" font-size="12" font-weight="bold">Grade II</text>
+      <text x="160" y="208" text-anchor="middle" fill="#555" font-size="10">Partial tear</text>
+      <text x="160" y="221" text-anchor="middle" fill="#555" font-size="10">Moderate swelling</text>
+      <text x="160" y="234" text-anchor="middle" fill="#555" font-size="10">Some instability</text>
+      <!-- Sprain Grade III: centre x=260 -->
+      <rect x="214" y="174" width="92" height="66" rx="7" fill="#fff5f3" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="260" y="193" text-anchor="middle" fill="#D85A30" font-size="12" font-weight="bold">Grade III</text>
+      <text x="260" y="208" text-anchor="middle" fill="#555" font-size="10">Complete rupture</text>
+      <text x="260" y="221" text-anchor="middle" fill="#555" font-size="10">Severe instability</text>
+      <text x="260" y="234" text-anchor="middle" fill="#555" font-size="10">Loss of function</text>
+
+      <!-- STRAIN GRADE CHILDREN: 3 boxes, centres at x=380, x=480, x=580 -->
+      <line x1="480" y1="132" x2="480" y2="158" stroke="#D4537E" stroke-width="1.5"/>
+      <line x1="380" y1="158" x2="580" y2="158" stroke="#D4537E" stroke-width="1.5"/>
+      <line x1="380" y1="158" x2="380" y2="174" stroke="#D4537E" stroke-width="1.5"/>
+      <line x1="480" y1="158" x2="480" y2="174" stroke="#D4537E" stroke-width="1.5"/>
+      <line x1="580" y1="158" x2="580" y2="174" stroke="#D4537E" stroke-width="1.5"/>
+      <!-- Strain Grade I: centre x=380 -->
+      <rect x="334" y="174" width="92" height="66" rx="7" fill="#fdf0f5" stroke="#D4537E" stroke-width="1.5"/>
+      <text x="380" y="193" text-anchor="middle" fill="#D4537E" font-size="12" font-weight="bold">Grade I</text>
+      <text x="380" y="208" text-anchor="middle" fill="#555" font-size="10">Mild overstretch</text>
+      <text x="380" y="221" text-anchor="middle" fill="#555" font-size="10">Few fibres torn</text>
+      <text x="380" y="234" text-anchor="middle" fill="#555" font-size="10">Full strength kept</text>
+      <!-- Strain Grade II: centre x=480 -->
+      <rect x="434" y="174" width="92" height="66" rx="7" fill="#fdf0f5" stroke="#D4537E" stroke-width="1.5"/>
+      <text x="480" y="193" text-anchor="middle" fill="#D4537E" font-size="12" font-weight="bold">Grade II</text>
+      <text x="480" y="208" text-anchor="middle" fill="#555" font-size="10">Partial tear</text>
+      <text x="480" y="221" text-anchor="middle" fill="#555" font-size="10">Significant pain</text>
+      <text x="480" y="234" text-anchor="middle" fill="#555" font-size="10">Reduced strength</text>
+      <!-- Strain Grade III: centre x=580 -->
+      <rect x="534" y="174" width="92" height="66" rx="7" fill="#fdf0f5" stroke="#D4537E" stroke-width="1.5"/>
+      <text x="580" y="193" text-anchor="middle" fill="#D4537E" font-size="12" font-weight="bold">Grade III</text>
+      <text x="580" y="208" text-anchor="middle" fill="#555" font-size="10">Complete rupture</text>
+      <text x="580" y="221" text-anchor="middle" fill="#555" font-size="10">Severe pain</text>
+      <text x="580" y="234" text-anchor="middle" fill="#555" font-size="10">No function</text>
+
+      <!-- CONTUSION/OTHER CHILDREN: 2 boxes, centres at x=740 and x=860 -->
+      <line x1="800" y1="132" x2="800" y2="158" stroke="#5DCAA5" stroke-width="1.5"/>
+      <line x1="740" y1="158" x2="860" y2="158" stroke="#5DCAA5" stroke-width="1.5"/>
+      <line x1="740" y1="158" x2="740" y2="174" stroke="#5DCAA5" stroke-width="1.5"/>
+      <line x1="860" y1="158" x2="860" y2="174" stroke="#5DCAA5" stroke-width="1.5"/>
+      <!-- Contusion: centre x=740 -->
+      <rect x="686" y="174" width="108" height="66" rx="7" fill="#e8faf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="740" y="193" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Contusion</text>
+      <text x="740" y="208" text-anchor="middle" fill="#555" font-size="10">Direct blow</text>
+      <text x="740" y="221" text-anchor="middle" fill="#555" font-size="10">Capillary bleeding</text>
+      <text x="740" y="234" text-anchor="middle" fill="#555" font-size="10">Bruise / haematoma</text>
+      <!-- Bursitis: centre x=860 -->
+      <rect x="806" y="174" width="108" height="66" rx="7" fill="#e8faf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="860" y="193" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Bursitis</text>
+      <text x="860" y="208" text-anchor="middle" fill="#555" font-size="10">Bursa inflammation</text>
+      <text x="860" y="221" text-anchor="middle" fill="#555" font-size="10">Repetitive friction</text>
+      <text x="860" y="234" text-anchor="middle" fill="#555" font-size="10">or direct trauma</text>
+
+      <!-- BOTTOM SUMMARY BOXES -->
+      <!-- Sprain reminder -->
+      <rect x="14" y="260" width="288" height="120" rx="8" fill="#f0f7f9" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="158" y="281" text-anchor="middle" fill="#1a3d48" font-size="12" font-weight="bold">SPRAIN &mdash; Ligament</text>
+      <text x="158" y="299" text-anchor="middle" fill="#555" font-size="11">Connects BONE to BONE</text>
+      <text x="158" y="315" text-anchor="middle" fill="#555" font-size="11">Stabilises joints</text>
+      <text x="158" y="331" text-anchor="middle" fill="#2c5f6e" font-size="10" font-weight="bold">Common: ankle (ATFL)</text>
+      <text x="158" y="345" text-anchor="middle" fill="#2c5f6e" font-size="10" font-weight="bold">knee (ACL, MCL)</text>
+      <text x="158" y="370" text-anchor="middle" fill="#1a3d48" font-size="10" font-style="italic">Grades I &ndash; III apply</text>
+
+      <!-- Strain reminder -->
+      <rect x="336" y="260" width="288" height="120" rx="8" fill="#fdeef4" stroke="#D4537E" stroke-width="1.5"/>
+      <text x="480" y="281" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">STRAIN &mdash; Muscle / Tendon</text>
+      <text x="480" y="299" text-anchor="middle" fill="#555" font-size="11">Tendon: MUSCLE to BONE</text>
+      <text x="480" y="315" text-anchor="middle" fill="#555" font-size="11">Transfers force for movement</text>
+      <text x="480" y="331" text-anchor="middle" fill="#8b2050" font-size="10" font-weight="bold">Common: hamstring, calf</text>
+      <text x="480" y="345" text-anchor="middle" fill="#8b2050" font-size="10" font-weight="bold">quadriceps, Achilles</text>
+      <text x="480" y="370" text-anchor="middle" fill="#8b2050" font-size="10" font-style="italic">Grades I &ndash; III apply</text>
+
+      <!-- Grade key -->
+      <rect x="658" y="260" width="288" height="120" rx="8" fill="#fef9e7" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="802" y="281" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">&#9888; Grade Key</text>
+      <text x="802" y="300" text-anchor="middle" fill="#7a4d0a" font-size="11">Grade I &mdash; mild, fibres stretched</text>
+      <text x="802" y="318" text-anchor="middle" fill="#7a4d0a" font-size="11">Grade II &mdash; partial tear</text>
+      <text x="802" y="336" text-anchor="middle" fill="#7a4d0a" font-size="11">Grade III &mdash; complete rupture</text>
+      <text x="802" y="356" text-anchor="middle" fill="#2c5f6e" font-size="10" font-weight="bold">Applies to BOTH sprains</text>
+      <text x="802" y="370" text-anchor="middle" fill="#2c5f6e" font-size="10" font-weight="bold">AND strains</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap coral">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.2.1 Sprains &mdash; Ligament Injuries <span class="hot-badge">HOT TOPIC<span class="tooltip">Frequently examined &mdash; must distinguish sprain vs strain</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>sprain</strong> is a stretching or tearing of a <strong>ligament</strong> &mdash; the connective tissue that connects bone to bone and stabilises joints.</p>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Sprain Grades at a Glance <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Grade</th><th>Severity</th><th>Tissue Damage</th><th>Signs &amp; Symptoms</th><th>Return to Sport</th></tr>
+          <tr><td><strong>Grade I (Mild)</strong></td><td>Minor</td><td>Microscopic tearing &mdash; fibres stretched but intact</td><td>Localised pain and tenderness, minimal swelling, no instability</td><td>Days to 1&ndash;2 weeks</td></tr>
+          <tr><td><strong>Grade II (Moderate)</strong></td><td>Partial tear</td><td>Significant proportion of fibres torn</td><td>Moderate swelling, bruising, pain, some joint instability</td><td>3&ndash;8 weeks</td></tr>
+          <tr><td><strong>Grade III (Severe)</strong></td><td>Complete rupture</td><td>Full thickness tear &mdash; ligament no longer functional</td><td>Severe swelling, significant bruising, marked instability, loss of function</td><td>6&ndash;12+ months (may require surgery)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Common Sprain Sites in Sport <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Site</th><th>Ligament(s)</th><th>Typical Mechanism</th><th>Sport Examples</th></tr>
+          <tr><td>Ankle (lateral)</td><td>ATFL (anterior talofibular)</td><td>Inversion (rolling the ankle inward)</td><td>Basketball, netball, football</td></tr>
+          <tr><td>Knee (medial)</td><td>MCL (medial collateral)</td><td>Valgus force (blow to outside of knee)</td><td>AFL, rugby, soccer</td></tr>
+          <tr><td>Knee (anterior)</td><td>ACL (anterior cruciate)</td><td>Sudden deceleration, pivot, landing</td><td>Netball, AFL, soccer</td></tr>
+          <tr><td>Wrist</td><td>Scapholunate ligament</td><td>Fall on outstretched hand (FOOSH)</td><td>Gymnastics, skateboarding</td></tr>
+          <tr><td>Thumb (UCL)</td><td>Ulnar collateral ligament</td><td>Forced abduction of thumb</td><td>Skiing, rugby</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box red">
+      <strong>&#9888; Critical distinction (most common exam error):</strong><br>
+      <strong>SPRAIN</strong> = LIGAMENT (bone to bone) &mdash; <em>think: SPrained ligament</em><br>
+      <strong>STRAIN</strong> = MUSCLE or TENDON &mdash; <em>think: STrained muscle</em>
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap pink">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.2.2 Strains &mdash; Muscle and Tendon Injuries <span class="hot-badge">HOT TOPIC<span class="tooltip">Grading system frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>strain</strong> is a stretching or tearing of a <strong>muscle</strong> or its <strong>tendon</strong> &mdash; the connective tissue that connects muscle to bone and transmits force during movement.</p>
+    <div class="box-wrap pink">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Strain Grades at a Glance <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Grade</th><th>Severity</th><th>Tissue Damage</th><th>Signs &amp; Symptoms</th><th>Return to Sport</th></tr>
+          <tr><td><strong>Grade I (Mild)</strong></td><td>Overstretching</td><td>Minimal fibre tearing (&lt;10%)</td><td>Localised pain, stiffness, minimal swelling, full strength maintained</td><td>1&ndash;2 weeks</td></tr>
+          <tr><td><strong>Grade II (Moderate)</strong></td><td>Partial tear</td><td>Partial muscle/tendon fibre disruption</td><td>Moderate pain, swelling, bruising, weakness, reduced ROM</td><td>3&ndash;6 weeks</td></tr>
+          <tr><td><strong>Grade III (Severe)</strong></td><td>Complete rupture</td><td>Full thickness tear or complete tendon avulsion</td><td>Severe pain at time of injury, significant swelling and bruising, complete loss of strength and function</td><td>3&ndash;6 months (may require surgery)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Common Strain Sites in Sport <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Site</th><th>Structure</th><th>Typical Mechanism</th><th>Sport Examples</th></tr>
+          <tr><td>Hamstring</td><td>Biceps femoris, semimembranosus, semitendinosus</td><td>Rapid sprint acceleration or high kick; eccentric overload at end range</td><td>AFL, sprinting, soccer</td></tr>
+          <tr><td>Calf (gastrocnemius)</td><td>Gastrocnemius/soleus muscles</td><td>Sudden push-off or change of direction</td><td>Tennis, squash, basketball</td></tr>
+          <tr><td>Quadriceps</td><td>Rectus femoris (most common)</td><td>Powerful kicking or sudden deceleration</td><td>Soccer, AFL, rugby</td></tr>
+          <tr><td>Groin (adductors)</td><td>Adductor longus</td><td>Rapid change of direction or side-step</td><td>Soccer, ice hockey, AFL</td></tr>
+          <tr><td>Achilles tendon</td><td>Achilles tendon</td><td>Sudden explosive push-off or change in training load</td><td>Running, basketball, netball</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Why do strains commonly occur during eccentric contractions?</strong><br>
+      Eccentric contractions require the muscle to produce force while lengthening &mdash; this generates the highest mechanical stress. Hamstring strains during sprinting typically occur in the late swing phase when the hamstring eccentrically decelerates the leg.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap teal">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.2.3 Contusions <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>contusion</strong> (bruise) is a soft tissue injury caused by a direct blow or impact that does not break the skin. The blow damages the underlying capillaries and muscle fibres, causing bleeding into the surrounding tissue (haematoma).</p>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Types of Contusions <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Common Site</th></tr>
+          <tr><td><strong>Superficial (subcutaneous)</strong></td><td>Bleeding into subcutaneous tissue; visible bruising under skin</td><td>Shin, thigh, forearm</td></tr>
+          <tr><td><strong>Deep (intramuscular)</strong></td><td>Bleeding confined within the muscle sheath; significant swelling and pressure</td><td>Quadriceps &mdash; &ldquo;corked thigh&rdquo;</td></tr>
+          <tr><td><strong>Intermuscular</strong></td><td>Bleeding tracks between muscle compartments; bruising appears distally</td><td>Calf, quadriceps</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box teal">
+      <strong>&#128161; Intramuscular vs Intermuscular Haematoma:</strong><br>
+      Intramuscular bleeds have <em>more swelling and pain</em> but bruising may not appear immediately (blood stays contained). Intermuscular bleeds show <em>rapid bruising</em> as blood tracks between fascial planes &mdash; paradoxically often less painful.
+    </div>
+    <p><strong>Myositis ossificans:</strong> A complication of deep contusions where calcium deposits form within the healing muscle, causing hardening and pain. Occurs if the injury is inadequately managed (e.g. too-early massage or return to play).</p>
+  </div>
+</div>
+
+<div class="cat-wrap amber">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.2.4 Bursitis <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>bursa</strong> is a small fluid-filled sac that reduces friction between tendons, muscles and bone. <strong>Bursitis</strong> is inflammation of the bursa, typically caused by repetitive friction or direct trauma.</p>
+    <table>
+      <tr><th>Bursa</th><th>Location</th><th>Common Cause</th><th>Sport</th></tr>
+      <tr><td>Prepatellar bursa</td><td>Anterior to patella</td><td>Repetitive kneeling / direct blow</td><td>Wrestling, volleyball</td></tr>
+      <tr><td>Subacromial bursa</td><td>Shoulder, under acromion</td><td>Overhead activities, rotator cuff impingement</td><td>Swimming, throwing</td></tr>
+      <tr><td>Retrocalcaneal bursa</td><td>Behind the heel, between Achilles tendon and calcaneus</td><td>Excessive uphill running or tight footwear</td><td>Running</td></tr>
+      <tr><td>Olecranon bursa</td><td>Tip of elbow</td><td>Repeated leaning on elbow or direct blow</td><td>Gymnastics, wrestling</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="cat-wrap gray">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.2.5 Cartilage Injuries <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>The two types of cartilage relevant to sport injury are <strong>articular (hyaline) cartilage</strong> and <strong>fibrocartilage</strong> (menisci). Both have limited blood supply and heal poorly.</p>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Cartilage Injury Types <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Injury</th><th>Structure</th><th>Mechanism</th><th>Signs</th></tr>
+          <tr><td>Articular cartilage damage</td><td>Hyaline cartilage on joint surfaces</td><td>Compressive force, repetitive impact, joint instability</td><td>Joint pain, swelling, crepitus (grinding), reduced ROM</td></tr>
+          <tr><td>Meniscal tear</td><td>Fibrocartilage menisci of the knee</td><td>Twisting/rotational force through flexed, weight-bearing knee</td><td>Joint line pain, locking, giving way, swelling</td></tr>
+          <tr><td>TFCC tear</td><td>Triangular fibrocartilage complex of the wrist</td><td>Rotational force through forearm / fall on outstretched hand</td><td>Ulnar-sided wrist pain, instability</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Why cartilage injuries are serious:</strong> Cartilage has no direct blood supply (avascular) &mdash; it receives nutrients via synovial fluid. This means it cannot repair itself effectively, and injuries can lead to early onset osteoarthritis.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2.3 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="sec23">&#129657; Section 2.3 &mdash; Hard Tissue Injuries</p>
+
+<div class="diagram-wrap blue">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Types of Fractures Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Title -->
+      <rect x="220" y="8" width="280" height="36" rx="8" fill="#378ADD" stroke="#1a4f8a" stroke-width="2"/>
+      <text x="360" y="32" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Fracture Types</text>
+
+      <!-- 6 fracture boxes -->
+      <!-- Transverse -->
+      <rect x="20" y="60" width="160" height="100" rx="8" fill="#e8f2fd" stroke="#378ADD" stroke-width="2"/>
+      <text x="100" y="80" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Transverse</text>
+      <line x1="85" y1="94" x2="115" y2="94" stroke="#1a4f8a" stroke-width="2.5"/>
+      <line x1="100" y1="88" x2="100" y2="148" stroke="#888" stroke-width="4"/>
+      <text x="100" y="162" text-anchor="middle" fill="#555" font-size="10">Break at right angles</text>
+      <text x="100" y="174" text-anchor="middle" fill="#555" font-size="10">to bone axis</text>
+
+      <!-- Oblique -->
+      <rect x="196" y="60" width="160" height="100" rx="8" fill="#e8f2fd" stroke="#378ADD" stroke-width="2"/>
+      <text x="276" y="80" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Oblique</text>
+      <line x1="258" y1="100" x2="294" y2="110" stroke="#1a4f8a" stroke-width="2.5"/>
+      <line x1="276" y1="88" x2="276" y2="148" stroke="#888" stroke-width="4"/>
+      <text x="276" y="162" text-anchor="middle" fill="#555" font-size="10">Diagonal break across</text>
+      <text x="276" y="174" text-anchor="middle" fill="#555" font-size="10">the bone</text>
+
+      <!-- Comminuted -->
+      <rect x="372" y="60" width="160" height="100" rx="8" fill="#f0f7f9" stroke="#D85A30" stroke-width="2"/>
+      <text x="452" y="80" text-anchor="middle" fill="#1a3d48" font-size="12" font-weight="bold">Comminuted</text>
+      <line x1="442" y1="96" x2="452" y2="104" stroke="#D85A30" stroke-width="2"/>
+      <line x1="452" y1="96" x2="462" y2="108" stroke="#D85A30" stroke-width="2"/>
+      <line x1="447" y1="112" x2="438" y2="122" stroke="#D85A30" stroke-width="2"/>
+      <line x1="452" y1="88" x2="452" y2="148" stroke="#888" stroke-width="4"/>
+      <text x="452" y="162" text-anchor="middle" fill="#555" font-size="10">Bone shattered into</text>
+      <text x="452" y="174" text-anchor="middle" fill="#555" font-size="10">multiple fragments</text>
+
+      <!-- Greenstick -->
+      <rect x="548" y="60" width="160" height="100" rx="8" fill="#eafaf4" stroke="#5DCAA5" stroke-width="2"/>
+      <text x="628" y="80" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Greenstick</text>
+      <path d="M618 88 L618 128 L638 148" stroke="#888" stroke-width="4" fill="none"/>
+      <text x="628" y="162" text-anchor="middle" fill="#555" font-size="10">Incomplete break</text>
+      <text x="628" y="174" text-anchor="middle" fill="#555" font-size="10">Children only</text>
+
+      <!-- Stress -->
+      <rect x="20" y="200" width="220" height="80" rx="8" fill="#fdf4e4" stroke="#BA7517" stroke-width="2"/>
+      <text x="130" y="222" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">Stress Fracture</text>
+      <text x="130" y="240" text-anchor="middle" fill="#555" font-size="10">Hairline crack from repetitive loading</text>
+      <text x="130" y="256" text-anchor="middle" fill="#555" font-size="10">Chronic / overuse injury</text>
+      <text x="130" y="272" text-anchor="middle" fill="#BA7517" font-size="10" font-weight="bold">Common: tibia, metatarsals</text>
+
+      <!-- Avulsion -->
+      <rect x="260" y="200" width="220" height="80" rx="8" fill="#fdeef4" stroke="#D4537E" stroke-width="2"/>
+      <text x="370" y="222" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Avulsion Fracture</text>
+      <text x="370" y="240" text-anchor="middle" fill="#555" font-size="10">Tendon/ligament pulls fragment</text>
+      <text x="370" y="256" text-anchor="middle" fill="#555" font-size="10">of bone away from main bone</text>
+      <text x="370" y="272" text-anchor="middle" fill="#D4537E" font-size="10" font-weight="bold">Common: ankle, hip, finger</text>
+
+      <!-- Open vs Closed -->
+      <rect x="500" y="200" width="200" height="80" rx="8" fill="#f0f0f0" stroke="#888780" stroke-width="2"/>
+      <text x="600" y="218" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">Open vs Closed</text>
+      <text x="600" y="234" text-anchor="middle" fill="#555" font-size="10">Open (compound): bone</text>
+      <text x="600" y="248" text-anchor="middle" fill="#555" font-size="10">pierces through the skin</text>
+      <text x="600" y="264" text-anchor="middle" fill="#555" font-size="10">Closed (simple): skin intact</text>
+      <text x="600" y="278" text-anchor="middle" fill="#2c5f6e" font-size="10" font-weight="bold">Open = infection risk</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap blue">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.3.1 Fractures <span class="hot-badge">HOT TOPIC<span class="tooltip">Fracture types and mechanisms are commonly examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>fracture</strong> is a break or crack in a bone. Fractures can be caused by a <strong>single traumatic force</strong> (acute fracture) or by <strong>repetitive stress</strong> over time (stress fracture).</p>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Fracture Classification Table <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Fracture Type</th><th>Description</th><th>Mechanism</th><th>Common Sites</th></tr>
+          <tr><td><strong>Transverse</strong></td><td>Break at right angles to the long axis of the bone</td><td>Direct blow perpendicular to bone</td><td>Tibia, radius</td></tr>
+          <tr><td><strong>Oblique</strong></td><td>Diagonal break across the bone</td><td>Angled compressive force</td><td>Femur, fibula</td></tr>
+          <tr><td><strong>Spiral</strong></td><td>Fracture spirals along the bone</td><td>Twisting or rotational force</td><td>Humerus, tibia</td></tr>
+          <tr><td><strong>Comminuted</strong></td><td>Bone shattered into three or more fragments</td><td>High-energy trauma or crush injury</td><td>Femur, tibia</td></tr>
+          <tr><td><strong>Greenstick</strong></td><td>Incomplete break &mdash; one side cracks, other bends</td><td>Bending force in children (flexible bones)</td><td>Radius/ulna in children</td></tr>
+          <tr><td><strong>Stress fracture</strong></td><td>Hairline crack from repetitive loading &mdash; overuse injury</td><td>Cumulative microtrauma exceeding bone repair</td><td>Tibia, metatarsals, navicular</td></tr>
+          <tr><td><strong>Avulsion fracture</strong></td><td>Fragment of bone pulled off by a tendon or ligament</td><td>Sudden forceful muscle contraction or ligament sprain</td><td>Ankle, hip, fingers</td></tr>
+          <tr><td><strong>Open (compound)</strong></td><td>Bone penetrates through skin</td><td>High energy trauma; bone end displaces externally</td><td>Tibia, femur</td></tr>
+          <tr><td><strong>Closed (simple)</strong></td><td>Skin remains intact over fracture site</td><td>Any fracture where skin is not broken</td><td>Any bone</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Signs and Symptoms of Fractures <span>&#9660;</span></div>
+      <div class="box-body">
+        <ul>
+          <li><strong>Pain and tenderness</strong> at the fracture site (point tenderness)</li>
+          <li><strong>Deformity</strong> &mdash; visible angulation or shortening of the limb</li>
+          <li><strong>Swelling and bruising</strong> at and around the site</li>
+          <li><strong>Loss of function</strong> &mdash; inability or reduced ability to move the limb</li>
+          <li><strong>Crepitus</strong> &mdash; grating sound or sensation when bone ends move</li>
+          <li><strong>Pallor and coolness</strong> distal to fracture (suggests vascular compromise)</li>
+          <li><strong>Open wound</strong> with visible bone (compound fracture only)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Stress Fracture &mdash; key points for exams:</strong><br>
+      Stress fractures are <em>overuse injuries</em> &mdash; they are NOT caused by a single traumatic event. Risk factors include: rapid increase in training load, hard surfaces, poor bone density, inadequate nutrition (low calcium/vitamin D), and female athlete triad. Most common in the tibia and metatarsals.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap purple">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.3.2 Dislocations and Subluxations <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>dislocation</strong> occurs when the articulating surfaces of a joint are completely separated so they are no longer in contact. A <strong>subluxation</strong> is a <em>partial</em> dislocation &mdash; the surfaces are disrupted but retain some contact.</p>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Dislocation vs Subluxation <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Dislocation (Full)</th><th>Subluxation (Partial)</th></tr>
+          <tr><td>Joint surfaces</td><td>Completely separated</td><td>Partial loss of contact</td></tr>
+          <tr><td>Ligament damage</td><td>Usually complete disruption</td><td>Partial disruption</td></tr>
+          <tr><td>Severity</td><td>More severe</td><td>Less severe but significant</td></tr>
+          <tr><td>Reduction</td><td>Requires relocation (often under anaesthesia)</td><td>May self-reduce</td></tr>
+          <tr><td>Deformity</td><td>Obvious visible deformity</td><td>May be subtle</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Common Dislocation Sites in Sport <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Joint</th><th>Mechanism</th><th>Associated Damage</th><th>Sport</th></tr>
+          <tr><td>Shoulder (glenohumeral)</td><td>Forced abduction + external rotation; FOOSH</td><td>Labrum tear (Bankart), rotator cuff, axillary nerve</td><td>Rugby, AFL, gymnastics</td></tr>
+          <tr><td>Patella</td><td>Valgus force, pivoting on fixed foot</td><td>Medial patellofemoral ligament (MPFL) tear</td><td>Netball, basketball, soccer</td></tr>
+          <tr><td>Finger (PIP joint)</td><td>Hyperextension or lateral force</td><td>Volar plate injury, collateral ligament sprain</td><td>Ball sports, volleyball</td></tr>
+          <tr><td>Elbow</td><td>Hyperextension; FOOSH</td><td>MCL, radial head fracture</td><td>Gymnastics, martial arts</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box red">
+      <strong>&#9888; Never attempt to relocate a dislocated joint</strong> &mdash; this must only be done by a trained medical professional. Reduction attempts without imaging risk trapping soft tissue, fracturing bone or damaging neurovascular structures.
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Signs and Symptoms of Dislocation <span>&#9660;</span></div>
+      <div class="box-body">
+        <ul>
+          <li>Visible deformity &mdash; joint appears out of place</li>
+          <li>Severe pain and muscle spasm around the joint</li>
+          <li>Complete loss of normal joint movement</li>
+          <li>Swelling and bruising</li>
+          <li>Numbness or tingling (neurovascular compromise)</li>
+          <li>Limb may be held in an abnormal position</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap amber">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.3.3 Stress Fractures (detail) <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>Stress fractures are <strong>overuse / chronic injuries</strong> resulting from <strong>cumulative microtrauma</strong> &mdash; the bone is subjected to repeated loading that exceeds its capacity to repair and remodel.</p>
+    <div class="box-wrap amber">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Stress Fracture Risk Factors <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Category</th><th>Risk Factors</th></tr>
+          <tr><td>Training factors</td><td>Rapid increase in training volume or intensity (&ldquo;too much too soon&rdquo;), hard surfaces, inadequate recovery</td></tr>
+          <tr><td>Biomechanical</td><td>Altered gait, leg length discrepancy, flat feet (pes planus), high arches (pes cavus)</td></tr>
+          <tr><td>Nutritional / hormonal</td><td>Low bone density, low calcium/vitamin D intake, female athlete triad (disordered eating, amenorrhea, low BMD)</td></tr>
+          <tr><td>Equipment</td><td>Worn-out footwear, inappropriate footwear for activity</td></tr>
+          <tr><td>Bone health</td><td>Osteoporosis or osteopenia; previous stress fractures</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Progression of bone stress:</strong>
+      <ol style="padding-left:18px; margin-top:6px;">
+        <li>Normal bone &rarr; bone stress reaction (pain, periosteal oedema)</li>
+        <li>&rarr; Stress fracture (cortical disruption, periosteal reaction on imaging)</li>
+        <li>&rarr; Complete fracture (if loading continues)</li>
+      </ol>
+      <p style="margin-top:6px;">Management: rest from impact loading, consider bone stimulation, gradual return to activity.</p>
+    </div>
+    <p><strong>Most common sites:</strong> Tibia (most common, 50%), metatarsals (&ldquo;march fracture&rdquo;), navicular (high risk &mdash; poor blood supply), femoral neck (high risk), fibula.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2.5 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="sec25">&#129657; Section 2.5 &mdash; Spinal Injuries and Postural Conditions</p>
+
+<div class="diagram-wrap purple">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Spinal Injury and Postural Condition Overview <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 310" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+
+      <!-- Title -->
+      <rect x="270" y="10" width="320" height="38" rx="10" fill="#AFA9EC" stroke="#4a3fa0" stroke-width="2"/>
+      <text x="430" y="34" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Spinal Conditions</text>
+
+      <!-- Trunk line -->
+      <line x1="430" y1="48" x2="430" y2="70" stroke="#555" stroke-width="2"/>
+      <line x1="140" y1="70" x2="720" y2="70" stroke="#555" stroke-width="2"/>
+
+      <!-- 4 drop lines -->
+      <line x1="140" y1="70" x2="140" y2="88" stroke="#555" stroke-width="2"/>
+      <line x1="330" y1="70" x2="330" y2="88" stroke="#555" stroke-width="2"/>
+      <line x1="530" y1="70" x2="530" y2="88" stroke="#555" stroke-width="2"/>
+      <line x1="720" y1="70" x2="720" y2="88" stroke="#555" stroke-width="2"/>
+
+      <!-- Box 1: Disc injury -->
+      <rect x="50" y="88" width="180" height="50" rx="8" fill="#f0f7f9" stroke="#5DCAA5" stroke-width="2"/>
+      <text x="140" y="110" text-anchor="middle" fill="#1a3d48" font-size="12" font-weight="bold">Disc Injuries</text>
+      <text x="140" y="126" text-anchor="middle" fill="#1a3d48" font-size="10">Bulge / herniation</text>
+
+      <!-- Box 2: Spondylolysis/sthesis -->
+      <rect x="240" y="88" width="180" height="50" rx="8" fill="#e8f2fd" stroke="#378ADD" stroke-width="2"/>
+      <text x="330" y="110" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Spondylolysis /</text>
+      <text x="330" y="126" text-anchor="middle" fill="#1a4f8a" font-size="10">Spondylolisthesis</text>
+
+      <!-- Box 3: Postural -->
+      <rect x="440" y="88" width="180" height="50" rx="8" fill="#e8faf4" stroke="#5DCAA5" stroke-width="2"/>
+      <text x="530" y="110" text-anchor="middle" fill="#1a7a58" font-size="12" font-weight="bold">Postural Conditions</text>
+      <text x="530" y="126" text-anchor="middle" fill="#1a7a58" font-size="10">Kyphosis / Lordosis / Scoliosis</text>
+
+      <!-- Box 4: SCI -->
+      <rect x="635" y="88" width="170" height="50" rx="8" fill="#fdeef4" stroke="#D4537E" stroke-width="2"/>
+      <text x="720" y="110" text-anchor="middle" fill="#8b2050" font-size="12" font-weight="bold">Spinal Cord Injury</text>
+      <text x="720" y="126" text-anchor="middle" fill="#8b2050" font-size="10">Fracture / dislocation</text>
+
+      <!-- Sub-details row -->
+      <!-- Disc detail -->
+      <line x1="140" y1="138" x2="140" y2="158" stroke="#5DCAA5" stroke-width="1.5"/>
+      <rect x="50" y="158" width="180" height="60" rx="6" fill="#fff5f3" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="140" y="176" text-anchor="middle" fill="#555" font-size="10" font-weight="bold">Nucleus pulposus</text>
+      <text x="140" y="190" text-anchor="middle" fill="#555" font-size="10">pushes through annulus</text>
+      <text x="140" y="204" text-anchor="middle" fill="#555" font-size="10">fibrosus &rarr; nerve compression</text>
+
+      <!-- Spondy detail -->
+      <line x1="330" y1="138" x2="330" y2="158" stroke="#378ADD" stroke-width="1.5"/>
+      <rect x="240" y="158" width="180" height="60" rx="6" fill="#eaf2fd" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="330" y="176" text-anchor="middle" fill="#555" font-size="10" font-weight="bold">Stress fracture of</text>
+      <text x="330" y="190" text-anchor="middle" fill="#555" font-size="10">pars interarticularis</text>
+      <text x="330" y="204" text-anchor="middle" fill="#555" font-size="10">Common in young athletes</text>
+
+      <!-- Postural detail -->
+      <line x1="530" y1="138" x2="530" y2="158" stroke="#5DCAA5" stroke-width="1.5"/>
+      <rect x="440" y="158" width="180" height="60" rx="6" fill="#e8faf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="530" y="176" text-anchor="middle" fill="#555" font-size="10" font-weight="bold">Abnormal spinal</text>
+      <text x="530" y="190" text-anchor="middle" fill="#555" font-size="10">curvature from poor</text>
+      <text x="530" y="204" text-anchor="middle" fill="#555" font-size="10">posture or structural causes</text>
+
+      <!-- SCI detail -->
+      <line x1="720" y1="138" x2="720" y2="158" stroke="#D4537E" stroke-width="1.5"/>
+      <rect x="635" y="158" width="170" height="60" rx="6" fill="#fdeef4" stroke="#D4537E" stroke-width="1.5"/>
+      <text x="720" y="176" text-anchor="middle" fill="#555" font-size="10" font-weight="bold">Damage to spinal cord</text>
+      <text x="720" y="190" text-anchor="middle" fill="#555" font-size="10">Paraplegia / tetraplegia</text>
+      <text x="720" y="204" text-anchor="middle" fill="#555" font-size="10">Often permanent</text>
+
+      <!-- Key note banner -->
+      <rect x="20" y="234" width="820" height="60" rx="8" fill="#fef9e7" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="430" y="254" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">&#9888; Key Spinal Anatomy Reminder</text>
+      <text x="430" y="272" text-anchor="middle" fill="#7a4d0a" font-size="11">Vertebrae: 7 Cervical (C) | 12 Thoracic (T) | 5 Lumbar (L) | 5 Sacral (S, fused) | 4 Coccygeal (fused)</text>
+      <text x="430" y="288" text-anchor="middle" fill="#7a4d0a" font-size="10">Intervertebral discs act as shock absorbers between vertebral bodies</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap coral">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.5.1 Intervertebral Disc Injuries <span class="hot-badge">HOT TOPIC<span class="tooltip">Disc injuries and nerve compression are commonly examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>The <strong>intervertebral disc</strong> consists of a tough outer ring (<strong>annulus fibrosus</strong>) and a gel-like inner core (<strong>nucleus pulposus</strong>). It acts as a shock absorber between vertebral bodies and allows spinal movement.</p>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Disc Injury Types <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Symptoms</th></tr>
+          <tr><td><strong>Disc bulge</strong></td><td>Annulus fibrosus weakens and disc bulges outward but remains intact &mdash; less severe</td><td>Local back pain, may have mild referred pain</td></tr>
+          <tr><td><strong>Disc herniation (prolapse)</strong></td><td>Nucleus pulposus pushes through a tear in the annulus fibrosus and compresses nearby nerve roots</td><td>Sharp, radiating pain (sciatica if L4/L5/S1), numbness, tingling, muscle weakness in the leg</td></tr>
+          <tr><td><strong>Disc extrusion</strong></td><td>Nucleus pulposus breaks through the annulus entirely and material is free in the spinal canal</td><td>Severe nerve compression symptoms; possible cauda equina syndrome (medical emergency)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Causes, Risk Factors and Management <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Causes / Mechanism</th><th>Risk Factors</th><th>Management</th></tr>
+          <tr><td>Repetitive flexion-compression loading (e.g. heavy lifting with poor technique)</td><td>Age (disc dehydrates and loses elasticity)</td><td>Conservative: rest, physiotherapy, core strengthening</td></tr>
+          <tr><td>Sudden excessive load or twist (e.g. deadlift)</td><td>Sedentary lifestyle (poor core stability)</td><td>Pain management: NSAIDs, epidural injections</td></tr>
+          <tr><td>Prolonged poor posture (increases disc pressure)</td><td>Obesity &mdash; increases spinal load</td><td>Surgical: microdiscectomy in severe cases</td></tr>
+          <tr><td>Sports involving repeated spinal loading (rowing, gymnastics, weightlifting)</td><td>Smoking (reduces disc nutrition)</td><td>Ergonomic adjustments; return-to-sport program</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Sciatica:</strong> Pain that radiates from the lower back down the leg along the path of the sciatic nerve. Most commonly caused by L4/L5 or L5/S1 disc herniation compressing the nerve root. Symptoms include burning pain, numbness and tingling in the buttock, thigh, calf and foot.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap blue">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.5.2 Spondylolysis and Spondylolisthesis <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Spondylolysis</strong> is a stress fracture of the <strong>pars interarticularis</strong> &mdash; the narrow bridge of bone connecting the upper and lower facet joints of a vertebra. It is the most common cause of low back pain in young athletes.</p>
+    <p><strong>Spondylolisthesis</strong> occurs when the stress fracture allows the affected vertebra to slip forward on the one below it.</p>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Spondylolysis vs Spondylolisthesis <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Feature</th><th>Spondylolysis</th><th>Spondylolisthesis</th></tr>
+          <tr><td>Definition</td><td>Stress fracture of pars interarticularis</td><td>Forward slip of a vertebra on the one below</td></tr>
+          <tr><td>Cause</td><td>Repetitive hyperextension + rotation loading</td><td>Often develops from bilateral spondylolysis</td></tr>
+          <tr><td>Level</td><td>Most common at L5 (fifth lumbar vertebra)</td><td>Most common at L5 slipping on S1</td></tr>
+          <tr><td>Symptoms</td><td>Central low back pain, worse with extension, eases with rest</td><td>Low back pain + possible nerve symptoms if slip is significant</td></tr>
+          <tr><td>Sports at risk</td><td>Cricket (fast bowling), gymnastics, AFL, diving</td><td>Same + heavy weightlifting</td></tr>
+          <tr><td>Management</td><td>Rest from extension activities, bracing, core strengthening</td><td>Conservative initially; surgery if slip &gt;50% or neurological symptoms</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box blue">
+      <strong>&#128161; Why young athletes?</strong> Spondylolysis is common in adolescent athletes because the pars interarticularis is at its weakest during the growth spurt. Sports that combine repeated hyperextension with rotation (e.g. a fast bowler&rsquo;s action) are highest risk.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap teal">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.5.3 Postural Conditions: Kyphosis, Lordosis and Scoliosis <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>The normal spine has natural curves: cervical and lumbar regions curve <strong>inward</strong> (lordosis), and the thoracic and sacral regions curve <strong>outward</strong> (kyphosis). Postural conditions arise when these curves become exaggerated or when abnormal lateral curvature develops.</p>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Three Postural Conditions Compared <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Condition</th><th>Description</th><th>Cause</th><th>Common Signs</th><th>Management</th></tr>
+          <tr>
+            <td><strong>Hyperkyphosis</strong></td>
+            <td>Excessive outward (posterior) curve of the thoracic spine &mdash; &ldquo;hunchback&rdquo; or &ldquo;rounded upper back&rdquo;</td>
+            <td>Poor posture (prolonged sitting/screen use), osteoporotic compression fractures, Scheuermann&rsquo;s disease</td>
+            <td>Rounded shoulders, forward head posture, upper back pain, restricted shoulder ROM</td>
+            <td>Postural correction, thoracic extension exercises, strengthening mid-back muscles</td>
+          </tr>
+          <tr>
+            <td><strong>Hyperlordosis</strong></td>
+            <td>Excessive inward (anterior) curve of the lumbar spine &mdash; &ldquo;swayback&rdquo; or &ldquo;hollow back&rdquo;</td>
+            <td>Weak core/abdominal muscles, tight hip flexors, obesity, pregnancy</td>
+            <td>Excessive forward pelvic tilt, protruding abdomen, low back pain</td>
+            <td>Core strengthening, hip flexor stretching, postural re-education</td>
+          </tr>
+          <tr>
+            <td><strong>Scoliosis</strong></td>
+            <td>Lateral (side-to-side) curvature of the spine &mdash; spine curves in an S or C shape when viewed from behind</td>
+            <td>Idiopathic (most common &mdash; unknown cause in adolescents), congenital, neuromuscular</td>
+            <td>Uneven shoulder/hip height, rib hump on forward bend, back pain in severe cases</td>
+            <td>Observation (mild), bracing (moderate), surgery (severe &gt;40-50 degrees)</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card coral">
+        <h4 style="color:#1a3d48;">Hyperkyphosis</h4>
+        <ul>
+          <li>Thoracic spine</li>
+          <li>Excessive outward curve</li>
+          <li>Rounded shoulders / hunched</li>
+          <li>Linked to poor posture, osteoporosis</li>
+        </ul>
+      </div>
+      <div class="compare-card blue">
+        <h4 style="color:#1a4f8a;">Hyperlordosis</h4>
+        <ul>
+          <li>Lumbar spine</li>
+          <li>Excessive inward curve</li>
+          <li>Swayback / hollow back</li>
+          <li>Linked to weak core, tight hip flexors</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>&#128161; Scoliosis screening:</strong> Adolescent idiopathic scoliosis is most commonly detected during the adolescent growth spurt (10&ndash;16 years). The Adam&rsquo;s forward bend test is used in schools &mdash; a rib hump visible when bending forward indicates vertebral rotation associated with scoliosis.
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap pink">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; 2.5.4 Spinal Cord Injuries <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>spinal cord injury (SCI)</strong> results from damage to the spinal cord itself, usually caused by fracture, dislocation or compression of the vertebral column. Unlike peripheral nerve injuries, SCI damage is often <strong>permanent</strong> because the central nervous system has very limited regenerative capacity.</p>
+    <div class="box-wrap pink">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Classification of Spinal Cord Injuries <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Term</th><th>Definition</th><th>Level of Injury</th></tr>
+          <tr><td><strong>Tetraplegia (quadriplegia)</strong></td><td>Paralysis of all four limbs and the trunk; also involves loss of bladder, bowel and sexual function</td><td>Cervical (C1&ndash;C7) injury</td></tr>
+          <tr><td><strong>Paraplegia</strong></td><td>Paralysis of the lower limbs and trunk below the injury; upper limb function preserved</td><td>Thoracic (T1&ndash;T12) or lumbar injury</td></tr>
+          <tr><td><strong>Complete SCI</strong></td><td>No motor or sensory function preserved below the level of injury</td><td>Any level</td></tr>
+          <tr><td><strong>Incomplete SCI</strong></td><td>Some motor or sensory function preserved below the injury level</td><td>Any level</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap coral">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Common Causes in Sport <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Sport/Activity</th><th>Mechanism</th></tr>
+          <tr><td>Rugby / AFL</td><td>Illegal or poorly executed tackle; scrummaging collapse</td></tr>
+          <tr><td>Diving (pool/beach)</td><td>Diving into shallow water &mdash; cervical hyperflexion/compression</td></tr>
+          <tr><td>Equestrian</td><td>Fall from horse with cervical impact</td></tr>
+          <tr><td>Gymnastics / trampolining</td><td>Landing on head/neck from height</td></tr>
+          <tr><td>Motor sport</td><td>High-speed collision with axial loading of spine</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box red">
+      <strong>&#9888; First aid priority:</strong> Any athlete who sustains a significant neck or back injury and reports numbness, tingling, weakness or pain in the limbs must be treated as a suspected SCI. Do NOT move the athlete &mdash; stabilise the head and neck in a neutral position and call emergency services immediately.
+    </div>
+  </div>
+</div>
+
+
+<!-- KEY TERMS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<p class="section-label" id="secTerms">&#128216; Key Terms &mdash; Chapter 2 Part A (Injuries &amp; Spinal)</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part A &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="lightbox-caption" id="lightbox-cap"></p>
+  </div>
+</div>
+
+<script>
+var terms = [
+  { name: "Musculoskeletal injury", def: "An injury affecting the bones, muscles, tendons, ligaments, cartilage or other connective tissues of the body.", hot: false },
+  { name: "Acute injury", def: "An injury with sudden onset caused by a single traumatic event (e.g. sprain, fracture).", hot: false },
+  { name: "Chronic / Overuse injury", def: "An injury that develops gradually over time due to repetitive loading exceeding the body's repair capacity (e.g. stress fracture, tendinopathy).", hot: true, tip: "Acute vs chronic onset is a common exam comparison" },
+  { name: "Soft tissue injury", def: "An injury to muscles, tendons, ligaments, bursae or cartilage that does not involve bone.", hot: true, tip: "Soft vs hard tissue classification is frequently examined" },
+  { name: "Hard tissue injury", def: "An injury to bone, including fractures and dislocations.", hot: false },
+  { name: "Intrinsic risk factors", def: "Risk factors that originate from within the athlete (e.g. age, flexibility, fitness, previous injury history).", hot: false },
+  { name: "Extrinsic risk factors", def: "Risk factors that come from the external environment (e.g. playing surface, equipment, weather, rules).", hot: false },
+  { name: "Sprain", def: "A stretching or tearing of a ligament. Graded I (mild) to III (complete rupture). Common sites: ankle, knee (ACL, MCL).", hot: true, tip: "Most commonly confused with strain in exams" },
+  { name: "Ligament", def: "Dense connective tissue that connects bone to bone, stabilising joints. Sprains involve ligaments.", hot: true, tip: "Ligament = bone to bone; Tendon = muscle to bone" },
+  { name: "Strain", def: "A stretching or tearing of a muscle or its tendon. Graded I (mild overstretching) to III (complete rupture).", hot: true, tip: "Must distinguish from sprain" },
+  { name: "Tendon", def: "Dense connective tissue that connects muscle to bone, transmitting force to produce movement. Strains can involve tendons.", hot: true, tip: "Tendon = muscle to bone" },
+  { name: "Grade I injury", def: "A mild injury involving minor stretching or microscopic tearing of fibres. Full strength is generally maintained.", hot: false },
+  { name: "Grade II injury", def: "A moderate injury involving a partial tear of the tissue. Significant pain, swelling and reduced function.", hot: false },
+  { name: "Grade III injury", def: "A severe injury involving complete rupture of the tissue. Significant instability and loss of function. May require surgery.", hot: true, tip: "Grade III = complete rupture = most severe" },
+  { name: "Contusion", def: "A bruise caused by a direct blow that damages capillaries and underlying tissue without breaking the skin. Blood leaks into surrounding tissue (haematoma).", hot: false },
+  { name: "Haematoma", def: "A collection of blood outside blood vessels, resulting from damaged capillaries. Can be intramuscular or intermuscular.", hot: false },
+  { name: "Intramuscular haematoma", def: "Bleeding that remains contained within the muscle sheath. Causes significant swelling and pain but bruising may not be immediately visible.", hot: false },
+  { name: "Intermuscular haematoma", def: "Bleeding that tracks between muscle compartments along fascial planes. Bruising appears distally and relatively quickly.", hot: false },
+  { name: "Myositis ossificans", def: "A complication of deep contusions where calcium deposits form within healing muscle, causing hardening and chronic pain. Results from inadequate management.", hot: false },
+  { name: "Bursitis", def: "Inflammation of a bursa (fluid-filled sac) caused by repetitive friction or direct trauma. Common sites: prepatellar, subacromial, retrocalcaneal.", hot: false },
+  { name: "Bursa", def: "A small fluid-filled sac that reduces friction between tendons, muscles and bone at a joint.", hot: false },
+  { name: "Articular cartilage", def: "Smooth hyaline cartilage covering the articulating surfaces of bones within a joint. Avascular &mdash; poor healing capacity.", hot: false },
+  { name: "Meniscal tear", def: "A tear in the fibrocartilage menisci of the knee, typically caused by a twisting force through a weight-bearing flexed knee.", hot: false },
+  { name: "Fracture", def: "A break or crack in a bone. Can be acute (traumatic) or chronic (stress fracture).", hot: true, tip: "Know all fracture types and their mechanisms" },
+  { name: "Transverse fracture", def: "A fracture at right angles to the long axis of the bone, typically caused by a direct blow.", hot: false },
+  { name: "Oblique fracture", def: "A diagonal fracture across the bone caused by an angled compressive force.", hot: false },
+  { name: "Spiral fracture", def: "A fracture that spirals along the bone shaft, caused by a twisting or rotational force.", hot: false },
+  { name: "Comminuted fracture", def: "A fracture in which the bone is shattered into three or more fragments. Caused by high-energy trauma.", hot: false },
+  { name: "Greenstick fracture", def: "An incomplete fracture where one side cracks and the other bends, occurring only in children due to flexible bone.", hot: false },
+  { name: "Stress fracture", def: "A hairline crack in bone caused by repetitive loading that exceeds the bone's capacity to repair. An overuse injury. Common sites: tibia, metatarsals.", hot: true, tip: "Must know it is an overuse injury NOT an acute traumatic injury" },
+  { name: "Avulsion fracture", def: "A fracture where a tendon or ligament pulls a fragment of bone away from the main bone during forceful contraction or sprain.", hot: false },
+  { name: "Open (compound) fracture", def: "A fracture where the bone end pierces through the skin. High infection risk. Requires urgent medical attention.", hot: false },
+  { name: "Closed (simple) fracture", def: "A fracture where the skin remains intact over the fracture site.", hot: false },
+  { name: "Dislocation", def: "Complete separation of the articulating surfaces of a joint so they are no longer in contact. Associated with severe ligament damage.", hot: true, tip: "Never attempt to relocate a dislocated joint" },
+  { name: "Subluxation", def: "A partial dislocation &mdash; the joint surfaces are disrupted but retain some contact. Less severe than full dislocation.", hot: false },
+  { name: "Crepitus", def: "A grating, crackling or popping sound or sensation produced by bone ends rubbing together or by gas bubbles in a joint.", hot: false },
+  { name: "Point tenderness", def: "Pain that is localised to a specific spot when pressure is applied &mdash; a key indicator of fracture.", hot: false },
+  { name: "Female athlete triad", def: "A syndrome in female athletes comprising three interrelated conditions: disordered eating, functional hypothalamic amenorrhea and low bone mineral density. Increases stress fracture risk.", hot: false },
+  { name: "Intervertebral disc", def: "A fibrocartilage structure between vertebral bodies consisting of an outer annulus fibrosus and an inner nucleus pulposus. Acts as a shock absorber and allows spinal movement.", hot: false },
+  { name: "Disc herniation (prolapse)", def: "A condition where the nucleus pulposus pushes through a tear in the annulus fibrosus and compresses nearby nerve roots, causing radiating pain, numbness or weakness.", hot: true, tip: "Mechanism and symptoms (sciatica) are commonly examined" },
+  { name: "Annulus fibrosus", def: "The tough outer ring of the intervertebral disc that contains the nucleus pulposus.", hot: false },
+  { name: "Nucleus pulposus", def: "The gel-like inner core of the intervertebral disc that provides shock absorption. It pushes through the annulus in a disc herniation.", hot: false },
+  { name: "Sciatica", def: "Pain that radiates from the lower back through the buttock and down the leg, following the path of the sciatic nerve. Most commonly caused by L4/L5 or L5/S1 disc herniation.", hot: false },
+  { name: "Spondylolysis", def: "A stress fracture of the pars interarticularis of a vertebra, most common at L5. Caused by repetitive hyperextension and rotation. Most common cause of low back pain in young athletes.", hot: true, tip: "Common in fast bowlers, gymnasts, AFL players" },
+  { name: "Spondylolisthesis", def: "Forward slippage of one vertebra on the vertebra below, usually resulting from bilateral spondylolysis. Most common at L5 slipping on S1.", hot: false },
+  { name: "Pars interarticularis", def: "A narrow bridge of bone in a vertebra connecting the upper and lower facet joints. The site of the stress fracture in spondylolysis.", hot: false },
+  { name: "Kyphosis (hyperkyphosis)", def: "Excessive outward (posterior) curvature of the thoracic spine, producing a rounded upper back or hunchback appearance. Linked to poor posture and osteoporotic fractures.", hot: false },
+  { name: "Lordosis (hyperlordosis)", def: "Excessive inward (anterior) curvature of the lumbar spine, producing a swayback or hollow back appearance. Linked to weak core muscles and tight hip flexors.", hot: false },
+  { name: "Scoliosis", def: "Lateral (side-to-side) curvature of the spine, causing it to curve in an S or C shape when viewed from behind. Most commonly idiopathic and detected during adolescence.", hot: false },
+  { name: "Spinal cord injury (SCI)", def: "Damage to the spinal cord caused by fracture, dislocation or compression of the vertebral column. Often results in permanent loss of motor and/or sensory function below the injury level.", hot: false },
+  { name: "Tetraplegia (quadriplegia)", def: "Paralysis of all four limbs and the trunk, caused by a cervical spinal cord injury (C1-C7).", hot: false },
+  { name: "Paraplegia", def: "Paralysis of the lower limbs and trunk below the injury level, with upper limb function preserved. Caused by thoracic or lumbar spinal cord injury.", hot: false },
+  { name: "Complete SCI", def: "A spinal cord injury in which no motor or sensory function is preserved below the level of injury.", hot: false },
+  { name: "Incomplete SCI", def: "A spinal cord injury in which some motor or sensory function is preserved below the level of injury.", hot: false }
+];
+
+function buildList(filtered) {
+  var container = document.getElementById('list');
+  var noResults = document.getElementById('no-results');
+  if (!filtered || filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  var colorMap = {
+    "purple": ["Musculoskeletal injury","Acute injury","Chronic / Overuse injury","Soft tissue injury","Hard tissue injury","Intrinsic risk factors","Extrinsic risk factors"],
+    "coral":  ["Sprain","Ligament","Grade I injury","Grade II injury","Grade III injury","Contusion","Haematoma","Intramuscular haematoma","Intermuscular haematoma","Myositis ossificans"],
+    "pink":   ["Strain","Tendon","Bursitis","Bursa","Articular cartilage","Meniscal tear"],
+    "blue":   ["Fracture","Transverse fracture","Oblique fracture","Spiral fracture","Comminuted fracture","Greenstick fracture","Stress fracture","Avulsion fracture","Open (compound) fracture","Closed (simple) fracture","Point tenderness","Crepitus"],
+    "amber":  ["Dislocation","Subluxation","Female athlete triad"],
+    "teal":   ["Intervertebral disc","Disc herniation (prolapse)","Annulus fibrosus","Nucleus pulposus","Sciatica","Spondylolysis","Spondylolisthesis","Pars interarticularis","Kyphosis (hyperkyphosis)","Lordosis (hyperlordosis)","Scoliosis","Spinal cord injury (SCI)","Tetraplegia (quadriplegia)","Paraplegia","Complete SCI","Incomplete SCI"]
+  };
+
+  function getColor(name) {
+    for (var c in colorMap) {
+      if (colorMap[c].indexOf(name) !== -1) return c;
+    }
+    return 'gray';
+  }
+
+  var byColor = {};
+  for (var i = 0; i < filtered.length; i++) {
+    var c = getColor(filtered[i].name);
+    if (!byColor[c]) byColor[c] = [];
+    byColor[c].push(filtered[i]);
+  }
+
+  var colorOrder = ['purple','coral','pink','blue','amber','teal','gray'];
+  var labelMap = {
+    'purple': '&#128218; Overview &amp; Risk Factors',
+    'coral':  '&#128165; Sprains, Contusions &amp; Grades',
+    'pink':   '&#129657; Strains, Tendons &amp; Cartilage',
+    'blue':   '&#9881; Fractures &amp; Bone Injuries',
+    'amber':  '&#128257; Dislocations &amp; Special Conditions',
+    'teal':   '&#129657; Spinal Injuries &amp; Postural Conditions',
+    'gray':   '&#128216; General Terms'
+  };
+
+  var html = '';
+  for (var ci = 0; ci < colorOrder.length; ci++) {
+    var col = colorOrder[ci];
+    if (!byColor[col] || byColor[col].length === 0) continue;
+    html += '<div class="cat-wrap ' + col + '" style="margin-top:10px;">';
+    html += '<div class="cat-head" onclick="toggleC(this)">' + labelMap[col] + ' <span>&#9650;</span></div>';
+    html += '<div class="cat-body open">';
+    for (var j = 0; j < byColor[col].length; j++) {
+      var t = byColor[col][j];
+      var displayName = currentQuery ? highlight(t.name, currentQuery) : t.name;
+      var displayDef  = currentQuery ? highlight(t.def,  currentQuery) : t.def;
+      html += '<div class="term-row">';
+      html += '<span class="term-name">' + displayName;
+      if (t.hot) {
+        html += '<span class="hot-badge">HOT<span class="tooltip">' + (t.tip || 'Commonly examined') + '</span></span>';
+      }
+      html += '</span>';
+      html += '<span class="term-def">' + displayDef + '</span>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+var currentQuery = '';
+
+buildList(terms);
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  if (currentQuery === '') {
+    buildList(terms);
+    countEl.textContent = '';
+    return;
+  }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].name.toLowerCase().indexOf(val) !== -1 || terms[i].def.toLowerCase().indexOf(val) !== -1) {
+      filtered.push(terms[i]);
+    }
+  }
+  buildList(filtered);
+  countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) { listEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  buildList(terms);
+}
+
+function toggleC(head) {
+  var body = head.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = head.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function toggleB(trigger) {
+  var body = trigger.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = trigger.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function openLightbox(src, cap) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-cap').textContent = cap;
+  document.getElementById('lightbox').classList.add('active');
+}
+
+function closeLightbox(e) {
+  if (e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+}
+</script>
+</body>
+</html>

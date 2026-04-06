@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part C: Keeping the Body Safe</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; letter-spacing: 0.5px; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #fff; border-bottom: 2px solid #e0e0e0; }
+    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1.5px solid #2c5f6e; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e8e8e8; }
+    #search { flex: 1; padding: 8px 12px; border: 1.5px solid #c0c0c0; border-radius: 20px; font-size: 0.9em; outline: none; }
+    #search:focus { border-color: #2c5f6e; }
+    #search-clear { background: #2c5f6e; color: #fff; border: none; border-radius: 16px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; }
+    #search-count { font-size: 0.82em; color: #888; min-width: 80px; }
+    .section-label { font-size: 1.12em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 10px 18px; margin: 18px 14px 8px; border-radius: 8px; }
+
+    /* ACCORDION */
+    .cat-wrap { margin: 8px 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ddd; }
+    .cat-wrap.purple { border-color: #c8c5e8; }
+    .cat-wrap.teal   { border-color: #9adcc5; }
+    .cat-wrap.coral  { border-color: #e8a48a; }
+    .cat-wrap.amber  { border-color: #d4a854; }
+    .cat-wrap.blue   { border-color: #90bce6; }
+    .cat-wrap.pink   { border-color: #e096b4; }
+    .cat-wrap.gray   { border-color: #b8b6b0; }
+    .cat-head { padding: 11px 16px; font-weight: 700; cursor: pointer; font-size: 0.97em; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.18); color: #4a3fa0; }
+    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #1a7a58; }
+    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
+    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12); color: #7a4d0a; }
+    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.14); color: #1a4f8a; }
+    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #8b2050; }
+    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.12); color: #444440; }
+    .cat-body { display: none; padding: 14px 16px; background: #fff; }
+    .cat-body.open { display: block; }
+
+    /* TERMS */
+    .term-row { border-bottom: 1px solid #f0f0f0; padding: 9px 4px; display: flex; gap: 10px; align-items: flex-start; }
+    .term-row:last-child { border-bottom: none; }
+    .term-name { font-weight: 700; min-width: 200px; color: #1a1a2e; font-size: 0.93em; }
+    .term-def { color: #333; font-size: 0.91em; flex: 1; }
+    .hot-badge { display: inline-block; background: #2c5f6e; color: #fff; font-size: 0.68em; font-weight: 700; border-radius: 10px; padding: 2px 7px; margin-left: 6px; position: relative; cursor: default; letter-spacing: 0.4px; }
+    .hot-badge .tooltip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a1a2e; color: #fff; font-size: 0.82em; border-radius: 6px; padding: 5px 9px; white-space: nowrap; z-index: 99; font-weight: 400; }
+    .hot-badge:hover .tooltip { display: block; }
+    mark { background: #ffe066; border-radius: 3px; padding: 0 2px; }
+
+    /* DIAGRAM / BOX WRAP */
+    .diagram-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .diagram-wrap.blue   { border-color: #90bce6; }
+    .diagram-wrap.amber  { border-color: #d4a854; }
+    .diagram-wrap.purple { border-color: #c8c5e8; }
+    .diagram-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .diagram-wrap.blue   .diagram-head { background: #f3f7fd; color: #1a4f8a; }
+    .diagram-wrap.amber  .diagram-head { background: #fdf8f0; color: #7a4d0a; }
+    .diagram-wrap.purple .diagram-head { background: #f5f4fc; color: #4a3fa0; }
+    .diagram-body { display: none; padding: 14px; background: #fff; }
+    .diagram-body.open { display: block; }
+
+    .box-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
+    .box-wrap.blue   { border-color: #90bce6; }
+    .box-wrap.purple { border-color: #c8c5e8; }
+    .box-wrap.teal   { border-color: #9adcc5; }
+    .box-wrap.amber  { border-color: #d4a854; }
+    .box-wrap.coral  { border-color: #e8a48a; }
+    .box-wrap.pink   { border-color: #e096b4; }
+    .box-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
+    .box-wrap.blue   .box-head { background: #f3f7fd; color: #1a4f8a; }
+    .box-wrap.purple .box-head { background: #f5f4fc; color: #4a3fa0; }
+    .box-wrap.amber  .box-head { background: #fdf8f0; color: #7a4d0a; }
+    .box-wrap.coral  .box-head { background: #fdf6f3; color: #7a3010; }
+    .box-wrap.pink   .box-head { background: #fdf5f8; color: #8b2050; }
+    .box-body { display: none; padding: 14px; background: #fff; }
+    .box-body.open { display: block; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; margin-top: 8px; }
+    th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; font-size: 0.9em; }
+    td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8f8f8; }
+    tr:hover td { background: #f2f2f4; }
+
+    /* HIGHLIGHT / TIP BOXES */
+    .highlight-box { background: #fafafa; border-left: 4px solid #c8a84b; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 0.9em; }
+    .highlight-box.teal  { border-left-color: #5DCAA5; }
+    .highlight-box.blue  { border-left-color: #378ADD; }
+    .highlight-box.slate { border-left-color: #2c5f6e; }
+    .tip-box { background: #fafafa; border: 1px solid #ccc; border-left: 4px solid #5DCAA5; border-radius: 8px; padding: 10px 14px; margin: 10px 0; font-size: 0.89em; }
+
+    /* CONCUSSION STEPS */
+    .step-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+    .step-item { display: flex; gap: 12px; align-items: flex-start; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 14px; }
+    .step-num { background: #2c5f6e; color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.88em; flex-shrink: 0; margin-top: 2px; }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 700; font-size: 0.93em; color: #1a3d48; margin-bottom: 2px; }
+    .step-detail { font-size: 0.88em; color: #444; }
+
+    svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    #no-results { display: none; text-align: center; color: #2c5f6e; padding: 18px; font-style: italic; }
+    ul { padding-left: 20px; margin: 6px 0; }
+    ul li { margin-bottom: 4px; }
+    ol { padding-left: 20px; margin: 6px 0; }
+    ol li { margin-bottom: 4px; }
+    p { margin: 6px 0; }
+    strong { color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 2 Part C &middot; 2C: Keeping the Body Safe &middot; Live it Up 5th ed.</p>
+
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('secEquip')">Protective Equipment</span>
+  <span class="nav-pill" onclick="jumpTo('secTaping')">Taping &amp; Bracing</span>
+  <span class="nav-pill" onclick="jumpTo('secConcussion')">Avoiding Concussion</span>
+  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128216; Key Terms</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PROTECTIVE EQUIPMENT -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secEquip">&#129657; Protective Equipment</p>
+
+<div class="diagram-wrap blue">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Protective Equipment Overview Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 310" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Title -->
+      <rect x="280" y="10" width="300" height="38" rx="10" fill="#2c5f6e" stroke="#1a3d48" stroke-width="2"/>
+      <text x="430" y="34" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Protective Equipment</text>
+
+      <!-- Two categories -->
+      <line x1="430" y1="48" x2="430" y2="68" stroke="#555" stroke-width="1.8"/>
+      <line x1="215" y1="68" x2="645" y2="68" stroke="#555" stroke-width="1.8"/>
+      <line x1="215" y1="68" x2="215" y2="86" stroke="#555" stroke-width="1.8"/>
+      <line x1="645" y1="68" x2="645" y2="86" stroke="#555" stroke-width="1.8"/>
+
+      <!-- Mandatory -->
+      <rect x="80" y="86" width="270" height="40" rx="8" fill="#f3f7fd" stroke="#90bce6" stroke-width="2"/>
+      <text x="215" y="107" text-anchor="middle" fill="#1a4f8a" font-size="13" font-weight="bold">Mandatory Equipment</text>
+      <text x="215" y="120" text-anchor="middle" fill="#1a4f8a" font-size="10">Required by sport rules</text>
+
+      <!-- Optional -->
+      <rect x="510" y="86" width="270" height="40" rx="8" fill="#f5faf8" stroke="#9adcc5" stroke-width="2"/>
+      <text x="645" y="107" text-anchor="middle" fill="#1a7a58" font-size="13" font-weight="bold">Optional / Recommended</text>
+      <text x="645" y="120" text-anchor="middle" fill="#1a7a58" font-size="10">Athlete or coach choice</text>
+
+      <!-- Mandatory examples: 4 boxes at y=148 -->
+      <line x1="120" y1="126" x2="120" y2="148" stroke="#90bce6" stroke-width="1.5"/>
+      <line x1="185" y1="126" x2="185" y2="148" stroke="#90bce6" stroke-width="1.5"/>
+      <line x1="250" y1="126" x2="250" y2="148" stroke="#90bce6" stroke-width="1.5"/>
+      <line x1="315" y1="126" x2="315" y2="148" stroke="#90bce6" stroke-width="1.5"/>
+
+      <rect x="70" y="148" width="100" height="54" rx="7" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="120" y="168" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Helmet</text>
+      <text x="120" y="182" text-anchor="middle" fill="#555" font-size="10">Cricket, AFL</text>
+      <text x="120" y="195" text-anchor="middle" fill="#555" font-size="10">cycling, hockey</text>
+
+      <rect x="135" y="148" width="100" height="54" rx="7" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="185" y="168" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Mouthguard</text>
+      <text x="185" y="182" text-anchor="middle" fill="#555" font-size="10">Contact sports</text>
+      <text x="185" y="195" text-anchor="middle" fill="#555" font-size="10">AFL, rugby, boxing</text>
+
+      <rect x="200" y="148" width="100" height="54" rx="7" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="250" y="168" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Shin Guards</text>
+      <text x="250" y="182" text-anchor="middle" fill="#555" font-size="10">Soccer, hockey</text>
+      <text x="250" y="195" text-anchor="middle" fill="#555" font-size="10">field sports</text>
+
+      <rect x="265" y="148" width="100" height="54" rx="7" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="315" y="168" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Protective</text>
+      <text x="315" y="182" text-anchor="middle" fill="#1a4f8a" font-size="11" font-weight="bold">Cup</text>
+      <text x="315" y="195" text-anchor="middle" fill="#555" font-size="10">Cricket, rugby</text>
+
+      <!-- Optional examples: 4 boxes -->
+      <line x1="560" y1="126" x2="560" y2="148" stroke="#9adcc5" stroke-width="1.5"/>
+      <line x1="620" y1="126" x2="620" y2="148" stroke="#9adcc5" stroke-width="1.5"/>
+      <line x1="685" y1="126" x2="685" y2="148" stroke="#9adcc5" stroke-width="1.5"/>
+      <line x1="750" y1="126" x2="750" y2="148" stroke="#9adcc5" stroke-width="1.5"/>
+
+      <rect x="510" y="148" width="100" height="54" rx="7" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="560" y="168" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Ankle Brace</text>
+      <text x="560" y="182" text-anchor="middle" fill="#555" font-size="10">Basketball</text>
+      <text x="560" y="195" text-anchor="middle" fill="#555" font-size="10">netball, volleyball</text>
+
+      <rect x="570" y="148" width="100" height="54" rx="7" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="620" y="168" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Knee Brace</text>
+      <text x="620" y="182" text-anchor="middle" fill="#555" font-size="10">Post-injury</text>
+      <text x="620" y="195" text-anchor="middle" fill="#555" font-size="10">return to sport</text>
+
+      <rect x="635" y="148" width="100" height="54" rx="7" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="685" y="168" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Padded</text>
+      <text x="685" y="182" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Shorts</text>
+      <text x="685" y="195" text-anchor="middle" fill="#555" font-size="10">AFL, cycling</text>
+
+      <rect x="700" y="148" width="100" height="54" rx="7" fill="#f5faf8" stroke="#9adcc5" stroke-width="1.5"/>
+      <text x="750" y="168" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Eye &amp; Face</text>
+      <text x="750" y="182" text-anchor="middle" fill="#1a7a58" font-size="11" font-weight="bold">Protection</text>
+      <text x="750" y="195" text-anchor="middle" fill="#555" font-size="10">Squash, fencing</text>
+
+      <!-- Mechanisms row -->
+      <rect x="20" y="218" width="820" height="78" rx="8" fill="#fafafa" stroke="#d4a854" stroke-width="1.5"/>
+      <text x="430" y="238" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">How Protective Equipment Prevents Injury</text>
+      <text x="215" y="258" text-anchor="middle" fill="#555" font-size="11" font-weight="bold">Absorbs / distributes force</text>
+      <text x="215" y="273" text-anchor="middle" fill="#555" font-size="10">Padding spreads impact over</text>
+      <text x="215" y="286" text-anchor="middle" fill="#555" font-size="10">a larger area, reducing peak stress</text>
+      <text x="430" y="258" text-anchor="middle" fill="#555" font-size="11" font-weight="bold">Restricts harmful movement</text>
+      <text x="430" y="273" text-anchor="middle" fill="#555" font-size="10">Braces limit ROM beyond</text>
+      <text x="430" y="286" text-anchor="middle" fill="#555" font-size="10">safe range, preventing sprains</text>
+      <text x="645" y="258" text-anchor="middle" fill="#555" font-size="11" font-weight="bold">Creates barrier / deflects</text>
+      <text x="645" y="273" text-anchor="middle" fill="#555" font-size="10">Hard shells deflect projectiles</text>
+      <text x="645" y="286" text-anchor="middle" fill="#555" font-size="10">and direct impacts from bone</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap blue">
+  <div class="cat-head" onclick="toggleC(this)">&#128218; Protective Equipment: Types, Functions and Sport Examples <span class="hot-badge">HOT TOPIC<span class="tooltip">Must link equipment to specific injury prevention mechanism</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Protective equipment</strong> refers to gear worn by athletes to reduce the risk of injury or to limit the severity of injury when it occurs. Equipment works through three main mechanisms: absorbing and distributing force, restricting harmful movement, or creating a physical barrier.</p>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Key Protective Equipment: Function and Mechanism <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Equipment</th><th>Sport Examples</th><th>Injury Prevented</th><th>Mechanism</th></tr>
+          <tr><td><strong>Helmet</strong></td><td>Cricket (batting/wicketkeeping), AFL, cycling, ice hockey, BMX</td><td>Traumatic brain injury (TBI), skull fracture, facial lacerations</td><td>Hard outer shell deflects and distributes impact force; foam liner absorbs energy and slows deceleration of the skull</td></tr>
+          <tr><td><strong>Mouthguard</strong></td><td>AFL, rugby, boxing, martial arts, hockey</td><td>Dental fractures, jaw fractures, lacerations to lips/cheeks, concussion (debated)</td><td>Cushions direct blow to the jaw; distributes force across teeth; prevents tooth-to-tooth contact; may reduce jaw impact transmission to skull</td></tr>
+          <tr><td><strong>Shin guards</strong></td><td>Soccer, field hockey, cricket (batting)</td><td>Contusions, lacerations, fractures of tibia/fibula from direct impact</td><td>Hard outer shell distributes and deflects direct blows; foam backing absorbs residual force</td></tr>
+          <tr><td><strong>Ankle brace</strong></td><td>Basketball, netball, volleyball, AFL</td><td>Lateral ankle sprain (inversion injury)</td><td>Restricts excessive inversion and plantarflexion range of motion, preventing the ankle from rolling into the sprain position</td></tr>
+          <tr><td><strong>Knee brace</strong></td><td>Post-ACL/MCL injury return to sport; skiing</td><td>Ligament re-injury; joint instability</td><td>Provides external mechanical support to the knee joint, limiting abnormal translation and rotation forces on healing ligaments</td></tr>
+          <tr><td><strong>Padded clothing</strong></td><td>AFL (hip, thigh, shoulder pads), cycling (padded shorts), rugby</td><td>Contusions, haematomas, abrasions</td><td>Foam or gel padding absorbs and disperses impact energy over a larger surface area, reducing peak force at any single point</td></tr>
+          <tr><td><strong>Eye/face protection</strong></td><td>Squash (goggles), fencing (mask), cricket (grill), baseball (catcher)</td><td>Eye injuries, facial fractures, lacerations</td><td>Physical barrier between projectile or opponent and vulnerable facial structures; wire grilles deflect while maintaining vision</td></tr>
+          <tr><td><strong>Footwear</strong></td><td>All sports &mdash; sport-specific design</td><td>Ankle sprains, plantar fasciitis, stress fractures, blisters</td><td>Appropriate grip prevents slipping; cushioning absorbs ground reaction forces; ankle support limits inversion; arch support distributes plantar load</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Factors Affecting Effectiveness of Protective Equipment <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Factor</th><th>Detail</th></tr>
+          <tr><td><strong>Correct fit</strong></td><td>Equipment that is too loose shifts during activity and fails to protect; too tight impairs circulation and movement. Must be properly fitted and adjusted for each individual.</td></tr>
+          <tr><td><strong>Condition / maintenance</strong></td><td>Worn, cracked or degraded equipment loses its protective properties. Helmets that have sustained a significant impact must be replaced even if externally undamaged.</td></tr>
+          <tr><td><strong>Appropriate for the sport</strong></td><td>Equipment must match the specific injury risks of the sport. Soccer shin guards do not protect against cricket ball impacts; sport-specific design matters.</td></tr>
+          <tr><td><strong>Compliance</strong></td><td>Equipment only protects if worn. Athlete reluctance to wear protective gear (due to comfort, appearance or perceived performance impact) reduces its effectiveness.</td></tr>
+          <tr><td><strong>Standards certification</strong></td><td>Equipment should meet relevant Australian Standards (AS) or international certification for impact resistance. Uncertified equipment may provide false security.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box teal">
+      <strong>&#128161; Risk compensation:</strong> Some research suggests athletes wearing more protective equipment take greater risks, potentially negating injury prevention benefits. This is known as the risk compensation or risk homeostasis effect. Protective equipment reduces injury severity but does not eliminate injury risk, and should always be combined with safe play and skill development.
+    </div>
+    <div class="tip-box">
+      <strong>&#9888; Exam tip:</strong> When asked how protective equipment prevents injury, always name the specific mechanism &mdash; &ldquo;absorbs and distributes force,&rdquo; &ldquo;restricts harmful movement&rdquo; or &ldquo;creates a physical barrier.&rdquo; Simply saying &ldquo;it protects the body&rdquo; scores zero.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAPING AND BRACING -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secTaping">&#129657; Taping and Bracing</p>
+
+<div class="diagram-wrap amber">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Taping vs Bracing Comparison Diagram <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 250" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- VS layout -->
+      <rect x="20" y="20" width="380" height="210" rx="10" fill="#fdf8f0" stroke="#d4a854" stroke-width="2"/>
+      <text x="210" y="48" text-anchor="middle" fill="#7a4d0a" font-size="14" font-weight="bold">Rigid Taping</text>
+
+      <rect x="460" y="20" width="380" height="210" rx="10" fill="#f5f4fc" stroke="#c8c5e8" stroke-width="2"/>
+      <text x="650" y="48" text-anchor="middle" fill="#4a3fa0" font-size="14" font-weight="bold">Bracing</text>
+
+      <!-- VS circle -->
+      <circle cx="430" cy="125" r="24" fill="#4a4a5a"/>
+      <text x="430" y="131" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">VS</text>
+
+      <!-- Taping details -->
+      <text x="40" y="72" fill="#7a4d0a" font-size="11" font-weight="bold">Material:</text>
+      <text x="120" y="72" fill="#555" font-size="11">Zinc oxide (rigid) or elastic tape</text>
+      <text x="40" y="92" fill="#7a4d0a" font-size="11" font-weight="bold">Application:</text>
+      <text x="120" y="92" fill="#555" font-size="11">Applied by trained clinician/trainer</text>
+      <text x="40" y="112" fill="#7a4d0a" font-size="11" font-weight="bold">Duration:</text>
+      <text x="120" y="112" fill="#555" font-size="11">Single session; re-applied each time</text>
+      <text x="40" y="132" fill="#7a4d0a" font-size="11" font-weight="bold">Support level:</text>
+      <text x="120" y="132" fill="#555" font-size="11">High initially; decreases ~20 min</text>
+      <text x="40" y="152" fill="#7a4d0a" font-size="11" font-weight="bold">Best for:</text>
+      <text x="120" y="152" fill="#555" font-size="11">Acute injury; short-term prevention</text>
+      <text x="40" y="172" fill="#7a4d0a" font-size="11" font-weight="bold">Skin:</text>
+      <text x="120" y="172" fill="#555" font-size="11">Skin preparation required; irritation risk</text>
+      <text x="40" y="192" fill="#7a4d0a" font-size="11" font-weight="bold">Cost:</text>
+      <text x="120" y="192" fill="#555" font-size="11">Ongoing cost per session</text>
+      <text x="40" y="212" fill="#7a4d0a" font-size="11" font-weight="bold">Proprioception:</text>
+      <text x="120" y="212" fill="#555" font-size="11">Enhances cutaneous feedback</text>
+
+      <!-- Bracing details -->
+      <text x="480" y="72" fill="#4a3fa0" font-size="11" font-weight="bold">Material:</text>
+      <text x="560" y="72" fill="#555" font-size="11">Plastic, neoprene, carbon fibre</text>
+      <text x="480" y="92" fill="#4a3fa0" font-size="11" font-weight="bold">Application:</text>
+      <text x="560" y="92" fill="#555" font-size="11">Self-applied by athlete</text>
+      <text x="480" y="112" fill="#4a3fa0" font-size="11" font-weight="bold">Duration:</text>
+      <text x="560" y="112" fill="#555" font-size="11">Reusable; consistent support</text>
+      <text x="480" y="132" fill="#4a3fa0" font-size="11" font-weight="bold">Support level:</text>
+      <text x="560" y="132" fill="#555" font-size="11">Consistent throughout activity</text>
+      <text x="480" y="152" fill="#4a3fa0" font-size="11" font-weight="bold">Best for:</text>
+      <text x="560" y="152" fill="#555" font-size="11">Long-term management; return to sport</text>
+      <text x="480" y="172" fill="#4a3fa0" font-size="11" font-weight="bold">Skin:</text>
+      <text x="560" y="172" fill="#555" font-size="11">No skin preparation needed</text>
+      <text x="480" y="192" fill="#4a3fa0" font-size="11" font-weight="bold">Cost:</text>
+      <text x="560" y="192" fill="#555" font-size="11">Higher upfront; lower ongoing cost</text>
+      <text x="480" y="212" fill="#4a3fa0" font-size="11" font-weight="bold">Proprioception:</text>
+      <text x="560" y="212" fill="#555" font-size="11">Variable; less sensory feedback</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap amber">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Taping: Types, Purpose and Application <span class="hot-badge">HOT TOPIC<span class="tooltip">Mechanisms of taping are frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Taping</strong> involves applying adhesive tape to a joint or body part to provide support, restrict movement or enhance proprioception. It is one of the most widely used physical aids in sport.</p>
+    <div class="box-wrap amber">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Types of Tape and Their Uses <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Tape Type</th><th>Properties</th><th>Primary Use</th><th>Example</th></tr>
+          <tr><td><strong>Rigid (zinc oxide) tape</strong></td><td>Non-elastic; high tensile strength; firm restriction of movement</td><td>Joint stabilisation; preventing excessive ROM; acute injury support</td><td>Ankle taping to prevent inversion sprain; thumb taping in rugby</td></tr>
+          <tr><td><strong>Elastic adhesive bandage (EAB)</strong></td><td>Stretchy; allows some movement while providing compression and support</td><td>Muscle support; compression; covering rigid tape anchors</td><td>Hamstring or quad support during return from strain</td></tr>
+          <tr><td><strong>Kinesiology tape (K-tape)</strong></td><td>Highly elastic (matches skin stretch); worn for days; does not restrict ROM</td><td>Muscle facilitation/inhibition; swelling reduction (lymphatic drainage); proprioceptive enhancement</td><td>Patellofemoral taping; shoulder K-taping after rotator cuff strain</td></tr>
+          <tr><td><strong>Underwrap (pre-wrap)</strong></td><td>Foam layer applied under rigid tape to protect skin from irritation</td><td>Skin protection layer prior to rigid taping</td><td>Applied to ankle before zinc oxide taping</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; How Taping Prevents Injury: Three Mechanisms <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Mechanism</th><th>Explanation</th><th>Example</th></tr>
+          <tr><td><strong>1. Mechanical restriction</strong></td><td>Rigid tape physically limits the range of motion of a joint, preventing it from moving into a position where injury occurs (e.g. inversion). Acts as an external &ldquo;ligament.&rdquo;</td><td>Ankle taping reduces maximum inversion angle, preventing the lateral ligament from being stressed beyond its tensile limit</td></tr>
+          <tr><td><strong>2. Proprioceptive enhancement</strong></td><td>Tape applies pressure to skin receptors (mechanoreceptors), increasing sensory feedback about joint position. This heightens awareness of joint position and speeds up protective muscle activation.</td><td>Taped ankles show faster peroneal muscle activation in response to unexpected inversion &mdash; muscles activate before the sprain force develops</td></tr>
+          <tr><td><strong>3. Psychological support</strong></td><td>Athletes report increased confidence when taped, reducing hesitation and fear of re-injury. This may allow more natural movement patterns and reduce risk-taking behaviour.</td><td>Athletes returning from ankle sprains report feeling &ldquo;supported&rdquo; and more willing to plant and cut with a taped ankle</td></tr>
+        </table>
+        <div class="highlight-box" style="margin-top:10px;">
+          <strong>&#128161; Important:</strong> Research shows the mechanical support of rigid ankle tape decreases by approximately 20&ndash;50% after 20 minutes of vigorous activity as the tape stretches and loosens. However, the proprioceptive benefit is maintained throughout activity. This suggests proprioception may be the primary injury prevention mechanism of taping in practice.
+        </div>
+      </div>
+    </div>
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Common Taping Applications in Sport <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Joint / Region</th><th>Tape Type</th><th>Injury Prevented</th><th>Sport</th></tr>
+          <tr><td>Ankle (lateral)</td><td>Rigid zinc oxide &mdash; stirrup and heel lock pattern</td><td>Lateral ankle sprain (ATFL inversion)</td><td>Netball, basketball, AFL, volleyball</td></tr>
+          <tr><td>Knee (patella)</td><td>Rigid or K-tape &mdash; McConnell taping</td><td>Patellofemoral pain; patellar maltracking</td><td>Running, cycling, jumping sports</td></tr>
+          <tr><td>Thumb (UCL)</td><td>Rigid tape &mdash; figure-8 or buddy taping</td><td>Ulnar collateral ligament sprain (gamekeeper&rsquo;s thumb)</td><td>Rugby, basketball, skiing</td></tr>
+          <tr><td>Shoulder (AC joint)</td><td>Rigid tape &mdash; AC joint compression taping</td><td>Acromioclavicular joint separation re-injury</td><td>Rugby, AFL, wrestling</td></tr>
+          <tr><td>Hamstring / quad</td><td>Elastic adhesive bandage or K-tape</td><td>Muscle strain during return to sport</td><td>AFL, sprinting, soccer</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cat-wrap purple">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Bracing: Types, Purpose and Comparison with Taping <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p><strong>Bracing</strong> involves wearing a pre-fabricated or custom-made device to support, protect or offload a joint or body region. Unlike tape, braces are reusable and self-applied.</p>
+    <div class="box-wrap purple">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Types of Braces and Their Uses <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Brace Type</th><th>Injury / Condition</th><th>Mechanism</th><th>Sport</th></tr>
+          <tr><td><strong>Lace-up ankle brace</strong></td><td>Ankle sprain prevention and management</td><td>Restricts inversion and plantarflexion; maintains proprioceptive input; semi-rigid support</td><td>Basketball, netball, volleyball</td></tr>
+          <tr><td><strong>Hinged knee brace (functional)</strong></td><td>ACL/MCL instability; post-surgical return to sport</td><td>Hinged design allows flexion/extension while limiting excessive valgus/varus and rotational stress on ligaments</td><td>Skiing, AFL, rugby, football</td></tr>
+          <tr><td><strong>Patellar tracking brace</strong></td><td>Patellofemoral pain syndrome</td><td>Lateral buttress pad controls patellar alignment, reducing lateral tracking and compression pain</td><td>Running, cycling</td></tr>
+          <tr><td><strong>Wrist brace / splint</strong></td><td>TFCC injuries, wrist sprains, carpal tunnel</td><td>Maintains wrist in neutral position; limits extreme flexion/extension that stresses ligaments</td><td>Gymnastics, skating, snowboarding</td></tr>
+          <tr><td><strong>Back brace (lumbar support)</strong></td><td>Spondylolysis; disc injuries; general LBP</td><td>Limits lumbar extension and rotation; reduces compressive load on discs and posterior elements</td><td>Weightlifting, cricket, gymnastics</td></tr>
+          <tr><td><strong>Elbow brace (epicondylitis)</strong></td><td>Lateral epicondylitis (&ldquo;tennis elbow&rdquo;)</td><td>Counterforce strap disperses tensile load on the common extensor origin, reducing pain during gripping</td><td>Tennis, golf, racquet sports</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box blue">
+      <strong>&#128161; Taping vs bracing &mdash; which is better?</strong> Neither is universally superior. Rigid taping provides excellent initial support and proprioceptive enhancement but loses mechanical effect during activity. Bracing provides consistent support and is more practical for repeated use. Research on ankle injury prevention shows both taping and lace-up bracing are equally effective at reducing re-sprain rates, with bracing having lower cost per use.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CONCUSSION -->
+<!-- ═══════════════════════════════════════════════ -->
+<p class="section-label" id="secConcussion">&#129657; Avoiding Concussion</p>
+
+<div class="diagram-wrap purple">
+  <div class="diagram-head" onclick="toggleB(this)">&#9658; Concussion: Causes, Signs and Management Pathway <span>&#9660;</span></div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+      <!-- Definition box -->
+      <rect x="20" y="10" width="820" height="44" rx="8" fill="#f5f4fc" stroke="#c8c5e8" stroke-width="2"/>
+      <text x="430" y="28" text-anchor="middle" fill="#4a3fa0" font-size="12" font-weight="bold">Concussion: A traumatic brain injury caused by a direct or indirect biomechanical force to the head, neck or body</text>
+      <text x="430" y="46" text-anchor="middle" fill="#555" font-size="11">Results in transient neurological impairment. No structural brain damage visible on standard imaging (CT/MRI).</text>
+
+      <!-- Three columns: Causes, Signs, Management -->
+      <line x1="430" y1="54" x2="430" y2="70" stroke="#555" stroke-width="1.5"/>
+      <line x1="155" y1="70" x2="705" y2="70" stroke="#555" stroke-width="1.5"/>
+      <line x1="155" y1="70" x2="155" y2="88" stroke="#555" stroke-width="1.5"/>
+      <line x1="430" y1="70" x2="430" y2="88" stroke="#555" stroke-width="1.5"/>
+      <line x1="705" y1="70" x2="705" y2="88" stroke="#555" stroke-width="1.5"/>
+
+      <!-- Causes -->
+      <rect x="20" y="88" width="270" height="36" rx="7" fill="#fdf8f0" stroke="#d4a854" stroke-width="1.5"/>
+      <text x="155" y="111" text-anchor="middle" fill="#7a4d0a" font-size="12" font-weight="bold">Common Causes</text>
+      <rect x="20" y="130" width="270" height="120" rx="7" fill="#fafafa" stroke="#d4a854" stroke-width="1"/>
+      <text x="155" y="150" text-anchor="middle" fill="#555" font-size="11">&#8226; Direct blow to head (tackle, collision)</text>
+      <text x="155" y="168" text-anchor="middle" fill="#555" font-size="11">&#8226; Indirect whiplash (body blow)</text>
+      <text x="155" y="186" text-anchor="middle" fill="#555" font-size="11">&#8226; Fall onto hard surface</text>
+      <text x="155" y="204" text-anchor="middle" fill="#555" font-size="11">&#8226; Projectile impact (ball, elbow)</text>
+      <text x="155" y="222" text-anchor="middle" fill="#555" font-size="10" font-style="italic">Sports: AFL, rugby, soccer, hockey</text>
+      <text x="155" y="238" text-anchor="middle" fill="#555" font-size="10" font-style="italic">boxing, basketball, cycling</text>
+
+      <!-- Signs -->
+      <rect x="295" y="88" width="270" height="36" rx="7" fill="#f5f4fc" stroke="#c8c5e8" stroke-width="1.5"/>
+      <text x="430" y="111" text-anchor="middle" fill="#4a3fa0" font-size="12" font-weight="bold">Signs &amp; Symptoms</text>
+      <rect x="295" y="130" width="270" height="120" rx="7" fill="#fafafa" stroke="#c8c5e8" stroke-width="1"/>
+      <text x="430" y="150" text-anchor="middle" fill="#555" font-size="11">&#8226; Headache or pressure in head</text>
+      <text x="430" y="168" text-anchor="middle" fill="#555" font-size="11">&#8226; Dizziness / balance problems</text>
+      <text x="430" y="186" text-anchor="middle" fill="#555" font-size="11">&#8226; Confusion, disorientation</text>
+      <text x="430" y="204" text-anchor="middle" fill="#555" font-size="11">&#8226; Nausea or vomiting</text>
+      <text x="430" y="218" text-anchor="middle" fill="#555" font-size="11">&#8226; Visual disturbance (&ldquo;seeing stars&rdquo;)</text>
+      <text x="430" y="234" text-anchor="middle" fill="#555" font-size="11">&#8226; Memory loss; emotional changes</text>
+
+      <!-- Management -->
+      <rect x="570" y="88" width="270" height="36" rx="7" fill="#f3f7fd" stroke="#90bce6" stroke-width="1.5"/>
+      <text x="705" y="111" text-anchor="middle" fill="#1a4f8a" font-size="12" font-weight="bold">Immediate Management</text>
+      <rect x="570" y="130" width="270" height="120" rx="7" fill="#fafafa" stroke="#90bce6" stroke-width="1"/>
+      <text x="705" y="150" text-anchor="middle" fill="#555" font-size="11">&#8226; Remove from play immediately</text>
+      <text x="705" y="168" text-anchor="middle" fill="#555" font-size="11">&#8226; Do NOT return to play same day</text>
+      <text x="705" y="186" text-anchor="middle" fill="#555" font-size="11">&#8226; Medical assessment required</text>
+      <text x="705" y="204" text-anchor="middle" fill="#555" font-size="11">&#8226; Monitor for deterioration</text>
+      <text x="705" y="218" text-anchor="middle" fill="#555" font-size="11">&#8226; &ldquo;If in doubt, sit them out&rdquo;</text>
+      <text x="705" y="234" text-anchor="middle" fill="#555" font-size="11">&#8226; Graduated Return to Play protocol</text>
+
+      <!-- Key rule banner -->
+      <rect x="20" y="260" width="820" height="16" rx="5" fill="#1a3d48"/>
+      <text x="430" y="272" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">&#9888; NO ATHLETE WITH SUSPECTED CONCUSSION SHOULD RETURN TO PLAY ON THE SAME DAY &mdash; EVER</text>
+    </svg>
+  </div>
+</div>
+
+<div class="cat-wrap pink">
+  <div class="cat-head" onclick="toggleC(this)">&#129657; Concussion: Understanding, Prevention and Management <span class="hot-badge">HOT TOPIC<span class="tooltip">Concussion management and graduated return to play are frequently examined</span></span> <span>&#9660;</span></div>
+  <div class="cat-body">
+    <p>A <strong>concussion</strong> is a mild traumatic brain injury (mTBI) caused by a biomechanical force that produces transient neurological impairment. The brain &ldquo;bounces&rdquo; within the skull, causing diffuse axonal stretching and metabolic disruption without structural damage visible on imaging.</p>
+
+    <div class="box-wrap pink">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Why Concussion is Serious: Short and Long-Term Effects <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Timeframe</th><th>Effects</th></tr>
+          <tr><td><strong>Immediate (hours)</strong></td><td>Headache, confusion, dizziness, nausea, sensitivity to light/noise, balance impairment</td></tr>
+          <tr><td><strong>Short-term (days&ndash;weeks)</strong></td><td>Cognitive impairment (concentration, memory), fatigue, sleep disturbance, mood changes, post-concussion syndrome</td></tr>
+          <tr><td><strong>Second impact syndrome</strong></td><td>A second concussion sustained before the first has resolved can cause catastrophic cerebral swelling &mdash; potentially fatal. This is why same-day return is absolutely prohibited.</td></tr>
+          <tr><td><strong>Long-term (repeated concussions)</strong></td><td>Chronic traumatic encephalopathy (CTE) &mdash; progressive neurodegeneration linked to memory loss, depression, dementia. Found in retired contact sport athletes (boxing, NFL, AFL).</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="box-wrap teal">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Graduated Return to Play (GRTP) Protocol <span>&#9660;</span></div>
+      <div class="box-body">
+        <p>The <strong>Graduated Return to Play (GRTP)</strong> protocol is the evidence-based framework for safely returning an athlete to sport following concussion. Each stage must be completed without symptoms returning before progressing to the next.</p>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Symptom-limited activity</div>
+              <div class="step-detail">Complete physical and cognitive rest until symptom-free. No school, screens or physical activity. Duration: minimum 24&ndash;48 hours after symptom resolution.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Light aerobic exercise</div>
+              <div class="step-detail">Walking, swimming, stationary cycling at low intensity. No resistance training. Goal: increase heart rate without symptom provocation.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Sport-specific exercise</div>
+              <div class="step-detail">Running drills, skating drills. No head impact activities. Goal: add movement complexity while monitoring for symptom return.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Non-contact training drills</div>
+              <div class="step-detail">Complex drills, resistance training. No contact or collision. Cleared by medical professional to reach this stage.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title">Full-contact practice</div>
+              <div class="step-detail">Normal training with contact. Medical clearance required. Goal: restore confidence and assess functional performance in realistic conditions.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <div class="step-title">Return to competition</div>
+              <div class="step-detail">Full return to match play. Each stage takes a minimum of 24 hours &mdash; the full GRTP takes at least 5&ndash;6 days minimum, and longer for children and adolescents.</div>
+            </div>
+          </div>
+        </div>
+        <div class="highlight-box slate" style="margin-top:10px;">
+          <strong>&#9888; Critical rule:</strong> If ANY symptom returns during a GRTP stage, the athlete must rest for 24 hours until symptom-free, then restart from the PREVIOUS stage. Progression is never rushed.
+        </div>
+      </div>
+    </div>
+
+    <div class="box-wrap blue">
+      <div class="box-head" onclick="toggleB(this)">&#9658; Strategies to Prevent Concussion in Sport <span>&#9660;</span></div>
+      <div class="box-body">
+        <table>
+          <tr><th>Strategy</th><th>Mechanism</th><th>Example</th></tr>
+          <tr><td><strong>Protective headgear / helmets</strong></td><td>Hard shell distributes impact; foam liner absorbs energy and extends time of deceleration (reducing peak force on brain)</td><td>Cycling helmets, AFL soft helmets, cricket helmets</td></tr>
+          <tr><td><strong>Mouthguards</strong></td><td>May reduce jaw impact transmission to skull; protects teeth/jaw; role in concussion prevention remains debated</td><td>Custom-fitted mouthguards in contact sports</td></tr>
+          <tr><td><strong>Rule enforcement and law changes</strong></td><td>Rules banning dangerous contact (high tackles, head-high charges) reduce incidence of head impacts</td><td>NRL high tackle rules; AFL sling tackle ban; soccer heading limits in youth</td></tr>
+          <tr><td><strong>Neck strength training</strong></td><td>Stronger neck muscles act as a shock absorber, reducing head acceleration during impact &mdash; reduces concussion force</td><td>Neck strengthening programs in rugby and AFL</td></tr>
+          <tr><td><strong>Technique coaching</strong></td><td>Teaching safe tackling and collision techniques reduces the incidence of head impacts</td><td>Shoulder-led tackles; heads-up blocking in American football</td></tr>
+          <tr><td><strong>Concussion education</strong></td><td>Athletes, coaches and parents who can recognise signs and understand risks are more likely to remove athletes from play promptly</td><td>Sport-specific concussion awareness programs (e.g. HeadSafe, AFL concussion guidelines)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="highlight-box slate">
+      <strong>&#9888; &ldquo;If in doubt, sit them out&rdquo;:</strong> This is the governing principle of concussion management in sport. Any athlete suspected of having a concussion must be immediately and permanently removed from that game or training session. There is no safe return to play on the same day, regardless of the athlete&rsquo;s perceived fitness or importance of the match.
+    </div>
+  </div>
+</div>
+
+<!-- KEY TERMS -->
+<p class="section-label" id="secTerms">&#128216; Key Terms &mdash; Chapter 2 Part D</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part C &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var terms = [
+  { name: "Protective equipment", def: "Gear worn by athletes to reduce injury risk or severity, working through absorbing/distributing force, restricting harmful movement, or creating a physical barrier.", hot: true, tip: "Must link equipment to a specific injury prevention mechanism" },
+  { name: "Mandatory equipment", def: "Protective equipment required by the rules of a sport (e.g. helmets in cricket, shin guards in soccer). Athletes cannot participate without it.", hot: false },
+  { name: "Helmet", def: "Hard-shelled protective headgear with foam liner. The hard shell distributes impact force; the foam liner absorbs energy and extends deceleration time, reducing peak force on the skull and brain.", hot: false },
+  { name: "Mouthguard", def: "Soft protective device worn over the teeth. Cushions direct blows to the jaw, distributes force across the teeth and prevents dental fractures. May reduce jaw impact transmission to the skull.", hot: false },
+  { name: "Risk compensation", def: "The tendency for athletes wearing protective equipment to take greater risks, potentially reducing the injury prevention benefit. Also called risk homeostasis.", hot: false },
+  { name: "Taping", def: "Application of adhesive tape to a joint or body part to provide support, restrict movement or enhance proprioception. Works through mechanical restriction, proprioceptive enhancement and psychological support.", hot: true, tip: "Three mechanisms of taping are frequently examined" },
+  { name: "Rigid (zinc oxide) tape", def: "Non-elastic tape used for joint stabilisation. Provides firm restriction of movement. Most effective initially but loses up to 50% mechanical support after 20 minutes of activity.", hot: false },
+  { name: "Kinesiology tape (K-tape)", def: "Highly elastic tape that matches skin movement. Used for muscle facilitation/inhibition, lymphatic drainage and proprioceptive enhancement. Does not restrict ROM.", hot: false },
+  { name: "Mechanical restriction (taping)", def: "The primary mechanism of rigid taping: physically limits joint range of motion beyond safe range, preventing the joint from entering positions where injury occurs.", hot: true, tip: "Mechanical restriction decreases with activity duration" },
+  { name: "Proprioceptive enhancement (taping)", def: "Tape stimulates cutaneous mechanoreceptors, increasing joint position sense and speeding protective muscle activation. This benefit is maintained even as mechanical support decreases.", hot: true, tip: "Proprioception benefit persists even when mechanical support fades" },
+  { name: "Bracing", def: "A reusable, pre-fabricated or custom device that supports, protects or offloads a joint. Provides consistent support throughout activity; more practical and cost-effective than repeated taping.", hot: false },
+  { name: "Lace-up ankle brace", def: "A semi-rigid brace that restricts ankle inversion and plantarflexion. As effective as rigid taping for preventing ankle re-sprains and maintains consistent support.", hot: false },
+  { name: "Functional knee brace", def: "A hinged brace that allows knee flexion/extension while limiting valgus, varus and rotational stress. Used in ACL/MCL instability and return to sport.", hot: false },
+  { name: "Concussion", def: "A mild traumatic brain injury (mTBI) caused by a biomechanical force to the head, neck or body. Results in transient neurological impairment without structural brain damage visible on standard imaging.", hot: true, tip: "Definition, signs, second impact syndrome and GRTP are all examined" },
+  { name: "Second impact syndrome", def: "A potentially fatal condition where a second concussion sustained before the first has fully resolved causes catastrophic cerebral swelling. This is why same-day return to play is absolutely prohibited.", hot: true, tip: "This is the key reason for the no-same-day-return rule" },
+  { name: "Chronic traumatic encephalopathy (CTE)", def: "A progressive neurodegenerative disease linked to repeated head trauma. Causes memory loss, depression, behavioural changes and dementia. Found in retired contact sport athletes.", hot: false },
+  { name: "Graduated Return to Play (GRTP)", def: "A six-stage evidence-based protocol for returning an athlete to sport following concussion. Each stage must be completed symptom-free before progressing. Full protocol takes a minimum of 5-6 days.", hot: true, tip: "Know all six stages and the key rule: if symptoms return, go back one stage" },
+  { name: "Post-concussion syndrome", def: "Persistence of concussion symptoms (headache, cognitive difficulties, mood changes) beyond the expected recovery period (usually more than 4 weeks in adults).", hot: false },
+  { name: "Neck strength (concussion prevention)", def: "Stronger neck muscles act as shock absorbers during head impacts, reducing the acceleration of the head and lowering the force transmitted to the brain.", hot: false },
+  { name: "McConnell taping", def: "A patellar taping technique using rigid tape to medially glide and tilt the patella, improving tracking and reducing patellofemoral pain during activity.", hot: false }
+];
+
+var colorMap = {
+  "blue":   ["Protective equipment","Mandatory equipment","Helmet","Mouthguard","Risk compensation"],
+  "amber":  ["Taping","Rigid (zinc oxide) tape","Kinesiology tape (K-tape)","Mechanical restriction (taping)","Proprioceptive enhancement (taping)","McConnell taping"],
+  "purple": ["Bracing","Lace-up ankle brace","Functional knee brace"],
+  "pink":   ["Concussion","Second impact syndrome","Chronic traumatic encephalopathy (CTE)","Graduated Return to Play (GRTP)","Post-concussion syndrome","Neck strength (concussion prevention)"]
+};
+
+var labelMap = {
+  'blue':   '&#128737; Protective Equipment',
+  'amber':  '&#129657; Taping',
+  'purple': '&#9881; Bracing',
+  'pink':   '&#129504; Concussion',
+  'gray':   '&#128216; General Terms'
+};
+
+var currentQuery = '';
+
+function getColor(name) {
+  for (var c in colorMap) {
+    if (colorMap[c].indexOf(name) !== -1) return c;
+  }
+  return 'gray';
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildList(filtered) {
+  var container = document.getElementById('list');
+  var noResults = document.getElementById('no-results');
+  if (!filtered || filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  var byColor = {};
+  for (var i = 0; i < filtered.length; i++) {
+    var c = getColor(filtered[i].name);
+    if (!byColor[c]) byColor[c] = [];
+    byColor[c].push(filtered[i]);
+  }
+  var colorOrder = ['blue','amber','purple','pink','gray'];
+  var isSearching = currentQuery !== '';
+  var html = '';
+  for (var ci = 0; ci < colorOrder.length; ci++) {
+    var col = colorOrder[ci];
+    if (!byColor[col] || byColor[col].length === 0) continue;
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    html += '<div class="cat-wrap ' + col + '" style="margin-top:10px;">';
+    html += '<div class="cat-head" onclick="toggleC(this)">' + labelMap[col] + ' <span>' + arrow + '</span></div>';
+    html += '<div class="' + bodyClass + '">';
+    for (var j = 0; j < byColor[col].length; j++) {
+      var t = byColor[col][j];
+      var displayName = isSearching ? highlight(t.name, currentQuery) : t.name;
+      var displayDef  = isSearching ? highlight(t.def,  currentQuery) : t.def;
+      html += '<div class="term-row"><span class="term-name">' + displayName;
+      if (t.hot) { html += '<span class="hot-badge">HOT<span class="tooltip">' + (t.tip || 'Commonly examined') + '</span></span>'; }
+      html += '</span><span class="term-def">' + displayDef + '</span></div>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+buildList(terms);
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  if (currentQuery === '') { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].name.toLowerCase().indexOf(val) !== -1 || terms[i].def.toLowerCase().indexOf(val) !== -1) {
+      filtered.push(terms[i]);
+    }
+  }
+  buildList(filtered);
+  countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) { listEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  buildList(terms);
+}
+
+function toggleC(head) {
+  var body = head.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = head.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function toggleB(trigger) {
+  var body = trigger.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  var arrow = trigger.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+}
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+</script>
+</body>
+</html>

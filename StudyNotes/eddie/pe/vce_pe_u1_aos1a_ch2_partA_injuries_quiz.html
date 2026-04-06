@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part A Quiz: Illnesses &amp; Spinal Injuries</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #c0392b 0%, #922b21 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; }
+    .subtitle { text-align: center; background: #922b21; color: #fde8e8; font-size: 0.88em; padding: 6px 16px 14px; }
+
+    .tab-bar { display: flex; background: #fff; border-bottom: 3px solid #c0392b; }
+    .tab-btn { flex: 1; padding: 13px 8px; text-align: center; font-weight: 700; font-size: 0.92em; cursor: pointer; color: #888; border: none; background: none; }
+    .tab-btn.active { color: #c0392b; border-bottom: 3px solid #c0392b; margin-bottom: -3px; background: #fdeaea; }
+    .tab-btn:hover { background: #fdf0f0; }
+    .tab-panel { display: none; padding: 18px 16px; }
+    .tab-panel.active { display: block; }
+
+    .score-bar { background: #fff; border: 2px solid #c0392b; border-radius: 10px; padding: 12px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .score-display { font-size: 1.3em; font-weight: 700; color: #c0392b; }
+    .score-label { font-size: 0.85em; color: #666; }
+    .reset-btn { background: #c0392b; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.88em; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #922b21; }
+    .progress-wrap { background: #e0e0e0; border-radius: 10px; height: 10px; margin-top: 6px; overflow: hidden; width: 200px; }
+    .progress-bar { height: 10px; background: linear-gradient(90deg, #27ae60, #2ecc71); border-radius: 10px; transition: width 0.4s; }
+
+    .q-section { font-size: 1.05em; font-weight: 700; color: #fff; background: #c0392b; padding: 9px 16px; border-radius: 8px; margin: 20px 0 10px; }
+    .q-card { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #27ae60; background: #f0faf4; }
+    .q-card.wrong   { border-color: #c0392b; background: #fdf0ec; }
+    .q-num  { font-size: 0.78em; font-weight: 700; color: #c0392b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .q-text { font-weight: 600; font-size: 0.97em; margin-bottom: 12px; }
+
+    .options { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { text-align: left; background: #f8f9fc; border: 1.5px solid #ddd; border-radius: 8px; padding: 9px 14px; font-size: 0.91em; cursor: pointer; transition: background 0.15s; }
+    .opt-btn:hover:not([disabled]) { background: #fdeaea; border-color: #c0392b; }
+    .opt-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; font-weight: 700; color: #145a32; }
+    .opt-btn.selected-wrong   { background: #fde8e8; border-color: #c0392b; font-weight: 700; color: #922b21; }
+    .opt-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .opt-btn[disabled]        { cursor: default; }
+
+    .feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: #d5f5e3; color: #145a32; border-left: 4px solid #27ae60; }
+    .feedback.wrong-fb   { background: #fde8e8; color: #922b21; border-left: 4px solid #c0392b; }
+
+    .tf-options { display: flex; gap: 10px; margin-top: 8px; }
+    .tf-btn { flex: 1; padding: 10px; border: 1.5px solid #ddd; border-radius: 8px; background: #f8f9fc; font-weight: 700; font-size: 0.95em; cursor: pointer; text-align: center; }
+    .tf-btn:hover:not([disabled]) { background: #fdeaea; border-color: #c0392b; }
+    .tf-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; color: #145a32; }
+    .tf-btn.selected-wrong   { background: #fde8e8; border-color: #c0392b; color: #922b21; }
+    .tf-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .tf-btn[disabled]        { cursor: default; }
+
+    .match-container { overflow-x: auto; }
+    table.match-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    table.match-table th { background: #c0392b; color: #fff; padding: 8px 10px; text-align: left; }
+    table.match-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+    table.match-table tr:nth-child(even) td { background: #fdf6f6; }
+    select.match-sel { width: 100%; padding: 6px 8px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.88em; background: #fff; }
+    select.match-sel.correct-sel { border-color: #27ae60; background: #eafaf1; }
+    select.match-sel.wrong-sel   { border-color: #c0392b; background: #fde8e8; }
+    .match-check-btn { background: #c0392b; color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-weight: 700; font-size: 0.88em; cursor: pointer; margin-top: 12px; }
+    .match-check-btn:hover { background: #922b21; }
+    .match-feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .match-feedback.show { display: block; background: #fdf4e4; border-left: 4px solid #BA7517; color: #7a4d0a; }
+
+    .exam-card { background: #fff; border: 2px solid #378ADD; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+    .exam-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .exam-type-badge { background: #378ADD; color: #fff; font-size: 0.75em; font-weight: 700; border-radius: 12px; padding: 3px 10px; }
+    .exam-marks { background: #fdf4e4; color: #7a4d0a; font-size: 0.8em; font-weight: 700; border-radius: 10px; padding: 3px 10px; border: 1.5px solid #BA7517; }
+    .exam-q { font-weight: 700; font-size: 0.97em; margin-bottom: 10px; line-height: 1.5; }
+    .exam-stimulus { background: #f0f4ff; border-left: 4px solid #378ADD; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.9em; font-style: italic; color: #1a3a6a; }
+    .writing-area { width: 100%; min-height: 90px; border: 1.5px solid #ccc; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; font-family: inherit; resize: vertical; color: #1a1a2e; }
+    .writing-area:focus { outline: none; border-color: #378ADD; }
+    .model-btn { background: #378ADD; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.85em; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .model-btn:hover { background: #1a5f8a; }
+    .model-answer { display: none; margin-top: 12px; background: #f0faf4; border: 1.5px solid #27ae60; border-radius: 8px; padding: 14px 16px; font-size: 0.88em; }
+    .model-answer.open { display: block; }
+    .model-answer ul { padding-left: 20px; }
+    .model-answer ul li { margin-bottom: 5px; }
+    .mark-tick { color: #27ae60; font-weight: 700; margin-right: 4px; }
+    .examiner-tip { background: #fef9e7; border-left: 4px solid #f39c12; border-radius: 6px; padding: 9px 12px; margin-top: 10px; font-size: 0.87em; }
+
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    ul.answer-list { padding-left: 20px; margin-top: 4px; }
+    ul.answer-list li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Ch2 Part A Quiz</h1>
+<p class="subtitle">Sections 2.4&ndash;2.5: Musculoskeletal Illnesses &amp; Spinal Injuries &middot; Unit 1 AOS1a &middot; Live it Up 5th ed.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('quiz', this)">&#9998; Interactive Quiz</button>
+  <button class="tab-btn" onclick="showTab('exam', this)">&#128196; Exam Practice</button>
+</div>
+
+<!-- ═══════════════════ QUIZ TAB ═══════════════════ -->
+<div class="tab-panel active" id="tab-quiz">
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Quiz Score</div>
+      <div class="score-display"><span id="score-num">0</span> / <span id="score-total">0</span></div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset Quiz</button>
+  </div>
+
+  <div class="q-section">Part 1 &mdash; Multiple Choice</div>
+
+  <!-- MC1 -->
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">What is the PRIMARY cause of osteoarthritis (OA)?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">A) The immune system attacking the synovial membrane</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,true)">B) Progressive breakdown of articular cartilage due to age and mechanical wear</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">C) Low bone mineral density causing joint collapse</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">D) Bacterial infection of the joint capsule</button>
+    </div>
+    <div class="feedback" id="fb-mc1"></div>
+  </div>
+
+  <!-- MC2 TRAP -->
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 of 8 &mdash; Multiple Choice (Trap Question)</div>
+    <div class="q-text">A 35-year-old woman presents with symmetrical joint pain in both hands, prolonged morning stiffness lasting over an hour, fatigue and a low-grade fever. Which condition does this MOST likely describe?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">A) Osteoarthritis, because it is the most common form of arthritis</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">B) Osteoporosis, because she has joint pain and fatigue</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,true)">C) Rheumatoid arthritis, because of the symmetrical pattern, prolonged morning stiffness and systemic symptoms</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">D) Spondylolisthesis, because of the fatigue and back pain</button>
+    </div>
+    <div class="feedback" id="fb-mc2"></div>
+  </div>
+
+  <!-- MC3 -->
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following BEST explains why weight-bearing exercise is recommended for osteoporosis prevention?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">A) It increases calcium intake by stimulating appetite</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">B) It replaces osteoclasts with osteoblasts permanently</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,true)">C) Mechanical loading stimulates osteoblasts to form new bone tissue, increasing bone mineral density</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">D) It reduces body weight, decreasing compression on the spine</button>
+    </div>
+    <div class="feedback" id="fb-mc3"></div>
+  </div>
+
+  <!-- MC4 -->
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A disc herniation at L5/S1 is MOST likely to produce which symptom?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">A) Neck pain and numbness in the fingers</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,true)">B) Radiating pain from the lower back through the buttock and down the leg (sciatica)</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">C) Central chest pain and shortness of breath</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">D) Knee joint pain with swelling and crepitus</button>
+    </div>
+    <div class="feedback" id="fb-mc4"></div>
+  </div>
+
+  <!-- MC5 -->
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Spondylolysis is MOST accurately described as:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">A) Forward slippage of one vertebra on the one below</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">B) Herniation of the nucleus pulposus through the annulus fibrosus</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,true)">C) A stress fracture of the pars interarticularis of a vertebra</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">D) Excessive outward curvature of the thoracic spine</button>
+    </div>
+    <div class="feedback" id="fb-mc5"></div>
+  </div>
+
+  <!-- MC6 -->
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which postural condition involves a lateral (side-to-side) curvature of the spine?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">A) Hyperkyphosis</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">B) Hyperlordosis</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,true)">C) Scoliosis</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">D) Spondylolisthesis</button>
+    </div>
+    <div class="feedback" id="fb-mc6"></div>
+  </div>
+
+  <!-- MC7 -->
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A cervical spinal cord injury at C5 would MOST likely result in:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">A) Paraplegia &mdash; loss of lower limb function only</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,true)">B) Tetraplegia &mdash; loss of function in all four limbs and the trunk</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">C) Scoliosis &mdash; lateral curvature of the spine</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">D) Sciatica &mdash; radiating pain down the leg</button>
+    </div>
+    <div class="feedback" id="fb-mc7"></div>
+  </div>
+
+  <!-- MC8 -->
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is a modifiable risk factor for osteoporosis?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">A) Female sex</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">B) Family history of osteoporosis</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">C) Small body frame</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,true)">D) Physical inactivity and sedentary lifestyle</button>
+    </div>
+    <div class="feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section">Part 2 &mdash; True or False</div>
+
+  <!-- TF1 -->
+  <div class="q-card" id="tf1">
+    <div class="q-num">True or False 1</div>
+    <div class="q-text">Rheumatoid arthritis is a degenerative &ldquo;wear and tear&rdquo; condition caused by physical overuse of the joints.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf1',this,false,'FALSE. Rheumatoid arthritis is an AUTOIMMUNE disease &mdash; the immune system attacks the synovial membrane. It is NOT caused by wear and tear. Osteoarthritis is the degenerative wear-and-tear condition.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf1',this,true,'FALSE. Rheumatoid arthritis is an AUTOIMMUNE disease &mdash; the immune system attacks the synovial membrane. It is NOT caused by wear and tear. Osteoarthritis is the degenerative wear-and-tear condition.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf1"></div>
+  </div>
+
+  <!-- TF2 -->
+  <div class="q-card" id="tf2">
+    <div class="q-num">True or False 2</div>
+    <div class="q-text">Peak bone mass is typically reached around age 25&ndash;30, after which bone density gradually declines.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf2',this,true,'TRUE. Peak bone mass is reached around ages 25-30. After this, bone resorption gradually exceeds bone formation, leading to a slow decline in BMD. This is why physical activity and calcium intake during youth are so important.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf2',this,false,'TRUE. Peak bone mass is reached around ages 25-30. After this, bone resorption gradually exceeds bone formation, leading to a slow decline in BMD. This is why physical activity and calcium intake during youth are so important.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf2"></div>
+  </div>
+
+  <!-- TF3 -->
+  <div class="q-card" id="tf3">
+    <div class="q-num">True or False 3</div>
+    <div class="q-text">Swimming is the most effective exercise for preventing osteoporosis because it is a full-body workout.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf3',this,false,'FALSE. Swimming is a non-weight-bearing exercise and provides minimal bone-loading stimulus. Weight-bearing IMPACT activities (e.g. running, jumping, netball) and resistance training are most effective for bone formation because they generate mechanical forces through bone (Wolff\'s Law).')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf3',this,true,'FALSE. Swimming is a non-weight-bearing exercise and provides minimal bone-loading stimulus. Weight-bearing IMPACT activities (e.g. running, jumping, netball) and resistance training are most effective for bone formation because they generate mechanical forces through bone (Wolff\'s Law).')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf3"></div>
+  </div>
+
+  <!-- TF4 -->
+  <div class="q-card" id="tf4">
+    <div class="q-num">True or False 4</div>
+    <div class="q-text">Spondylolisthesis refers to a stress fracture of the pars interarticularis.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf4',this,false,'FALSE. A stress fracture of the pars interarticularis is called SPONDYLOLYSIS. SPONDYLOLISTHESIS is the forward slippage of one vertebra on the one below, which often develops as a consequence of bilateral spondylolysis.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf4',this,true,'FALSE. A stress fracture of the pars interarticularis is called SPONDYLOLYSIS. SPONDYLOLISTHESIS is the forward slippage of one vertebra on the one below, which often develops as a consequence of bilateral spondylolysis.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf4"></div>
+  </div>
+
+  <!-- TF5 -->
+  <div class="q-card" id="tf5">
+    <div class="q-num">True or False 5</div>
+    <div class="q-text">Morning stiffness lasting more than one hour is a feature that helps distinguish rheumatoid arthritis from osteoarthritis.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf5',this,true,'TRUE. Prolonged morning stiffness (&gt;1 hour) is characteristic of RA due to ongoing joint inflammation. In OA, morning stiffness is typically brief (&lt;30 minutes) and improves quickly with movement. This is a key clinical distinction.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf5',this,false,'TRUE. Prolonged morning stiffness (&gt;1 hour) is characteristic of RA due to ongoing joint inflammation. In OA, morning stiffness is typically brief (&lt;30 minutes) and improves quickly with movement. This is a key clinical distinction.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf5"></div>
+  </div>
+
+  <!-- TF6 -->
+  <div class="q-card" id="tf6">
+    <div class="q-num">True or False 6</div>
+    <div class="q-text">Hyperlordosis is an excessive outward curvature of the thoracic spine, producing a rounded upper back.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf6',this,false,'FALSE. Hyperlordosis is excessive INWARD curvature of the LUMBAR spine (swayback). Excessive OUTWARD curvature of the THORACIC spine is called HYPERKYPHOSIS (rounded upper back). Students frequently swap these two.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf6',this,true,'FALSE. Hyperlordosis is excessive INWARD curvature of the LUMBAR spine (swayback). Excessive OUTWARD curvature of the THORACIC spine is called HYPERKYPHOSIS (rounded upper back). Students frequently swap these two.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf6"></div>
+  </div>
+
+  <!-- TF7 -->
+  <div class="q-card" id="tf7">
+    <div class="q-num">True or False 7</div>
+    <div class="q-text">A suspected spinal cord injury at a sports event should be managed by immediately moving the athlete off the field to prevent further injury.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf7',this,false,'FALSE. A suspected SCI must NOT be moved unless trained emergency personnel are present with appropriate equipment. Moving an athlete with a suspected SCI without stabilisation can cause further cord damage and convert an incomplete injury into a complete one. Stabilise the head and neck in a neutral position and call emergency services.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf7',this,true,'FALSE. A suspected SCI must NOT be moved unless trained emergency personnel are present with appropriate equipment. Moving an athlete with a suspected SCI without stabilisation can cause further cord damage and convert an incomplete injury into a complete one. Stabilise the head and neck in a neutral position and call emergency services.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf7"></div>
+  </div>
+
+  <div class="q-section">Part 3 &mdash; Matching</div>
+
+  <!-- MATCH 1: Condition to category -->
+  <div class="q-card" id="match1">
+    <div class="q-num">Matching Set 1 &mdash; Condition to Correct Category</div>
+    <div class="q-text">Match each condition to its correct category or primary cause.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Condition</th><th>Your Answer</th></tr>
+        <tr><td>Osteoarthritis</td>
+          <td><select class="match-sel" id="m1_1">
+            <option value="">-- Select --</option>
+            <option>Autoimmune attack on synovial membrane</option>
+            <option>Degenerative cartilage breakdown</option>
+            <option>Low bone mineral density</option>
+            <option>Stress fracture of vertebra</option>
+            <option>Lateral spinal curvature</option>
+          </select></td></tr>
+        <tr><td>Rheumatoid arthritis</td>
+          <td><select class="match-sel" id="m1_2">
+            <option value="">-- Select --</option>
+            <option>Autoimmune attack on synovial membrane</option>
+            <option>Degenerative cartilage breakdown</option>
+            <option>Low bone mineral density</option>
+            <option>Stress fracture of vertebra</option>
+            <option>Lateral spinal curvature</option>
+          </select></td></tr>
+        <tr><td>Osteoporosis</td>
+          <td><select class="match-sel" id="m1_3">
+            <option value="">-- Select --</option>
+            <option>Autoimmune attack on synovial membrane</option>
+            <option>Degenerative cartilage breakdown</option>
+            <option>Low bone mineral density</option>
+            <option>Stress fracture of vertebra</option>
+            <option>Lateral spinal curvature</option>
+          </select></td></tr>
+        <tr><td>Spondylolysis</td>
+          <td><select class="match-sel" id="m1_4">
+            <option value="">-- Select --</option>
+            <option>Autoimmune attack on synovial membrane</option>
+            <option>Degenerative cartilage breakdown</option>
+            <option>Low bone mineral density</option>
+            <option>Stress fracture of vertebra</option>
+            <option>Lateral spinal curvature</option>
+          </select></td></tr>
+        <tr><td>Scoliosis</td>
+          <td><select class="match-sel" id="m1_5">
+            <option value="">-- Select --</option>
+            <option>Autoimmune attack on synovial membrane</option>
+            <option>Degenerative cartilage breakdown</option>
+            <option>Low bone mineral density</option>
+            <option>Stress fracture of vertebra</option>
+            <option>Lateral spinal curvature</option>
+          </select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m1', match1Answers, 'fb-match1')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match1"></div>
+  </div>
+
+  <!-- MATCH 2: Term to definition -->
+  <div class="q-card" id="match2">
+    <div class="q-num">Matching Set 2 &mdash; Spinal Term to Definition</div>
+    <div class="q-text">Match each spinal term to its correct definition.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Term</th><th>Your Answer</th></tr>
+        <tr><td>Nucleus pulposus</td>
+          <td><select class="match-sel" id="m2_1">
+            <option value="">-- Select --</option>
+            <option>Gel-like inner core of intervertebral disc</option>
+            <option>Tough outer ring of intervertebral disc</option>
+            <option>Forward slip of one vertebra on the next</option>
+            <option>Paralysis of all four limbs</option>
+            <option>Paralysis of lower limbs only</option>
+          </select></td></tr>
+        <tr><td>Annulus fibrosus</td>
+          <td><select class="match-sel" id="m2_2">
+            <option value="">-- Select --</option>
+            <option>Gel-like inner core of intervertebral disc</option>
+            <option>Tough outer ring of intervertebral disc</option>
+            <option>Forward slip of one vertebra on the next</option>
+            <option>Paralysis of all four limbs</option>
+            <option>Paralysis of lower limbs only</option>
+          </select></td></tr>
+        <tr><td>Spondylolisthesis</td>
+          <td><select class="match-sel" id="m2_3">
+            <option value="">-- Select --</option>
+            <option>Gel-like inner core of intervertebral disc</option>
+            <option>Tough outer ring of intervertebral disc</option>
+            <option>Forward slip of one vertebra on the next</option>
+            <option>Paralysis of all four limbs</option>
+            <option>Paralysis of lower limbs only</option>
+          </select></td></tr>
+        <tr><td>Tetraplegia</td>
+          <td><select class="match-sel" id="m2_4">
+            <option value="">-- Select --</option>
+            <option>Gel-like inner core of intervertebral disc</option>
+            <option>Tough outer ring of intervertebral disc</option>
+            <option>Forward slip of one vertebra on the next</option>
+            <option>Paralysis of all four limbs</option>
+            <option>Paralysis of lower limbs only</option>
+          </select></td></tr>
+        <tr><td>Paraplegia</td>
+          <td><select class="match-sel" id="m2_5">
+            <option value="">-- Select --</option>
+            <option>Gel-like inner core of intervertebral disc</option>
+            <option>Tough outer ring of intervertebral disc</option>
+            <option>Forward slip of one vertebra on the next</option>
+            <option>Paralysis of all four limbs</option>
+            <option>Paralysis of lower limbs only</option>
+          </select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m2', match2Answers, 'fb-match2')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match2"></div>
+  </div>
+
+  <!-- MATCH 3: OA vs RA features -->
+  <div class="q-card" id="match3">
+    <div class="q-num">Matching Set 3 &mdash; OA or RA?</div>
+    <div class="q-text">Match each feature to whether it describes Osteoarthritis (OA) or Rheumatoid Arthritis (RA).</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Feature</th><th>Your Answer</th></tr>
+        <tr><td>Symmetrical joint involvement</td>
+          <td><select class="match-sel" id="m3_1">
+            <option value="">-- Select --</option>
+            <option>Osteoarthritis (OA)</option>
+            <option>Rheumatoid Arthritis (RA)</option>
+          </select></td></tr>
+        <tr><td>Cartilage breakdown from age and use</td>
+          <td><select class="match-sel" id="m3_2">
+            <option value="">-- Select --</option>
+            <option>Osteoarthritis (OA)</option>
+            <option>Rheumatoid Arthritis (RA)</option>
+          </select></td></tr>
+        <tr><td>Systemic symptoms: fatigue, fever, anaemia</td>
+          <td><select class="match-sel" id="m3_3">
+            <option value="">-- Select --</option>
+            <option>Osteoarthritis (OA)</option>
+            <option>Rheumatoid Arthritis (RA)</option>
+          </select></td></tr>
+        <tr><td>Morning stiffness typically less than 30 minutes</td>
+          <td><select class="match-sel" id="m3_4">
+            <option value="">-- Select --</option>
+            <option>Osteoarthritis (OA)</option>
+            <option>Rheumatoid Arthritis (RA)</option>
+          </select></td></tr>
+        <tr><td>Pannus formation erodes cartilage and bone</td>
+          <td><select class="match-sel" id="m3_5">
+            <option value="">-- Select --</option>
+            <option>Osteoarthritis (OA)</option>
+            <option>Rheumatoid Arthritis (RA)</option>
+          </select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m3', match3Answers, 'fb-match3')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end tab-quiz -->
+
+<!-- ═══════════════════ EXAM TAB ═══════════════════ -->
+<div class="tab-panel" id="tab-exam">
+
+  <p style="background:#fef9e7; border-left:4px solid #f39c12; border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:0.9em;">
+    <strong>&#128196; Exam Practice Tips:</strong> Write your answers before revealing the model answer. Each &#10003; represents one mark.
+  </p>
+
+  <!-- SA1 -->
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">2 marks</span></div>
+    <div class="exam-q">Distinguish between osteoarthritis and rheumatoid arthritis. In your answer, identify the primary cause of each condition.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Osteoarthritis</strong> is a degenerative joint disease caused by the progressive breakdown of articular cartilage due to age, mechanical wear and previous joint injury (&ldquo;wear and tear&rdquo;).</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Rheumatoid arthritis</strong> is a chronic autoimmune disease in which the body&rsquo;s immune system mistakenly attacks the synovial membrane lining the joints, causing inflammation and progressive joint destruction.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always use the words &ldquo;degenerative&rdquo; or &ldquo;wear and tear&rdquo; for OA and &ldquo;autoimmune&rdquo; for RA. Saying OA is &ldquo;caused by inflammation&rdquo; or RA is &ldquo;caused by overuse&rdquo; are both zero-mark answers.</div>
+    </div>
+  </div>
+
+  <!-- SA2 -->
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">3 marks</span></div>
+    <div class="exam-q">Explain the role of physical activity in the prevention of osteoporosis. In your answer, refer to Wolff&rsquo;s Law and identify the MOST effective type of exercise for bone health.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Wolff&rsquo;s Law</strong> states that bone adapts to the mechanical loads placed upon it &mdash; when bone is stressed through physical activity, osteoblasts (bone-forming cells) are stimulated to deposit new bone tissue, increasing bone mineral density.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Weight-bearing impact activities</strong> (e.g. running, jumping, basketball, netball) are most effective because the ground reaction forces create high mechanical stress through bone, maximally stimulating bone formation. Resistance training also stimulates bone via muscle tension at attachment sites.</li>
+        <li><span class="mark-tick">&#10003;</span> Non-weight-bearing activities such as swimming provide minimal bone-loading benefit because the water supports body weight, reducing the mechanical stimulus to bone. Physical activity is particularly important during childhood and adolescence to maximise peak bone mass (reached ~25&ndash;30 years), providing a greater &ldquo;bone bank&rdquo; for later life.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Simply writing &ldquo;exercise increases bone density&rdquo; scores zero. You must name Wolff&rsquo;s Law, explain the mechanism (osteoblast stimulation via mechanical loading), and identify that weight-bearing impact is superior to non-weight-bearing exercise.</div>
+    </div>
+  </div>
+
+  <!-- SA3 stimulus -->
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer &mdash; Stimulus</span><span class="exam-marks">4 marks</span></div>
+    <div class="exam-stimulus">
+      Marcus, a 16-year-old elite cricket fast bowler, presents with central lower back pain that worsens when he arches his back (hyperextension) and is relieved by rest. The pain has developed gradually over the past three months of intensive pre-season bowling. Imaging reveals a fracture at the pars interarticularis of L5.
+    </div>
+    <div class="exam-q">Identify the injury, explain the mechanism, and outline TWO specific management strategies appropriate for Marcus.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Injury identified:</strong> Spondylolysis &mdash; a stress fracture of the pars interarticularis at L5, the most common level affected.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Mechanism:</strong> Repetitive hyperextension combined with rotation during the fast bowling action places high cyclic stress on the pars interarticularis. Over the pre-season period this cumulative microtrauma has exceeded the bone&rsquo;s repair capacity, producing a stress fracture. The gradual onset and link to bowling confirm the overuse mechanism.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Management 1 &mdash; Rest from aggravating activity:</strong> Marcus should cease fast bowling and all hyperextension activities immediately. The pars fracture requires offloading from the repetitive stress that caused it. A rigid brace (Boston brace) may be used to restrict lumbar extension and facilitate healing.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Management 2 &mdash; Core and rehabilitation program:</strong> Once pain-free, Marcus should undertake a structured physiotherapy program focusing on core stabilisation exercises (deep abdominal and lumbar multifidus strengthening) to support the lumbar spine and reduce stress on the pars during return to bowling. Return to fast bowling should be gradual with progressive load monitoring.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Reference the stimulus directly &mdash; mention &ldquo;fast bowling,&rdquo; &ldquo;hyperextension,&rdquo; and &ldquo;gradual onset over three months.&rdquo; Generic answers not linked to the scenario lose marks. Also: spondylolysis is NOT the same as spondylolisthesis &mdash; do not confuse them.</div>
+    </div>
+  </div>
+
+  <!-- ER1 -->
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Extended Response</span><span class="exam-marks">6 marks</span></div>
+    <div class="exam-q">Compare and contrast osteoarthritis (OA) and rheumatoid arthritis (RA) as musculoskeletal illnesses. In your response, discuss the cause, joints affected, signs and symptoms, and the role of physical activity in the management of each condition.</div>
+    <textarea class="writing-area" style="min-height:150px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Cause &mdash; OA:</strong> Progressive degeneration of articular cartilage from mechanical wear, age and previous joint injury. Not caused by the immune system.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Cause &mdash; RA:</strong> Autoimmune disease in which the immune system attacks the synovial membrane. Has systemic effects throughout the body, unlike OA.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Joints affected:</strong> OA typically affects weight-bearing joints (knee, hip) and is asymmetrical. RA affects small joints symmetrically (MCP, PIP joints of hands, wrists) &mdash; the symmetrical pattern is a key distinguishing feature.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Signs and symptoms comparison:</strong> Both cause joint pain, stiffness and reduced ROM. However, RA also produces systemic symptoms (fatigue, fever, anaemia) and prolonged morning stiffness (&gt;1 hour), while OA morning stiffness lasts &lt;30 minutes and systemic features are absent.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Physical activity in OA management:</strong> Low-impact weight-bearing exercise (e.g. walking, cycling) maintains cartilage nutrition via synovial fluid, strengthens muscles around the joint to reduce load on cartilage, and maintains ROM. Complete rest worsens OA outcomes.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Physical activity in RA management:</strong> During flare-ups, rest is appropriate to reduce inflammation. In remission periods, low-impact exercise improves joint mobility, muscle strength and systemic wellbeing. Exercise does NOT worsen RA when appropriately dosed and must be balanced against disease activity.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> &ldquo;Compare and contrast&rdquo; means you must address BOTH conditions for EACH point. Do not write all about OA then all about RA as separate paragraphs &mdash; weave the comparison throughout. Six marks need six distinct accurate points with appropriate terminology.</div>
+    </div>
+  </div>
+
+  <!-- ER2 -->
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Extended Response</span><span class="exam-marks">7 marks</span></div>
+    <div class="exam-stimulus">
+      Sandra is a 58-year-old post-menopausal woman who has been sedentary for most of her adult life. She has recently been diagnosed with osteoporosis following a wrist fracture sustained from a minor trip. Her doctor has recommended she begin an exercise program.
+    </div>
+    <div class="exam-q">Using the information above, explain why Sandra is at high risk of osteoporosis, describe the changes that occur in bone with this condition, and justify an appropriate exercise program for her, applying Wolff&rsquo;s Law in your response.</div>
+    <textarea class="writing-area" style="min-height:160px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Risk factor 1 &mdash; Post-menopausal female:</strong> Oestrogen plays a key role in inhibiting osteoclast (bone resorption) activity. After menopause, oestrogen declines sharply, causing accelerated bone resorption that exceeds bone formation &mdash; the most significant risk factor for osteoporosis in women.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Risk factor 2 &mdash; Sedentary lifestyle:</strong> Without mechanical loading from physical activity, osteoblasts receive minimal stimulus to build new bone (Wolff&rsquo;s Law). Long-term inactivity leads to progressive bone loss throughout adulthood, compounding the post-menopausal decline.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Risk factor 3 &mdash; Age:</strong> At 58, Sandra is beyond peak bone mass. The trabecular bone network has been thinning for nearly 30 years since peak. The fragility fracture from a &ldquo;minor trip&rdquo; confirms severely compromised bone strength.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Bone changes in osteoporosis:</strong> Trabecular (cancellous) bone loses its dense honeycomb structure &mdash; struts thin and break down, leaving large voids. Bone mineral density falls below the diagnostic threshold (T-score &le;-2.5). The result is porous, brittle bone that fractures under loads that healthy bone would easily tolerate.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Exercise program &mdash; Wolff&rsquo;s Law application:</strong> Wolff&rsquo;s Law states bone adapts to mechanical load by stimulating osteoblast activity. Sandra&rsquo;s program should include weight-bearing impact activities (e.g. walking, low-impact aerobics) to load the hip, spine and leg bones, stimulating bone formation at these sites.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Resistance training component:</strong> Progressive resistance exercises (e.g. leg press, squats) generate muscle pull on bone at tendon attachment sites, also stimulating osteoblasts. This is particularly important for the hip and spine &mdash; common osteoporotic fracture sites.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Considerations for Sandra specifically:</strong> Given her current fracture risk, exercise must be introduced gradually and high-impact or high-fall-risk activities avoided initially. Balance training (e.g. Tai Chi) should be incorporated to reduce fall risk, since preventing falls is as important as building bone density for fracture prevention.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This question requires you to USE the stimulus &mdash; explicitly reference post-menopausal status, sedentary history and the wrist fracture. A response that ignores the stimulus and writes generically about osteoporosis will miss marks. For Wolff&rsquo;s Law: name it, explain the mechanism (osteoblast stimulation), and apply it to a SPECIFIC exercise recommendation.</div>
+    </div>
+  </div>
+
+</div><!-- end tab-exam -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part A Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var answered = {};
+var score = 0;
+var totalAnswered = 0;
+
+var mcFeedbacks = {
+  'mc1': { c: 'Correct! OA is caused by progressive cartilage breakdown from age and mechanical wear &mdash; it is degenerative, NOT autoimmune.', w: 'Incorrect. Immune attack on the synovial membrane describes RHEUMATOID ARTHRITIS. OA is a DEGENERATIVE condition caused by cartilage breakdown.' },
+  'mc2': { c: 'Correct! Symmetrical joint involvement, prolonged morning stiffness (&gt;1 hour) and systemic symptoms (fatigue, fever) are hallmarks of RA, not OA. The age of 35 also fits RA better than OA.', w: 'Incorrect. The KEY features here are symmetrical joint involvement, morning stiffness &gt;1 hour, and systemic symptoms &mdash; these all point to RHEUMATOID ARTHRITIS. OA does not cause systemic symptoms and morning stiffness is brief.' },
+  'mc3': { c: 'Correct! Wolff&rsquo;s Law &mdash; mechanical loading from weight-bearing exercise stimulates osteoblasts to build new bone, increasing BMD.', w: 'Incorrect. The mechanism is Wolff&rsquo;s Law &mdash; mechanical loading stimulates osteoblasts (bone-forming cells) to deposit new bone. This increases bone mineral density over time.' },
+  'mc4': { c: 'Correct! L5/S1 disc herniation compresses the sciatic nerve roots, producing sciatica &mdash; pain radiating from the lower back through the buttock and down the leg.', w: 'Incorrect. A L5/S1 disc herniation compresses LUMBAR nerve roots, causing SCIATICA &mdash; radiating pain from the lower back down the leg. Neck/finger symptoms would indicate a CERVICAL disc problem.' },
+  'mc5': { c: 'Correct! Spondylolysis = stress fracture of the pars interarticularis. Spondylolisthesis = forward slip of the vertebra (often a consequence of spondylolysis).', w: 'Incorrect. Spondylolysis = stress FRACTURE of the pars interarticularis. Spondylolisthesis = FORWARD SLIP. Do not confuse these two related but distinct terms.' },
+  'mc6': { c: 'Correct! Scoliosis = lateral (side-to-side) curvature. Kyphosis = excessive outward curve (thoracic). Lordosis = excessive inward curve (lumbar).', w: 'Incorrect. Lateral curvature = SCOLIOSIS. Kyphosis is outward thoracic curve. Lordosis is inward lumbar curve. Learn all three and their locations.' },
+  'mc7': { c: 'Correct! A cervical (C-level) spinal cord injury produces TETRAPLEGIA &mdash; all four limbs and trunk affected. Thoracic or lumbar injury produces PARAPLEGIA.', w: 'Incorrect. CERVICAL (neck) SCI = TETRAPLEGIA (all four limbs). THORACIC/LUMBAR SCI = PARAPLEGIA (lower limbs only). The higher the injury level, the more of the body is affected.' },
+  'mc8': { c: 'Correct! Physical inactivity is a MODIFIABLE risk factor because it can be changed. Female sex, family history and body frame are all non-modifiable.', w: 'Incorrect. Non-modifiable risk factors are those you cannot change: sex, genetics, frame size, age. PHYSICAL INACTIVITY is modifiable &mdash; it can be changed through lifestyle choices, making it the correct answer.' }
+};
+
+function showTab(name, btn) {
+  var panels = document.querySelectorAll('.tab-panel');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateScore() {
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-total').textContent = totalAnswered;
+  var pct = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function answerMC(cardId, btn, isCorrect) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.opt-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; ' + mcFeedbacks[cardId].c;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; ' + mcFeedbacks[cardId].w;
+    for (var k = 0; k < allBtns.length; k++) {
+      var oc = allBtns[k].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true)') !== -1) { allBtns[k].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+function answerTF(cardId, btn, isCorrect, explanation) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; Correct! ' + explanation;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; Incorrect. ' + explanation;
+    for (var j = 0; j < allBtns.length; j++) {
+      var oc = allBtns[j].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true,') !== -1) { allBtns[j].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+var match1Answers = ['Degenerative cartilage breakdown','Autoimmune attack on synovial membrane','Low bone mineral density','Stress fracture of vertebra','Lateral spinal curvature'];
+var match2Answers = ['Gel-like inner core of intervertebral disc','Tough outer ring of intervertebral disc','Forward slip of one vertebra on the next','Paralysis of all four limbs','Paralysis of lower limbs only'];
+var match3Answers = ['Rheumatoid Arthritis (RA)','Osteoarthritis (OA)','Rheumatoid Arthritis (RA)','Osteoarthritis (OA)','Rheumatoid Arthritis (RA)'];
+
+function checkMatch(prefix, answers, fbId) {
+  var correct = 0;
+  var total = answers.length;
+  for (var i = 1; i <= total; i++) {
+    var sel = document.getElementById(prefix + '_' + i);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[i - 1]) {
+      sel.className = 'match-sel correct-sel';
+      correct++;
+    } else {
+      sel.className = 'match-sel wrong-sel';
+    }
+  }
+  var fb = document.getElementById(fbId);
+  fb.className = 'match-feedback show';
+  if (correct === total) {
+    fb.innerHTML = '&#10003; All ' + total + ' correct! Excellent work.';
+    fb.style.background = '#d5f5e3';
+    fb.style.borderLeftColor = '#27ae60';
+    fb.style.color = '#145a32';
+  } else {
+    fb.innerHTML = correct + ' of ' + total + ' correct. Review the incorrect answers (highlighted red) and check your study notes.';
+  }
+  if (!answered['match-' + fbId]) {
+    answered['match-' + fbId] = true;
+    totalAnswered++;
+    if (correct === total) score++;
+    updateScore();
+  }
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetQuiz() {
+  answered = {};
+  score = 0;
+  totalAnswered = 0;
+  updateScore();
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('correct','wrong'); }
+  var optBtns = document.querySelectorAll('.opt-btn');
+  for (var j = 0; j < optBtns.length; j++) {
+    optBtns[j].disabled = false;
+    optBtns[j].classList.remove('selected-correct','selected-wrong','reveal-correct');
+  }
+  var tfBtns = document.querySelectorAll('.tf-btn');
+  for (var k = 0; k < tfBtns.length; k++) {
+    tfBtns[k].disabled = false;
+    tfBtns[k].classList.remove('selected-correct','selected-wrong','reveal-correct');
+  }
+  var feedbacks = document.querySelectorAll('.feedback');
+  for (var m = 0; m < feedbacks.length; m++) { feedbacks[m].className = 'feedback'; feedbacks[m].innerHTML = ''; }
+  var sels = document.querySelectorAll('.match-sel');
+  for (var n = 0; n < sels.length; n++) { sels[n].disabled = false; sels[n].className = 'match-sel'; sels[n].value = ''; }
+  var matchFbs = document.querySelectorAll('.match-feedback');
+  for (var p = 0; p < matchFbs.length; p++) { matchFbs[p].className = 'match-feedback'; matchFbs[p].innerHTML = ''; }
+}
+</script>
+</body>
+</html>

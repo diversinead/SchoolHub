@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part C Quiz: Keeping the Body Safe</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; }
+    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
+    .tab-bar { display: flex; background: #fff; border-bottom: 3px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 13px 8px; text-align: center; font-weight: 700; font-size: 0.92em; cursor: pointer; color: #888; border: none; background: none; }
+    .tab-btn.active { color: #2c5f6e; border-bottom: 3px solid #2c5f6e; margin-bottom: -3px; background: #eaf4f7; }
+    .tab-btn:hover { background: #f0f8fa; }
+    .tab-panel { display: none; padding: 18px 16px; }
+    .tab-panel.active { display: block; }
+    .score-bar { background: #fff; border: 2px solid #2c5f6e; border-radius: 10px; padding: 12px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .score-display { font-size: 1.3em; font-weight: 700; color: #2c5f6e; }
+    .score-label { font-size: 0.85em; color: #666; }
+    .reset-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.88em; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #1a3d48; }
+    .progress-wrap { background: #e0e0e0; border-radius: 10px; height: 10px; margin-top: 6px; overflow: hidden; width: 200px; }
+    .progress-bar { height: 10px; background: linear-gradient(90deg, #5DCAA5, #2c5f6e); border-radius: 10px; transition: width 0.4s; }
+    .q-section { font-size: 1.05em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 9px 16px; border-radius: 8px; margin: 20px 0 10px; }
+    .q-card { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #27ae60; background: #f0faf4; }
+    .q-card.wrong   { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num  { font-size: 0.78em; font-weight: 700; color: #2c5f6e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .q-text { font-weight: 600; font-size: 0.97em; margin-bottom: 12px; }
+    .options { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { text-align: left; background: #f8f9fc; border: 1.5px solid #ddd; border-radius: 8px; padding: 9px 14px; font-size: 0.91em; cursor: pointer; transition: background 0.15s; }
+    .opt-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .opt-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; font-weight: 700; color: #145a32; }
+    .opt-btn.selected-wrong   { background: #deeef2; border-color: #2c5f6e; font-weight: 700; color: #1a3d48; }
+    .opt-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .opt-btn[disabled]        { cursor: default; }
+    .feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: #d5f5e3; color: #145a32; border-left: 4px solid #27ae60; }
+    .feedback.wrong-fb   { background: #deeef2; color: #1a3d48; border-left: 4px solid #2c5f6e; }
+    .tf-options { display: flex; gap: 10px; margin-top: 8px; }
+    .tf-btn { flex: 1; padding: 10px; border: 1.5px solid #ddd; border-radius: 8px; background: #f8f9fc; font-weight: 700; font-size: 0.95em; cursor: pointer; text-align: center; }
+    .tf-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .tf-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; color: #145a32; }
+    .tf-btn.selected-wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .tf-btn[disabled]        { cursor: default; }
+    .match-container { overflow-x: auto; }
+    table.match-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    table.match-table th { background: #4a4a5a; color: #fff; padding: 8px 10px; text-align: left; }
+    table.match-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+    table.match-table tr:nth-child(even) td { background: #f8f8f8; }
+    select.match-sel { width: 100%; padding: 6px 8px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.88em; background: #fff; }
+    select.match-sel.correct-sel { border-color: #27ae60; background: #eafaf1; }
+    select.match-sel.wrong-sel   { border-color: #2c5f6e; background: #deeef2; }
+    .match-check-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-weight: 700; font-size: 0.88em; cursor: pointer; margin-top: 12px; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .match-feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .match-feedback.show { display: block; background: #fafafa; border-left: 4px solid #d4a854; color: #7a4d0a; }
+    .exam-card { background: #fff; border: 2px solid #90bce6; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+    .exam-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .exam-type-badge { background: #2c5f6e; color: #fff; font-size: 0.75em; font-weight: 700; border-radius: 12px; padding: 3px 10px; }
+    .exam-marks { background: #fafafa; color: #7a4d0a; font-size: 0.8em; font-weight: 700; border-radius: 10px; padding: 3px 10px; border: 1.5px solid #d4a854; }
+    .exam-q { font-weight: 700; font-size: 0.97em; margin-bottom: 10px; line-height: 1.5; }
+    .exam-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.9em; font-style: italic; color: #1a3d48; }
+    .writing-area { width: 100%; min-height: 90px; border: 1.5px solid #ccc; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; font-family: inherit; resize: vertical; color: #1a1a2e; }
+    .writing-area:focus { outline: none; border-color: #2c5f6e; }
+    .model-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.85em; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .model-btn:hover { background: #1a3d48; }
+    .model-answer { display: none; margin-top: 12px; background: #f0faf4; border: 1.5px solid #27ae60; border-radius: 8px; padding: 14px 16px; font-size: 0.88em; }
+    .model-answer.open { display: block; }
+    .model-answer ul { padding-left: 20px; }
+    .model-answer ul li { margin-bottom: 5px; }
+    .mark-tick { color: #27ae60; font-weight: 700; margin-right: 4px; }
+    .examiner-tip { background: #fafafa; border-left: 4px solid #d4a854; border-radius: 6px; padding: 9px 12px; margin-top: 10px; font-size: 0.87em; }
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+    ul.answer-list { padding-left: 20px; margin-top: 4px; }
+    ul.answer-list li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Ch2 Part C Quiz</h1>
+<p class="subtitle">2C: Keeping the Body Safe &middot; Unit 1 AOS1a &middot; Live it Up 5th ed.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('quiz',this)">&#9998; Interactive Quiz</button>
+  <button class="tab-btn" onclick="showTab('exam',this)">&#128196; Exam Practice</button>
+</div>
+
+<div class="tab-panel active" id="tab-quiz">
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Quiz Score</div>
+      <div class="score-display"><span id="score-num">0</span> / <span id="score-total">0</span></div>
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset Quiz</button>
+  </div>
+
+  <div class="q-section">Part 1 &mdash; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A cyclist wears a helmet during training. Which of the following BEST describes the mechanism by which a helmet prevents traumatic brain injury?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">A) The helmet increases proprioception in the neck muscles, improving reaction time</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,true)">B) The hard outer shell distributes impact force over a larger area, while the foam liner absorbs energy and extends the deceleration time of the skull</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">C) The helmet restricts harmful cervical spine movement during a collision</button>
+      <button class="opt-btn" onclick="answerMC('mc1',this,false)">D) The helmet creates a barrier that completely prevents force reaching the skull</button>
+    </div>
+    <div class="feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 of 8 &mdash; Multiple Choice (Trap)</div>
+    <div class="q-text">Research shows that the mechanical support provided by rigid ankle tape:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">A) Increases throughout activity as the tape warms to body temperature</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">B) Remains constant for the entire duration of sport participation</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,true)">C) Decreases by up to 50% after 20 minutes of vigorous activity, but proprioceptive benefits are maintained</button>
+      <button class="opt-btn" onclick="answerMC('mc2',this,false)">D) Is immediately lost when the athlete begins to perspire</button>
+    </div>
+    <div class="feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following BEST explains how ankle taping prevents a lateral ankle sprain through proprioceptive enhancement?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">A) The tape physically blocks the ankle from inverting past a safe range</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,true)">B) Tape stimulates cutaneous mechanoreceptors, speeding protective peroneal muscle activation before the ankle reaches the sprain position</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">C) The tape compresses the ATFL, making the ligament stronger and less likely to tear</button>
+      <button class="opt-btn" onclick="answerMC('mc3',this,false)">D) The tape increases blood flow to the ankle joint, improving joint nutrition</button>
+    </div>
+    <div class="feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A rugby player is struck on the head and immediately appears confused, has difficulty balancing and complains of a headache. The correct immediate action is:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">A) Allow the player to continue if they feel they can &mdash; symptoms may resolve quickly</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">B) Remove from play for 10 minutes, then reassess and allow return if symptoms settle</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,true)">C) Remove from play immediately and permanently for the rest of the game; arrange medical assessment</button>
+      <button class="opt-btn" onclick="answerMC('mc4',this,false)">D) Apply ice to the head and monitor from the sideline before deciding</button>
+    </div>
+    <div class="feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Second impact syndrome is MOST accurately described as:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">A) A second sprain of the same ligament within 12 months of the first</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">B) The cumulative effect of multiple minor concussions over a career causing CTE</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,true)">C) A potentially fatal condition where a second concussion sustained before the first has resolved causes catastrophic cerebral swelling</button>
+      <button class="opt-btn" onclick="answerMC('mc5',this,false)">D) The doubling of concussion symptoms that occurs on the second day after head injury</button>
+    </div>
+    <div class="feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Kinesiology tape (K-tape) differs from rigid zinc oxide tape primarily because it:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">A) Provides stronger mechanical restriction of joint movement</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,true)">B) Is highly elastic, does not restrict ROM, and is used for proprioception, muscle support and lymphatic drainage</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">C) Can only be applied by a medical professional and must be changed every hour</button>
+      <button class="opt-btn" onclick="answerMC('mc6',this,false)">D) Is waterproof and maintains its support underwater, making it ideal for swimmers</button>
+    </div>
+    <div class="feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">In the Graduated Return to Play protocol, what must happen if an athlete experiences symptoms during Stage 3?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">A) They must stop for the day but can continue from Stage 3 the following morning</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,true)">B) They must rest for 24 hours until symptom-free, then restart from Stage 2</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">C) They must restart from Stage 1 regardless of which stage symptoms occurred</button>
+      <button class="opt-btn" onclick="answerMC('mc7',this,false)">D) They can continue at a reduced intensity within the same stage</button>
+    </div>
+    <div class="feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is an advantage of bracing over taping for long-term ankle injury prevention?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">A) Bracing provides superior proprioceptive feedback compared to taping</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">B) Bracing is always more comfortable and does not restrict performance</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,true)">C) Bracing provides consistent support throughout activity and is more cost-effective with repeated use</button>
+      <button class="opt-btn" onclick="answerMC('mc8',this,false)">D) Bracing eliminates the need for physiotherapy after ankle sprain</button>
+    </div>
+    <div class="feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section">Part 2 &mdash; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">True or False 1</div>
+    <div class="q-text">Protective equipment eliminates the risk of injury in sport and athletes wearing it can participate with complete safety.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf1',this,false,'FALSE. Protective equipment REDUCES injury risk and severity but does not eliminate it. Additionally, risk compensation research suggests athletes may take greater risks when wearing protective gear, potentially offsetting some benefits. Equipment must always be combined with safe technique and rule compliance.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf1',this,true,'FALSE. Protective equipment REDUCES injury risk and severity but does not eliminate it. Additionally, risk compensation research suggests athletes may take greater risks when wearing protective gear, potentially offsetting some benefits. Equipment must always be combined with safe technique and rule compliance.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">True or False 2</div>
+    <div class="q-text">An athlete who sustained a concussion during Saturday&rsquo;s match and feels symptom-free by Monday morning can return to full training on Monday.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf2',this,false,'FALSE. Feeling symptom-free is only the starting point &mdash; the athlete must then progress through all 6 stages of the Graduated Return to Play protocol, with each stage taking a minimum of 24 hours. Full return to training cannot occur until Stages 1-4 are completed symptom-free. The minimum total GRTP duration is 5-6 days, and longer for children.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf2',this,true,'FALSE. Feeling symptom-free is only the starting point &mdash; the athlete must then progress through all 6 stages of the Graduated Return to Play protocol, with each stage taking a minimum of 24 hours. Full return to training cannot occur until Stages 1-4 are completed symptom-free. The minimum total GRTP duration is 5-6 days, and longer for children.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">True or False 3</div>
+    <div class="q-text">Rigid ankle tape loses some of its mechanical restriction during activity, but the proprioceptive benefit is maintained throughout.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf3',this,true,'TRUE. Research consistently shows rigid tape loses 20-50% of its mechanical restriction after 20 minutes of vigorous activity as the tape stretches. However, the cutaneous mechanoreceptor stimulation (proprioceptive benefit) that speeds protective muscle activation is maintained for the duration of activity.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf3',this,false,'TRUE. Research consistently shows rigid tape loses 20-50% of its mechanical restriction after 20 minutes of vigorous activity as the tape stretches. However, the cutaneous mechanoreceptor stimulation (proprioceptive benefit) that speeds protective muscle activation is maintained for the duration of activity.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">True or False 4</div>
+    <div class="q-text">Chronic traumatic encephalopathy (CTE) is a condition that can be diagnosed in living athletes using a standard MRI scan.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf4',this,false,'FALSE. CTE can currently only be definitively diagnosed post-mortem (after death) through brain tissue analysis. Standard neuroimaging (MRI, CT) cannot detect the characteristic tau protein deposits that define CTE. This is one reason why concussion management and prevention is so critical &mdash; the long-term damage cannot be monitored in living athletes.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf4',this,true,'FALSE. CTE can currently only be definitively diagnosed post-mortem (after death) through brain tissue analysis. Standard neuroimaging (MRI, CT) cannot detect the characteristic tau protein deposits that define CTE. This is one reason why concussion management and prevention is so critical &mdash; the long-term damage cannot be monitored in living athletes.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">True or False 5</div>
+    <div class="q-text">Neck strengthening exercises can reduce concussion risk by increasing the neck muscles&rsquo; ability to act as shock absorbers during head impacts.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf5',this,true,'TRUE. Stronger neck muscles can reduce head acceleration during impact by absorbing and dissipating some of the force before it reaches the brain. Research supports neck strengthening as a component of concussion prevention programs, particularly in contact sports.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf5',this,false,'TRUE. Stronger neck muscles can reduce head acceleration during impact by absorbing and dissipating some of the force before it reaches the brain. Research supports neck strengthening as a component of concussion prevention programs, particularly in contact sports.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-card" id="tf6">
+    <div class="q-num">True or False 6</div>
+    <div class="q-text">A concussion must involve a loss of consciousness to be classified as a concussion.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf6',this,false,'FALSE. Loss of consciousness occurs in fewer than 10% of concussions. A concussion is defined by the transient neurological impairment it produces (confusion, headache, dizziness, memory disturbance) &mdash; NOT by loss of consciousness. This is a very common misconception that leads to under-recognition of concussion.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf6',this,true,'FALSE. Loss of consciousness occurs in fewer than 10% of concussions. A concussion is defined by the transient neurological impairment it produces (confusion, headache, dizziness, memory disturbance) &mdash; NOT by loss of consciousness. This is a very common misconception that leads to under-recognition of concussion.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf6"></div>
+  </div>
+
+  <div class="q-card" id="tf7">
+    <div class="q-num">True or False 7</div>
+    <div class="q-text">Research shows that lace-up ankle bracing and rigid taping are equally effective at reducing ankle re-sprain rates.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf7',this,true,'TRUE. Research comparing ankle bracing and taping for sprain prevention consistently shows comparable effectiveness at reducing lateral ankle re-sprain rates. The practical advantage of bracing is lower cost per use and ease of self-application, making it more suitable for long-term use.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf7',this,false,'TRUE. Research comparing ankle bracing and taping for sprain prevention consistently shows comparable effectiveness at reducing lateral ankle re-sprain rates. The practical advantage of bracing is lower cost per use and ease of self-application, making it more suitable for long-term use.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf7"></div>
+  </div>
+
+  <div class="q-section">Part 3 &mdash; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Matching Set 1 &mdash; Equipment to Primary Mechanism</div>
+    <div class="q-text">Match each piece of protective equipment to its primary injury prevention mechanism.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Equipment</th><th>Your Answer</th></tr>
+        <tr><td>Helmet (foam liner)</td><td><select class="match-sel" id="m1_1"><option value="">-- Select --</option><option>Absorbs energy and extends skull deceleration time</option><option>Restricts ankle inversion beyond safe range</option><option>Creates physical barrier deflecting projectiles</option><option>Distributes dental impact force across teeth</option><option>Disperses compressive load over larger surface area</option></select></td></tr>
+        <tr><td>Shin guards</td><td><select class="match-sel" id="m1_2"><option value="">-- Select --</option><option>Absorbs energy and extends skull deceleration time</option><option>Restricts ankle inversion beyond safe range</option><option>Creates physical barrier deflecting projectiles</option><option>Distributes dental impact force across teeth</option><option>Disperses compressive load over larger surface area</option></select></td></tr>
+        <tr><td>Ankle brace</td><td><select class="match-sel" id="m1_3"><option value="">-- Select --</option><option>Absorbs energy and extends skull deceleration time</option><option>Restricts ankle inversion beyond safe range</option><option>Creates physical barrier deflecting projectiles</option><option>Distributes dental impact force across teeth</option><option>Disperses compressive load over larger surface area</option></select></td></tr>
+        <tr><td>Mouthguard</td><td><select class="match-sel" id="m1_4"><option value="">-- Select --</option><option>Absorbs energy and extends skull deceleration time</option><option>Restricts ankle inversion beyond safe range</option><option>Creates physical barrier deflecting projectiles</option><option>Distributes dental impact force across teeth</option><option>Disperses compressive load over larger surface area</option></select></td></tr>
+        <tr><td>Padded shorts</td><td><select class="match-sel" id="m1_5"><option value="">-- Select --</option><option>Absorbs energy and extends skull deceleration time</option><option>Restricts ankle inversion beyond safe range</option><option>Creates physical barrier deflecting projectiles</option><option>Distributes dental impact force across teeth</option><option>Disperses compressive load over larger surface area</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m1',match1Answers,'fb-match1')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Matching Set 2 &mdash; Tape Type to Primary Use</div>
+    <div class="q-text">Match each tape type to its primary use or key property.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Tape Type</th><th>Your Answer</th></tr>
+        <tr><td>Rigid zinc oxide tape</td><td><select class="match-sel" id="m2_1"><option value="">-- Select --</option><option>Joint stabilisation via firm mechanical restriction of ROM</option><option>Muscle support with some movement allowed</option><option>Proprioception and lymphatic drainage without ROM restriction</option><option>Skin protection under rigid tape</option><option>Patellar realignment and pain reduction</option></select></td></tr>
+        <tr><td>Elastic adhesive bandage</td><td><select class="match-sel" id="m2_2"><option value="">-- Select --</option><option>Joint stabilisation via firm mechanical restriction of ROM</option><option>Muscle support with some movement allowed</option><option>Proprioception and lymphatic drainage without ROM restriction</option><option>Skin protection under rigid tape</option><option>Patellar realignment and pain reduction</option></select></td></tr>
+        <tr><td>Kinesiology tape</td><td><select class="match-sel" id="m2_3"><option value="">-- Select --</option><option>Joint stabilisation via firm mechanical restriction of ROM</option><option>Muscle support with some movement allowed</option><option>Proprioception and lymphatic drainage without ROM restriction</option><option>Skin protection under rigid tape</option><option>Patellar realignment and pain reduction</option></select></td></tr>
+        <tr><td>Underwrap (pre-wrap)</td><td><select class="match-sel" id="m2_4"><option value="">-- Select --</option><option>Joint stabilisation via firm mechanical restriction of ROM</option><option>Muscle support with some movement allowed</option><option>Proprioception and lymphatic drainage without ROM restriction</option><option>Skin protection under rigid tape</option><option>Patellar realignment and pain reduction</option></select></td></tr>
+        <tr><td>McConnell taping</td><td><select class="match-sel" id="m2_5"><option value="">-- Select --</option><option>Joint stabilisation via firm mechanical restriction of ROM</option><option>Muscle support with some movement allowed</option><option>Proprioception and lymphatic drainage without ROM restriction</option><option>Skin protection under rigid tape</option><option>Patellar realignment and pain reduction</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m2',match2Answers,'fb-match2')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Matching Set 3 &mdash; GRTP Stage to Description</div>
+    <div class="q-text">Match each GRTP stage to its correct description.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>GRTP Stage</th><th>Your Answer</th></tr>
+        <tr><td>Stage 1</td><td><select class="match-sel" id="m3_1"><option value="">-- Select --</option><option>Complete rest until symptom-free</option><option>Light aerobic exercise only</option><option>Sport-specific movement, no contact</option><option>Non-contact training drills with resistance</option><option>Full-contact practice with medical clearance</option></select></td></tr>
+        <tr><td>Stage 2</td><td><select class="match-sel" id="m3_2"><option value="">-- Select --</option><option>Complete rest until symptom-free</option><option>Light aerobic exercise only</option><option>Sport-specific movement, no contact</option><option>Non-contact training drills with resistance</option><option>Full-contact practice with medical clearance</option></select></td></tr>
+        <tr><td>Stage 3</td><td><select class="match-sel" id="m3_3"><option value="">-- Select --</option><option>Complete rest until symptom-free</option><option>Light aerobic exercise only</option><option>Sport-specific movement, no contact</option><option>Non-contact training drills with resistance</option><option>Full-contact practice with medical clearance</option></select></td></tr>
+        <tr><td>Stage 4</td><td><select class="match-sel" id="m3_4"><option value="">-- Select --</option><option>Complete rest until symptom-free</option><option>Light aerobic exercise only</option><option>Sport-specific movement, no contact</option><option>Non-contact training drills with resistance</option><option>Full-contact practice with medical clearance</option></select></td></tr>
+        <tr><td>Stage 5</td><td><select class="match-sel" id="m3_5"><option value="">-- Select --</option><option>Complete rest until symptom-free</option><option>Light aerobic exercise only</option><option>Sport-specific movement, no contact</option><option>Non-contact training drills with resistance</option><option>Full-contact practice with medical clearance</option></select></td></tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch('m3',match3Answers,'fb-match3')">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end quiz tab -->
+
+<div class="tab-panel" id="tab-exam">
+  <p style="background:#fafafa; border-left:4px solid #d4a854; border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:0.9em;">
+    <strong>&#128196; Exam Practice Tips:</strong> Write your answer before revealing the model. Each &#10003; = one mark.
+  </p>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">3 marks</span></div>
+    <div class="exam-q">Explain THREE mechanisms by which taping a joint can prevent musculoskeletal injury.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Mechanical restriction:</strong> Rigid tape physically limits the range of motion of the joint, preventing it from moving beyond the safe range into positions where ligament injury occurs. The tape acts as an external ligament, absorbing tensile forces that would otherwise stretch or tear the ligament.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Proprioceptive enhancement:</strong> Tape stimulates cutaneous mechanoreceptors (sensory receptors in the skin), increasing joint position sense and accelerating the activation of protective muscles. For example, ankle tape speeds peroneal muscle activation in response to unexpected inversion, providing a muscular protective response before the sprain force fully develops.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Psychological support:</strong> Athletes report increased confidence and reduced fear of re-injury when taped. This allows more natural movement patterns, reduces hesitation and may lower the likelihood of compensatory movements that create new injury risks.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Each mechanism needs a clear explanation of HOW it prevents injury, not just a name. &ldquo;Taping improves proprioception&rdquo; without explaining the sensory receptor mechanism and protective muscle response is worth partial marks only.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer</span><span class="exam-marks">2 marks</span></div>
+    <div class="exam-q">Distinguish between second impact syndrome and chronic traumatic encephalopathy (CTE).</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Second impact syndrome</strong> is an acute, potentially fatal condition where a second concussion sustained before the first has fully resolved causes catastrophic, rapid cerebral swelling. It can cause death or severe disability within minutes and is the primary reason no athlete may return to play on the same day as a concussion.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Chronic traumatic encephalopathy (CTE)</strong> is a progressive, long-term neurodegenerative disease caused by repeated head trauma over a career. It develops slowly over years and decades, and is characterised by memory loss, depression, behavioural changes and dementia. It can currently only be definitively diagnosed post-mortem.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The key distinction is timeframe and mechanism: second impact syndrome is acute and immediately life-threatening; CTE is chronic and progressive. Do not confuse them.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Short Answer &mdash; Stimulus</span><span class="exam-marks">4 marks</span></div>
+    <div class="exam-stimulus">
+      During an AFL match, a 16-year-old player is involved in a heavy collision. He remains conscious but immediately reports a headache, feels dizzy and is unsure where he is. The coach wants to return him to play after a 10-minute rest as it is the final quarter of an important match.
+    </div>
+    <div class="exam-q">Evaluate the coach&rsquo;s decision. Using your knowledge of concussion management, explain what should happen and why.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>The coach&rsquo;s decision is incorrect.</strong> The athlete displays clear signs of concussion: headache, dizziness and disorientation. Under all current concussion management protocols, any athlete with suspected concussion must be removed from play immediately and permanently for the remainder of that game &mdash; regardless of the importance of the match or remaining time.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Same-day return is prohibited:</strong> Returning the player after 10 minutes violates the fundamental rule of concussion management: &ldquo;if in doubt, sit them out.&rdquo; Concussion symptoms can evolve over hours, and a 10-minute rest does not constitute adequate assessment or recovery.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Risk of second impact syndrome:</strong> Allowing the player to return before the concussion has resolved places him at risk of second impact syndrome &mdash; a second impact on an unresolved concussion can cause catastrophic, potentially fatal cerebral swelling. This risk is particularly significant in adolescents whose brains are still developing.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>What should happen:</strong> The player should be removed from play, kept calm and monitored for deterioration. A medical professional should assess him as soon as possible. He must then complete the full 6-stage Graduated Return to Play protocol before being cleared to return to training or competition, with each stage taking at least 24 hours &mdash; a process taking a minimum of 5&ndash;6 days.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> This question asks you to EVALUATE &mdash; you must state the decision is wrong AND explain why with specific evidence (second impact syndrome, GRTP). Simply saying &ldquo;the player should not play&rdquo; without reasoning scores minimal marks. Reference the age of the player (adolescent) and the specific signs from the stimulus.</div>
+    </div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-meta"><span class="exam-type-badge">Extended Response</span><span class="exam-marks">6 marks</span></div>
+    <div class="exam-q">Compare taping and bracing as physical aids for preventing ankle sprains in sport. In your response discuss the mechanisms of each, their relative advantages and disadvantages, and recommend which is most appropriate for: (a) an elite athlete at immediate risk of a sprain during a game, and (b) a recreational athlete managing a chronic ankle instability problem.</div>
+    <textarea class="writing-area" style="min-height:150px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Taping mechanism:</strong> Rigid zinc oxide tape provides mechanical restriction of inversion and plantarflexion, and enhances proprioception by stimulating cutaneous mechanoreceptors. Initial mechanical support is high but decreases by 20&ndash;50% after 20 minutes of vigorous activity. Proprioceptive benefit is maintained throughout.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Bracing mechanism:</strong> Lace-up ankle braces restrict inversion via semi-rigid support, providing consistent mechanical restriction throughout activity. Proprioceptive benefit is present but generally less than taping due to reduced skin contact. Support does not degrade with activity.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Advantages of taping:</strong> Superior initial mechanical support; excellent proprioceptive enhancement; can be customised to individual anatomy by a clinician; high compliance in high-level sport. Disadvantages: requires skilled application; expensive per session; mechanical support degrades; skin irritation risk.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Advantages of bracing:</strong> Consistent support throughout activity; self-applied; lower cost per use; reusable; no skin irritation. Disadvantages: less proprioceptive feedback; may be bulkier; initial cost higher; less customisable than tape.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Recommendation (a) &mdash; Elite athlete during a game:</strong> Rigid taping is most appropriate. The clinician-applied tape provides customised, high-level initial support and excellent proprioceptive enhancement for the duration of the game. The degradation of mechanical support over time is partially offset by the maintained proprioceptive benefit and the presence of sports trainers to re-tape if needed.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Recommendation (b) &mdash; Recreational athlete with chronic instability:</strong> A lace-up ankle brace is most appropriate for long-term management. The consistent support, ease of self-application, lower ongoing cost and durability make it more practical for daily recreational sport use. Research shows equal effectiveness to taping for reducing re-sprain rates, making it the cost-effective choice for repeated use.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> &ldquo;Compare&rdquo; means covering both similarities AND differences. The two-scenario recommendation at the end is what lifts this to a high-mark answer &mdash; it shows you can apply knowledge to context, not just recall facts. Always justify your recommendation with specific reasons.</div>
+    </div>
+  </div>
+
+</div><!-- end exam tab -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part C Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var answered = {};
+var score = 0;
+var totalAnswered = 0;
+
+var mcFeedbacks = {
+  'mc1': { c: 'Correct! The two-part mechanism is key: hard shell distributes force over a larger area, and the foam liner absorbs energy by extending the deceleration time of the skull, reducing peak force on the brain.', w: 'Incorrect. A helmet works through TWO mechanisms: the hard outer shell distributes impact force, and the foam liner absorbs energy by extending skull deceleration time. It does not completely prevent force from reaching the skull.' },
+  'mc2': { c: 'Correct! This is an important research finding &mdash; mechanical support degrades significantly with activity, but the proprioceptive benefit (cutaneous mechanoreceptor stimulation) is maintained throughout.', w: 'Incorrect. Research consistently shows rigid tape loses 20-50% of its mechanical restriction after about 20 minutes of vigorous activity as it stretches and loosens. However, the proprioceptive enhancement from cutaneous receptor stimulation is maintained throughout activity.' },
+  'mc3': { c: 'Correct! Proprioceptive enhancement works by stimulating skin mechanoreceptors, which speeds up the peroneal muscle activation response &mdash; the muscles fire before the ankle reaches the sprain position.', w: 'Incorrect. Proprioceptive enhancement works through stimulating cutaneous mechanoreceptors, which speeds protective muscle (peroneal) activation in response to unexpected inversion &mdash; a neurological effect, not a mechanical one.' },
+  'mc4': { c: 'Correct! The signs (confusion, dizziness, headache) indicate concussion. The player must be removed immediately and permanently for that match &mdash; no same-day return, regardless of circumstances.', w: 'Incorrect. These signs clearly indicate concussion. The correct action is immediate and permanent removal from that match and medical assessment. There is NO safe same-day return to play after suspected concussion, regardless of a 10-minute rest.' },
+  'mc5': { c: 'Correct! Second impact syndrome is the acute, potentially fatal rapid cerebral swelling that occurs when a second concussion is sustained before the first has resolved &mdash; the primary reason for the no-same-day-return rule.', w: 'Incorrect. Second impact syndrome is a specific acute condition: a second concussion before the first resolves causes catastrophic cerebral swelling that can be fatal. It is not about cumulative long-term damage (that is CTE) or about sprains.' },
+  'mc6': { c: 'Correct! K-tape is highly elastic, matches skin movement, does not restrict ROM, and is primarily used for proprioception, muscle facilitation/inhibition and lymphatic drainage &mdash; very different from rigid tape.', w: 'Incorrect. K-tape is HIGHLY ELASTIC and does NOT restrict ROM &mdash; this is the opposite of rigid tape. Its uses are proprioception, muscle support, and lymphatic drainage. It can also be worn for days at a time.' },
+  'mc7': { c: 'Correct! If symptoms return at any GRTP stage, the protocol requires 24 hours rest then restarting from the PREVIOUS stage &mdash; not the current stage and not Stage 1.', w: 'Incorrect. If symptoms return during any GRTP stage, the athlete must rest 24 hours until symptom-free then go back ONE stage (to Stage 2 if symptoms occurred in Stage 3). They do NOT restart from Stage 1 unless symptoms occur in Stage 2.' },
+  'mc8': { c: 'Correct! The key advantages of bracing over repeated taping are: consistent support throughout activity (tape degrades), and lower cost per use for long-term management.', w: 'Incorrect. The main advantages of bracing over taping are CONSISTENT SUPPORT throughout activity (tape loses mechanical support; bracing does not) and LOWER ONGOING COST for repeated use. Taping actually provides better proprioceptive feedback than most braces.' }
+};
+
+function showTab(name, btn) {
+  var panels = document.querySelectorAll('.tab-panel');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateScore() {
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-total').textContent = totalAnswered;
+  var pct = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function answerMC(cardId, btn, isCorrect) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.opt-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; ' + mcFeedbacks[cardId].c;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; ' + mcFeedbacks[cardId].w;
+    for (var k = 0; k < allBtns.length; k++) {
+      var oc = allBtns[k].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true)') !== -1) { allBtns[k].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+function answerTF(cardId, btn, isCorrect, explanation) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; Correct! ' + explanation;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; Incorrect. ' + explanation;
+    for (var j = 0; j < allBtns.length; j++) {
+      var oc = allBtns[j].getAttribute('onclick') || '';
+      if (oc.indexOf(',this,true,') !== -1) { allBtns[j].classList.add('reveal-correct'); }
+    }
+  }
+  updateScore();
+}
+
+var match1Answers = ['Absorbs energy and extends skull deceleration time','Creates physical barrier deflecting projectiles','Restricts ankle inversion beyond safe range','Distributes dental impact force across teeth','Disperses compressive load over larger surface area'];
+var match2Answers = ['Joint stabilisation via firm mechanical restriction of ROM','Muscle support with some movement allowed','Proprioception and lymphatic drainage without ROM restriction','Skin protection under rigid tape','Patellar realignment and pain reduction'];
+var match3Answers = ['Complete rest until symptom-free','Light aerobic exercise only','Sport-specific movement, no contact','Non-contact training drills with resistance','Full-contact practice with medical clearance'];
+
+function checkMatch(prefix, answers, fbId) {
+  var correct = 0;
+  var total = answers.length;
+  for (var i = 1; i <= total; i++) {
+    var sel = document.getElementById(prefix + '_' + i);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[i - 1]) {
+      sel.className = 'match-sel correct-sel';
+      correct++;
+    } else {
+      sel.className = 'match-sel wrong-sel';
+    }
+  }
+  var fb = document.getElementById(fbId);
+  fb.className = 'match-feedback show';
+  if (correct === total) {
+    fb.innerHTML = '&#10003; All ' + total + ' correct! Excellent work.';
+    fb.style.background = '#d5f5e3';
+    fb.style.borderLeftColor = '#27ae60';
+    fb.style.color = '#145a32';
+  } else {
+    fb.innerHTML = correct + ' of ' + total + ' correct. Review incorrect answers and check your study notes.';
+  }
+  if (!answered['match-' + fbId]) {
+    answered['match-' + fbId] = true;
+    totalAnswered++;
+    if (correct === total) score++;
+    updateScore();
+  }
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetQuiz() {
+  answered = {}; score = 0; totalAnswered = 0; updateScore();
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('correct','wrong'); }
+  var optBtns = document.querySelectorAll('.opt-btn');
+  for (var j = 0; j < optBtns.length; j++) { optBtns[j].disabled = false; optBtns[j].classList.remove('selected-correct','selected-wrong','reveal-correct'); }
+  var tfBtns = document.querySelectorAll('.tf-btn');
+  for (var k = 0; k < tfBtns.length; k++) { tfBtns[k].disabled = false; tfBtns[k].classList.remove('selected-correct','selected-wrong','reveal-correct'); }
+  var feedbacks = document.querySelectorAll('.feedback');
+  for (var m = 0; m < feedbacks.length; m++) { feedbacks[m].className = 'feedback'; feedbacks[m].innerHTML = ''; }
+  var sels = document.querySelectorAll('.match-sel');
+  for (var n = 0; n < sels.length; n++) { sels[n].disabled = false; sels[n].className = 'match-sel'; sels[n].value = ''; }
+  var matchFbs = document.querySelectorAll('.match-feedback');
+  for (var p = 0; p < matchFbs.length; p++) { matchFbs[p].className = 'match-feedback'; matchFbs[p].innerHTML = ''; }
+}
+</script>
+</body>
+</html>

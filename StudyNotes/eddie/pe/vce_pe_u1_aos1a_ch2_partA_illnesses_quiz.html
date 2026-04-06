@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch2 Part A Quiz: Injury Types</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; }
+    .subtitle { text-align: center; background: #1a3d48; color: #eaf4f7; font-size: 0.88em; padding: 6px 16px 14px; }
+
+    /* TABS */
+    .tab-bar { display: flex; background: #fff; border-bottom: 3px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 13px 8px; text-align: center; font-weight: 700; font-size: 0.92em; cursor: pointer; color: #888; border: none; background: none; transition: background 0.2s; }
+    .tab-btn.active { color: #2c5f6e; border-bottom: 3px solid #2c5f6e; margin-bottom: -3px; background: #eaf4f7; }
+    .tab-btn:hover { background: #fdf0f0; }
+    .tab-panel { display: none; padding: 18px 16px; }
+    .tab-panel.active { display: block; }
+
+    /* SCORE BAR */
+    .score-bar { background: #fff; border: 2px solid #2c5f6e; border-radius: 10px; padding: 12px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .score-display { font-size: 1.3em; font-weight: 700; color: #2c5f6e; }
+    .score-label { font-size: 0.85em; color: #666; }
+    .reset-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.88em; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #1a3d48; }
+
+    /* SECTION HEADING */
+    .q-section { font-size: 1.05em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 9px 16px; border-radius: 8px; margin: 20px 0 10px; }
+
+    /* QUESTION CARD */
+    .q-card { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; transition: border-color 0.2s; }
+    .q-card.correct { border-color: #27ae60; background: #f0faf4; }
+    .q-card.wrong   { border-color: #2c5f6e; background: #f0f7f9; }
+    .q-num { font-size: 0.78em; font-weight: 700; color: #2c5f6e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .q-text { font-weight: 600; font-size: 0.97em; margin-bottom: 12px; }
+
+    /* OPTIONS */
+    .options { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { text-align: left; background: #f8f9fc; border: 1.5px solid #ddd; border-radius: 8px; padding: 9px 14px; font-size: 0.91em; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+    .opt-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .opt-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; font-weight: 700; color: #145a32; }
+    .opt-btn.selected-wrong   { background: #eaf4f7; border-color: #2c5f6e; font-weight: 700; color: #1a3d48; }
+    .opt-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; color: #145a32; }
+    .opt-btn[disabled]        { cursor: default; }
+
+    /* FEEDBACK */
+    .feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: #d5f5e3; color: #145a32; border-left: 4px solid #27ae60; }
+    .feedback.wrong-fb   { background: #eaf4f7; color: #1a3d48; border-left: 4px solid #2c5f6e; }
+
+    /* TRUE FALSE */
+    .tf-options { display: flex; gap: 10px; margin-top: 8px; }
+    .tf-btn { flex: 1; padding: 10px; border: 1.5px solid #ddd; border-radius: 8px; background: #f8f9fc; font-weight: 700; font-size: 0.95em; cursor: pointer; text-align: center; transition: background 0.15s; }
+    .tf-btn:hover:not([disabled]) { background: #eaf4f7; border-color: #2c5f6e; }
+    .tf-btn.selected-correct { background: #d5f5e3; border-color: #27ae60; color: #145a32; }
+    .tf-btn.selected-wrong   { background: #eaf4f7; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.reveal-correct   { background: #eafaf1; border-color: #27ae60; }
+    .tf-btn[disabled]        { cursor: default; }
+
+    /* MATCHING */
+    .match-container { overflow-x: auto; }
+    table.match-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    table.match-table th { background: #2c5f6e; color: #fff; padding: 8px 10px; text-align: left; }
+    table.match-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+    table.match-table tr:nth-child(even) td { background: #fdf6f6; }
+    select.match-sel { width: 100%; padding: 6px 8px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.88em; background: #fff; }
+    select.match-sel.correct-sel { border-color: #27ae60; background: #eafaf1; }
+    select.match-sel.wrong-sel   { border-color: #2c5f6e; background: #eaf4f7; }
+    .match-check-btn { background: #2c5f6e; color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-weight: 700; font-size: 0.88em; cursor: pointer; margin-top: 12px; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .match-feedback { margin-top: 10px; font-size: 0.88em; border-radius: 6px; padding: 8px 12px; display: none; }
+    .match-feedback.show { display: block; background: #fdf4e4; border-left: 4px solid #BA7517; color: #7a4d0a; }
+
+    /* EXAM SECTION */
+    .exam-card { background: #fff; border: 2px solid #378ADD; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+    .exam-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .exam-type-badge { background: #378ADD; color: #fff; font-size: 0.75em; font-weight: 700; border-radius: 12px; padding: 3px 10px; }
+    .exam-marks { background: #fdf4e4; color: #7a4d0a; font-size: 0.8em; font-weight: 700; border-radius: 10px; padding: 3px 10px; border: 1.5px solid #BA7517; }
+    .exam-q { font-weight: 700; font-size: 0.97em; margin-bottom: 10px; line-height: 1.5; }
+    .exam-stimulus { background: #f0f4ff; border-left: 4px solid #378ADD; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.9em; font-style: italic; color: #1a3a6a; }
+    .writing-area { width: 100%; min-height: 90px; border: 1.5px solid #ccc; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; font-family: inherit; resize: vertical; color: #1a1a2e; }
+    .writing-area:focus { outline: none; border-color: #378ADD; }
+    .model-btn { background: #378ADD; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.85em; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .model-btn:hover { background: #1a5f8a; }
+    .model-answer { display: none; margin-top: 12px; background: #f0faf4; border: 1.5px solid #27ae60; border-radius: 8px; padding: 14px 16px; font-size: 0.88em; }
+    .model-answer.open { display: block; }
+    .model-answer ul { padding-left: 20px; }
+    .model-answer ul li { margin-bottom: 5px; }
+    .mark-tick { color: #27ae60; font-weight: 700; margin-right: 4px; }
+    .examiner-tip { background: #fef9e7; border-left: 4px solid #f39c12; border-radius: 6px; padding: 9px 12px; margin-top: 10px; font-size: 0.87em; }
+    .progress-wrap { background: #e0e0e0; border-radius: 10px; height: 10px; margin-top: 6px; overflow: hidden; }
+    .progress-bar { height: 10px; background: linear-gradient(90deg, #27ae60, #2ecc71); border-radius: 10px; transition: width 0.4s; }
+
+    /* TABLES inside panels */
+    table.ref-table { width: 100%; border-collapse: collapse; font-size: 0.88em; margin-top: 8px; }
+    table.ref-table th { background: #2c5f6e; color: #fff; padding: 8px 10px; text-align: left; }
+    table.ref-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; }
+
+    .footer { text-align: center; padding: 22px 16px 10px; color: #999; font-size: 0.8em; margin-top: 24px; }
+
+    ul.answer-list { padding-left: 20px; margin-top: 4px; }
+    ul.answer-list li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Ch2 Part A Quiz</h1>
+<p class="subtitle">Sections 2.1&ndash;2.3: Musculoskeletal Injury Types &middot; Unit 1 AOS1a &middot; Live it Up 5th ed.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('quiz', this)">&#9998; Interactive Quiz</button>
+  <button class="tab-btn" onclick="showTab('exam', this)">&#128196; Exam Practice</button>
+</div>
+
+<!-- ═══════════════════ QUIZ TAB ═══════════════════ -->
+<div class="tab-panel active" id="tab-quiz">
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Quiz Score</div>
+      <div class="score-display"><span id="score-num">0</span> / <span id="score-total">0</span></div>
+      <div class="progress-wrap" style="width:200px; margin-top:6px;">
+        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset Quiz</button>
+  </div>
+
+  <!-- MULTIPLE CHOICE -->
+  <div class="q-section">Part 1 &mdash; Multiple Choice</div>
+
+  <!-- Q1 -->
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A footballer rolls his ankle inward during a change of direction, damaging the anterior talofibular ligament. This injury is best described as a:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc1', this, false)">A) Grade II muscle strain</button>
+      <button class="opt-btn" onclick="answerMC('mc1', this, true)">B) Grade II lateral ankle sprain</button>
+      <button class="opt-btn" onclick="answerMC('mc1', this, false)">C) Grade I medial ligament sprain</button>
+      <button class="opt-btn" onclick="answerMC('mc1', this, false)">D) Avulsion fracture of the fibula</button>
+    </div>
+    <div class="feedback" id="fb-mc1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following BEST distinguishes a Grade III injury from a Grade II injury?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc2', this, false)">A) Grade III involves more pain than Grade II</button>
+      <button class="opt-btn" onclick="answerMC('mc2', this, false)">B) Grade III requires RICER management while Grade II does not</button>
+      <button class="opt-btn" onclick="answerMC('mc2', this, true)">C) Grade III involves complete rupture of the tissue, while Grade II is a partial tear</button>
+      <button class="opt-btn" onclick="answerMC('mc2', this, false)">D) Grade III injuries only occur in ligaments, not muscles</button>
+    </div>
+    <div class="feedback" id="fb-mc2"></div>
+  </div>
+
+  <!-- Q3 (TRAP) -->
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 of 8 &mdash; Multiple Choice (Trap Question)</div>
+    <div class="q-text">A netball player &ldquo;pulls her hamstring&rdquo; while sprinting, causing moderate tearing of muscle fibres. This injury is classified as a:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc3', this, false)">A) Grade II sprain of the hamstring</button>
+      <button class="opt-btn" onclick="answerMC('mc3', this, false)">B) Grade I hamstring strain</button>
+      <button class="opt-btn" onclick="answerMC('mc3', this, true)">C) Grade II hamstring strain</button>
+      <button class="opt-btn" onclick="answerMC('mc3', this, false)">D) Grade II hamstring sprain</button>
+    </div>
+    <div class="feedback" id="fb-mc3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">An AFL player receives a direct blow to the anterior thigh. Bleeding remains contained within the quadriceps muscle sheath, causing significant swelling but no immediate visible bruising. This is best described as a:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc4', this, false)">A) Intermuscular haematoma</button>
+      <button class="opt-btn" onclick="answerMC('mc4', this, true)">B) Intramuscular haematoma</button>
+      <button class="opt-btn" onclick="answerMC('mc4', this, false)">C) Superficial contusion</button>
+      <button class="opt-btn" onclick="answerMC('mc4', this, false)">D) Grade I quadriceps strain</button>
+    </div>
+    <div class="feedback" id="fb-mc4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A stress fracture of the tibia is best categorised as which type of injury?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc5', this, false)">A) Acute soft tissue injury</button>
+      <button class="opt-btn" onclick="answerMC('mc5', this, false)">B) Acute hard tissue injury</button>
+      <button class="opt-btn" onclick="answerMC('mc5', this, false)">C) Chronic soft tissue injury</button>
+      <button class="opt-btn" onclick="answerMC('mc5', this, true)">D) Chronic hard tissue injury</button>
+    </div>
+    <div class="feedback" id="fb-mc5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A gymnast falls on an outstretched hand, and imaging reveals that the anterior cruciate ligament has pulled a small piece of bone from the tibia. This fracture type is called:</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc6', this, false)">A) Comminuted fracture</button>
+      <button class="opt-btn" onclick="answerMC('mc6', this, false)">B) Oblique fracture</button>
+      <button class="opt-btn" onclick="answerMC('mc6', this, true)">C) Avulsion fracture</button>
+      <button class="opt-btn" onclick="answerMC('mc6', this, false)">D) Greenstick fracture</button>
+    </div>
+    <div class="feedback" id="fb-mc6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is an INTRINSIC risk factor for musculoskeletal injury?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc7', this, false)">A) Hard playing surface</button>
+      <button class="opt-btn" onclick="answerMC('mc7', this, false)">B) Lack of protective equipment</button>
+      <button class="opt-btn" onclick="answerMC('mc7', this, true)">C) Previous injury history</button>
+      <button class="opt-btn" onclick="answerMC('mc7', this, false)">D) Weather conditions</button>
+    </div>
+    <div class="feedback" id="fb-mc7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 of 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Why is cartilage particularly slow to heal after injury?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="answerMC('mc8', this, false)">A) Cartilage does not contain collagen fibres</button>
+      <button class="opt-btn" onclick="answerMC('mc8', this, true)">B) Cartilage is avascular and receives nutrients through synovial fluid only</button>
+      <button class="opt-btn" onclick="answerMC('mc8', this, false)">C) Cartilage is a bone-like tissue with the same healing rate as bone</button>
+      <button class="opt-btn" onclick="answerMC('mc8', this, false)">D) Cartilage cells (chondrocytes) multiply very rapidly and overwhelm the repair site</button>
+    </div>
+    <div class="feedback" id="fb-mc8"></div>
+  </div>
+
+  <!-- TRUE FALSE -->
+  <div class="q-section">Part 2 &mdash; True or False</div>
+
+  <!-- TF1 -->
+  <div class="q-card" id="tf1">
+    <div class="q-num">True or False 1</div>
+    <div class="q-text">A sprain is an injury to a muscle or tendon.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf1', this, false, 'FALSE. A SPRAIN is an injury to a LIGAMENT. A STRAIN is an injury to a muscle or tendon. This is the single most commonly confused pair in VCE PE.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf1', this, true, 'FALSE. A SPRAIN is an injury to a LIGAMENT. A STRAIN is an injury to a muscle or tendon. This is the single most commonly confused pair in VCE PE.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf1"></div>
+  </div>
+
+  <!-- TF2 -->
+  <div class="q-card" id="tf2">
+    <div class="q-num">True or False 2</div>
+    <div class="q-text">A stress fracture is an acute injury caused by a single high-force impact.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf2', this, false, 'FALSE. A stress fracture is a CHRONIC/OVERUSE injury caused by cumulative microtrauma from repetitive loading over time, NOT a single event.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf2', this, true, 'FALSE. A stress fracture is a CHRONIC/OVERUSE injury caused by cumulative microtrauma from repetitive loading over time, NOT a single event.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf2"></div>
+  </div>
+
+  <!-- TF3 -->
+  <div class="q-card" id="tf3">
+    <div class="q-num">True or False 3</div>
+    <div class="q-text">A subluxation is a partial dislocation in which the joint surfaces partially separate but retain some contact.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf3', this, true, 'TRUE. A subluxation is a partial dislocation &mdash; the joint surfaces are disrupted but do not completely separate, unlike a full dislocation.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf3', this, false, 'TRUE. A subluxation is a partial dislocation &mdash; the joint surfaces are disrupted but do not completely separate, unlike a full dislocation.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf3"></div>
+  </div>
+
+  <!-- TF4 -->
+  <div class="q-card" id="tf4">
+    <div class="q-num">True or False 4</div>
+    <div class="q-text">An open (compound) fracture is less serious than a closed fracture because the bone is visible and easier to treat.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf4', this, false, 'FALSE. An open (compound) fracture is MORE serious than a closed fracture because the bone penetrating through the skin creates a high risk of infection and neurovascular damage.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf4', this, true, 'FALSE. An open (compound) fracture is MORE serious than a closed fracture because the bone penetrating through the skin creates a high risk of infection and neurovascular damage.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf4"></div>
+  </div>
+
+  <!-- TF5 -->
+  <div class="q-card" id="tf5">
+    <div class="q-num">True or False 5</div>
+    <div class="q-text">Hamstring strains most commonly occur during the eccentric phase of sprinting, when the hamstring decelerates the leg in late swing phase.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf5', this, true, 'TRUE. Hamstring strains during sprinting typically occur during late swing phase when the hamstring is eccentrically loaded to decelerate the forward-swinging leg &mdash; this creates the highest mechanical stress on the muscle.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf5', this, false, 'TRUE. Hamstring strains during sprinting typically occur during late swing phase when the hamstring is eccentrically loaded to decelerate the forward-swinging leg &mdash; this creates the highest mechanical stress on the muscle.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf5"></div>
+  </div>
+
+  <!-- TF6 -->
+  <div class="q-card" id="tf6">
+    <div class="q-num">True or False 6</div>
+    <div class="q-text">A greenstick fracture can occur in adults of any age because of the high forces generated in sport.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf6', this, false, 'FALSE. Greenstick fractures occur ONLY in children because their bones are more flexible than adult bones. In adults, the same force produces a complete fracture.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf6', this, true, 'FALSE. Greenstick fractures occur ONLY in children because their bones are more flexible than adult bones. In adults, the same force produces a complete fracture.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf6"></div>
+  </div>
+
+  <!-- TF7 -->
+  <div class="q-card" id="tf7">
+    <div class="q-num">True or False 7</div>
+    <div class="q-text">Myositis ossificans is a potential complication of a deep intramuscular contusion that is inadequately managed.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="answerTF('tf7', this, true, 'TRUE. Myositis ossificans is calcium deposit formation within healing muscle, and it is a known complication of deep contusions (especially quadriceps &ldquo;corks&rdquo;) that are returned to activity or massaged too early.')">TRUE</button>
+      <button class="tf-btn" onclick="answerTF('tf7', this, false, 'TRUE. Myositis ossificans is calcium deposit formation within healing muscle, and it is a known complication of deep contusions (especially quadriceps &ldquo;corks&rdquo;) that are returned to activity or massaged too early.')">FALSE</button>
+    </div>
+    <div class="feedback" id="fb-tf7"></div>
+  </div>
+
+  <!-- MATCHING -->
+  <div class="q-section">Part 3 &mdash; Matching</div>
+
+  <!-- MATCHING SET 1: Injury Type to Definition -->
+  <div class="q-card" id="match1">
+    <div class="q-num">Matching Set 1 &mdash; Injury Type to Definition</div>
+    <div class="q-text">Match each injury type to its correct definition.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Term</th><th>Your Answer</th></tr>
+        <tr>
+          <td>Sprain</td>
+          <td><select class="match-sel" id="m1_1">
+            <option value="">-- Select --</option>
+            <option>Stretching or tearing of a ligament</option>
+            <option>Stretching or tearing of a muscle or tendon</option>
+            <option>A hairline crack from repetitive loading</option>
+            <option>Bone fragment pulled off by tendon/ligament</option>
+            <option>Fluid-filled sac inflammation</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Strain</td>
+          <td><select class="match-sel" id="m1_2">
+            <option value="">-- Select --</option>
+            <option>Stretching or tearing of a ligament</option>
+            <option>Stretching or tearing of a muscle or tendon</option>
+            <option>A hairline crack from repetitive loading</option>
+            <option>Bone fragment pulled off by tendon/ligament</option>
+            <option>Fluid-filled sac inflammation</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Stress fracture</td>
+          <td><select class="match-sel" id="m1_3">
+            <option value="">-- Select --</option>
+            <option>Stretching or tearing of a ligament</option>
+            <option>Stretching or tearing of a muscle or tendon</option>
+            <option>A hairline crack from repetitive loading</option>
+            <option>Bone fragment pulled off by tendon/ligament</option>
+            <option>Fluid-filled sac inflammation</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Avulsion fracture</td>
+          <td><select class="match-sel" id="m1_4">
+            <option value="">-- Select --</option>
+            <option>Stretching or tearing of a ligament</option>
+            <option>Stretching or tearing of a muscle or tendon</option>
+            <option>A hairline crack from repetitive loading</option>
+            <option>Bone fragment pulled off by tendon/ligament</option>
+            <option>Fluid-filled sac inflammation</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Bursitis</td>
+          <td><select class="match-sel" id="m1_5">
+            <option value="">-- Select --</option>
+            <option>Stretching or tearing of a ligament</option>
+            <option>Stretching or tearing of a muscle or tendon</option>
+            <option>A hairline crack from repetitive loading</option>
+            <option>Bone fragment pulled off by tendon/ligament</option>
+            <option>Fluid-filled sac inflammation</option>
+          </select></td>
+        </tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match1"></div>
+  </div>
+
+  <!-- MATCHING SET 2: Fracture Type to Mechanism -->
+  <div class="q-card" id="match2">
+    <div class="q-num">Matching Set 2 &mdash; Fracture Type to Mechanism</div>
+    <div class="q-text">Match each fracture type to its typical mechanism or feature.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Fracture Type</th><th>Your Answer</th></tr>
+        <tr>
+          <td>Transverse</td>
+          <td><select class="match-sel" id="m2_1">
+            <option value="">-- Select --</option>
+            <option>Direct blow at right angles to bone</option>
+            <option>Twisting / rotational force</option>
+            <option>High energy crush injury</option>
+            <option>Bending force in a child</option>
+            <option>Diagonal compressive force</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Spiral</td>
+          <td><select class="match-sel" id="m2_2">
+            <option value="">-- Select --</option>
+            <option>Direct blow at right angles to bone</option>
+            <option>Twisting / rotational force</option>
+            <option>High energy crush injury</option>
+            <option>Bending force in a child</option>
+            <option>Diagonal compressive force</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Comminuted</td>
+          <td><select class="match-sel" id="m2_3">
+            <option value="">-- Select --</option>
+            <option>Direct blow at right angles to bone</option>
+            <option>Twisting / rotational force</option>
+            <option>High energy crush injury</option>
+            <option>Bending force in a child</option>
+            <option>Diagonal compressive force</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Greenstick</td>
+          <td><select class="match-sel" id="m2_4">
+            <option value="">-- Select --</option>
+            <option>Direct blow at right angles to bone</option>
+            <option>Twisting / rotational force</option>
+            <option>High energy crush injury</option>
+            <option>Bending force in a child</option>
+            <option>Diagonal compressive force</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Oblique</td>
+          <td><select class="match-sel" id="m2_5">
+            <option value="">-- Select --</option>
+            <option>Direct blow at right angles to bone</option>
+            <option>Twisting / rotational force</option>
+            <option>High energy crush injury</option>
+            <option>Bending force in a child</option>
+            <option>Diagonal compressive force</option>
+          </select></td>
+        </tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match2"></div>
+  </div>
+
+  <!-- MATCHING SET 3: Structure to Tissue Type -->
+  <div class="q-card" id="match3">
+    <div class="q-num">Matching Set 3 &mdash; Connective Tissue to Function / Connection</div>
+    <div class="q-text">Match each structure to its correct function or connection.</div>
+    <div class="match-container">
+      <table class="match-table">
+        <tr><th>Structure</th><th>Your Answer</th></tr>
+        <tr>
+          <td>Ligament</td>
+          <td><select class="match-sel" id="m3_1">
+            <option value="">-- Select --</option>
+            <option>Connects bone to bone; stabilises joints</option>
+            <option>Connects muscle to bone; transmits force</option>
+            <option>Reduces friction between tendons/muscles and bone</option>
+            <option>Covers articulating joint surfaces; absorbs compressive load</option>
+            <option>Fibrocartilage pad that distributes load in the knee</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Tendon</td>
+          <td><select class="match-sel" id="m3_2">
+            <option value="">-- Select --</option>
+            <option>Connects bone to bone; stabilises joints</option>
+            <option>Connects muscle to bone; transmits force</option>
+            <option>Reduces friction between tendons/muscles and bone</option>
+            <option>Covers articulating joint surfaces; absorbs compressive load</option>
+            <option>Fibrocartilage pad that distributes load in the knee</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Bursa</td>
+          <td><select class="match-sel" id="m3_3">
+            <option value="">-- Select --</option>
+            <option>Connects bone to bone; stabilises joints</option>
+            <option>Connects muscle to bone; transmits force</option>
+            <option>Reduces friction between tendons/muscles and bone</option>
+            <option>Covers articulating joint surfaces; absorbs compressive load</option>
+            <option>Fibrocartilage pad that distributes load in the knee</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Articular cartilage</td>
+          <td><select class="match-sel" id="m3_4">
+            <option value="">-- Select --</option>
+            <option>Connects bone to bone; stabilises joints</option>
+            <option>Connects muscle to bone; transmits force</option>
+            <option>Reduces friction between tendons/muscles and bone</option>
+            <option>Covers articulating joint surfaces; absorbs compressive load</option>
+            <option>Fibrocartilage pad that distributes load in the knee</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Meniscus</td>
+          <td><select class="match-sel" id="m3_5">
+            <option value="">-- Select --</option>
+            <option>Connects bone to bone; stabilises joints</option>
+            <option>Connects muscle to bone; transmits force</option>
+            <option>Reduces friction between tendons/muscles and bone</option>
+            <option>Covers articulating joint surfaces; absorbs compressive load</option>
+            <option>Fibrocartilage pad that distributes load in the knee</option>
+          </select></td>
+        </tr>
+      </table>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">&#10003; Check Answers</button>
+    <div class="match-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end tab-quiz -->
+
+<!-- ═══════════════════ EXAM TAB ═══════════════════ -->
+<div class="tab-panel" id="tab-exam">
+
+  <p style="background:#fef9e7; border-left:4px solid #f39c12; border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:0.9em;">
+    <strong>&#128196; Exam Practice Tips:</strong> Write your answers before revealing the model answer. Use the mark allocations to guide the depth of your response. Each &#10003; represents one mark.
+  </p>
+
+  <!-- SHORT ANSWER 1 -->
+  <div class="exam-card">
+    <div class="exam-meta">
+      <span class="exam-type-badge">Short Answer</span>
+      <span class="exam-marks">2 marks</span>
+    </div>
+    <div class="exam-q">Distinguish between a sprain and a strain. In your answer, name the tissue affected in each injury.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> A <strong>sprain</strong> is a stretching or tearing of a <strong>ligament</strong> (bone to bone connective tissue that stabilises joints).</li>
+        <li><span class="mark-tick">&#10003;</span> A <strong>strain</strong> is a stretching or tearing of a <strong>muscle or tendon</strong> (tendon connects muscle to bone and transmits force).</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The most common error is students using &ldquo;sprain&rdquo; and &ldquo;strain&rdquo; interchangeably or associating sprains with muscles. You MUST name the specific tissue for each mark. &ldquo;Connective tissue&rdquo; alone is not specific enough.</div>
+    </div>
+  </div>
+
+  <!-- SHORT ANSWER 2 -->
+  <div class="exam-card">
+    <div class="exam-meta">
+      <span class="exam-type-badge">Short Answer</span>
+      <span class="exam-marks">3 marks</span>
+    </div>
+    <div class="exam-q">Describe the three grades of a sprain and explain what differentiates them from one another.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Grade I (mild)</strong> &mdash; microscopic tearing of ligament fibres with no structural disruption; minimal swelling/pain, no joint instability, fibres remain intact.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Grade II (moderate)</strong> &mdash; partial tearing of ligament fibres; moderate swelling, bruising, and some degree of joint instability due to partial structural failure.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Grade III (severe)</strong> &mdash; complete rupture of the ligament; significant joint instability, marked swelling and bruising, loss of function. May require surgical repair.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Students often describe the symptoms (pain/swelling) but forget to explicitly state the DEGREE OF TISSUE DAMAGE (intact, partial tear, complete tear) &mdash; this is what actually differentiates the grades. State the structural change, not just the symptoms.</div>
+    </div>
+  </div>
+
+  <!-- SHORT ANSWER 3 -->
+  <div class="exam-card">
+    <div class="exam-meta">
+      <span class="exam-type-badge">Short Answer</span>
+      <span class="exam-marks">3 marks</span>
+    </div>
+    <div class="exam-q">Identify THREE differences between an intramuscular haematoma and an intermuscular haematoma.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Location of blood:</strong> Intramuscular &mdash; blood stays contained within the muscle sheath / compartment. Intermuscular &mdash; blood tracks between muscle compartments along fascial planes.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Visible bruising:</strong> Intramuscular &mdash; bruising may not appear immediately because blood is confined. Intermuscular &mdash; bruising appears relatively quickly as blood tracks distally to the skin surface.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Swelling and pressure:</strong> Intramuscular &mdash; more significant swelling and increased compartment pressure (more painful). Intermuscular &mdash; blood disperses, so swelling within the muscle is less pronounced.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Students often know one type but confuse which has more pain/swelling. Remember: intra = inside = trapped = more pressure/swelling. Inter = between = disperses = bruising appears faster but less localised pressure.</div>
+    </div>
+  </div>
+
+  <!-- SHORT ANSWER 4 (stimulus) -->
+  <div class="exam-card">
+    <div class="exam-meta">
+      <span class="exam-type-badge">Short Answer &mdash; Stimulus</span>
+      <span class="exam-marks">4 marks</span>
+    </div>
+    <div class="exam-stimulus">
+      A 17-year-old cross country runner dramatically increased her weekly training distance from 40 km to 80 km over four weeks to prepare for state championships. She now reports a dull, aching pain in her right tibia that worsens during running and eases with rest. An X-ray shows a hairline crack.
+    </div>
+    <div class="exam-q">Using the information above, identify the most likely injury and explain TWO specific risk factors that contributed to this injury.</div>
+    <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Injury identified:</strong> Tibial stress fracture &mdash; a chronic/overuse injury characterised by a hairline crack caused by repetitive loading exceeding the bone&rsquo;s repair capacity.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Risk factor 1 &mdash; Rapid increase in training load:</strong> The athlete doubled her weekly distance in four weeks (&ldquo;too much too soon&rdquo;). Bone remodelling cannot keep pace with such rapid increases, leading to cumulative microtrauma and stress fracture.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Risk factor 2</strong> (accept any one of): Age/growth &mdash; adolescent bone may not yet be fully mineralised; Female sex &mdash; higher risk due to potential hormonal factors and female athlete triad; Inadequate recovery &mdash; rest days are when bone remodelling and repair occur; Hard running surface &mdash; extrinsic factor increasing ground reaction forces.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Link to stimulus:</strong> Specific reference to doubling of training distance from 40 to 80 km as the mechanism of overload, with the pain pattern (worsens with running, eases with rest) consistent with bone stress.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always link your answer back to the stimulus. Students who give a generic stress fracture answer without referring to &ldquo;the 40&ndash;80 km increase in four weeks&rdquo; miss marks. The stimulus is there to be used.</div>
+    </div>
+  </div>
+
+  <!-- EXTENDED RESPONSE 1 -->
+  <div class="exam-card">
+    <div class="exam-meta">
+      <span class="exam-type-badge">Extended Response</span>
+      <span class="exam-marks">6 marks</span>
+    </div>
+    <div class="exam-q">Compare and contrast soft tissue injuries and hard tissue injuries in sport. In your response, define each category, provide TWO examples of each, and explain ONE way they differ in terms of mechanism and management.</div>
+    <textarea class="writing-area" style="min-height:140px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Soft tissue injuries defined:</strong> Injuries that affect muscles, tendons, ligaments, bursae or cartilage &mdash; structures other than bone. They do not involve a break in bony tissue.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Two examples of soft tissue injuries:</strong> e.g. Grade II lateral ankle sprain (ligament) and Grade II hamstring strain (muscle). [Accept any two correct examples.]</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Hard tissue injuries defined:</strong> Injuries that involve bone &mdash; including fractures (complete or incomplete breaks) and dislocations (joint surface separation).</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Two examples of hard tissue injuries:</strong> e.g. Transverse fracture of the tibia and anterior shoulder dislocation. [Accept any two correct examples.]</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Mechanism difference:</strong> Soft tissue injuries often occur through indirect mechanisms such as excessive stretch or repetitive friction (e.g. ligament sprain from ankle inversion), whereas hard tissue injuries typically require greater direct force or significant joint loading (e.g. direct blow or fall causing a fracture). Stress fractures are an exception &mdash; these are hard tissue overuse injuries.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Management difference:</strong> Both categories require initial RICER management (Rest, Ice, Compression, Elevation, Referral) for acute injuries. However, hard tissue injuries such as fractures require immobilisation (splinting, casting or surgical fixation) and a longer recovery period due to the time required for bone remodelling and callus formation, whereas many soft tissue injuries can be managed conservatively with progressive loading rehabilitation.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> &ldquo;Compare and contrast&rdquo; requires you to identify BOTH similarities AND differences. Many students only contrast. Six-mark responses need at least 5&ndash;6 discrete, accurate points with appropriate terminology. Do not repeat the same point using different words.</div>
+    </div>
+  </div>
+
+  <!-- EXTENDED RESPONSE 2 -->
+  <div class="exam-card">
+    <div class="exam-meta">
+      <span class="exam-type-badge">Extended Response</span>
+      <span class="exam-marks">7 marks</span>
+    </div>
+    <div class="exam-stimulus">
+      An elite netball player lands awkwardly from a jump during a goal attempt. She hears a &ldquo;pop&rdquo; and immediately falls to the ground with severe pain in her right knee. She cannot bear weight and the knee appears swollen within minutes. The team physiotherapist suspects an anterior cruciate ligament (ACL) tear.
+    </div>
+    <div class="exam-q">Using the scenario above, classify the injury, explain the mechanism, describe the signs and symptoms, and identify the tissue structures most likely involved. Evaluate the severity of the injury and outline the likely impact on the athlete&rsquo;s training and competition.</div>
+    <textarea class="writing-area" style="min-height:160px;" placeholder="Write your answer here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+    <div class="model-answer">
+      <ul class="answer-list">
+        <li><span class="mark-tick">&#10003;</span> <strong>Classification:</strong> Acute soft tissue injury &mdash; specifically a Grade III sprain (complete rupture) of the anterior cruciate ligament (ACL) of the right knee.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Mechanism:</strong> The ACL is typically injured during sudden deceleration, pivoting or awkward landing from a jump, as described in the scenario. The combined forces of knee valgus and internal tibial rotation stress the ACL beyond its tensile strength, causing complete rupture.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Signs and symptoms:</strong> The &ldquo;pop&rdquo; heard at time of injury is characteristic of a ligament rupture. Immediate, rapid swelling (haemarthrosis &mdash; blood into the joint), severe pain, inability to bear weight, and significant joint instability (knee giving way) are consistent with a Grade III ACL sprain.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Structures involved:</strong> The ACL (primary ligament stabilising against anterior tibial translation and rotational instability) is completely ruptured. The menisci and MCL are frequently co-injured in ACL tears (&ldquo;unhappy triad&rdquo;).</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Severity evaluation:</strong> Grade III is the most severe grade of sprain &mdash; complete rupture results in complete structural failure of the ligament. Ligaments have limited vascularity and healing capacity. Surgical reconstruction (ACL graft) is typically required for athletes who wish to return to sport at a competitive level.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Impact on training/competition:</strong> An ACL rupture typically requires 9&ndash;12 months of rehabilitation before return to competition. The athlete will be unable to participate in netball for approximately one season. Rehabilitation involves staged progressions: post-surgical healing, strength restoration, proprioception and neuromuscular retraining, sport-specific drills, and return-to-competition criteria.</li>
+        <li><span class="mark-tick">&#10003;</span> <strong>Linkage to stimulus:</strong> Specific reference to landing from a jump, the audible &ldquo;pop&rdquo;, rapid swelling and inability to bear weight as hallmarks consistent with ACL rupture in the scenario.</li>
+      </ul>
+      <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> A 7-mark extended response must cover ALL components asked in the question &mdash; classification, mechanism, signs/symptoms, structures, severity AND impact. Students who write at length about only one component (e.g. just the mechanism) will lose marks for omitting others. Underline or tick off each component of the question as you answer it.</div>
+    </div>
+  </div>
+
+</div><!-- end tab-exam -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch2 Part A Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var answered = {};
+var score = 0;
+var totalAnswered = 0;
+
+function showTab(name, btn) {
+  var panels = document.querySelectorAll('.tab-panel');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateScore() {
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-total').textContent = totalAnswered;
+  var pct = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function answerMC(cardId, btn, isCorrect) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.opt-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  var feedbacks = {
+    'mc1': { c: 'Correct! An inversion ankle injury damaging the ATFL is a lateral ankle SPRAIN (ligament injury), graded II because the word &ldquo;moderate&rdquo; damage is implied by the description.', w: 'Not quite. This is a SPRAIN (ligament), not a strain (muscle/tendon), and it affects the LATERAL (outside) ankle. Check whether the tissue named (ATFL = ligament) matches sprain or strain.' },
+    'mc2': { c: 'Correct! The key structural distinction is Grade II = partial tear, Grade III = complete rupture. Symptoms alone do not define grades.', w: 'Incorrect. The grade is defined by the DEGREE OF TISSUE DAMAGE, not by symptoms alone. Grade III = complete rupture; Grade II = partial tear.' },
+    'mc3': { c: 'Correct! Hamstring injuries are STRAINS (muscle/tendon), never sprains. &ldquo;Moderate tearing&rdquo; = Grade II. This is a very common trap in VCE PE exams.', w: 'Incorrect. Hamstring injuries are STRAINS (muscle), never sprains (ligament). &ldquo;Moderate tearing&rdquo; = Grade II strain.' },
+    'mc4': { c: 'Correct! Intramuscular haematoma = blood stays WITHIN the muscle compartment = more swelling/pressure, delayed bruising. This fits the description.', w: 'Not quite. An intramuscular haematoma is contained WITHIN the muscle sheath &mdash; no immediate visible bruising but significant swelling. An intermuscular haematoma would show quick bruising as blood tracks distally.' },
+    'mc5': { c: 'Correct! A stress fracture is a CHRONIC hard tissue injury caused by repetitive loading, NOT an acute event. It affects bone, hence hard tissue.', w: 'Not quite. A stress fracture affects BONE (hard tissue) and develops from repetitive loading over time (chronic/overuse), not a single traumatic event.' },
+    'mc6': { c: 'Correct! An avulsion fracture occurs when a tendon or ligament pulls a fragment of bone away. In this case the ACL (ligament) has avulsed bone from the tibia.', w: 'Not quite. When a ligament or tendon pulls a bone fragment away from the main bone, that is an AVULSION fracture. Re-read the fracture type definitions.' },
+    'mc7': { c: 'Correct! Previous injury history is intrinsic (within the athlete). Playing surface, equipment and weather are all EXTRINSIC (external environment).', w: 'Incorrect. Remember: INtrinsic = INternal (inside the athlete). Previous injury history, age, fitness, and flexibility are all intrinsic. Playing surface and weather are extrinsic.' },
+    'mc8': { c: 'Correct! Cartilage is avascular &mdash; it has no direct blood supply and receives nutrients via diffusion from synovial fluid. This dramatically limits its self-repair capacity.', w: 'Incorrect. The key reason cartilage heals poorly is that it is AVASCULAR (no direct blood supply). It relies on synovial fluid for nutrients, making repair extremely slow and often incomplete.' }
+  };
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; ' + feedbacks[cardId].c;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; ' + feedbacks[cardId].w;
+    var opts = card.querySelectorAll('.opt-btn');
+    for (var k = 0; k < opts.length; k++) {
+      if (opts[k].getAttribute('onclick') && opts[k].getAttribute('onclick').indexOf('true') !== -1) {
+        opts[k].classList.add('reveal-correct');
+      }
+    }
+  }
+  updateScore();
+}
+
+function answerTF(cardId, btn, isCorrect, explanation) {
+  if (answered[cardId]) return;
+  answered[cardId] = true;
+  totalAnswered++;
+  var card = document.getElementById(cardId);
+  var fb = document.getElementById('fb-' + cardId);
+  var allBtns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < allBtns.length; i++) { allBtns[i].disabled = true; }
+  if (isCorrect) {
+    btn.classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '&#10003; Correct! ' + explanation;
+    score++;
+  } else {
+    btn.classList.add('selected-wrong');
+    card.classList.add('wrong');
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '&#10007; Incorrect. ' + explanation;
+    for (var j = 0; j < allBtns.length; j++) {
+      var onclick = allBtns[j].getAttribute('onclick') || '';
+      if (onclick.indexOf(', true,') !== -1) {
+        allBtns[j].classList.add('reveal-correct');
+      }
+    }
+  }
+  updateScore();
+}
+
+var match1Answers = ['Stretching or tearing of a ligament','Stretching or tearing of a muscle or tendon','A hairline crack from repetitive loading','Bone fragment pulled off by tendon/ligament','Fluid-filled sac inflammation'];
+var match2Answers = ['Direct blow at right angles to bone','Twisting / rotational force','High energy crush injury','Bending force in a child','Diagonal compressive force'];
+var match3Answers = ['Connects bone to bone; stabilises joints','Connects muscle to bone; transmits force','Reduces friction between tendons/muscles and bone','Covers articulating joint surfaces; absorbs compressive load','Fibrocartilage pad that distributes load in the knee'];
+
+function checkMatchSet(prefix, answers, fbId) {
+  var correct = 0;
+  var total = answers.length;
+  for (var i = 1; i <= total; i++) {
+    var sel = document.getElementById(prefix + '_' + i);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[i - 1]) {
+      sel.className = 'match-sel correct-sel';
+      correct++;
+    } else {
+      sel.className = 'match-sel wrong-sel';
+    }
+  }
+  var fb = document.getElementById(fbId);
+  fb.className = 'match-feedback show';
+  if (correct === total) {
+    fb.innerHTML = '&#10003; All ' + total + ' correct! Excellent work.';
+    fb.style.background = '#d5f5e3';
+    fb.style.borderLeftColor = '#27ae60';
+    fb.style.color = '#145a32';
+  } else {
+    fb.innerHTML = correct + ' of ' + total + ' correct. Review the incorrect answers (highlighted red) and check your study notes.';
+  }
+  if (!answered['match-' + fbId]) {
+    answered['match-' + fbId] = true;
+    totalAnswered++;
+    if (correct === total) score++;
+    updateScore();
+  }
+}
+
+function checkMatch1() { checkMatchSet('m1', match1Answers, 'fb-match1'); }
+function checkMatch2() { checkMatchSet('m2', match2Answers, 'fb-match2'); }
+function checkMatch3() { checkMatchSet('m3', match3Answers, 'fb-match3'); }
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetQuiz() {
+  answered = {};
+  score = 0;
+  totalAnswered = 0;
+  updateScore();
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+  }
+  var optBtns = document.querySelectorAll('.opt-btn');
+  for (var j = 0; j < optBtns.length; j++) {
+    optBtns[j].disabled = false;
+    optBtns[j].classList.remove('selected-correct','selected-wrong','reveal-correct');
+  }
+  var tfBtns = document.querySelectorAll('.tf-btn');
+  for (var k = 0; k < tfBtns.length; k++) {
+    tfBtns[k].disabled = false;
+    tfBtns[k].classList.remove('selected-correct','selected-wrong','reveal-correct');
+  }
+  var feedbacks = document.querySelectorAll('.feedback');
+  for (var m = 0; m < feedbacks.length; m++) {
+    feedbacks[m].className = 'feedback';
+    feedbacks[m].innerHTML = '';
+  }
+  var sels = document.querySelectorAll('.match-sel');
+  for (var n = 0; n < sels.length; n++) {
+    sels[n].disabled = false;
+    sels[n].className = 'match-sel';
+    sels[n].value = '';
+  }
+  var matchFbs = document.querySelectorAll('.match-feedback');
+  for (var p = 0; p < matchFbs.length; p++) {
+    matchFbs[p].className = 'match-feedback';
+    matchFbs[p].innerHTML = '';
+  }
+}
+</script>
+</body>
+</html>
