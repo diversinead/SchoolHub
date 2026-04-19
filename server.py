@@ -82,7 +82,18 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_response(403)
                 self.end_headers()
                 return
-            self.serve_file(os.path.join('StudyNotes', rel), 'text/html')
+            ext = os.path.splitext(rel)[1].lower()
+            ct = {
+                '.js': 'application/javascript',
+                '.css': 'text/css',
+                '.json': 'application/json',
+                '.svg': 'image/svg+xml',
+                '.png': 'image/png',
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.gif': 'image/gif',
+            }.get(ext, 'text/html')
+            self.serve_file(os.path.join('StudyNotes', rel), ct)
         elif self.path == '/api/studynotes/data':
             data = read_json(STUDYNOTES_FILE)
             self.send_json(json.dumps(data, ensure_ascii=False))
