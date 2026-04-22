@@ -83,6 +83,41 @@
 
   .port-hint { font-size: 11px; color: #bbb; text-align: center; margin-top: 24px; }
   .port-hint code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+
+  /* ── Important Dates ─────────────────────────────────────── */
+  .dates-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+                padding: 20px 24px; margin-bottom: 24px; }
+  .dates-header { display: flex; align-items: center; justify-content: space-between;
+                  margin-bottom: 12px; cursor: pointer; user-select: none; }
+  .dates-header:hover { opacity: 0.85; }
+  .dates-header-left { display: flex; align-items: center; gap: 10px; }
+  .dates-icon { font-size: 22px; }
+  .dates-title { font-size: 16px; font-weight: 700; color: #444; }
+  .dates-term { font-size: 12px; color: #888; margin-left: 4px; }
+  .dates-chevron { font-size: 12px; color: #aaa; transition: transform 0.2s; }
+  .dates-card.open .dates-chevron { transform: rotate(90deg); }
+  .dates-list { display: none; margin: 0; padding: 0; list-style: none; }
+  .dates-card.open .dates-list { display: block; }
+
+  .date-row { display: flex; align-items: center; gap: 12px; padding: 8px 4px;
+              border-top: 1px solid #f0f0f0; }
+  .date-row:first-child { border-top: none; }
+  .date-row.past { opacity: 0.45; }
+  .date-row.today { background: #fffbe6; border-radius: 6px; }
+
+  .date-when { flex: 0 0 135px; font-size: 12px; font-weight: 600; color: #555; }
+  .date-row.today .date-when { color: #b58900; }
+  .date-title { flex: 1; font-size: 13px; color: #333; }
+  .date-tags { display: flex; gap: 4px; flex-shrink: 0; }
+  .date-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+              color: #fff; letter-spacing: 0.3px; }
+  .date-tag.eddie { background: #2a7a7a; }
+  .date-tag.dara  { background: #1a5fb4; }
+
+  @media (max-width: 520px) {
+    .date-when { flex-basis: 95px; }
+    .date-title { font-size: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -90,6 +125,19 @@
 
   <h1>School Hub</h1>
   <p class="subtitle">Albert Park College – 2026</p>
+
+  <!-- Important Dates -->
+  <div class="dates-card open" id="dates-card">
+    <div class="dates-header" id="dates-header">
+      <div class="dates-header-left">
+        <span class="dates-icon">📅</span>
+        <span class="dates-title">Important Dates</span>
+        <span class="dates-term" id="dates-term"></span>
+      </div>
+      <span class="dates-chevron">▶</span>
+    </div>
+    <ul class="dates-list" id="dates-list"></ul>
+  </div>
 
   <div class="sections">
 
@@ -164,7 +212,7 @@ function renderTodos(student) {
     const allDone = total > 0 && doneCount === total;
 
     const section = document.createElement('div');
-    section.className = 'todo-section open';
+    section.className = 'todo-section';
 
     // Header
     const header = document.createElement('div');
@@ -263,6 +311,63 @@ async function deleteItem(student, period, idx) {
 }
 
 loadTodos();
+
+// ── Important Dates ────────────────────────────────────────────
+async function loadDates() {
+  const resp = await fetch('/api/importantdates/data');
+  const data = await resp.json();
+  document.getElementById('dates-term').textContent = data.term || '';
+  renderDates(data.events || []);
+}
+
+function renderDates(events) {
+  const list = document.getElementById('dates-list');
+  list.innerHTML = '';
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const sorted = events.slice().sort((a, b) => a.date.localeCompare(b.date));
+
+  sorted.forEach(ev => {
+    const start = new Date(ev.date + 'T00:00:00');
+    const end = new Date((ev.end_date || ev.date) + 'T00:00:00');
+    let cls = '';
+    if (end < today) cls = 'past';
+    else if (start <= today && today <= end) cls = 'today';
+
+    const li = document.createElement('li');
+    li.className = 'date-row ' + cls;
+
+    const when = document.createElement('span');
+    when.className = 'date-when';
+    when.textContent = ev.display;
+
+    const title = document.createElement('span');
+    title.className = 'date-title';
+    title.textContent = ev.title;
+
+    const tags = document.createElement('span');
+    tags.className = 'date-tags';
+    (ev.audience || []).forEach(a => {
+      const tag = document.createElement('span');
+      tag.className = 'date-tag ' + a;
+      tag.textContent = a === 'eddie' ? 'Eddie' : a === 'dara' ? 'Dara' : a;
+      tags.appendChild(tag);
+    });
+
+    li.appendChild(when);
+    li.appendChild(title);
+    li.appendChild(tags);
+    list.appendChild(li);
+  });
+}
+
+document.getElementById('dates-header').onclick = function() {
+  document.getElementById('dates-card').classList.toggle('open');
+};
+
+loadDates();
 </script>
 </body>
 </html>

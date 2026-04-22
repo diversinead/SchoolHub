@@ -11,6 +11,7 @@ ASSESSMENTS_FILE = os.path.join(BASE_DIR, 'Assessments', 'assessments_data.json'
 HOMEWORK_FILE = os.path.join(BASE_DIR, 'Homework', 'homework_data.json')
 TODOS_FILE = os.path.join(BASE_DIR, 'TodoLists', 'todo_data.json')
 STUDYNOTES_FILE = os.path.join(BASE_DIR, 'StudyNotes', 'studynotes.json')
+IMPORTANT_DATES_FILE = os.path.join(BASE_DIR, 'ImportantDates', 'dates_data.json')
 
 
 def read_json(path):
@@ -115,6 +116,9 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(json.dumps(normalize_assessments(data), ensure_ascii=False))
         elif self.path == '/api/homework/data':
             data = read_json(HOMEWORK_FILE)
+            self.send_json(json.dumps(data, ensure_ascii=False))
+        elif self.path == '/api/importantdates/data':
+            data = read_json(IMPORTANT_DATES_FILE)
             self.send_json(json.dumps(data, ensure_ascii=False))
         elif self.path == '/api/todos/data':
             data = read_json(TODOS_FILE)

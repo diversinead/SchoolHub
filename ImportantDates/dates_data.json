@@ -1,0 +1,17 @@
+{
+  "term": "Term 2 – 2026",
+  "events": [
+    { "date": "2026-04-20", "display": "Mon 20 Apr", "title": "First day of Term 2", "audience": ["eddie", "dara"] },
+    { "date": "2026-05-01", "display": "Fri 1 May", "title": "Staff Professional Development Day (no school)", "audience": ["eddie", "dara"] },
+    { "date": "2026-05-04", "display": "Mon 4 May", "title": "Interschool Sports – Senior", "audience": ["eddie"] },
+    { "date": "2026-05-22", "display": "Fri 22 May", "title": "Athletics Carnival", "audience": ["eddie", "dara"] },
+    { "date": "2026-05-28", "display": "Thu 28 May", "title": "Parent/Student/Teacher Interviews (online)", "audience": ["eddie", "dara"] },
+    { "date": "2026-06-08", "display": "Mon 8 Jun", "title": "Public Holiday – King's Birthday", "audience": ["eddie", "dara"] },
+    { "date": "2026-06-11", "display": "Thu 11 Jun", "title": "Casual Clothes Day", "audience": ["eddie", "dara"] },
+    { "date": "2026-06-16", "display": "Tue 16 Jun", "title": "VCE GAT Exam", "audience": ["eddie"] },
+    { "date": "2026-06-17", "end_date": "2026-06-26", "display": "Wed 17 – Fri 26 Jun", "title": "Year 11 & Year 10 Exams", "audience": ["eddie"] },
+    { "date": "2026-06-22", "display": "Mon 22 Jun", "title": "Interschool Sports – Year 7", "audience": ["dara"] },
+    { "date": "2026-06-26", "display": "Fri 26 Jun", "title": "End of Term 2", "audience": ["eddie", "dara"] },
+    { "date": "2026-07-13", "display": "Mon 13 Jul", "title": "First day of Term 3", "audience": ["eddie", "dara"] }
+  ]
+}
