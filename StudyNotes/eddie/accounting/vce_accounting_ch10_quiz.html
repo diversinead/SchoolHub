@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 10 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;font-size:14px;line-height:1.6}
+h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
+.subtitle{font-size:0.86em;color:#5F5E5A;padding:0 16px 14px}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:2px solid #D3D1C7;background:#fff;padding:0 16px;gap:4px}
+.tab-btn{padding:10px 18px;border:none;background:none;font-family:inherit;font-size:0.9em;font-weight:600;color:#5F5E5A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover:not(.active){color:#1a1a18;background:#F5F4F0}
+.tab-pane{display:none;padding:16px}
+.tab-pane.active{display:block}
+
+/* Score bar */
+.score-bar{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-text{font-size:0.86em;color:#1a1a18}
+.score-text strong{color:#3C3489;font-size:1.1em}
+.progress-track{flex:1;min-width:100px;height:8px;background:#E5E3DC;border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;background:#7F77DD;border-radius:4px;width:0%;transition:width .4s}
+.reset-btn{background:#fff;border:1px solid #D3D1C7;color:#1a1a18;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em}
+.reset-btn:hover{background:#F5F4F0}
+
+/* Question cards */
+.q-section-head{background:#3C3489;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 10px;font-size:0.88em;font-weight:700}
+.q-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card.correct{border-color:#1D9E75;background:#F0FBF6}
+.q-card.wrong{border-color:#D85A30;background:#FDF3EF}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.q-num{font-size:0.79em;font-weight:700;color:#5F5E5A;text-transform:uppercase;letter-spacing:.3px}
+.q-hot{background:#E24B4A;color:#fff;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-marks{background:#EEEDFE;color:#3C3489;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-text{font-size:0.93em;font-weight:600;margin-bottom:12px;color:#1a1a18}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #D3D1C7;border-radius:6px;cursor:pointer;font-size:0.86em;transition:background .15s}
+.mc-opt:hover{background:#F5F4F0}
+.mc-opt.selected-correct{background:#E1F5EE;border-color:#1D9E75;font-weight:600;color:#085041}
+.mc-opt.selected-wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.mc-opt.reveal-correct{background:#E1F5EE;border-color:#1D9E75}
+.mc-opt.disabled{cursor:default;pointer-events:none}
+.opt-letter{font-weight:700;color:#3C3489;min-width:16px;flex-shrink:0}
+
+/* Feedback */
+.q-feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:6px;font-size:0.82em;line-height:1.6}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.q-feedback.wrong-fb{background:#FAECE7;border-left:3px solid #D85A30;color:#4A1B0C}
+
+/* Exam practice tab */
+.eq-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.eq-head{background:#F5F4F0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #D3D1C7}
+.eq-type{background:#3C3489;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-marks{background:#EEEDFE;color:#3C3489;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-hot{background:#E24B4A;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-stimulus{background:#EEEDFE;border-left:3px solid #3C3489;padding:10px 14px;margin:12px 14px 0;font-size:0.86em;border-radius:0 6px 6px 0;color:#1a1a18}
+.eq-q{padding:12px 14px 4px;font-weight:600;font-size:0.93em;color:#1a1a18}
+.eq-body{padding:10px 14px 14px}
+.eq-answer-area{width:100%;min-height:80px;border:1px solid #D3D1C7;border-radius:6px;padding:9px;font-family:inherit;font-size:0.86em;resize:vertical;background:#fff}
+.eq-reveal-btn{margin-top:9px;background:#fff;border:1px solid #3C3489;color:#3C3489;padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em;font-weight:600}
+.eq-reveal-btn:hover{background:#3C3489;color:#fff}
+.eq-model{display:none;margin-top:10px;border:1px solid #D3D1C7;border-radius:6px;overflow:hidden}
+.eq-model.open{display:block}
+.eq-model-head{background:#EEEDFE;padding:8px 12px;font-weight:700;color:#3C3489;font-size:0.86em}
+.eq-model-body{padding:10px 14px;font-size:0.86em;line-height:1.7;color:#1a1a18}
+.eq-model-body p{margin-bottom:6px}
+.eq-model-body p:last-child{margin-bottom:0}
+.mark-scheme{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#412402;font-style:italic}
+.examiner-tip{background:#EEEDFE;border-left:3px solid #7F77DD;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#26215C}
+
+.footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding:12px 16px 24px;border-top:1px solid #D3D1C7}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 10 Quiz</h1>
+<p class="subtitle">Financing for a Small Business &middot; Multiple choice + exam practice &middot; Hot topics focus</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mc')">&#127919; Multiple Choice</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<!-- ===== MULTIPLE CHOICE TAB ===== -->
+<div id="tab-mc" class="tab-pane active">
+
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetMC()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#128176; Sources of Finance (10.1)</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-meta"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following is an example of an INTERNAL source of finance?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span>A four-year term loan from NAB</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span>A $5,000 overdraft facility</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span>Retained profits reinvested in the business</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span>30-day trade credit from a supplier</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-meta"><span class="q-num">Q2</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A cafe owner needs short-term finance to cover unexpected wage costs in a quiet week. Which source is MOST appropriate?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span>A 5-year term loan</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span>A bank overdraft</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span>A 25-year mortgage loan</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span>Leasing new equipment</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-meta"><span class="q-num">Q3</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business leases a delivery van for $250 per week over three years instead of buying it outright for $25,000. Which of the following is the BEST reason to lease rather than buy?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span>Leasing is always cheaper than buying overall</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span>Leasing preserves cash and avoids a large upfront outlay</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span>Leasing transfers ownership to the business immediately</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span>Leasing counts as retained profit</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-section-head">&#129518; The Cost of Interest (10.2)</div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-meta"><span class="q-num">Q4</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Flat rate interest differs from reducing balance interest because flat rate is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span>Calculated on the outstanding balance each period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span>Calculated on the original principal for the entire loan term</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span>Always cheaper for the borrower</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span>Only charged once at the start of the loan</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-meta"><span class="q-num">Q5</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Debbie borrows $6,000 at 10% p.a. flat rate over 4 years. What is the total interest she will pay?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span>$600</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span>$1,200</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span>$2,400</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span>$6,000</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-meta"><span class="q-num">Q6</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A lender quotes a loan at "6% flat rate over 5 years". Which statement about the EFFECTIVE rate of interest is correct?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span>The effective rate is always exactly the same as the flat rate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span>The effective rate is approximately double the flat rate because interest applies to the original principal even as it is repaid</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span>The effective rate is lower than the flat rate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span>The effective rate is only used for reducing balance loans</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-meta"><span class="q-num">Q7</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Why would most borrowers prefer a reducing balance loan over a flat rate loan of the same stated rate?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span>The bank charges no fees on reducing balance loans</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span>Interest is calculated on the falling balance, so the total interest paid is lower</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span>Reducing balance loans do not require repayments</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span>Reducing balance loans always have a shorter term</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-section-head">&#127973; Applying for Finance (10.3)</div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-meta"><span class="q-num">Q8</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">When assessing a loan application, which accounting report would a bank MOST rely on to judge whether the business can meet monthly loan repayments?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span>The statement of receipts and payments for the last year only</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span>A cash budget showing projected future cash flows</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span>The business&apos;s tax invoices</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span>The owner&apos;s personal credit card statement</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-card" id="mc9">
+    <div class="q-meta"><span class="q-num">Q9</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A borrower offers their business premises as security for a loan. This is an example of which factor used by lenders to assess a loan application?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc9','A')"><span class="opt-letter">A</span>Character</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','B')"><span class="opt-letter">B</span>Capacity</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','C')"><span class="opt-letter">C</span>Collateral</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','D')"><span class="opt-letter">D</span>Conditions</div>
+    </div>
+    <div class="q-feedback" id="fb-mc9"></div>
+  </div>
+
+  <div class="q-section-head">&#9878; Gearing &amp; Return on Investment (10.4 &amp; 10.5)</div>
+
+  <div class="q-card" id="mc10">
+    <div class="q-meta"><span class="q-num">Q10</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">United Earth Moving has total assets of $250,000 and owner&apos;s equity of $200,000. What is its debt ratio?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc10','A')"><span class="opt-letter">A</span>20%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','B')"><span class="opt-letter">B</span>25%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','C')"><span class="opt-letter">C</span>80%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','D')"><span class="opt-letter">D</span>125%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc10"></div>
+  </div>
+
+  <div class="q-card" id="mc11">
+    <div class="q-meta"><span class="q-num">Q11</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">St Kilda Boat Hire has liabilities of $20,000 and assets of $100,000. Williamstown Boat Hire has liabilities of $40,000 and assets of $100,000. Which statement is correct?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc11','A')"><span class="opt-letter">A</span>St Kilda is more highly geared (20% debt ratio vs 40%)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','B')"><span class="opt-letter">B</span>Williamstown is more highly geared (40% debt ratio vs 20%)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','C')"><span class="opt-letter">C</span>Both businesses are equally geared</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','D')"><span class="opt-letter">D</span>Cannot determine without net profit figures</div>
+    </div>
+    <div class="q-feedback" id="fb-mc11"></div>
+  </div>
+
+  <div class="q-card" id="mc12">
+    <div class="q-meta"><span class="q-num">Q12</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Joel Lombardo invested $40,000 into Paintball Arena. The business earned a net profit of $5,000 for the year. What is his Return on Owner&apos;s Investment (ROI)?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc12','A')"><span class="opt-letter">A</span>8%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','B')"><span class="opt-letter">B</span>12.5%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','C')"><span class="opt-letter">C</span>20%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','D')"><span class="opt-letter">D</span>25%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc12"></div>
+  </div>
+
+  <div class="q-card" id="mc13">
+    <div class="q-meta"><span class="q-num">Q13</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Harry Koecher earns $30,000 profit on owner&apos;s capital of $100,000. Dave Romic earns $40,000 profit on owner&apos;s capital of $200,000. Which owner has the higher profitability?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc13','A')"><span class="opt-letter">A</span>Romic, because his dollar profit ($40,000) is higher</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','B')"><span class="opt-letter">B</span>Koecher, because his ROI is 30% vs Romic&apos;s 20%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','C')"><span class="opt-letter">C</span>Both have equal profitability</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','D')"><span class="opt-letter">D</span>Romic, because his investment is twice as large</div>
+    </div>
+    <div class="q-feedback" id="fb-mc13"></div>
+  </div>
+
+  <div class="q-card" id="mc14">
+    <div class="q-meta"><span class="q-num">Q14</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Two businesses have identical total assets and identical operating profit before interest. Business A is 20% geared; Business B is 70% geared. In a GOOD year, which statement is correct?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc14','A')"><span class="opt-letter">A</span>A will have a higher ROI because it has less debt</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','B')"><span class="opt-letter">B</span>B will have a higher ROI because the owner&apos;s smaller capital share is amplified by gearing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','C')"><span class="opt-letter">C</span>Both businesses will have the same ROI</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','D')"><span class="opt-letter">D</span>ROI is not affected by gearing</div>
+    </div>
+    <div class="q-feedback" id="fb-mc14"></div>
+  </div>
+
+  <div class="q-card" id="mc15">
+    <div class="q-meta"><span class="q-num">Q15</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Why might a bank REFUSE to lend to a business with a very high debt ratio, even if the business is currently profitable?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc15','A')"><span class="opt-letter">A</span>Highly geared businesses cannot legally borrow more</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','B')"><span class="opt-letter">B</span>The business has fewer assets available as security and less buffer to meet interest if profits fall</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','C')"><span class="opt-letter">C</span>Highly geared businesses always have lower profit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','D')"><span class="opt-letter">D</span>Banks only lend to businesses with zero debt</div>
+    </div>
+    <div class="q-feedback" id="fb-mc15"></div>
+  </div>
+
+</div><!-- end mc tab -->
+
+<!-- ===== EXAM PRACTICE TAB ===== -->
+<div id="tab-exam" class="tab-pane">
+
+  <div class="q-section-head">&#128203; Short Answer Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">2 marks</span></div>
+    <div class="eq-q">Distinguish between internal and external sources of finance, and give ONE example of each. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Distinction (1 mark):</strong> Internal sources of finance come from within the business itself (e.g. retained profits or additional owner&apos;s capital). External sources come from outside the business, usually involving a lender or supplier (e.g. a bank loan or trade credit from a supplier).</p>
+          <p><strong>Examples (1 mark):</strong> Internal example &mdash; reinvesting $8,000 of retained profit to purchase a new espresso machine. External example &mdash; a $20,000 term loan from NAB to renovate premises.</p>
+          <div class="mark-scheme">&#9888; A common mistake is confusing "owner&apos;s capital" (internal) with a "bank loan" (external). Owner contributions are internal because they come from the owner, who is part of the business entity.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">Debbie Doherty is considering a $6,000 loan to purchase a new computer server for her business. Her bank has offered a 4-year loan at a flat interest rate of 10% p.a., with monthly repayments.</div>
+    <div class="eq-q">(a) Calculate the total interest Doherty will pay. (1 mark)<br>(b) Calculate her monthly repayment. (1 mark)<br>(c) Is the real cost of her loan 10% p.a.? Justify your answer using the concept of effective rate of interest. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Total interest (1 mark):</strong> Interest = Principal x Rate x Time = $6,000 x 0.10 x 4 = <strong>$2,400</strong>.</p>
+          <p><strong>(b) Monthly repayment (1 mark):</strong> Total to repay = $6,000 + $2,400 = $8,400. Over 48 months: $8,400 / 48 = <strong>$175 per month</strong>.</p>
+          <p><strong>(c) Effective rate (2 marks):</strong> No &mdash; the real cost is much higher than 10%. The flat rate is applied to the original $6,000 every year, even though Doherty is paying the principal down throughout the loan. Average interest per year = $2,400 / 4 = $600. Average balance outstanding = $6,000 / 2 = $3,000. Effective rate = $600 / $3,000 x 100 = <strong>20% p.a.</strong> &mdash; roughly double the stated flat rate.</p>
+          <div class="mark-scheme">&#9888; Always show the formula AND the calculation. Stating "20%" without workings loses a mark. The effective rate being ~2x the flat rate is a common VCE exam trap.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">Vincent Ngo is taking out a 25-year mortgage of $545,000 at 6% p.a. to purchase a business property. Interest is calculated daily and charged monthly. Repayments of $3,512 are made monthly.</div>
+    <div class="eq-q">(a) Does the 6% refer to flat rate or reducing balance interest? Explain how it is applied. (2 marks)<br>(b) Would Ngo be better off making fortnightly repayments instead of monthly ones? Explain why. (1 mark)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Interest type (2 marks):</strong> The 6% is a reducing balance rate. The bank calculates interest daily on the outstanding loan balance, which falls every time Ngo makes a repayment. As the balance shrinks, the interest charged each month also shrinks, meaning a larger portion of each $3,512 repayment goes to principal over time.</p>
+          <p><strong>(b) Fortnightly vs monthly (1 mark):</strong> Yes &mdash; fortnightly repayments reduce the principal faster because interest is calculated on the outstanding balance. Because there are 26 fortnights (vs 12 months) in a year, paying half the monthly amount every fortnight results in an extra month&apos;s repayment each year, reducing total interest paid and shortening the loan term.</p>
+          <div class="mark-scheme">&#9888; Mortgages are always reducing balance &mdash; flat rate mortgages do not exist in Australia. Name the specific advantage (less interest over the life of the loan) rather than just saying "it&apos;s better".</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">Sammy&apos;s Panels has total assets of $177,000, total liabilities of $118,000 and owner&apos;s capital of $59,000. Sue&apos;s Body Shop has total assets of $194,000, total liabilities of $68,000 and owner&apos;s capital of $126,000.</div>
+    <div class="eq-q">(a) Calculate the debt ratio for each business. (2 marks)<br>(b) Comment on which business carries greater financial risk. (1 mark)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Debt ratios (2 marks):</strong><br>Sammy&apos;s Panels: $118,000 / $177,000 x 100 = <strong>66.7%</strong>.<br>Sue&apos;s Body Shop: $68,000 / $194,000 x 100 = <strong>35.1%</strong>.</p>
+          <p><strong>(b) Financial risk (1 mark):</strong> Sammy&apos;s Panels carries greater financial risk. With 66.7% of its assets funded by debt, it is highly geared. It must meet substantial interest and principal repayments even if profit falls, and has less buffer before becoming unable to cover its liabilities. Sue&apos;s Body Shop is lowly geared and more resilient.</p>
+          <div class="examiner-tip">&#128161; When commenting on risk, always link the number to a consequence (inability to meet interest, insolvency risk) &mdash; not just "high" or "low".</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">Explain THREE factors a bank would consider when deciding whether to approve a small business loan application. (3 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:90px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Factor 1 &mdash; Capacity (1 mark):</strong> The business&apos;s ability to repay the loan from future cash flow. The bank examines cash budgets and income statements to confirm projected cash receipts are sufficient to cover monthly repayments plus existing expenses.</p>
+          <p><strong>Factor 2 &mdash; Collateral (1 mark):</strong> Assets the borrower can pledge as security for the loan. Property, vehicles or equipment can be seized and sold by the bank if the borrower defaults, reducing the bank&apos;s risk.</p>
+          <p><strong>Factor 3 &mdash; Character / credit rating (1 mark):</strong> The borrower&apos;s track record &mdash; have they repaid previous debts on time? A clean credit history and good reputation with suppliers signals low default risk and improves the chance of approval.</p>
+          <div class="examiner-tip">&#128161; Any three of the "5 Cs of credit" (Character, Capacity, Capital, Collateral, Conditions) earn full marks. Must explain WHAT each factor is and WHY the bank cares.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">Joel Lombardo invested $40,000 in Paintball Arena on 1 July 2027. For the year ended 30 June 2028, the business earned a net profit of $5,000. The current interest rate available on a term deposit is 4.5%.</div>
+    <div class="eq-q">(a) Calculate Lombardo&apos;s return on owner&apos;s investment. (1 mark)<br>(b) Comment on his ROI, taking into account alternative returns in the finance market. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) ROI (1 mark):</strong> $5,000 / $40,000 x 100 = <strong>12.5%</strong>.</p>
+          <p><strong>(b) Comment (2 marks):</strong> Lombardo&apos;s 12.5% return comfortably exceeds the 4.5% he could earn risk-free in a term deposit, so on a pure numerical basis his investment is paying off. However, running a business carries significantly more risk &mdash; his capital is not guaranteed, and he is also contributing his own time and labour which are not counted as expenses. A ROI of 12.5% is reasonable but not exceptional; he should consider whether the additional risk and effort justify an extra 8 percentage points over a risk-free alternative.</p>
+          <div class="mark-scheme">&#9888; A high-scoring ROI answer always COMPARES the return to a risk-free alternative and acknowledges the risk/effort premium required for business investment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-section-head">&#128218; Extended Response Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">5 marks</span></div>
+    <div class="eq-stimulus">Ace Electricals and Acme Electricals both specialise in hiring electrical appliances. Both have total assets of $125,000 and net profit of $20,000. However, Ace has liabilities of $25,000 while Acme has liabilities of $50,000.</div>
+    <div class="eq-q">(a) Calculate the owner&apos;s equity, debt ratio and return on owner&apos;s investment for each business. (3 marks)<br>(b) Given that the two businesses have the same total assets and same net profit, explain why one owner is receiving a greater return on the funds invested. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:130px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Calculations (3 marks):</strong></p>
+          <p><strong>Ace Electricals:</strong> Owner&apos;s equity = $125,000 &minus; $25,000 = <strong>$100,000</strong>. Debt ratio = $25,000 / $125,000 x 100 = <strong>20%</strong>. ROI = $20,000 / $100,000 x 100 = <strong>20%</strong>.</p>
+          <p><strong>Acme Electricals:</strong> Owner&apos;s equity = $125,000 &minus; $50,000 = <strong>$75,000</strong>. Debt ratio = $50,000 / $125,000 x 100 = <strong>40%</strong>. ROI = $20,000 / $75,000 x 100 = <strong>26.7%</strong>.</p>
+          <p><strong>(b) Explanation (2 marks):</strong> Acme&apos;s owner is receiving a greater return because the business is more highly geared &mdash; 40% of its assets are funded by debt compared to only 20% for Ace. The same $20,000 net profit is being divided over a smaller pool of owner&apos;s capital ($75,000 vs $100,000), which magnifies the percentage return. This is the positive side of gearing: when a business is profitable, higher gearing amplifies the owner&apos;s return. However, this is a double-edged sword &mdash; in a bad year where profit falls, Acme&apos;s ROI would fall much more sharply than Ace&apos;s, and Acme must still meet its higher interest commitments regardless of profit.</p>
+          <div class="mark-scheme">&#9888; The full 2 marks for (b) require explaining BOTH sides of gearing &mdash; the amplification of returns AND the corresponding risk. Answers that only describe the upside earn 1 mark.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">Janette Garro, an architect, is considering how to acquire a new $30,000 car for her business. She will keep the car for 3 years, after which it will be worth about $20,000. Her two options are: (1) Pay $5,000 cash and borrow $25,000 from the bank at 10% p.a. flat over 3 years. (2) Lease a similar car at $100 per week for 3 years.</div>
+    <div class="eq-q">(a) Calculate the total cost of each option over the 3-year period. (2 marks)<br>(b) State ONE advantage and ONE disadvantage of each option. (2 marks)<br>(c) Write a recommendation for Garro, justifying your conclusion with reference to both financial and non-financial factors. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:150px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Total costs (2 marks):</strong></p>
+          <p><strong>Option 1 (Buy with loan):</strong> Cash deposit $5,000 + Loan principal $25,000 + Interest ($25,000 x 0.10 x 3) $7,500 = $37,500 paid. Less resale value of $20,000 = <strong>Net cost $17,500 over 3 years</strong>.</p>
+          <p><strong>Option 2 (Lease):</strong> $100 x 52 weeks x 3 years = <strong>$15,600 over 3 years</strong>. No resale since she does not own the car.</p>
+          <p><strong>(b) Advantages &amp; disadvantages (2 marks):</strong> <em>Buy:</em> Advantage &mdash; Garro owns the asset and recovers $20,000 at resale. Disadvantage &mdash; $5,000 upfront deposit and $7,500 of interest tie up cash and add cost. <em>Lease:</em> Advantage &mdash; no large upfront payment, easier to budget at a fixed weekly cost. Disadvantage &mdash; she has nothing to show at the end of 3 years and may face restrictions on kilometres or wear.</p>
+          <p><strong>(c) Recommendation (2 marks):</strong> Garro should choose Option 1 (buy with loan). Although the weekly lease cost looks lower, once the $20,000 resale value is factored in, the net cost of buying ($17,500) is very similar to leasing ($15,600) &mdash; and buying leaves Garro with the equity, flexibility over use (no kilometre restrictions), and the option to keep or sell the car as she prefers. If cash flow is tight, leasing may be preferable, but as a long-term strategy for a stable architecture business, ownership builds asset value on the balance sheet and supports future borrowing capacity.</p>
+          <div class="mark-scheme">&#9888; A strong recommendation must: (1) pick one option clearly, (2) justify with BOTH a financial reason and a non-financial reason, (3) acknowledge conditions under which the alternative might be better. Opinion without justification earns zero.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end exam tab -->
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &mdash; Chapter 10 Quiz &middot; Neville Box 7th ed. &middot; For study use only</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'mc' ? 0 : 1].className = 'tab-btn active';
+}
+
+var totalMC = 15;
+var mcAnswered = 0;
+var mcCorrect = 0;
+
+function updateScore(gotIt) {
+  mcAnswered++;
+  if (gotIt) mcCorrect++;
+  document.getElementById('score-correct').textContent = mcCorrect;
+  document.getElementById('score-total').textContent = mcAnswered;
+  document.getElementById('progress-bar').style.width = Math.round((mcAnswered / totalMC) * 100) + '%';
+}
+
+var mcData = {
+  mc1:  { correct: 'C', fb: 'Correct: C &mdash; Retained profits are internal because they come from within the business (profit earned and kept rather than withdrawn). A, B and D all involve outside parties (bank or supplier) so they are external.' },
+  mc2:  { correct: 'B', fb: 'Correct: B &mdash; An overdraft is designed for short-term, flexible cash shortfalls. Term loans, mortgages and leases are all longer-term commitments with fixed repayment structures, not suitable for one-off wage weeks.' },
+  mc3:  { correct: 'B', fb: 'Correct: B &mdash; The key advantage of leasing is preserving cash: no $25,000 upfront outlay and predictable weekly expense. A is false (leasing is usually more expensive overall), C is wrong (leasing never transfers ownership), D is wrong (leasing is external finance).' },
+  mc4:  { correct: 'B', fb: 'Correct: B &mdash; Flat rate interest is calculated on the original principal for the whole loan term, never adjusting for repayments made. Reducing balance is calculated on the outstanding balance (A describes reducing balance).' },
+  mc5:  { correct: 'C', fb: 'Correct: C &mdash; Interest = Principal x Rate x Time = $6,000 x 0.10 x 4 = $2,400. Remember, flat rate applies the full 10% to the original $6,000 every year.' },
+  mc6:  { correct: 'B', fb: 'Correct: B &mdash; The effective rate of a flat rate loan is approximately double because interest is charged on the original principal even as the principal is being repaid. A 6% flat is roughly 11% effective over 5 years.' },
+  mc7:  { correct: 'B', fb: 'Correct: B &mdash; In a reducing balance loan, interest is calculated only on what is still owing. As the borrower repays principal, the balance falls and so does the interest charged each period, resulting in a lower total interest bill.' },
+  mc8:  { correct: 'B', fb: 'Correct: B &mdash; A cash budget shows projected future cash receipts and payments, which directly tests the business&apos;s capacity to meet loan repayments. Past receipts (A) show history, not future ability to repay.' },
+  mc9:  { correct: 'C', fb: 'Correct: C &mdash; Collateral = assets pledged as security for the loan. The bank can seize and sell the premises if the borrower defaults. Character (A) is reputation, Capacity (B) is ability to repay, Conditions (D) is the economic environment.' },
+  mc10: { correct: 'A', fb: 'Correct: A &mdash; Total liabilities = Assets &minus; Equity = $250,000 &minus; $200,000 = $50,000. Debt ratio = $50,000 / $250,000 x 100 = 20%. This is a lowly geared business.' },
+  mc11: { correct: 'B', fb: 'Correct: B &mdash; St Kilda: $20,000 / $100,000 = 20%. Williamstown: $40,000 / $100,000 = 40%. Williamstown has double the debt ratio, making it the more highly geared business.' },
+  mc12: { correct: 'B', fb: 'Correct: B &mdash; ROI = Net profit / Owner&apos;s capital x 100 = $5,000 / $40,000 x 100 = 12.5%.' },
+  mc13: { correct: 'B', fb: 'Correct: B &mdash; Profitability is measured as a ratio, not an absolute dollar figure. Koecher: $30,000 / $100,000 = 30% ROI. Romic: $40,000 / $200,000 = 20% ROI. Koecher generates a higher return per dollar of owner capital invested.' },
+  mc14: { correct: 'B', fb: 'Correct: B &mdash; Higher gearing amplifies ROI in good years. With a smaller owner&apos;s capital base, the same profit pool produces a much higher percentage return. This is why highly geared firms can generate higher returns when profitable &mdash; though the same amplification works in reverse during bad years.' },
+  mc15: { correct: 'B', fb: 'Correct: B &mdash; A highly geared business has less equity buffer, fewer unencumbered assets to offer as collateral, and larger existing interest commitments that consume cash flow. If profits fall even slightly, it may be unable to service both existing and new debt, which is why banks refuse further lending.' }
+};
+
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = mcData[qid];
+  var correct = (chosen === ans.correct);
+  var opts = card.querySelectorAll('.mc-opt');
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.innerHTML = ans.fb;
+  fb.className = 'q-feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  updateScore(correct);
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetMC() {
+  mcAnswered = 0; mcCorrect = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+</body>
+</html>

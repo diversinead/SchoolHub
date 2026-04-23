@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 10: Financing for a Small Business</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F7F5EF; color: #2C2C2A; line-height: 1.5; padding: 16px 0 40px; }
+h1 { font-size: 22px; font-weight: 800; color: #2C2C2A; padding: 0 14px; letter-spacing: -0.3px; }
+.subtitle { font-size: 13px; color: #6E6D67; padding: 2px 14px 14px; }
+#search { display: block; width: calc(100% - 28px); margin: 0 14px 14px; padding: 10px 14px; border: 1.5px solid #D8D5CA; border-radius: 10px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #3C3489; }
+.section-label { margin: 16px 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+.footer { font-size: 11px; color: #888; text-align: center; padding: 24px 14px 0; }
+
+/* Category accordion */
+.cat { margin: 10px 10px; border-radius: 12px; overflow: hidden; border: 1.5px solid #ccc; background: #fff; }
+.cat.purple { border-color: #AFA9EC; }
+.cat.teal { border-color: #5DCAA5; }
+.cat.coral { border-color: #D85A30; }
+.cat.amber { border-color: #BA7517; }
+.cat.blue { border-color: #378ADD; }
+.cat.pink { border-color: #D4537E; }
+.cat.gray { border-color: #888780; }
+
+.cat-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; cursor: pointer; font-weight: 700; font-size: 14px; gap: 10px; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.cat-head-text { flex: 1; min-width: 0; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head small { font-size: 11px; font-weight: 600; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+
+.cat-body { max-height: 3000px; transition: max-height 0.3s ease; overflow: hidden; }
+.cat-body.collapsed { max-height: 0; }
+
+/* Hot badge */
+.hot-badge { position: relative; display: inline-flex; align-items: center; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; font-weight: 500; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* Term */
+.term { border-top: 1px solid #EEEAE0; }
+.term:first-child { border-top: none; }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: #2C2C2A; gap: 10px; }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 10px; color: #888; }
+.term-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 14px; }
+.term-body.open { max-height: 800px; padding: 0 14px 12px; }
+.term-def { font-size: 13px; color: #3D3D3A; margin-bottom: 8px; }
+.term-eg { display: block; font-size: 12px; color: #555; font-style: italic; padding: 7px 10px; border-left: 3px solid #D8D5CA; background: #F7F5EF; border-radius: 0 6px 6px 0; }
+.term-note { display: block; font-size: 12px; font-style: italic; padding: 7px 10px; margin-top: 7px; background: #FFF4E3; border-left: 3px solid #BA7517; color: #412402; border-radius: 0 6px 6px 0; }
+
+.cat.purple .term-eg { background: #EEEDFE; border-left-color: #AFA9EC; color: #3C3489; }
+.cat.teal .term-eg { background: #E1F5EE; border-left-color: #5DCAA5; color: #085041; }
+.cat.coral .term-eg { background: #FAECE7; border-left-color: #D85A30; color: #4A1B0C; }
+.cat.amber .term-eg { background: #FAEEDA; border-left-color: #BA7517; color: #412402; }
+.cat.blue .term-eg { background: #E6F1FB; border-left-color: #378ADD; color: #042C53; }
+.cat.pink .term-eg { background: #FBEAF0; border-left-color: #D4537E; color: #4B1528; }
+.cat.gray .term-eg { background: #F1EFE8; border-left-color: #888780; color: #2C2C2A; }
+
+/* Collapsible panels */
+.box-wrap { margin: 10px; border-radius: 12px; border: 1.5px solid #ccc; background: #fff; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.22); color: #042C53; }
+
+.box-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 14px; }
+.box-body.open { max-height: 2400px; padding: 12px 14px 14px; }
+.box-note { margin-top: 10px; font-size: 12px; font-style: italic; padding: 8px 10px; background: #FFF8E3; border-left: 3px solid #BA7517; border-radius: 0 6px 6px 0; color: #412402; }
+
+/* Comparison table */
+.ct { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ct th, .ct td { padding: 8px 9px; text-align: left; border-bottom: 1px solid #EEEAE0; vertical-align: top; }
+.ct th { background: #F1EFE8; font-weight: 700; color: #2C2C2A; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.ct td strong { color: #3C3489; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 1.5px 6px; border-radius: 4px; margin-right: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+.tag-r { background: #FAECE7; color: #4A1B0C; }
+.tag-g { background: #E1F5EE; color: #085041; }
+.tag-y { background: #FAEEDA; color: #412402; }
+.tag-b { background: #E6F1FB; color: #042C53; }
+
+/* Formula cards */
+.formula-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.fcard { background: #fff; border: 1px solid #E8E4D5; border-radius: 8px; padding: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.fcard h3 { font-size: 13.5px; color: #2C2C2A; margin-bottom: 8px; font-weight: 700; }
+.fcard .formula { background: #F7F5EF; color: #2C2C2A; border: 1px solid #E8E4D5; padding: 9px 12px; border-radius: 6px; font-family: "SF Mono", Consolas, monospace; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 9px; }
+.fcard p { font-size: 12px; color: #555; margin-bottom: 9px; }
+.fcard .worked { background: #F7F5EF; border-left: 3px solid #BA7517; padding: 8px 10px; font-size: 12px; color: #412402; border-radius: 0 6px 6px 0; }
+
+/* Gearing worked example table */
+.geartbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.geartbl th, .geartbl td { padding: 8px 9px; text-align: right; border-bottom: 1px solid #EEEAE0; }
+.geartbl th:first-child, .geartbl td:first-child { text-align: left; font-weight: 600; }
+.geartbl th { background: #E1F5EE; color: #085041; font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.geartbl .highlight { background: #FFF4E3; font-weight: 700; color: #412402; }
+.geartbl .highlight td { border-bottom: 2px solid #BA7517; }
+
+/* Interest year-by-year comparison table */
+.inttbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.inttbl th, .inttbl td { padding: 7px 6px; text-align: right; border-bottom: 1px solid #EEEAE0; }
+.inttbl th:first-child, .inttbl td:first-child { text-align: center; font-weight: 700; width: 40px; }
+.inttbl th { background: #FAEEDA; color: #412402; font-weight: 700; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1.3; }
+.inttbl .flat { color: #4A1B0C; }
+.inttbl .red-flat { background: #FAECE7; }
+.inttbl .red-flat td { color: #4A1B0C; }
+.inttbl .green-rb { background: #E1F5EE; }
+.inttbl .green-rb td { color: #085041; }
+.inttbl .total-row { background: #FFF4E3; font-weight: 700; }
+.inttbl .total-row td { border-top: 2px solid #BA7517; border-bottom: none; padding-top: 9px; color: #412402; }
+.inttbl .sub { font-size: 10px; font-weight: 400; display: block; opacity: 0.75; margin-top: 1px; }
+
+@media (min-width: 640px) {
+  .formula-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting — Chapter 10</h1>
+<p class="subtitle">Financing for a Small Business · tap any term to expand</p>
+<input id="search" placeholder="Search terms or definitions..." oninput="filterTerms(this.value)">
+
+<p class="section-label">&#128202; Visual Reference Panels</p>
+
+<!-- Panel 1: Internal vs External sources -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Internal vs External Sources of Finance</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Internal</th><th>External</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Source</strong></td>
+            <td>From within the business (retained profits, owner capital)</td>
+            <td>From outside the business (banks, suppliers, lessors)</td>
+          </tr>
+          <tr>
+            <td><strong>Cost</strong></td>
+            <td><span class="tag tag-g">cheap</span>No interest</td>
+            <td><span class="tag tag-r">costs</span>Interest &amp; fees</td>
+          </tr>
+          <tr>
+            <td><strong>Examples</strong></td>
+            <td>Retained profits, owner capital contribution</td>
+            <td>Trade credit, overdraft, term loan, leasing</td>
+          </tr>
+          <tr>
+            <td><strong>Control</strong></td>
+            <td><span class="tag tag-g">full</span>Owner keeps full control</td>
+            <td><span class="tag tag-y">some</span>Lender may place conditions</td>
+          </tr>
+          <tr>
+            <td><strong>Availability</strong></td>
+            <td>Limited by business profits</td>
+            <td>Larger amounts possible (depends on creditworthiness)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Start-ups usually rely on external finance because they have no retained profits yet.</p>
+  </div>
+</div>
+
+<!-- Panel 2: Flat rate vs Reducing balance -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Flat Rate vs Reducing Balance Interest</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Flat Rate</th><th>Reducing Balance</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Calculated on</strong></td>
+            <td>Original principal (never changes)</td>
+            <td>Outstanding balance (falls each period)</td>
+          </tr>
+          <tr>
+            <td><strong>Interest $ per year</strong></td>
+            <td>Stays the same every year</td>
+            <td>Falls as principal is repaid</td>
+          </tr>
+          <tr>
+            <td><strong>Real cost</strong></td>
+            <td><span class="tag tag-r">higher</span>Effective rate is much higher than stated</td>
+            <td><span class="tag tag-g">truer</span>Stated rate reflects actual cost</td>
+          </tr>
+          <tr>
+            <td><strong>Common use</strong></td>
+            <td>Personal loans, hire purchase, car finance ads</td>
+            <td>Home loans, business term loans, most bank lending</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; A 6% flat rate over 5 years is roughly equal to an 11% reducing balance rate &mdash; always check which one is being quoted.</p>
+  </div>
+</div>
+
+<!-- Panel 2b: Year-by-year interest comparison -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Flat Rate vs Reducing Balance &mdash; Year-by-Year</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#412402;"><strong>Scenario:</strong> Debbie borrows $6,000 at 10% over 4 years. She repays $1,500 of principal each year.</p>
+    <div style="overflow-x:auto;">
+      <table class="inttbl">
+        <thead><tr>
+          <th>Year</th>
+          <th>Opening<span class="sub">balance owed</span></th>
+          <th>Flat rate<span class="sub">10% of $6,000</span></th>
+          <th>Reducing<span class="sub">10% of balance</span></th>
+          <th>Closing<span class="sub">balance owed</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>1</td><td>$6,000</td><td class="red-flat">$600</td><td class="green-rb">$600</td><td>$4,500</td></tr>
+          <tr><td>2</td><td>$4,500</td><td class="red-flat">$600</td><td class="green-rb">$450</td><td>$3,000</td></tr>
+          <tr><td>3</td><td>$3,000</td><td class="red-flat">$600</td><td class="green-rb">$300</td><td>$1,500</td></tr>
+          <tr><td>4</td><td>$1,500</td><td class="red-flat">$600</td><td class="green-rb">$150</td><td>$0</td></tr>
+          <tr class="total-row">
+            <td colspan="2">Total interest</td>
+            <td class="red-flat">$2,400</td>
+            <td class="green-rb">$1,500</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px; margin-top:12px; color:#412402;"><strong>Notice Year 4:</strong> Debbie only owes $1,500, but the flat rate still charges her $600 &mdash; as if she owed the full original amount. That is why flat rate costs nearly <strong>$1,000 more</strong> over the life of the loan.</p>
+    <div style="background:#fff; border:1px solid #EED09A; border-radius:6px; padding:10px 12px; margin-top:10px;">
+      <div style="font-size:11px; font-weight:700; color:#412402; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px;">The effective rate of the flat loan</div>
+      <div style="font-size:12.5px; color:#412402; line-height:1.7;">
+        Avg interest per year = $2,400 &divide; 4 = <strong>$600</strong><br>
+        Avg balance owing = ($6,000 + $0) &divide; 2 = <strong>$3,000</strong><br>
+        Effective rate = $600 &divide; $3,000 &times; 100 = <strong>20% p.a.</strong>
+      </div>
+    </div>
+    <p class="box-note">&#128161; A 10% flat rate loan really costs about the same as a 20% reducing balance loan. The effective rate is roughly <strong>double</strong> the flat rate &mdash; always check which type is being quoted.</p>
+  </div>
+</div>
+
+<!-- Panel 3: Formula cards -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129518; Key Formulas</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div class="formula-grid">
+      <div class="fcard">
+        <h3>Flat Rate Interest</h3>
+        <div class="formula">Principal x Rate x Time</div>
+        <p>Total interest on a loan where rate is applied to the original amount borrowed.</p>
+        <div class="worked">Borrow $10,000 at 8% flat for 3 years<br>
+          <strong>= 10,000 x 0.08 x 3 = $2,400 total interest</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Effective Rate of Interest</h3>
+        <div class="formula">Avg annual interest / Avg balance x 100</div>
+        <p>The true annual cost of a flat-rate loan, accounting for the fact the principal is being paid off.</p>
+        <div class="worked">$2,400 / 3 = $800 avg interest p.a.<br>
+          Avg balance = $5,000<br>
+          <strong>= 800 / 5,000 x 100 = 16% p.a. effective</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Debt Ratio</h3>
+        <div class="formula">Total Liabilities / Total Assets x 100</div>
+        <p>Measures what percentage of assets are funded by debt rather than owner equity.</p>
+        <div class="worked">Liabilities $40,000 / Assets $100,000<br>
+          <strong>= 40%</strong> (40c of every $1 in assets is debt-funded)</div>
+      </div>
+      <div class="fcard">
+        <h3>Return on Owner&apos;s Investment (ROI)</h3>
+        <div class="formula">Net Profit / Owner&apos;s Capital x 100</div>
+        <p>Percentage return the owner earns on the capital they have personally invested in the business.</p>
+        <div class="worked">Net profit $15,000, Owner&apos;s capital $60,000<br>
+          <strong>= 15,000 / 60,000 x 100 = 25%</strong></div>
+      </div>
+    </div>
+    <p class="box-note">&#128161; For ROI, use average capital (opening + closing / 2) if the capital balance changed during the year.</p>
+  </div>
+</div>
+
+<!-- Panel 4: Low vs High gearing -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Low Gearing vs High Gearing</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Low Gearing</th><th>High Gearing</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Debt ratio</strong></td>
+            <td>Below ~50%</td>
+            <td>Above ~50%</td>
+          </tr>
+          <tr>
+            <td><strong>Funded mostly by</strong></td>
+            <td><span class="tag tag-g">safe</span>Owner equity</td>
+            <td><span class="tag tag-r">risky</span>Borrowed funds</td>
+          </tr>
+          <tr>
+            <td><strong>Risk</strong></td>
+            <td>Lower &mdash; fewer fixed interest commitments</td>
+            <td>Higher &mdash; must meet interest payments even in bad years</td>
+          </tr>
+          <tr>
+            <td><strong>ROI in good times</strong></td>
+            <td>Modest boost</td>
+            <td><span class="tag tag-g">amplified</span>Magnified upward</td>
+          </tr>
+          <tr>
+            <td><strong>ROI in bad times</strong></td>
+            <td>Mild dip</td>
+            <td><span class="tag tag-r">amplified</span>Magnified downward</td>
+          </tr>
+          <tr>
+            <td><strong>Lender view</strong></td>
+            <td>Easy to get more credit</td>
+            <td>Seen as higher credit risk</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Gearing is a double-edged sword &mdash; it amplifies returns in both directions. Neither is automatically better; it depends on risk tolerance and stability of profits.</p>
+  </div>
+</div>
+
+<!-- Panel 5: Gearing effect on ROI worked example -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9874; Gearing&apos;s Effect on ROI &mdash; worked example</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#085041;"><strong>Scenario:</strong> Sarah&apos;s Cafe needs $100,000 in total assets. Profit before interest is $14,000. Interest rate on debt is 8%. Compare two funding mixes.</p>
+    <div style="overflow-x:auto;">
+      <table class="geartbl">
+        <thead><tr><th>Item</th><th>Option A: Low gearing</th><th>Option B: High gearing</th></tr></thead>
+        <tbody>
+          <tr><td>Owner&apos;s capital</td><td>$80,000</td><td>$20,000</td></tr>
+          <tr><td>Borrowed (debt)</td><td>$20,000</td><td>$80,000</td></tr>
+          <tr><td>Debt ratio</td><td>20%</td><td>80%</td></tr>
+          <tr><td>Profit before interest</td><td>$14,000</td><td>$14,000</td></tr>
+          <tr><td>Interest expense (8%)</td><td>($1,600)</td><td>($6,400)</td></tr>
+          <tr><td>Net profit</td><td>$12,400</td><td>$7,600</td></tr>
+          <tr class="highlight"><td>ROI</td><td>12,400 / 80,000 = <strong>15.5%</strong></td><td>7,600 / 20,000 = <strong>38%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The high-gearing owner earns a much bigger ROI because they put in less of their own money &mdash; but they also carry much higher risk. If profit fell to $6,000, Option B would make a loss after interest, while Option A would still be profitable.</p>
+  </div>
+</div>
+
+<p class="section-label">&#128218; Key Terms by Section</p>
+
+<div id="list"></div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 · Neville Box 7th ed. · Chapter 10</p>
+
+<script>
+var data = [
+  { cat: "10.1 Sources of Finance", color: "purple", hot: false, items: [
+    { term: "Internal sources of finance", def: "Finance that comes from within the business itself, rather than from outside lenders.", eg: "Sarah uses $8,000 of last year&apos;s retained profits to buy a new espresso machine for her cafe." },
+    { term: "External sources of finance", def: "Finance that comes from outside the business, usually lenders or suppliers.", eg: "Sarah gets a $20,000 term loan from NAB to renovate the cafe." },
+    { term: "Retained profits", def: "Profits kept in the business instead of withdrawn by the owner, then reinvested.", eg: "Sarah leaves $12,000 of her $18,000 profit in the business account to fund expansion.", note: "Retained profits are internal finance and carry no interest cost &mdash; but they reduce how much the owner can draw as cash." },
+    { term: "Trade credit", def: "Short-term finance from suppliers who let the business pay later, usually within 30 days.", eg: "Sarah buys $2,000 of coffee beans on 30-day terms &mdash; she uses them now and pays at month&apos;s end." },
+    { term: "Overdraft", def: "A bank facility that lets the business draw more from its cheque account than is in it, up to an agreed limit.", eg: "Sarah&apos;s cafe has a $5,000 overdraft limit &mdash; useful for covering wages in a quiet week." },
+    { term: "Term loan", def: "A loan borrowed for a fixed period, repaid in regular instalments of principal plus interest.", eg: "Sarah takes a 5-year $30,000 term loan to buy a second coffee cart." },
+    { term: "Leasing", def: "Paying to use an asset owned by someone else, rather than buying it outright.", eg: "Sarah leases a commercial oven for $400 a month instead of paying $18,000 to buy it." }
+  ]},
+  { cat: "10.2 The Cost of Interest", color: "amber", hot: true, items: [
+    { term: "Interest", def: "The price paid for borrowing money &mdash; an expense for the borrower and revenue for the lender.", eg: "Sarah pays $2,400 interest over 3 years on her $10,000 loan." },
+    { term: "Flat rate interest", def: "Interest calculated on the original principal for the whole loan term, regardless of how much has been repaid.", eg: "8% flat on $10,000 for 3 years = $800 x 3 = $2,400 total interest, even though Sarah is paying the principal down each year.", note: "Flat rate always overstates the real cost of a loan &mdash; the effective rate is much higher." },
+    { term: "Reducing balance interest", def: "Interest calculated on the outstanding balance of the loan, which falls as repayments are made.", eg: "On the same $10,000 loan at 8% reducing balance, Sarah pays interest only on whatever she still owes &mdash; less every month." },
+    { term: "Effective rate of interest", def: "The true annual interest rate on a flat-rate loan, calculated on the average balance actually outstanding over the loan term.", eg: "A 6% flat rate over 5 years has an effective rate of roughly 11%.", note: "Always check whether a quoted rate is flat or effective &mdash; lenders advertising &apos;low flat rates&apos; are often much more expensive than they appear." }
+  ]},
+  { cat: "10.3 Applying for Finance", color: "blue", hot: false, items: [
+    { term: "Credit rating", def: "An assessment by a lender of how likely a borrower is to repay a loan on time.", eg: "Sarah&apos;s clean 5-year payment history gives her a strong credit rating, helping her qualify for a lower rate." },
+    { term: "Character", def: "The borrower&apos;s reputation, honesty and track record with past debts.", eg: "Sarah has always paid suppliers on time &mdash; this builds her character as a borrower." },
+    { term: "Capacity", def: "The borrower&apos;s ability to repay the loan from future cash flows.", eg: "The bank checks that Sarah&apos;s cafe profit is large enough to cover monthly loan repayments." },
+    { term: "Capital", def: "The owner&apos;s own financial stake in the business &mdash; how much they have personally invested.", eg: "Sarah has $60,000 of her own money in the cafe, which reassures the bank she is committed." },
+    { term: "Collateral", def: "An asset the borrower pledges as security &mdash; the lender can seize it if the loan is not repaid.", eg: "Sarah offers her coffee roaster as collateral for a $15,000 equipment loan." },
+    { term: "Conditions", def: "The wider economic and industry conditions that affect loan risk.", eg: "During a recession, banks tighten lending even to strong applicants like Sarah.", note: "The &apos;5 Cs of credit&apos; &mdash; Character, Capacity, Capital, Collateral, Conditions &mdash; are a common exam framework." }
+  ]},
+  { cat: "10.4 Gearing", color: "coral", hot: true, items: [
+    { term: "Gearing", def: "The mix of debt and equity used to fund a business &mdash; how much comes from borrowing versus the owner&apos;s own capital.", eg: "A business funded 70% by loans and 30% by owner equity is highly geared.", note: "High gearing amplifies both gains AND losses &mdash; a common exam mistake is to only mention one side." },
+    { term: "Debt ratio", def: "Total liabilities divided by total assets, expressed as a percentage &mdash; shows the share of assets funded by debt.", eg: "Liabilities $40,000 / Assets $100,000 = 40% debt ratio.", note: "A debt ratio above 50% generally indicates high gearing and higher financial risk." },
+    { term: "Highly geared", def: "A business with a large proportion of debt relative to equity &mdash; typically a debt ratio above 50%.", eg: "Sarah borrows $80,000 and puts in only $20,000 of her own capital &mdash; an 80% debt ratio, highly geared." },
+    { term: "Low gearing", def: "A business mostly funded by owner equity, with relatively little debt.", eg: "Sarah uses $80,000 of her own savings and borrows just $20,000 &mdash; a 20% debt ratio, low gearing." },
+    { term: "Financial risk", def: "The risk that a business cannot meet its fixed interest and loan repayments, leading to insolvency.", eg: "Sarah&apos;s high-gearing option means even a small drop in profit could leave her unable to cover interest." }
+  ]},
+  { cat: "10.5 Return on Owner&apos;s Investment", color: "teal", hot: true, items: [
+    { term: "Return on Owner&apos;s Investment (ROI)", def: "Net profit expressed as a percentage of the owner&apos;s capital &mdash; shows how well the business uses the owner&apos;s money.", eg: "Net profit $15,000 / Owner&apos;s capital $60,000 = 25% ROI.", note: "Compare ROI to a risk-free return (like a term deposit) &mdash; a business ROI below that is not worth the risk." },
+    { term: "Net profit", def: "Revenue minus all expenses including interest &mdash; the final profit figure used in ROI calculations.", eg: "Revenue $90,000 minus expenses $75,000 = $15,000 net profit." },
+    { term: "Owner&apos;s capital", def: "The total amount the owner has invested in the business &mdash; shown as equity on the balance sheet.", eg: "Sarah&apos;s capital balance at year end is $60,000.", note: "If capital changed during the year, use average capital (opening + closing) / 2 for ROI." },
+    { term: "Effect of gearing on ROI", def: "Higher gearing magnifies ROI up in good years and down in bad years, because fewer owner dollars share in the same profit pool.", eg: "With the same $14,000 operating profit, Sarah&apos;s ROI is 15.5% at 20% debt but 38% at 80% debt.", note: "Expect an exam question asking you to calculate ROI under two gearing scenarios and explain the risk trade-off." },
+    { term: "Evaluating finance options", def: "Weighing up cost, risk, control and flexibility of each finance source before choosing.", eg: "Sarah picks a term loan over an overdraft because the interest rate is lower, even though the overdraft is more flexible." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+
+</body>
+</html>
